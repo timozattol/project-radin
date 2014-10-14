@@ -28,3 +28,14 @@ proguard/
 # Eclipse project files
 *.classpath
 *.project
+
+# OSX stuff
+*.DS_Store
+
+# Others
+.metadata/
+.settings
+
+.checkstyle
+*~
+
