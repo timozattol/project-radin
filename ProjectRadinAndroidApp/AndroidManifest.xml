@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,35 +24,35 @@
         </activity>
         <activity
             android:name=".ContactsActivity"
-            android:label="@string/title_activity_contacts" >
+            android:label="@string/contacts" >
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home" >
+            android:label="@string/home_title" >
         </activity>
         <activity
             android:name=".MyListsActivity"
-            android:label="@string/title_activity_list" >
+            android:label="@string/my_lists" >
         </activity>
         <activity
             android:name=".NotificationsActivity"
-            android:label="@string/title_activity_notifications" >
+            android:label="@string/notifications" >
         </activity>
         <activity
             android:name=".OverviewActivity"
-            android:label="@string/title_activity_overview" >
+            android:label="@string/overview" >
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/title_activity_profile" >
+            android:label="@string/profile" >
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/settings" >
         </activity>
         <activity
             android:name=".ListViewActivity"
-            android:label="@string/title_activity_list_view" >
+            android:label="@string/list_view" >
         </activity>
         <activity
             android:name=".ProfileOtherActivity"
@@ -64,7 +64,7 @@
         </activity>
         <activity
             android:name=".NewListActivity"
-            android:label="@string/title_activity_new_list" >
+            android:label="@string/new_list" >
         </activity>
         <activity
             android:name=".ListBalanceActivity"

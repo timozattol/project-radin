@@ -1,9 +1,13 @@
 package ch.epfl.sweng.radin;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class HomeActivity extends Activity {
 
@@ -11,24 +15,67 @@ public class HomeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		
+		Button listBtn = (Button) findViewById(R.id.myListBtn);
+		listBtn.setOnClickListener(myListsButtonListener);
+		Button profileBtn = (Button) findViewById(R.id.profileBtn);
+		profileBtn.setOnClickListener(profileButtonListener);
+		Button notificationBtn = (Button) findViewById(R.id.notificationBtn);
+		notificationBtn.setOnClickListener(notificationButtonListener);
+		Button contactsBtn = (Button) findViewById(R.id.contactsBtn);
+		contactsBtn.setOnClickListener(contactsButtonListener);
+		Button settingsBtn = (Button) findViewById(R.id.settingsBtn);
+		settingsBtn.setOnClickListener(settingsButtonListener);
+		Button owerview = (Button) findViewById(R.id.overviewBtn);
+		owerview.setOnClickListener(overviewButtonListener);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.home, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+	private OnClickListener myListsButtonListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			Intent displayActivityIntent = new Intent(v.getContext(), MyListsActivity.class);
+	        startActivity(displayActivityIntent);
+			
 		}
-		return super.onOptionsItemSelected(item);
-	}
+	};
+	
+	private OnClickListener profileButtonListener = new View.OnClickListener() {		
+		@Override
+		public void onClick(View v) {
+			Intent displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
+	        startActivity(displayActivityIntent);			
+		}
+	};
+	
+	private OnClickListener notificationButtonListener = new View.OnClickListener() {		
+		@Override
+		public void onClick(View v) {
+			Intent displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);
+	        startActivity(displayActivityIntent);			
+		}
+	};
+	
+	private OnClickListener contactsButtonListener = new View.OnClickListener() {		
+		@Override
+		public void onClick(View v) {
+			Intent displayActivityIntent = new Intent(v.getContext(), ContactsActivity.class);
+	        startActivity(displayActivityIntent);			
+		}
+	};
+	
+	private OnClickListener settingsButtonListener = new View.OnClickListener() {		
+		@Override
+		public void onClick(View v) {
+			Intent displayActivityIntent = new Intent(v.getContext(), SettingsActivity.class);
+	        startActivity(displayActivityIntent);			
+		}
+	};
+	private OnClickListener overviewButtonListener = new View.OnClickListener() {		
+		@Override
+		public void onClick(View v) {
+			Intent displayActivityIntent = new Intent(v.getContext(), OverviewActivity.class);
+	        startActivity(displayActivityIntent);			
+		}
+	};
 }

@@ -1,9 +1,10 @@
 package ch.epfl.sweng.radin;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class ListViewActivity extends Activity {
 
@@ -11,24 +12,16 @@ public class ListViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_view);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.list_view, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+		
+		String listTitle = "nothing";
+		Bundle extras = getIntent().getExtras(); 
+		if (extras !=null) {
+			listTitle = extras.getString("key");
+			Toast.makeText(this, listTitle, Toast.LENGTH_SHORT).show();
 		}
-		return super.onOptionsItemSelected(item);
+		
+		TextView textView = (TextView) findViewById(R.id.listSelected);
+	    textView.setText(listTitle);
 	}
+
 }
