@@ -1,34 +1,37 @@
 package ch.epfl.sweng.radin;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
+/**
+ * 
+ * @author Fabien Zellweger
+ * Login activity, to log an user, if right login, can go further in the app, or
+ * give the opportunity to register.
+ *
+ */
 public class LoginActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		Button loginBtn = (Button) findViewById(R.id.loginButton);
+		loginBtn.setOnClickListener(loginButtonListener);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+	
+	private OnClickListener loginButtonListener = new View.OnClickListener() {		
+		@Override
+		public void onClick(View v) {
+			Intent displayActivityIntent = new Intent(v.getContext(), HomeActivity.class);
+	        startActivity(displayActivityIntent);			
 		}
-		return super.onOptionsItemSelected(item);
-	}
+	};
+
+
+
 }
