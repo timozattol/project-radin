@@ -24,7 +24,7 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="home_title">Home</string>
-    <string name="my_lists">MyLists</string>
+    <string name="my_lists">My Lists</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
     <string name="contacts">Contacts</string>
@@ -34,5 +34,10 @@
     <string name="radin_title">Radin</string>
     <string name="list_view">List view</string>
     <string name="new_list">New List</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="balance">Balance</string>
+    <string name="configuration">Configuration</string>
+    <string name="stats">Stats</string>
+    
 
 </resources>

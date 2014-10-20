@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <item name="settingsActionBar" type="id"/>
+    <item name="myListsActionBar" type="id"/>
+    <item name="addExpeseActionBar" type="id"/>
+    <item name="statsActionBar" type="id"/>
+    <item name="balanceActionBar" type="id"/>
+    
+</resources>
