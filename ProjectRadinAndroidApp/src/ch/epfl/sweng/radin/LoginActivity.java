@@ -22,13 +22,23 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		Button loginBtn = (Button) findViewById(R.id.loginButton);
 		loginBtn.setOnClickListener(loginButtonListener);
+		Button registerBtn = (Button) findViewById(R.id.registerButton);
+		registerBtn.setOnClickListener(registerButtonListener);
 	}
+	
+	private OnClickListener registerButtonListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent displayRegisterActivityIntent = new Intent(v.getContext(), RegisterActivity.class);
+			startActivity(displayRegisterActivityIntent);
+		}
+	};
 	
 	private OnClickListener loginButtonListener = new View.OnClickListener() {		
 		@Override
 		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), HomeActivity.class);
-	        startActivity(displayActivityIntent);			
+			Intent displayHomeActivityIntent = new Intent(v.getContext(), HomeActivity.class);
+	        startActivity(displayHomeActivityIntent);			
 		}
 	};
 

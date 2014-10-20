@@ -6,11 +6,56 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ch.epfl.sweng.radin.RegisterActivity" >
+    tools:context=".LoginActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText 
+        android:id="@+id/first_name_new_user"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
+        android:layout_width="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/first_name" />
+    
+    <EditText 
+        android:id="@+id/last_name_new_user"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/last_name"
+        android:layout_below="@id/first_name_new_user"/>
+    
+    <EditText 
+        android:id="@+id/email_new_user"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="@string/email"
+        android:layout_below="@id/last_name_new_user"/>
+    
+    <EditText 
+        android:id="@+id/password_new_user"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        android:layout_below="@id/email_new_user"/>
+    
+    <EditText 
+        android:id="@+id/iban_new_user"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:hint="@string/iban"
+        android:layout_below="@id/password_new_user"/>
+    <EditText 
+        android:id="@+id/bic_swift_address_new_user"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:hint="@string/bic_swift_address"
+        android:layout_below="@id/iban_new_user"/>
+    
+    <Button 
+        android:id="@+id/sign_up_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/sign_up_button_text"
+        android:layout_below="@id/bic_swift_address_new_user"/>
 </RelativeLayout>
