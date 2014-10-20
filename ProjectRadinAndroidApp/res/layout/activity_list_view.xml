@@ -15,5 +15,12 @@
         android:layout_height="wrap_content"
         android:text="@string/list_view"
         android:textSize="60sp" />
+    
+    <Button 
+        android:id="@+id/notificationButton"
+       android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listViewTitle"
+        android:text="@string/notifications"/>
 
 </RelativeLayout>

@@ -38,6 +38,8 @@
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
     <string name="stats">Stats</string>
+    <string name="creat_account">Creat new account</string>
+    <string name="register">Register</string>
     
 
 </resources>
