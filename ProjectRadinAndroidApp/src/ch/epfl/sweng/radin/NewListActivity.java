@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.location.GpsStatus.NmeaListener;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,6 +89,11 @@ public class NewListActivity extends Activity {
 //	                    addNewfriends.putExtra(this.getClass().getName(), newfriends.toString());
 //	                    startActivity(addNewfriends);
 	            	}
+                Toast.makeText(getBaseContext(), "List created", Toast.LENGTH_LONG).show();
+                mPeopleInList.clearComposingText();
+                mNameEdit.clearComposingText();
+                Intent returnToLists = new Intent(getBaseContext(), MyListsActivity.class);
+                startActivity(returnToLists);
 	            }
             }
 	    });
