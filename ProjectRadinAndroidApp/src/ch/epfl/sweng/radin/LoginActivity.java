@@ -1,21 +1,18 @@
 package ch.epfl.sweng.radin;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
 /**
- * 
+ *
  * @author Fabien Zellweger
  * Login activity, to log an user, if right login, can go further in the app, or
  * give the opportunity to register.
  *
  */
 public class LoginActivity extends Activity {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,23 +22,18 @@ public class LoginActivity extends Activity {
 		Button newAccountBtn = (Button) findViewById(R.id.creatAcountButton);
 		newAccountBtn.setOnClickListener(creatAccountButtonListener);
 	}
-	
-	private OnClickListener loginButtonListener = new View.OnClickListener() {		
+	private OnClickListener loginButtonListener = new View.OnClickListener() {	
 		@Override
 		public void onClick(View v) {
 			Intent displayActivityIntent = new Intent(v.getContext(), HomeActivity.class);
-	        startActivity(displayActivityIntent);			
+			startActivity(displayActivityIntent);	
 		}
 	};
-	
-	private OnClickListener creatAccountButtonListener = new View.OnClickListener() {		
+	private OnClickListener creatAccountButtonListener = new View.OnClickListener() {	
 		@Override
 		public void onClick(View v) {
 			Intent displayActivityIntent = new Intent(v.getContext(), RegisterActivity.class);
-	        startActivity(displayActivityIntent);			
+			startActivity(displayActivityIntent);	
 		}
 	};
-
-
-
 }

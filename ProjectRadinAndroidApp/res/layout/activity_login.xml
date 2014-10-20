@@ -8,20 +8,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ch.epfl.sweng.radin.LoginActivity" >
 
-        <EditText
+    <EditText
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:hint="@string/login" />
-        
+
     <TextView
         android:id="@+id/RadinTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_above="@id/login"
+        android:layout_centerHorizontal="true"
         android:text="@string/radin_title"
         android:textSize="100sp" />
 
@@ -31,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login"
         android:layout_centerHorizontal="true"
-        android:hint="@string/password" />
+        android:hint="@string/password"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/loginButton"
@@ -40,12 +41,13 @@
         android:layout_below="@id/login"
         android:layout_toRightOf="@id/password"
         android:text="@string/login" />
-    
-    <Button 
+
+    <Button
         android:id="@+id/creatAcountButton"
-         android:layout_width="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="@string/creat_account" />"
+        android:layout_alignParentTop="true"
+        android:text="@string/creat_account" />
 
 </RelativeLayout>
