@@ -22,12 +22,22 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		Button loginBtn = (Button) findViewById(R.id.loginButton);
 		loginBtn.setOnClickListener(loginButtonListener);
+		Button newAccountBtn = (Button) findViewById(R.id.creatAcountButton);
+		newAccountBtn.setOnClickListener(creatAccountButtonListener);
 	}
 	
 	private OnClickListener loginButtonListener = new View.OnClickListener() {		
 		@Override
 		public void onClick(View v) {
 			Intent displayActivityIntent = new Intent(v.getContext(), HomeActivity.class);
+	        startActivity(displayActivityIntent);			
+		}
+	};
+	
+	private OnClickListener creatAccountButtonListener = new View.OnClickListener() {		
+		@Override
+		public void onClick(View v) {
+			Intent displayActivityIntent = new Intent(v.getContext(), RegisterActivity.class);
 	        startActivity(displayActivityIntent);			
 		}
 	};
