@@ -44,7 +44,10 @@ public class RegisterActivity extends Activity {
 				submitUserToServer();
 				Intent displayHomeActivityIntent = new Intent(v.getContext(),
 						HomeActivity.class);
+				// TODO destroy this activity when communication with server
+				// done
 				startActivity(displayHomeActivityIntent);
+
 			}
 
 		}
@@ -54,14 +57,15 @@ public class RegisterActivity extends Activity {
 	 * Sends the new user's data to the server
 	 */
 	private void submitUserToServer() {
-		
+
 	}
 
 	/**
-	 * Package fields of the different {@code TextView} in a object that will be sent to the server
-	 * if a {@code TextView} contains badly formatted input resets the field of the {@code TextView} and sets
-	 * {@code newUserDataUsable} to false
-	 * sets {@code newUserDataUsable} to true if input is in good format
+	 * Package fields of the different {@code TextView} in a object that will be
+	 * sent to the server if a {@code TextView} contains badly formatted input
+	 * resets the field of the {@code TextView} and sets
+	 * {@code newUserDataUsable} to false sets {@code newUserDataUsable} to true
+	 * if input is in good format
 	 */
 	private void retrieveNewUserData() {
 		final CharSequence newUserFirstName = ((TextView) findViewById(id.first_name_new_user))

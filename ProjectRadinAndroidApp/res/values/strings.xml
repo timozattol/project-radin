@@ -51,4 +51,14 @@
     <string name="bic_swift_address">BIC/SWIFT address</string>
     <string name="sign_up_button_text">Sign up</string>
     
+
+    <!-- NewListActivity -->
+    <string name="list_name">Name</string>
+    <string name="friends_names">Add people</string>
+    <string name="hint_name">Type the list\'s name</string>
+    <string name="multi_friend">Type the participants\' names</string>
+    <string name="add_info">If a name doesn\'t belong to the suggestions it means that it has been misspelled or doesn\'t belong to your friends, you will be able to add it in the next screen</string>
+    <string name="create_list">Create</string>
+    
+
 </resources>
