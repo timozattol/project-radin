@@ -7,7 +7,7 @@
     <uses-sdk android:minSdkVersion="18" />
 
     <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
+        android:name="com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         android:targetPackage="ch.epfl.sweng.radin" />
 
     <application
