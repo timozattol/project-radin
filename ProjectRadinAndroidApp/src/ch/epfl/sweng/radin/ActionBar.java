@@ -8,32 +8,46 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author Fabien Zellweger
+ * Class to add the ActionBar on all concerned list activity.
+ * It genere the button, and place them correctly with a listener
+ *
+ */
 public class ActionBar {
-	
-	protected static String mListName;
-	
+
+	private static String mListName;
+	final static int ACTION_BAR_COUNT = 5;
+
+	/**
+	 * 
+	 * @author Fabien Zellweger
+	 * Enum to supress magic number in code
+	 *
+	 */
 	public static enum ListButton {
 		SETTINGS (0),
 		MY_LISTS (1),
 		ADD_EXPENSE (2),
 		STATS (3),
 		BALANCE (4);
-		
+
 		private int mValue;
-		
-		ListButton(int value){
+
+		ListButton(int value) {
 			this.mValue=value;
 		}
-		
-		public int getValue(){
+
+		public int getValue() {
 			return mValue;
 		}
 	}
-	
-	public static void addActionBar(Context context, RelativeLayout currentLayout, String listName){
+
+	public static void addActionBar(Context context, RelativeLayout currentLayout, String listName) {
 
 		mListName = listName;
-		final int ACTION_BAR_COUNT = 5;
+
 		Button[] actionBarContent = new Button[ACTION_BAR_COUNT];
 
 		Button settingsBtn = new Button(context);
@@ -50,7 +64,6 @@ public class ActionBar {
 
 		Button addExpeseBtn = new Button(context);
 		addExpeseBtn.setText("+");
-		addExpeseBtn.setTextSize(24);
 		addExpeseBtn.setId(R.id.addExpeseActionBar);
 		actionBarContent[ListButton.ADD_EXPENSE.getValue()] = addExpeseBtn;
 		addExpeseBtn.setTag(ListButton.ADD_EXPENSE);
@@ -68,7 +81,7 @@ public class ActionBar {
 		balanceBtn.setTag(ListButton.BALANCE);
 
 		for (int i = 0; i < actionBarContent.length; i++) {
-			actionBarContent[i].setOnClickListener(ActionBarButtonListener);
+			actionBarContent[i].setOnClickListener(actionBarButtonListener);
 			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT, 
 					RelativeLayout.LayoutParams.WRAP_CONTENT);				
@@ -81,31 +94,36 @@ public class ActionBar {
 
 	}
 
-	
 
-	private static OnClickListener ActionBarButtonListener = new View.OnClickListener() {		
+
+	private static OnClickListener actionBarButtonListener = new View.OnClickListener() {		
 		@Override
 		public void onClick(View v) {
 			ListButton viewTag = (ListButton) v.getTag();
 			Intent displayActivityIntent = null;
 
-			
-			switch (viewTag) {
-			case SETTINGS: displayActivityIntent = new Intent(v.getContext(), ListConfigurationActivity.class);
-				break;
-			case MY_LISTS: displayActivityIntent = new Intent(v.getContext(), ListViewActivity.class);
-				break;
-			case ADD_EXPENSE: displayActivityIntent = new Intent(v.getContext(), ListAddExpenseActivity.class);
-				break;
-			case STATS: displayActivityIntent = new Intent(v.getContext(), ListStatsActivity.class);
-				break;
-			case BALANCE: displayActivityIntent = new Intent(v.getContext(), ListBalanceActivity.class);
-				break;
-			default: Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+
+			switch(viewTag) {
+				case SETTINGS: displayActivityIntent = new Intent(v.getContext(),
+						ListConfigurationActivity.class);
+					break;
+				case MY_LISTS: displayActivityIntent = new Intent(v.getContext(),
+						ListViewActivity.class);
+					break;
+				case ADD_EXPENSE: displayActivityIntent = new Intent(v.getContext(),
+						ListAddExpenseActivity.class);
+					break;
+				case STATS: displayActivityIntent = new Intent(v.getContext(),
+						ListStatsActivity.class);
+					break;
+				case BALANCE: displayActivityIntent = new Intent(v.getContext(),
+						ListBalanceActivity.class);
+					break;
+				default: Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
 					Toast.LENGTH_SHORT).show();
 			}
-			if (!(displayActivityIntent == null)){
-				displayActivityIntent.putExtra("key",mListName);
+			if (!(displayActivityIntent == null)) {
+				displayActivityIntent.putExtra("key", mListName);
 				v.getContext().startActivity(displayActivityIntent);
 			}
 		}
