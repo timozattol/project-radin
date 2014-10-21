@@ -48,6 +48,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/creat_account" />
+        android:text="@string/create_account" />
 
 </RelativeLayout>
