@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/my_lists"
-        android:textSize="90sp" />
+        android:textSize="64sp" />
 
     <TextView
         android:id="@+id/anListExemple"
