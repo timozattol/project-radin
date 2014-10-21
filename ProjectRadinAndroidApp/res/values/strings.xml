@@ -36,7 +36,7 @@
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
     <string name="stats">Stats</string>
-    <string name="creat_account">Creat new account</string>
+    <string name="create_account">Create new account</string>
     
     <!-- Linked to register and login activity -->
     <string name="login">Login</string>

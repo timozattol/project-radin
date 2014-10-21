@@ -20,7 +20,7 @@ public class LoginActivity extends Activity {
 		Button loginBtn = (Button) findViewById(R.id.loginButton);
 		loginBtn.setOnClickListener(loginButtonListener);
 		Button newAccountBtn = (Button) findViewById(R.id.creatAcountButton);
-		newAccountBtn.setOnClickListener(creatAccountButtonListener);
+		newAccountBtn.setOnClickListener(createAccountButtonListener);
 	}
 	private OnClickListener loginButtonListener = new View.OnClickListener() {	
 		@Override
@@ -29,7 +29,7 @@ public class LoginActivity extends Activity {
 			startActivity(displayActivityIntent);	
 		}
 	};
-	private OnClickListener creatAccountButtonListener = new View.OnClickListener() {	
+	private OnClickListener createAccountButtonListener = new View.OnClickListener() {	
 		@Override
 		public void onClick(View v) {
 			Intent displayActivityIntent = new Intent(v.getContext(), RegisterActivity.class);
