@@ -14,6 +14,7 @@ import android.test.AndroidTestCase;
  */
 public class DummyTest extends AndroidTestCase {
     public void alwaysTrueTest() {
+    	System.out.println("false?");
         assert true;
     }
     
