@@ -4,7 +4,7 @@
   <local-check-config name="SwEng Checkstyle" location="C:\Users\lbc\workspace\tempSweng\sweng-student-lebail\sweng-checkstyle-2014.xml" type="external" description="">
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>
-  <fileset name="all" enabled="true" check-config-name="SwEng Code Conventions" local="false">
+  <fileset name="all" enabled="true" check-config-name="SwEng Checkstyle" local="false">
     <file-match-pattern match-pattern="." include-pattern="true"/>
   </fileset>
   <filter name="FilesFromPackage" enabled="true">
