@@ -11,21 +11,6 @@ import java.util.Set;
  * A model representing a transaction
  */
 public class TransactionModel {
-    private static Set<Currency> mAvailableCurrencies = new HashSet<Currency>(
-        Arrays.asList(
-            // CHF
-            Currency.getInstance("756"),
-
-            // USD
-            Currency.getInstance("840"),
-
-            // EUR
-            Currency.getInstance("978"),
-
-            // GBP
-            Currency.getInstance("826")
-        ));
-
     private int mTransactionID;
 
     // The id of the List containing this Transaction
