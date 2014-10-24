@@ -15,15 +15,17 @@ public class UserModel {
 	private String mAddress;
 	private String mIban;
 	private String mPicture;
+	private int mId;
 	
-	UserModel(String firstName, String lastName, String email, String address, 
-			String iban, String picture) {
+	public UserModel(String firstName, String lastName, String email, 
+			String address, String iban, String picture, int id) {
 		mFirstName = firstName;
 		mLastName = lastName;
 		mEmail = email;
 		mAddress = address;
 		mIban = iban;
 		mPicture = picture;
+		mId = id;
 	}
 	
 	public String getFirstName () {
@@ -50,4 +52,7 @@ public class UserModel {
 		return mPicture;
 	}
 
+	public int getId () {
+		return mId;
+	}
 }
