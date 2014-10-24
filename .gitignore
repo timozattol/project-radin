@@ -33,9 +33,9 @@ proguard/
 *.DS_Store
 
 # Others
-.metadata/
-.settings
+*.metadata/
+*.settings
 
-.checkstyle
+*.checkstyle
 *~
 

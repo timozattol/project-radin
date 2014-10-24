@@ -29,7 +29,6 @@ public class HomeActivity extends Activity {
 		Button owerview = (Button) findViewById(R.id.overviewBtn);
 		owerview.setOnClickListener(overviewButtonListener);
 	}
-
 	private OnClickListener myListsButtonListener = new View.OnClickListener() {
 		
 		@Override
