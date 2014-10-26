@@ -8,10 +8,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ch.epfl.sweng.radin.ProfileActivity" >
 
-    <TextView
+    <ImageView
+        android:id="@+id/profilePic"
+        android:layout_width="120dip"
+        android:layout_height="120dip"
+        android:scaleType="fitXY"
+        android:src="@drawable/profile_pic" />
+	
+     <TextView
+        android:id="@+id/profileFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/profile"
-        android:textSize="100sp" />
-    
+        android:layout_toRightOf="@id/profilePic"
+        android:text="@string/profile_first_name"
+        android:textSize="24sp" />
+   
+
+    <TextView
+        android:id="@+id/profileLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileFirstName"
+        android:layout_toRightOf="@id/profilePic"
+        android:text="@string/profile_last_name"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/profileAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profilePic"
+        android:layout_centerHorizontal="true"
+        android:text="@string/profile_address"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/profileIban"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileAddress"
+        android:layout_centerHorizontal="true"
+        android:text="@string/profile_iban"
+        android:textSize="24sp" />
+
 </RelativeLayout>
