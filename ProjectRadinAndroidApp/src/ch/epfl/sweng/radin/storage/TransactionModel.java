@@ -1,7 +1,6 @@
 package ch.epfl.sweng.radin.storage;
 
-import java.util.Date;
-import java.util.List;
+import org.joda.time.DateTime;
 
 /**
  * @author timozattol
@@ -10,73 +9,234 @@ import java.util.List;
 public final class TransactionModel {
     private int mTransactionID;
 
-    // The id of the List containing this Transaction
-    private int mParentListID;
+    // The id of the RadinGroup containing this Transaction
+    private int mParentRadinGroupID;
+    
+    // The id of the creator of the Transaction
+    private int mCreatorID;
 
     // The id of the User who paid for this Transaction
     private int mBuyerID;
 
     private double mAmount;
     private Currency mCurrency;
-    private double mRate;
-    private Date mDate;
+    private DateTime mDateTime;
     private String mPurpose;
+    
+    // The path of the image of the receipt. Optional.
+    private String mJustificativePath;
+    
     private TransactionType mType;
-    private int creatorID;
 
     /**
-     * Private constructor for TransactionModel
+     * Public constructor for TransactionModel
      */
-    private TransactionModel(int transactionID, int parentListID, int buyerID, 
-            double amount, Currency currency, Date date, String purpose, 
-            TransactionType type) {
+    public TransactionModel(int transactionID, int parentRadinGroupID, int buyerID, 
+            int creatorID, double amount, Currency currency, DateTime dateTime, String purpose, 
+            String justificativePath, TransactionType type) {
+        
         // Sanity checks
-        if (transactionID < 0) {
-            throw new IllegalArgumentException("Transaction ID cannot be negative");
-        }
-
-        if (parentListID < 0) {
-            throw new IllegalArgumentException("Transaction List ID cannot be negative");
-        }
-
-        if (buyerID < 0) {
-            throw new IllegalArgumentException("Transaction ID cannot be negative");
-        }
-
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Transaction amount cannot be smaller " 
-                    + "or equal to zero");
+        checkArgumentPositive("Transaction ID", transactionID);
+        checkArgumentPositive("RadinGroup ID", parentRadinGroupID);
+        checkArgumentPositive("Transaction creator ID", creatorID);
+        checkArgumentPositive("Transaction buyer ID", buyerID);
+        
+        checkArgumentPositive("Transaction amount", amount);
+        if (amount == 0) {
+            throw new IllegalArgumentException("Transaction amount cannot be non-zero");
         }
         
-        mCurrency = currency;
+        checkArgumentNull("DateTime ", dateTime);
+        
+        checkArgumentNull("Purpose ", purpose);
+        checkEmptyStringArgument("Purpose ", purpose);
+        
         mTransactionID = transactionID;
-        mParentListID = parentListID;
+        mParentRadinGroupID = parentRadinGroupID;
+        mCreatorID = creatorID;
         mBuyerID = buyerID;
         mAmount = amount;
-
-        // Currencies are immutable
         mCurrency = currency;
-
-        //TODO calculate rate with a CurrencyConverter
-        mRate = 1;
         
-        mDate = date;
+        // DateTime is unmodifiable
+        mDateTime = dateTime;
+        
         mPurpose = purpose;
+        mJustificativePath = justificativePath;
         mType = type;
     }
-    
-    public static TransactionModel getTransactionWithID(int transactionID) {
+
+    /**
+     * @return the transactionID
+     */
+    public int getTransactionID() {
+        return mTransactionID;
+    }
+
+    /**
+     * @param transactionID the transactionID to set
+     */
+    public void setTransactionID(int transactionID) {
+        checkArgumentPositive("Transaction ID", transactionID);
+        this.mTransactionID = transactionID;
+    }
+
+    /**
+     * @return the parentRadinGroupID
+     */
+    public int getParentRadinGroupID() {
+        return mParentRadinGroupID;
+    }
+
+    /**
+     * @param parentRadinGroupID the parentRadinGroupID to set
+     */
+    public void setParentRadinGroupID(int parentRadinGroupID) {
+        checkArgumentPositive("RadinGroup ID", parentRadinGroupID);
+        this.mParentRadinGroupID = parentRadinGroupID;
+    }
+
+    /**
+     * @return the creatorID
+     */
+    public int getCreatorID() {
+        return mCreatorID;
+    }
+
+    /**
+     * @param creatorID the creatorID to set
+     */
+    public void setCreatorID(int creatorID) {
+        checkArgumentPositive("Transaction creator ID", creatorID);
+        this.mCreatorID = creatorID;
+    }
+
+    /**
+     * @return the buyerID
+     */
+    public int getBuyerID() {
+        return mBuyerID;
+    }
+
+    /**
+     * @param buyerID the buyerID to set
+     */
+    public void setBuyerID(int buyerID) {
+        checkArgumentPositive("Transaction buyer ID", buyerID);
+        this.mBuyerID = buyerID;
+    }
+
+    /**
+     * @return the amount
+     */
+    public double getAmount() {
+        return mAmount;
+    }
+
+    /**
+     * @param amount the amount to set
+     */
+    public void setAmount(double amount) {
+        checkArgumentPositive("Transaction amount", amount);
+        if (amount == 0) {
+            throw new IllegalArgumentException("Transaction amount cannot be non-zero");
+        }
         
-        return null;
+        this.mAmount = amount;
+    }
+
+    /**
+     * @return the currency
+     */
+    public Currency getCurrency() {
+        return mCurrency;
+    }
+
+    /**
+     * @param currency the currency to set
+     */
+    public void setCurrency(Currency currency) {
+        this.mCurrency = currency;
+    }
+
+    /**
+     * @return the dateTime
+     */
+    public DateTime getDateTime() {
+        return mDateTime;
+    }
+
+    /**
+     * @param dateTime the dateTime to set
+     */
+    public void setDateTime(DateTime dateTime) {
+        checkArgumentNull("DateTime", dateTime);
+        this.mDateTime = dateTime;
+    }
+
+    /**
+     * @return the purpose
+     */
+    public String getPurpose() {
+        return mPurpose;
+    }
+
+    /**
+     * @param purpose the purpose to set
+     */
+    public void setPurpose(String purpose) {
+        checkArgumentNull("Purpose", purpose);
+        checkEmptyStringArgument("Purpose", purpose);
+        this.mPurpose = purpose;
+    }
+
+    /**
+     * @return the justificativePath
+     */
+    public String getJustificativePath() {
+        return mJustificativePath;
+    }
+
+    /**
+     * @param justificativePath the justificativePath to set
+     */
+    public void setJustificativePath(String justificativePath) {
+        // No checks here, because the justificative will probably be optional
+        
+        this.mJustificativePath = justificativePath;
+    }
+
+    /**
+     * @return the type
+     */
+    public TransactionType getType() {
+        return mType;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(TransactionType type) {
+        checkArgumentNull("Transaction type", type);
+        this.mType = type;
     }
     
-    public static List<TransactionModel> getTransactionsForList(int listID) {
-        
-        return null;
+    private void checkArgumentPositive(String argName, double arg) {
+        if (arg < 0) {
+            throw new IllegalArgumentException(argName + " cannot be negative");
+        }
     }
     
-    public static List<TransactionModel> getTransactionsForBuyer(int buyerID) {
-        
-        return null;
+    private void checkArgumentNull(String argName, Object arg) {
+        if (arg == null) {
+            throw new IllegalArgumentException(argName + " cannot be null");
+        }
     }
+    
+    private void checkEmptyStringArgument(String argName, String string) {
+        if (string.equals("")) {
+            throw new IllegalArgumentException(argName + " cannot be the empty String");
+        }
+    }
+    
 }
