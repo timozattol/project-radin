@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
  * @author timozattol
  * A model representing a transaction
  */
-public final class TransactionModel {
+public final class TransactionModel extends Model {
     private int mTransactionID;
 
     // The id of the RadinGroup containing this Transaction
