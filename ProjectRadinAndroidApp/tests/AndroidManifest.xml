@@ -9,6 +9,10 @@
     <instrumentation
         android:name="com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         android:targetPackage="ch.epfl.sweng.radin" />
+    
+        <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="ch.epfl.sweng.radin" />
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
