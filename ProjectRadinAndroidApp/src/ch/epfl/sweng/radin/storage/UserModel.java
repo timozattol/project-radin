@@ -28,31 +28,31 @@ public class UserModel {
 		mId = id;
 	}
 	
-	public String getFirstName () {
+	public String getFirstName() {
 		return mFirstName;
 	}
 	
-	public String getLastName () {
+	public String getLastName() {
 		return mLastName;
 	}
 	
-	public String getEmail () {
+	public String getEmail() {
 		return mEmail;
 	}
 	
-	public String getAddress () {
+	public String getAddress() {
 		return mAddress;
 	}
 	
-	public String getIban () {
+	public String getIban() {
 		return mIban;
 	}
 	
-	public String getPicture () {
+	public String getPicture() {
 		return mPicture;
 	}
 
-	public int getId () {
+	public int getId() {
 		return mId;
 	}
 }
