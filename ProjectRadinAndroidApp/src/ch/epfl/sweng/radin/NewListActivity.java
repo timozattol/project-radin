@@ -120,8 +120,8 @@ public class NewListActivity extends Activity {
 //	private String[] getFriendsOf(int clientId){
 //    	//ask the server, do stuff to extract names, store in String[]
 //		//Find a way to have a unique identifier for each client in database
-//    	String[] friendsOfClient = {"Julie", "Fabien", "Timothée", "Cédric",
-//    	"Simon", "Thomas", "Joël", "t", "tt", "ttt", "tttt", "tttttt", "ttttttt"};
+//    	String[] friendsOfClient = {"Julie", "Fabien", "TimothÃ©e", "CÃ©dric",
+//    	"Simon", "Thomas", "JoÃ«l", "t", "tt", "ttt", "tttt", "tttttt", "ttttttt"};
 //    	return friendsOfClient;
 //    }
 	
@@ -139,11 +139,11 @@ public class NewListActivity extends Activity {
     	ArrayList<String> friendsOfClient = new ArrayList<String>();
     	friendsOfClient.add("Julie");
     	friendsOfClient.add("Fabien");
-    	friendsOfClient.add("Timothée");
-    	friendsOfClient.add("Cédric");
+    	friendsOfClient.add("TimothÃ©e");
+    	friendsOfClient.add("CÃ©dric");
     	friendsOfClient.add("Simon");
     	friendsOfClient.add("Thomas");
-    	friendsOfClient.add("Joël");
+    	friendsOfClient.add("JoÃ«l");
     	friendsOfClient.add("t");
     	friendsOfClient.add("tt");
     	friendsOfClient.add("ttt");

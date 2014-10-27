@@ -11,6 +11,8 @@ import org.json.JSONObject;
  */
 public interface StorageManager {
 	
+	abstract StorageManager getStorageManager();
+	
 	public JSONObject getById(int id);
 	
 	public List<JSONObject> getAll();
