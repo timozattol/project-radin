@@ -4,23 +4,25 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
+
 
 /**
  * @author CedricCook
  *	A StorageManager allows CRUD operations and handles on & offline data storage.
  */
-public interface StorageManager {
+public interface StorageManager<T> {
 	
-	abstract StorageManager getStorageManager();
+	abstract StorageManager<T> getStorageManager();
 	
-	public JSONObject getById(int id);
+	public T getById(int id, Activity caller);
 	
-	public List<JSONObject> getAll();
+	public List<T> getAll(Activity caller);
 
-	public boolean create(List<JSONObject> entries);
+	public boolean create(List<T> entries, Activity caller);
 	
-	public boolean update(List<JSONObject> entries);
+	public boolean update(List<T> entries, Activity caller);
 	
-	public boolean delete(List<JSONObject> entries);
+	public boolean delete(List<T> entries, Activity caller);
 	
 }
