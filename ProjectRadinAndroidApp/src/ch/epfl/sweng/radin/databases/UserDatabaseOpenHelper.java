@@ -2,16 +2,11 @@ package ch.epfl.sweng.radin.databases;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Message;
 
 /**
  * @author Simonchelbc Represents the database of users takes care of opening
