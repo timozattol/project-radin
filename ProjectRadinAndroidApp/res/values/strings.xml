@@ -60,5 +60,11 @@
     <string name="add_info">If a name doesn\'t belong to the suggestions it means that it has been misspelled or doesn\'t belong to your friends, you will be able to add it in the next screen</string>
     <string name="create_list">Create</string>
     
+    <!-- ProfileActivity -->
+    <string name="profile_last_name">Last Name</string>
+    <string name="profile_first_name">First Name</string>
+    <string name="profile_address">Address</string>
+    <string name="profile_iban">Iban</string>
+    
 
 </resources>
