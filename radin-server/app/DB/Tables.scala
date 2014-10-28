@@ -34,3 +34,9 @@ class Transaction(tag: Tag) extends Table[(Int, Int, Int, Int, Int, String, Int,
   
   def * = (tid, rid, TaddedBy, Tdebitor, Tamount, Tpurpose, Tcurrency, Tdate, Ttype, Tjustificative, TmasterTID, TdeletedAt)
 }
+
+class User(tag: Tag) extends Table[(Int, String, String, String, String, String, Int, String, String)](tag, "USER") {
+  
+  def uid: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
+  def Uname: Column[String] = column[String]("U_NAME")
+}
