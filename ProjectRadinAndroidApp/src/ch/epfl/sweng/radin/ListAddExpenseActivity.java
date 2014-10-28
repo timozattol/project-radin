@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -31,17 +35,41 @@ public class ListAddExpenseActivity extends Activity {
 		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_list_add_expense);
 		mSelectedCreditor = this.getResources().getString(R.string.creditor_selected);
-		
+
 		Bundle extras = getIntent().getExtras();
 		String listTitle = extras.getString("key");
-		
+
 		TextView addExpenseText = (TextView) findViewById(R.id.title_add_expense);
 		addExpenseText.setText(addExpenseText.getText().toString() + listTitle);
-		
+
 		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseListLayout);
 		ActionBar.addActionBar(this, thisLayout, listTitle);
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.list_add_expense, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_home:
+	        	Intent intent = new Intent(this, HomeActivity.class);
+	        	startActivity(intent);
+	            return true;
+	        case R.id.action_settings:
+	         
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+
 	/**
 	 * Shows an AlertDialog with a list of potential debitors to select
 	 * by retrieving the people in the radinGroup from the database.
@@ -51,7 +79,7 @@ public class ListAddExpenseActivity extends Activity {
 	public void showDebDialog(View view) {
 		debtorDialog(serverGetFriendsInGroup()).show();
 	}
-	
+
 	/**
 	 * Shows an AlertDialog with a list of potential creditors to select
 	 * by retrieving the people in the radinGroup from the database.
@@ -62,7 +90,7 @@ public class ListAddExpenseActivity extends Activity {
 	public void showCredDialog(View view) {
 		String[] friends = serverGetFriendsInGroup();
 		String[] clientAndFriends = new String[friends.length + 1];
-		
+
 		clientAndFriends[0] = this.getResources().getString(R.string.creditor_selected);
 		for (int i = 1; i < clientAndFriends.length; i++) {
 			clientAndFriends[i] = friends[i-1];
@@ -109,30 +137,30 @@ public class ListAddExpenseActivity extends Activity {
 
 		// Set the action buttons
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					mSelectedDebtors.clear();
-					for (int index : mSelectedItems) {
-						mSelectedDebtors.add(names[index]);
-					}
-					TextView debitorsSelected = (TextView) findViewById(R.id.debtors_selected);
-					
-					if (!mSelectedDebtors.isEmpty()) {
-						debitorsSelected.setText(mSelectedDebtors.toString());
-					} else {
-						debitorsSelected.setText(R.string.debtors_selected);
-					}
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				mSelectedDebtors.clear();
+				for (int index : mSelectedItems) {
+					mSelectedDebtors.add(names[index]);
 				}
-			});
+				TextView debitorsSelected = (TextView) findViewById(R.id.debtors_selected);
+
+				if (!mSelectedDebtors.isEmpty()) {
+					debitorsSelected.setText(mSelectedDebtors.toString());
+				} else {
+					debitorsSelected.setText(R.string.debtors_selected);
+				}
+			}
+		});
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					//nothing to do
-				}
-			});
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				//nothing to do
+			}
+		});
 		return builder.create();
 	}
-	
+
 	/**
 	 * Create a Dialog that shows the client's friends' names that can be
 	 * selected to be the creditor's name.
@@ -156,20 +184,20 @@ public class ListAddExpenseActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				TextView creditorSelected = (TextView) findViewById(R.id.creditor_selected);
-				
+
 				mSelectedCreditor = names[mSelectedIndex];
 				creditorSelected.setText(mSelectedCreditor);
 			}
 		});
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					//nothing to do
-				}
-			});
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				//nothing to do
+			}
+		});
 		return builder.create();
 	}
-	
+
 	/**
 	 * Checks all inputs filled in by the user, and send them to server if valid, show a Toast otherwise.
 	 *
@@ -201,6 +229,6 @@ public class ListAddExpenseActivity extends Activity {
 
 		}
 	}
-	
+
 }
 

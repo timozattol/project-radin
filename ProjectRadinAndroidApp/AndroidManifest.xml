@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name=".ContactsActivity"
-            android:label="@string/contacts" >
+            android:label="@string/contacts"
+            android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".HomeActivity"
@@ -32,27 +33,33 @@
         </activity>
         <activity
             android:name=".MyListsActivity"
-            android:label="@string/my_lists" >
+            android:label="@string/my_lists"
+            android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".NotificationsActivity"
-            android:label="@string/notifications" >
+            android:label="@string/notifications"
+            android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".OverviewActivity"
-            android:label="@string/overview" >
+            android:label="@string/overview"
+            android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/profile" >
+            android:label="@string/profile"
+            android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/settings" >
+            android:label="@string/settings"
+            android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".ListViewActivity"
-            android:label="@string/list_view" >
+            android:label="@string/list_view"
+            android:parentActivityName=".MyListsActivity" >
         </activity>
         <activity
             android:name=".ProfileOtherActivity"
@@ -60,31 +67,38 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".LoginActivity" >
         </activity>
         <activity
             android:name=".NewListActivity"
-            android:label="@string/new_list" >
+            android:label="@string/new_list"
+            android:parentActivityName=".MyListsActivity" >
         </activity>
         <activity
             android:name=".ListBalanceActivity"
-            android:label="@string/title_activity_list_balance" >
+            android:label="@string/title_activity_list_balance"
+            android:parentActivityName=".MyListsActivity" >
         </activity>
         <activity
             android:name=".ListStatsActivity"
-            android:label="@string/title_activity_list_stats" >
+            android:label="@string/title_activity_list_stats"
+            android:parentActivityName=".MyListsActivity" >
         </activity>
         <activity
             android:name=".ListAddExpenseActivity"
-            android:label="@string/title_activity_list_add_expense" >
+            android:label="@string/title_activity_list_add_expense"
+            android:parentActivityName=".MyListsActivity" >
         </activity>
         <activity
             android:name=".ListConfigurationActivity"
-            android:label="@string/title_activity_list_configuration" >
+            android:label="@string/title_activity_list_configuration"
+            android:parentActivityName=".MyListsActivity" >
         </activity>
         <activity
             android:name=".NotificationSettingsActivity"
-            android:label="@string/title_activity_notification_settings" >
+            android:label="@string/title_activity_notification_settings"
+            android:parentActivityName=".MyListsActivity" >
         </activity>
     </application>
 
