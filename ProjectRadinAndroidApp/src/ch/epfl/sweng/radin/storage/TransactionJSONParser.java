@@ -35,15 +35,15 @@ public class TransactionJSONParser implements JSONParser<TransactionModel> {
     public List<JSONObject> getJsonFromModels(List<TransactionModel> modelList) {
         JSONObject json = new JSONObject();
         try {
-            json.put("transactionID", 0);
-            json.put("parentRadinGroupID", 0);
-            json.put("buyerID", 0);
-            json.put("creatorID", 0);
-            json.put("amount", 1);
-            json.put("currency", "CHF");
-            json.put("dateTime", "2014/01/01/00/00");
-            json.put("purpose", "Buy more jewelleries");
-            json.put("type", "payment");        
+            json.put("T_ID", 0);
+            json.put("T_parentRadinGroupID", 0);
+            json.put("T_debitorID", 0);
+            json.put("T_creatorID", 0);
+            json.put("T_amount", 1);
+            json.put("T_currency", "CHF");
+            json.put("T_dateTime", "2014/01/01/00/00");
+            json.put("T_purpose", "Buy more jewelleries");
+            json.put("T_type", "payment");
             
         } catch (JSONException e) {
             

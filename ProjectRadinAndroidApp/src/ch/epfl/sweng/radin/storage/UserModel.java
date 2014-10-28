@@ -7,7 +7,7 @@ package ch.epfl.sweng.radin.storage;
  * @author julied20
  *
  */
-public class UserModel {
+public class UserModel extends Model{
 	
 	private String mFirstName;
 	private String mLastName;
