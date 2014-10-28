@@ -10,9 +10,113 @@
     tools:context="ch.epfl.sweng.radin.ListAddExpenseActivity" >
 
     <TextView
+        android:id="@+id/title_add_expense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_expense"
-        android:textSize="48sp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/add_expense_string"
+        android:textSize="27sp" />
+    
+    <TextView
+        android:id="@+id/creditor_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/title_add_expense"
+        android:layout_marginTop="14dp"
+        android:text="@string/creditor"
+        android:textSize="20sp" />
+    
+    
+    <TextView
+        android:id="@+id/creditor_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/creditor_text"
+        android:layout_alignBottom="@id/creditor_text"
+        android:layout_toRightOf="@id/creditor_text"
+        android:layout_marginLeft="5sp"
+        android:text="@string/creditor_selected" />
+    
+    <Button
+        android:id="@+id/add_creditor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:onClick="showCredDialog"
+        android:layout_below="@id/creditor_text"
+        android:text="@string/creditor_select" />
+    
+    <TextView
+        android:id="@+id/debtor_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/add_creditor"
+        android:text="@string/debtor_text"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/debtors_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/debtor_text"
+        android:layout_alignBottom="@id/debtor_text"
+        android:layout_toRightOf="@id/debtor_text"
+        android:layout_marginLeft="5sp"
+        android:text="@string/debtors_selected" />
+
+    <Button
+        android:id="@+id/add_debtors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/debtors_selected"
+        android:onClick="showDebDialog"
+        android:text="@string/debtors" />
+    
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_debtors"
+        android:layout_marginTop="5sp"
+        android:text="@string/amount"
+        android:textSize="20sp" />
+    
+    <EditText
+        android:id="@+id/amount_Field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/add_debtors"
+        android:layout_below="@id/amount"
+        android:layout_marginTop="5sp"
+        android:ems="10"
+        android:hint="@string/amount_hint"
+        android:inputType="numberDecimal" />
+    
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/amount_Field"
+        android:layout_alignBottom="@id/amount_Field"
+        android:layout_marginLeft="5sp"
+        android:text="@string/currency" />
+
+    <Button
+        android:id="@+id/add_expense_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amount_Field"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15sp"
+        android:onClick="sendExpense"
+        android:text="@string/add_this_expense" />
 
 </RelativeLayout>
