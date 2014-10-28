@@ -32,8 +32,8 @@
             android:label="@string/home_title" >
         </activity>
         <activity
-            android:name=".MyListsActivity"
-            android:label="@string/my_lists"
+            android:name=".MyRadinGroupsActivity"
+            android:label="@string/my_radingroups"
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
@@ -57,9 +57,9 @@
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
-            android:name=".ListViewActivity"
-            android:label="@string/list_view"
-            android:parentActivityName=".MyListsActivity" >
+            android:name=".RadinGroupViewActivity"
+            android:label="@string/radingroup_view"
+            android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
             android:name=".ProfileOtherActivity"
@@ -71,29 +71,29 @@
             android:parentActivityName=".LoginActivity" >
         </activity>
         <activity
-            android:name=".NewListActivity"
-            android:label="@string/new_list"
-            android:parentActivityName=".MyListsActivity" >
+            android:name=".NewRadinGroupActivity"
+            android:label="@string/new_radingroup"
+            android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
-            android:name=".ListBalanceActivity"
-            android:label="@string/title_activity_list_balance"
-            android:parentActivityName=".MyListsActivity" >
+            android:name=".RadinGroupBalanceActivity"
+            android:label="@string/title_activity_radingroup_balance"
+            android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
-            android:name=".ListStatsActivity"
-            android:label="@string/title_activity_list_stats"
-            android:parentActivityName=".MyListsActivity" >
+            android:name=".RadinGroupStatsActivity"
+            android:label="@string/title_activity_radingroup_stats"
+            android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
-            android:name=".ListAddExpenseActivity"
-            android:label="@string/title_activity_list_add_expense"
-            android:parentActivityName=".MyListsActivity" >
+            android:name=".RadinGroupAddExpenseActivity"
+            android:label="@string/title_activity_radingroup_add_expense"
+            android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
-            android:name=".ListConfigurationActivity"
-            android:label="@string/title_activity_list_configuration"
-            android:parentActivityName=".MyListsActivity" >
+            android:name=".RadinGroupConfigurationActivity"
+            android:label="@string/title_activity_radingroup_configuration"
+            android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
             android:name=".NotificationSettingsActivity"

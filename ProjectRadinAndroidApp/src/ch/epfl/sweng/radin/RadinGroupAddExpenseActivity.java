@@ -21,7 +21,7 @@ import android.widget.Toast;
  * debitors and the amount payed.
  *
  */
-public class ListAddExpenseActivity extends Activity {
+public class RadinGroupAddExpenseActivity extends Activity {
 	private static final String CLIENT_NAME = "0000"; //TODO is there a way to indicate in every activity who's the user?
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
 	private ArrayList<Integer> mSelectedItems;
@@ -33,24 +33,25 @@ public class ListAddExpenseActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
-		setContentView(R.layout.activity_list_add_expense);
+		setContentView(R.layout.activity_radingroup_add_expense);
 		mSelectedCreditor = this.getResources().getString(R.string.creditor_selected);
 
 		Bundle extras = getIntent().getExtras();
-		String listTitle = extras.getString("key");
 
+		String radinGroupTitle = extras.getString("key");
+		
 		TextView addExpenseText = (TextView) findViewById(R.id.title_add_expense);
-		addExpenseText.setText(addExpenseText.getText().toString() + listTitle);
-
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseListLayout);
-		ActionBar.addActionBar(this, thisLayout, listTitle);
+		addExpenseText.setText(addExpenseText.getText().toString() + radinGroupTitle);
+		
+		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseRadinGroupLayout);
+		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.list_add_expense, menu);
+		inflater.inflate(R.menu.radingroup_add_expense, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	

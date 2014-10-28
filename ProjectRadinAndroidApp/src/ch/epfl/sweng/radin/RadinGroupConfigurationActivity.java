@@ -6,39 +6,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
+public class RadinGroupConfigurationActivity extends Activity {
 
-public class ListViewActivity extends Activity {
-	String mListTitle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_view);
-
-
-		Bundle extras = getIntent().getExtras();
-		mListTitle = extras.getString("key");
-
-		TextView textView = (TextView) findViewById(R.id.listViewTitle);
-		textView.setText(mListTitle);
-
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.listViewListLayout);
-		ActionBar.addActionBar(this, thisLayout, mListTitle);
+		setContentView(R.layout.activity_radingroup_configuration);
 		
-		Button notificationsBtn = (Button) findViewById(R.id.notificationButton);
-		notificationsBtn.setOnClickListener(notificationsButtonListener);
+		Bundle extras = getIntent().getExtras();
+		String radinGroupTitle = extras.getString("key");
+		
+		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.configurationRadinGroupLayout);
+		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.list_view, menu);
+		inflater.inflate(R.menu.radingroup_stats, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -57,13 +44,4 @@ public class ListViewActivity extends Activity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-    
-	private OnClickListener notificationsButtonListener = new View.OnClickListener() {		
-		@Override
-		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);
-	        startActivity(displayActivityIntent);			
-		}
-	};
-
 }

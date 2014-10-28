@@ -8,24 +8,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-public class ListConfigurationActivity extends Activity {
+public class RadinGroupStatsActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_configuration);
+		setContentView(R.layout.activity_radingroup_stats);
 		
 		Bundle extras = getIntent().getExtras();
-		String listTitle = extras.getString("key");
+		String radinGroupTitle = extras.getString("key");
 		
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.configurationListLayout);
-		ActionBar.addActionBar(this, thisLayout, listTitle);
+		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.statRadinGroupLayout);
+		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.list_configuration, menu);
+		inflater.inflate(R.menu.radingroup_balance, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	

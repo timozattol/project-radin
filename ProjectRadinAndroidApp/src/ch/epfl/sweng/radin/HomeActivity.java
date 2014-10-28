@@ -33,7 +33,7 @@ public class HomeActivity extends Activity {
 		
 		@Override
 		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), MyListsActivity.class);
+			Intent displayActivityIntent = new Intent(v.getContext(), MyRadinGroupsActivity.class);
 	        startActivity(displayActivityIntent);
 			
 		}
