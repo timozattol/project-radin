@@ -8,25 +8,29 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+/**
+ * 
+ * @author Fabien Zellweger
+ * This Activity give a view of the selected radin group
+ *
+ */
+public class RadinGroupViewActivity extends Activity {
 
-public class ListViewActivity extends Activity {
-	String mListTitle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_view);
+		setContentView(R.layout.activity_radingroup_view);
 
 
 		Bundle extras = getIntent().getExtras();
-		mListTitle = extras.getString("key");
+		String radinGroupTitle = extras.getString("key");
 
-		TextView textView = (TextView) findViewById(R.id.listViewTitle);
-		textView.setText(mListTitle);
+		TextView textView = (TextView) findViewById(R.id.radinGroupViewTitle);
+		textView.setText(radinGroupTitle);
 
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.listViewListLayout);
-		ActionBar.addActionBar(this, thisLayout, mListTitle);
+		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.radinGroupViewLayout);
+		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
 		
 		Button notificationsBtn = (Button) findViewById(R.id.notificationButton);
 		notificationsBtn.setOnClickListener(notificationsButtonListener);

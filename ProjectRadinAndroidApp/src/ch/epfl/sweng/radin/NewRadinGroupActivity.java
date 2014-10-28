@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.location.GpsStatus.NmeaListener;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,23 +21,23 @@ import android.widget.Toast;
  * The user must provide a name for the list and the names of the people that he wants share this list with. 
  *
  */
-public class NewListActivity extends Activity {
+public class NewRadinGroupActivity extends Activity {
 	private final int mClientID = 0;
-	private MultiAutoCompleteTextView mPeopleInList;
+	private MultiAutoCompleteTextView mPeopleInRadinGroup;
 	private EditText mNameEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_list);
+        setContentView(R.layout.activity_new_radingroup);
         
-		mPeopleInList = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoFriends);
+		mPeopleInRadinGroup = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoFriends);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line,
 				getFriendsOfArray(mClientID));
-		mPeopleInList.setAdapter(adapter);
-		mPeopleInList.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-		mPeopleInList.setThreshold(0);
+		mPeopleInRadinGroup.setAdapter(adapter);
+		mPeopleInRadinGroup.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+		mPeopleInRadinGroup.setThreshold(0);
 		
         mNameEdit = (EditText) findViewById(R.id.edit_name);
 
@@ -55,7 +54,7 @@ public class NewListActivity extends Activity {
 	            	//Compare input with client's friends
 	            	ArrayList<String> friendsOfClient = getFriendsOfArray(mClientID);
 	            	
-	            	String strPeopleInList = mPeopleInList.getText().toString();
+	            	String strPeopleInList = mPeopleInRadinGroup.getText().toString();
 	            	List<String> peopleToAdd = new ArrayList<String>(Arrays.asList(strPeopleInList.split(", ")));
 	            	
 	            	// remove duplicates
@@ -89,11 +88,11 @@ public class NewListActivity extends Activity {
 //	                    addNewfriends.putExtra(this.getClass().getName(), newfriends.toString());
 //	                    startActivity(addNewfriends);
 	            	}
-                Toast.makeText(getBaseContext(), "List created", Toast.LENGTH_LONG).show();
-                mPeopleInList.clearComposingText();
-                mNameEdit.clearComposingText();
-                Intent returnToLists = new Intent(getBaseContext(), MyListsActivity.class);
-                startActivity(returnToLists);
+	            	Toast.makeText(getBaseContext(), "Radin Group created", Toast.LENGTH_LONG).show();
+	            	mPeopleInRadinGroup.clearComposingText();
+	            	mNameEdit.clearComposingText();
+	            	Intent returnToLists = new Intent(getBaseContext(), MyRadinGroupsActivity.class);
+	            	startActivity(returnToLists);
 	            }
             }
 	    });

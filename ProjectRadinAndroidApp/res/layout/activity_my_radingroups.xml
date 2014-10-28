@@ -6,21 +6,21 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ch.epfl.sweng.radin.MyListsActivity" >
+    tools:context="ch.epfl.sweng.radin.MyRadinGroupsActivity" >
 
     <TextView
-        android:id="@+id/myListTitle"
+        android:id="@+id/myRadinGroupTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/my_lists"
+        android:text="@string/my_radingroups"
         android:textSize="64sp" />
 
     <TextView
-        android:id="@+id/anListExemple"
+        android:id="@+id/aRadinGroupExemple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/myListTitle"
-        android:text="Exemple list"
+        android:layout_below="@id/myRadinGroupTitle"
+        android:text="Exemple radin group"
         android:textColor="#0000FF"
         android:textSize="12sp" />
 

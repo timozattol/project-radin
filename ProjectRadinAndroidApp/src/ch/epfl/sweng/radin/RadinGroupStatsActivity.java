@@ -6,17 +6,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-public class ListConfigurationActivity extends Activity {
+public class RadinGroupStatsActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_configuration);
+		setContentView(R.layout.activity_radingroup_stats);
 		
 		Bundle extras = getIntent().getExtras();
-		String listTitle = extras.getString("key");
+		String radinGroupTitle = extras.getString("key");
 		
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.configurationListLayout);
-		ActionBar.addActionBar(this, thisLayout, listTitle);
+		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.statRadinGroupLayout);
+		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
 	}
 }

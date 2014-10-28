@@ -6,17 +6,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-public class ListBalanceActivity extends Activity {
+public class RadinGroupBalanceActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_balance);
+		setContentView(R.layout.activity_radingroup_balance);
 		
 		Bundle extras = getIntent().getExtras();
-		String listTitle = extras.getString("key");
+		String radinGroupTitle = extras.getString("key");
 		
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.balanceListLayout);
-		ActionBar.addActionBar(this, thisLayout, listTitle);
+		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.balanceRadinGroupLayout);
+		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
 	}
 }

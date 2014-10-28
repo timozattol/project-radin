@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ch.epfl.sweng.radin.ListAddExpenseActivity" >
+    tools:context="ch.epfl.sweng.radin.RadinGroupAddExpenseActivity" >
 
     <item
         android:id="@+id/action_settings"
