@@ -16,7 +16,7 @@ public final class TransactionModel extends Model {
     private int mCreatorID;
 
     // The id of the User who paid for this Transaction
-    private int mBuyerID;
+    private int mDebitorID;
 
     private double mAmount;
     private Currency mCurrency;
@@ -31,7 +31,7 @@ public final class TransactionModel extends Model {
     /**
      * Public constructor for TransactionModel
      */
-    public TransactionModel(int transactionID, int parentRadinGroupID, int buyerID, 
+    public TransactionModel(int transactionID, int parentRadinGroupID, int debitorID, 
             int creatorID, double amount, Currency currency, DateTime dateTime, String purpose, 
             String justificativePath, TransactionType type) {
         
@@ -39,7 +39,7 @@ public final class TransactionModel extends Model {
         checkArgumentPositive("Transaction ID", transactionID);
         checkArgumentPositive("RadinGroup ID", parentRadinGroupID);
         checkArgumentPositive("Transaction creator ID", creatorID);
-        checkArgumentPositive("Transaction buyer ID", buyerID);
+        checkArgumentPositive("Transaction debitor ID", debitorID);
         
         checkArgumentPositive("Transaction amount", amount);
         if (amount == 0) {
@@ -54,7 +54,7 @@ public final class TransactionModel extends Model {
         mTransactionID = transactionID;
         mParentRadinGroupID = parentRadinGroupID;
         mCreatorID = creatorID;
-        mBuyerID = buyerID;
+        mDebitorID = debitorID;
         mAmount = amount;
         mCurrency = currency;
         
@@ -112,18 +112,18 @@ public final class TransactionModel extends Model {
     }
 
     /**
-     * @return the buyerID
+     * @return the debitorID
      */
-    public int getBuyerID() {
-        return mBuyerID;
+    public int getDebitorID() {
+        return mDebitorID;
     }
 
     /**
-     * @param buyerID the buyerID to set
+     * @param debitorID the debitorID to set
      */
-    public void setBuyerID(int buyerID) {
-        checkArgumentPositive("Transaction buyer ID", buyerID);
-        this.mBuyerID = buyerID;
+    public void setDebitorID(int debitorID) {
+        checkArgumentPositive("Transaction debitor ID", debitorID);
+        this.mDebitorID = debitorID;
     }
 
     /**
