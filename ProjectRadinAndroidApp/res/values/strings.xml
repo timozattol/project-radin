@@ -32,7 +32,6 @@
     <string name="radin_title">Radin</string>
     <string name="list_view">List view</string>
     <string name="new_list">New List</string>
-    <string name="add_expense">Add Expense</string>
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
     <string name="stats">Stats</string>
@@ -60,5 +59,24 @@
     <string name="add_info">If a name doesn\'t belong to the suggestions it means that it has been misspelled or doesn\'t belong to your friends, you will be able to add it in the next screen</string>
     <string name="create_list">Create</string>
     
-
+    <!-- AddExpenseActivity -->
+    <string name="creditor">Creditor :</string>
+    <string name="debtors">Add debtor(s)</string>
+    <string name="creditor_select">Change creditor</string>
+    <string name="debtor_text">Debtor(s) :</string>
+    <string name="debtorsList">Choose debtors to add</string>
+    <string name="creditorList">Choose creditor</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_expense_string">Add an expense to \ </string>
+    <string name="creditor_selected">You (default)</string>
+    <string name="debtors_selected">None </string>
+    <string name="amount">Amount</string>
+    <string name="amount_hint">Amount paid</string>
+    <string name="currency">CHF</string>
+    <string name="add_this_expense">Add this expense</string>
+    <string name="invalid_amount">This amount is not valid</string>
+    <string name="invalid_debtors">Please select debitors first</string>
+    <string name="expense_added">Expense added!</string>
+    
 </resources>
