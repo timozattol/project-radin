@@ -31,12 +31,22 @@ public class RadingGroupModelTest extends AndroidTestCase {
 				DEFAULT_AVATAR, DEFAULT_MASTER_ID);
 	}
 
-	public void testConstructorsNullFields() {
+	public void testWithoutMasterConstructorWithCreationTimeNull() {
 
 		try {
 			new RadinGroupModel(DEFAULT_RADIN_GROUP_ID, null,
 					DEFAULT_GROUP_NAME, DEFAULT_DESCRIPTION, DEFAULT_AVATAR);
 			fail("groupCreationDateTime cannot be null");
+		} catch (IllegalArgumentException e) {
+			// Good
+		}
+	}
+
+	public void testWithoutMasterConstructorWithRadinGroupNameNull() {
+		try {
+			new RadinGroupModel(DEFAULT_RADIN_GROUP_ID, RIGHT_NOW, null,
+					DEFAULT_DESCRIPTION, DEFAULT_AVATAR);
+			fail("radinGroupName cannot be null");
 		} catch (IllegalArgumentException e) {
 			// Good
 		}
