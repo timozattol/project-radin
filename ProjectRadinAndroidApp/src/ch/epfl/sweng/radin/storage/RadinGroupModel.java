@@ -71,65 +71,65 @@ public class RadinGroupModel {
 		checkEmptyStringArgument(argName, string);
 	}
 
-	public DateTime getmRadinGroupEndDateTime() {
+	public DateTime getRadinGroupEndDateTime() {
 		return mRadinGroupEndDateTime;
 	}
 
-	public void setmRadinGroupEndDateTime(DateTime radinGroupEndDateTime) {
+	public void setRadinGroupEndDateTime(DateTime radinGroupEndDateTime) {
 		checkArgumentNotNull("radinGroupEndDateTime", radinGroupEndDateTime);
 		mRadinGroupEndDateTime = radinGroupEndDateTime;
 	}
 
-	public DateTime getmRadinGroupDeletionDateTime() {
+	public DateTime getRadinGroupDeletionDateTime() {
 		return mRadinGroupDeletionDateTime;
 	}
 
-	public void setmRadinGroupDeletionDateTime(DateTime radinGroupDeletionDateTime) {
+	public void setRadinGroupDeletionDateTime(DateTime radinGroupDeletionDateTime) {
 		checkArgumentNotNull("radinGroupDeletionDateTime", radinGroupDeletionDateTime);
 		mRadinGroupDeletionDateTime = radinGroupDeletionDateTime;
 	}
 
-	public String getmRadinGroupName() {
+	public String getRadinGroupName() {
 		return mRadinGroupName;
 	}
 
-	public void setmRadinGroupName(String radinGroupName) {
+	public void setRadinGroupName(String radinGroupName) {
 		checkString("radinGroupName", radinGroupName);
 		mRadinGroupName = radinGroupName;
 	}
 
-	public String getmGroupDescription() {
+	public String getGroupDescription() {
 		return mGroupDescription;
 	}
 
-	public void setmGroupDescription(String groupDescription) {
+	public void setGroupDescription(String groupDescription) {
 		checkString("groupDescription", groupDescription);
 		mGroupDescription = groupDescription;
 	}
 
-	public String getmAvatar() {
+	public String getAvatar() {
 		return mAvatar;
 	}
 
-	public void setmAvatar(String avatar) {
+	public void setAvatar(String avatar) {
 		checkString("avatar", avatar);
 		mAvatar = avatar;
 	}
 
-	public int getmMasterID() {
+	public int getMasterID() {
 		return mMasterID;
 	}
 
-	public void setmMasterID(int masterID) {
+	public void setMasterID(int masterID) {
 		checkArgumentPositive("masterID", masterID); 
 		mMasterID = masterID;
 	}
 
-	public int getmRadinGroupID() {
+	public int getRadinGroupID() {
 		return mRadinGroupID;
 	}
 
-	public DateTime getmGroupCreationDateTime() {
+	public DateTime getGroupCreationDateTime() {
 		return mGroupCreationDateTime;
 	}
 }
