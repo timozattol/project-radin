@@ -31,7 +31,7 @@ public class RadingGroupModelTest extends AndroidTestCase {
 				DEFAULT_AVATAR, DEFAULT_MASTER_ID);
 	}
 
-	public void testWithoutMasterConstructorWithCreationTimeNull() {
+	public void testWithoutMasterIDConstructorWithCreationTimeNull() {
 
 		try {
 			new RadinGroupModel(DEFAULT_RADIN_GROUP_ID, null,
@@ -42,7 +42,7 @@ public class RadingGroupModelTest extends AndroidTestCase {
 		}
 	}
 
-	public void testWithoutMasterConstructorWithRadinGroupNameNull() {
+	public void testWithoutMasterIDConstructorWithRadinGroupNameNull() {
 		try {
 			new RadinGroupModel(DEFAULT_RADIN_GROUP_ID, RIGHT_NOW, null,
 					DEFAULT_DESCRIPTION, DEFAULT_AVATAR);
@@ -51,8 +51,8 @@ public class RadingGroupModelTest extends AndroidTestCase {
 			// Good
 		}
 	}
-
-	public void testConstructorWithMasterNullFields() throws Exception {
+	
+	public void testConstructorWithMasterIDNullFields() throws Exception {
 
 	}
 
