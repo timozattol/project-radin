@@ -19,6 +19,7 @@ public class RadinGroupModel {
 	
 	// Set if this group is contained in another RadinGroup
 	private int mMasterID;
+	
 
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
 			String radinGroupName, String groupDescription, String avatar) {
