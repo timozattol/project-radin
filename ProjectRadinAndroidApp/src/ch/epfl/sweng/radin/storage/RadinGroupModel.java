@@ -39,8 +39,8 @@ public class RadinGroupModel {
 	}
 
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
-			String radinGroupName, String groupDescription, int masterID,
-			String avatar) {
+			String radinGroupName, String groupDescription,
+			String avatar, int masterID) {
 		this(radinGroupID, groupCreationDateTime, radinGroupName,
 				groupDescription, avatar);
 		checkArgumentPositive("masterID", masterID);
