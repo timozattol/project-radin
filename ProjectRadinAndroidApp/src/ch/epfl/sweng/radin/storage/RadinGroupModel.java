@@ -4,7 +4,8 @@ import org.joda.time.DateTime;
 
 /**
  * @author Simonchelbc
- * 
+ * RadinGroupModel is an object with only immutable fields which provides a representation of
+ * the design of our RadinGroupModel
  */
 public class RadinGroupModel {
 	private final int mRadinGroupID;
@@ -17,8 +18,9 @@ public class RadinGroupModel {
 	private String mGroupDescription;
 	private String mAvatar;
 	
-	// Set if this group is contained in another RadinGroup
+	// Set if this group is contained in another RadinGroup which ID we will set as this.mMasterID
 	private int mMasterID;
+	private boolean mHasMasterID;
 	
 
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
@@ -37,6 +39,8 @@ public class RadinGroupModel {
 		
 		checkString("avatar", avatar);
 		mAvatar = avatar;
+		
+		mHasMasterID = false;
 	}
 
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
@@ -46,6 +50,7 @@ public class RadinGroupModel {
 				groupDescription, avatar);
 		checkArgumentPositive("masterID", masterID);
 		mMasterID = masterID;
+		mHasMasterID = true;
 	}
 
 	private void checkArgumentPositive(String argName, double arg) {
@@ -78,6 +83,7 @@ public class RadinGroupModel {
 
 	public void setRadinGroupEndDateTime(DateTime radinGroupEndDateTime) {
 		checkArgumentNotNull("radinGroupEndDateTime", radinGroupEndDateTime);
+		checkFirstHappensBeforeSecond(mGroupCreationDateTime, radinGroupEndDateTime);
 		mRadinGroupEndDateTime = radinGroupEndDateTime;
 	}
 
@@ -87,9 +93,16 @@ public class RadinGroupModel {
 
 	public void setRadinGroupDeletionDateTime(DateTime radinGroupDeletionDateTime) {
 		checkArgumentNotNull("radinGroupDeletionDateTime", radinGroupDeletionDateTime);
+		checkFirstHappensBeforeSecond(mGroupCreationDateTime, radinGroupDeletionDateTime);
 		mRadinGroupDeletionDateTime = radinGroupDeletionDateTime;
 	}
-
+    
+	private void checkFirstHappensBeforeSecond(DateTime firstEvent, DateTime secondEvent) {
+	    if (firstEvent.isAfter(secondEvent)) {
+	        throw new IllegalArgumentException("cannot be set as wanted since first event must happen before");
+	    }
+	}
+	
 	public String getRadinGroupName() {
 		return mRadinGroupName;
 	}
@@ -116,6 +129,10 @@ public class RadinGroupModel {
 		checkString("avatar", avatar);
 		mAvatar = avatar;
 	}
+	
+	public boolean hasMasterID() {
+	    return mHasMasterID;
+	}
 
 	public int getMasterID() {
 		return mMasterID;
@@ -124,6 +141,7 @@ public class RadinGroupModel {
 	public void setMasterID(int masterID) {
 		checkArgumentPositive("masterID", masterID); 
 		mMasterID = masterID;
+		mHasMasterID = true;
 	}
 
 	public int getRadinGroupID() {
