@@ -125,6 +125,7 @@ public class ActionBar {
 			}
 			if (!(displayActivityIntent == null)) {
 				displayActivityIntent.putExtra("key", mRadinGroupName);
+				displayActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_SINGLE_TOP);
 				v.getContext().startActivity(displayActivityIntent);
 			}
 		}
