@@ -3,9 +3,14 @@
  */
 package ch.epfl.sweng.radin.storage;
 
+import java.net.URL;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 /**
@@ -70,6 +75,31 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	public boolean delete(List<RadinGroupModel> entries, Activity caller) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+
+	
+	private class RadinGroupConnectionTask extends AsyncTask<String, Void, String> {
+
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#doInBackground(Params[])
+		 */
+		@Override
+		protected String doInBackground(String... params) {
+			URL url = new URL(params[0]);
+			String requestMethod = params[1];
+			String jsonParams = params[2];
+		}
+		
+		/* (non-Javadoc)
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+		
 	}
 
 }
