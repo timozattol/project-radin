@@ -2,6 +2,10 @@ package ch.epfl.sweng.radin.databases;
 
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * @author Simonchelbc
+ *
+ */
 public class DatabaseFactory {
 	private static final String CREATE_TABLE_USER_RELATIONSHIP = "CREATE TABLE USER_RELATIONSHIP(_UID_SOURCE INT NOT NULL,"
 			+ "_UID_TARGET INT NOT NULL,"

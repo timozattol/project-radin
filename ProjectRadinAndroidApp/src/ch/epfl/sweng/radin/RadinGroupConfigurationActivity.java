@@ -6,19 +6,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
-public class ContactsActivity extends Activity {
+public class RadinGroupConfigurationActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_contacts);
+		setContentView(R.layout.activity_radingroup_configuration);
+		
+		Bundle extras = getIntent().getExtras();
+		String radinGroupTitle = extras.getString("key");
+		
+		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.configurationRadinGroupLayout);
+		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
 	}
-
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.contacts, menu);
+		inflater.inflate(R.menu.radingroup_stats, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -37,5 +44,4 @@ public class ContactsActivity extends Activity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-
 }
