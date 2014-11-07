@@ -7,8 +7,9 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.location.GpsStatus.NmeaListener;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,23 +23,23 @@ import android.widget.Toast;
  * The user must provide a name for the list and the names of the people that he wants share this list with. 
  *
  */
-public class NewListActivity extends Activity {
+public class NewRadinGroupActivity extends Activity {
 	private final int mClientID = 0;
-	private MultiAutoCompleteTextView mPeopleInList;
+	private MultiAutoCompleteTextView mPeopleInRadinGroup;
 	private EditText mNameEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_list);
+        setContentView(R.layout.activity_new_radingroup);
         
-		mPeopleInList = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoFriends);
+		mPeopleInRadinGroup = (MultiAutoCompleteTextView) findViewById(R.id.multiAutoFriends);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line,
 				getFriendsOfArray(mClientID));
-		mPeopleInList.setAdapter(adapter);
-		mPeopleInList.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-		mPeopleInList.setThreshold(0);
+		mPeopleInRadinGroup.setAdapter(adapter);
+		mPeopleInRadinGroup.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+		mPeopleInRadinGroup.setThreshold(0);
 		
         mNameEdit = (EditText) findViewById(R.id.edit_name);
 
@@ -55,7 +56,7 @@ public class NewListActivity extends Activity {
 	            	//Compare input with client's friends
 	            	ArrayList<String> friendsOfClient = getFriendsOfArray(mClientID);
 	            	
-	            	String strPeopleInList = mPeopleInList.getText().toString();
+	            	String strPeopleInList = mPeopleInRadinGroup.getText().toString();
 	            	List<String> peopleToAdd = new ArrayList<String>(Arrays.asList(strPeopleInList.split(", ")));
 	            	
 	            	// remove duplicates
@@ -89,27 +90,38 @@ public class NewListActivity extends Activity {
 //	                    addNewfriends.putExtra(this.getClass().getName(), newfriends.toString());
 //	                    startActivity(addNewfriends);
 	            	}
-                Toast.makeText(getBaseContext(), "List created", Toast.LENGTH_LONG).show();
-                mPeopleInList.clearComposingText();
-                mNameEdit.clearComposingText();
-                Intent returnToLists = new Intent(getBaseContext(), MyListsActivity.class);
-                startActivity(returnToLists);
+	            	Toast.makeText(getBaseContext(), "Radin Group created", Toast.LENGTH_LONG).show();
+	            	mPeopleInRadinGroup.clearComposingText();
+	            	mNameEdit.clearComposingText();
+	            	Intent returnToLists = new Intent(getBaseContext(), MyRadinGroupsActivity.class);
+	            	startActivity(returnToLists);
 	            }
             }
 	    });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.new_radingroup, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_home:
+	        	Intent intent = new Intent(this, HomeActivity.class);
+	        	startActivity(intent);
+	            return true;
+	        case R.id.action_settings:
+	         
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
     
 //    /**
 //     * Gets the friends' names of the client from the server
@@ -120,8 +132,8 @@ public class NewListActivity extends Activity {
 //	private String[] getFriendsOf(int clientId){
 //    	//ask the server, do stuff to extract names, store in String[]
 //		//Find a way to have a unique identifier for each client in database
-//    	String[] friendsOfClient = {"Julie", "Fabien", "Timothée", "Cédric",
-//    	"Simon", "Thomas", "Joël", "t", "tt", "ttt", "tttt", "tttttt", "ttttttt"};
+//    	String[] friendsOfClient = {"Julie", "Fabien", "TimothÃ©e", "CÃ©dric",
+//    	"Simon", "Thomas", "JoÃ«l", "t", "tt", "ttt", "tttt", "tttttt", "ttttttt"};
 //    	return friendsOfClient;
 //    }
 	
@@ -139,11 +151,11 @@ public class NewListActivity extends Activity {
     	ArrayList<String> friendsOfClient = new ArrayList<String>();
     	friendsOfClient.add("Julie");
     	friendsOfClient.add("Fabien");
-    	friendsOfClient.add("Timothée");
-    	friendsOfClient.add("Cédric");
+    	friendsOfClient.add("TimothÃ©e");
+    	friendsOfClient.add("CÃ©dric");
     	friendsOfClient.add("Simon");
     	friendsOfClient.add("Thomas");
-    	friendsOfClient.add("Joël");
+    	friendsOfClient.add("JoÃ«l");
     	friendsOfClient.add("t");
     	friendsOfClient.add("tt");
     	friendsOfClient.add("ttt");

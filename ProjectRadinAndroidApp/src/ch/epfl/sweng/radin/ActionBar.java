@@ -2,8 +2,10 @@ package ch.epfl.sweng.radin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View.OnClickListener;
+
 import android.view.View;
+import android.view.View.OnClickListener;
+
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -17,7 +19,7 @@ import android.widget.Toast;
  */
 public class ActionBar {
 
-	private static String mListName;
+	private static String mRadinGroupName;
 	final static int ACTION_BAR_COUNT = 5;
 
 	/**
@@ -28,7 +30,7 @@ public class ActionBar {
 	 */
 	public static enum ListButton {
 		SETTINGS (0),
-		MY_LISTS (1),
+		MY_RADIN_GROUP (1),
 		ADD_EXPENSE (2),
 		STATS (3),
 		BALANCE (4);
@@ -44,9 +46,9 @@ public class ActionBar {
 		}
 	}
 
-	public static void addActionBar(Context context, RelativeLayout currentLayout, String listName) {
+	public static void addActionBar(Context context, RelativeLayout currentLayout, String radinGroupName) {
 
-		mListName = listName;
+		mRadinGroupName = radinGroupName;
 
 		Button[] actionBarContent = new Button[ACTION_BAR_COUNT];
 
@@ -57,10 +59,10 @@ public class ActionBar {
 		settingsBtn.setTag(ListButton.SETTINGS);
 
 		Button myListsBtn = new Button(context);
-		myListsBtn.setText("Lists");
-		myListsBtn.setId(R.id.myListsActionBar);
-		actionBarContent[ListButton.MY_LISTS.getValue()] = myListsBtn;
-		myListsBtn.setTag(ListButton.MY_LISTS);
+		myListsBtn.setText("Group");
+		myListsBtn.setId(R.id.myRadinGroupsActionBar);
+		actionBarContent[ListButton.MY_RADIN_GROUP.getValue()] = myListsBtn;
+		myListsBtn.setTag(ListButton.MY_RADIN_GROUP);
 
 		Button addExpeseBtn = new Button(context);
 		addExpeseBtn.setText("+");
@@ -91,7 +93,6 @@ public class ActionBar {
 			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 			currentLayout.addView(actionBarContent[i], layoutParams);
 		}
-
 	}
 
 
@@ -104,26 +105,38 @@ public class ActionBar {
 
 
 			switch(viewTag) {
-				case SETTINGS: displayActivityIntent = new Intent(v.getContext(),
-						ListConfigurationActivity.class);
+				case SETTINGS: 
+					displayActivityIntent = new Intent(v.getContext(),
+							RadinGroupConfigurationActivity.class);
 					break;
-				case MY_LISTS: displayActivityIntent = new Intent(v.getContext(),
-						ListViewActivity.class);
+				case MY_RADIN_GROUP: 
+					displayActivityIntent = new Intent(v.getContext(),
+						RadinGroupViewActivity.class);
 					break;
-				case ADD_EXPENSE: displayActivityIntent = new Intent(v.getContext(),
-						ListAddExpenseActivity.class);
+				case ADD_EXPENSE:
+					displayActivityIntent = new Intent(v.getContext(),
+						RadinGroupAddExpenseActivity.class);
 					break;
-				case STATS: displayActivityIntent = new Intent(v.getContext(),
-						ListStatsActivity.class);
+				case STATS:
+					displayActivityIntent = new Intent(v.getContext(),
+						RadinGroupStatsActivity.class);
 					break;
-				case BALANCE: displayActivityIntent = new Intent(v.getContext(),
-						ListBalanceActivity.class);
+				case BALANCE:
+					displayActivityIntent = new Intent(v.getContext(),
+						RadinGroupBalanceActivity.class);
 					break;
-				default: Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
-					Toast.LENGTH_SHORT).show();
+				default:
+					Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+						Toast.LENGTH_SHORT).show();
 			}
 			if (!(displayActivityIntent == null)) {
-				displayActivityIntent.putExtra("key", mListName);
+				displayActivityIntent.putExtra("key", mRadinGroupName);
+				/*
+				 * set flag to correct the behaviors of creating new activity
+				 * FLAG_ACTIVITY_REORDER_TO_FRONT check if the activity already exist and reorder it to front
+				 * FLAG_ACTIVITY_SINGLE_TOP don't allow creating an new activity of the current activity
+				 */
+				displayActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_SINGLE_TOP);
 				v.getContext().startActivity(displayActivityIntent);
 			}
 		}
