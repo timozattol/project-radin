@@ -25,4 +25,6 @@ public interface StorageManager<T> {
 	
 	public boolean delete(List<T> entries, Activity caller);
 	
+	static final String SERVER_BASE_URL = "radin.epfl.ch/";
+	
 }
