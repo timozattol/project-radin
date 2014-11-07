@@ -3,12 +3,17 @@
  */
 package ch.epfl.sweng.radin.storage;
 
+import java.net.URL;
 import java.util.List;
 
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 /**
  * @author CedricCook
@@ -17,15 +22,18 @@ import android.os.AsyncTask;
 public class UserStorageManager implements StorageManager<UserModel> {
 	
 	private UserStorageManager userStorageManager;
-	private final static String SERVER_URL = "radin.epfl.ch/";
+	private Parser parser = new UserParser();
+	
+	private UserStorageManager() {}
 	
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getStorageManager()
 	 */
 	@Override
 	public StorageManager<UserModel> getStorageManager() {
-		if (userStorageManager != null) {
-			return new UserStorageManager();
+		if (userStorageManager == null) {
+			userStorageManager = new UserStorageManager();
+			return userStorageManager;
 		} else {
 			return userStorageManager;
 		}
@@ -42,7 +50,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 		}
 		
 		if (isConnected()) {
-			new UserConnectionTask().execute(SERVER_URL + accessUrl, "GET", null, caller);
+			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "GET");
 		}
 	}
 
@@ -54,7 +62,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {
-			new UserConnectionTask().execute(SERVER_URL + accessUrl, "GET", null, caller);
+			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "GET");
 		}
 	}
 
@@ -66,7 +74,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {
-			new UserConnectionTask().execute(SERVER_URL + accessUrl, "POST", entries, caller);
+			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "POST", parser.modelsToJson(entries));
 		}
 	}
 
@@ -78,7 +86,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {
-			new UserConnectionTask().execute(SERVER_URL + accessUrl, "PUT", entries, caller);
+			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "PUT", parser.modelsToJson(entries));
 		}
 	}
 
@@ -90,18 +98,26 @@ public class UserStorageManager implements StorageManager<UserModel> {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {
-			new UserConnectionTask().execute(SERVER_URL + accessUrl, "DELETE", entries, caller);
+			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "DELETE", parser.modelsToJson(entries));
 		}
 	}
 	
-	private class UserConnectionTask extends AsyncTask<UserModel, Void, UserModel> {
+	private boolean isConnected() {
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+		return (networkInfo != null && networkInfo.isConnected());
+	}
+	
+	private class UserConnectionTask extends AsyncTask<String, Void, UserModel> {
 		/* (non-Javadoc)
 		 * @see android.os.AsyncTask#doInBackground(Params[])
 		 */
 		@Override
-		protected UserModel doInBackground(UserModel... params) {
-			// TODO Auto-generated method stub
-			return null;
+		protected UserModel doInBackground(String... params) {
+			URL url = new URL(params[0]);
+			String requestMethod = params[1];
+			String jsonParams = params[2];
 		};
 		
 		
