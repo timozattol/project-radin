@@ -77,7 +77,12 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 		return false;
 	}
 	
+	private boolean isConnected() {
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+		return (networkInfo != null && networkInfo.isConnected());
+	}
 	
 	private class RadinGroupConnectionTask extends AsyncTask<String, Void, String> {
 
