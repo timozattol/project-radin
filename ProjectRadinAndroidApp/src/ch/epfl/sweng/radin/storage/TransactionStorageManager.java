@@ -7,7 +7,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
+import ch.epfl.sweng.radin.callback.RadinListener;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -40,7 +41,7 @@ public class TransactionStorageManager implements StorageManager<TransactionMode
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
 	@Override
-	public TransactionModel getById(int id, Activity caller) {
+	public TransactionModel getById(int id, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -49,7 +50,7 @@ public class TransactionStorageManager implements StorageManager<TransactionMode
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(android.app.Activity)
 	 */
 	@Override
-	public List<TransactionModel> getAll(Activity caller) {
+	public List<TransactionModel> getAll(RadinListener callback) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -58,7 +59,7 @@ public class TransactionStorageManager implements StorageManager<TransactionMode
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List, android.app.Activity)
 	 */
 	@Override
-	public boolean create(List<TransactionModel> entries, Activity caller) {
+	public boolean create(List<TransactionModel> entries, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -67,7 +68,7 @@ public class TransactionStorageManager implements StorageManager<TransactionMode
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List, android.app.Activity)
 	 */
 	@Override
-	public boolean update(List<TransactionModel> entries, Activity caller) {
+	public boolean update(List<TransactionModel> entries, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -76,7 +77,7 @@ public class TransactionStorageManager implements StorageManager<TransactionMode
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List, android.app.Activity)
 	 */
 	@Override
-	public boolean delete(List<TransactionModel> entries, Activity caller) {
+	public boolean delete(List<TransactionModel> entries, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return false;
 	}

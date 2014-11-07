@@ -11,6 +11,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 /**
@@ -32,7 +33,7 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
 	@Override
-	public RadinGroupModel getById(int id, Activity caller) {
+	public RadinGroupModel getById(int id, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -41,12 +42,12 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(android.app.Activity)
 	 */
 	@Override
-	public List<RadinGroupModel> getAll(Activity caller) {
+	public List<RadinGroupModel> getAll(RadinListener callback) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public List<RadinGroupModel> getAllByUserId(int userId, Activity caller) {
+	public List<RadinGroupModel> getAllByUserId(int userId, RadinListener callback) {
 		return null;
 	}
 
@@ -54,7 +55,7 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List, android.app.Activity)
 	 */
 	@Override
-	public boolean create(List<RadinGroupModel> entries, Activity caller) {
+	public boolean create(List<RadinGroupModel> entries, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -63,7 +64,7 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List, android.app.Activity)
 	 */
 	@Override
-	public boolean update(List<RadinGroupModel> entries, Activity caller) {
+	public boolean update(List<RadinGroupModel> entries, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -72,7 +73,7 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List, android.app.Activity)
 	 */
 	@Override
-	public boolean delete(List<RadinGroupModel> entries, Activity caller) {
+	public boolean delete(List<RadinGroupModel> entries, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return false;
 	}

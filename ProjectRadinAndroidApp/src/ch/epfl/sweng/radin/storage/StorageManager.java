@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
+import ch.epfl.sweng.radin.callback.RadinListener;
+
 
 
 /**
@@ -15,15 +16,15 @@ public interface StorageManager<T> {
 	
 	abstract StorageManager<T> getStorageManager();
 	
-	public T getById(int id, Activity caller);
+	public T getById(int id, RadinListener callback);
 	
-	public List<T> getAll(Activity caller);
+	public List<T> getAll(RadinListener callback);
 
-	public boolean create(List<T> entries, Activity caller);
+	public boolean create(List<T> entries, RadinListener callback);
 	
-	public boolean update(List<T> entries, Activity caller);
+	public boolean update(List<T> entries, RadinListener callback);
 	
-	public boolean delete(List<T> entries, Activity caller);
+	public boolean delete(List<T> entries, RadinListener callback);
 	
 	static final String SERVER_BASE_URL = "radin.epfl.ch/";
 	

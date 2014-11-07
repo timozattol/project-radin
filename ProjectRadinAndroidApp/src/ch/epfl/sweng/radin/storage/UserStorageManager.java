@@ -8,7 +8,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
+import ch.epfl.sweng.radin.callback.RadinListener;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -43,10 +44,10 @@ public class UserStorageManager implements StorageManager<UserModel> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int)
 	 */
 	@Override
-	public UserModel getById(int id, Activity caller) {
+	public UserModel getById(int id, RadinListener callback) {
 		String accessUrl = "user/" + id;
 		if(id < 0) {
-			return new IllegalArgumentException("User id must be positive");
+			throw new IllegalArgumentException("User id must be positive");
 		}
 		
 		if (isConnected()) {
@@ -58,7 +59,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll()
 	 */
 	@Override
-	public List<UserModel> getAll(Activity caller) {
+	public List<UserModel> getAll(RadinListener callback) {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {
@@ -70,7 +71,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List)
 	 */
 	@Override
-	public boolean create(List<UserModel> entries, Activity caller) {
+	public boolean create(List<UserModel> entries, RadinListener callback) {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {
@@ -82,7 +83,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List)
 	 */
 	@Override
-	public boolean update(List<UserModel> entries, Activity caller) {
+	public boolean update(List<UserModel> entries, RadinListener callback) {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {
@@ -94,7 +95,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List)
 	 */
 	@Override
-	public boolean delete(List<UserModel> entries, Activity caller) {
+	public boolean delete(List<UserModel> entries, RadinListener callback) {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {
