@@ -20,13 +20,19 @@ import ch.epfl.sweng.radin.storage.RadinGroupModel;
  */
 public class RadinGroupStorageManager implements StorageManager<RadinGroupModel> {
 
+	private RadinGroupStorageManager radinGroupStorageManager = null;
+	
+	private RadinGroupStorageManager() {}
+	
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getStorageManager()
 	 */
 	@Override
 	public StorageManager<RadinGroupModel> getStorageManager() {
-		// TODO Auto-generated method stub
-		return null;
+		if(radinGroupStorageManager == null) {
+			radinGroupStorageManager = new RadinGroupStorageManager();
+		}
+		return radinGroupStorageManager;
 	}
 
 	/* (non-Javadoc)
