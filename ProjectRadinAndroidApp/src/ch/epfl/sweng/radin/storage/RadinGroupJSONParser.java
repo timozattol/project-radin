@@ -39,6 +39,8 @@ public class RadinGroupJSONParser implements JSONParser<RadinGroupModel> {
             json.put("RG_NAME", "Group 1");
             json.put("RG_CREATION_DATE", "2014/01/01/00/00");
             json.put("RG_DESCRIPTION", "A cool group");
+            json.put("RG_GROUP", "group radin"); // TODO what is group field?
+            json.put("RG_MASTER_RID", "10");
             json.put("RG_AVATAR", "img/avatar1.png");
             json.put("RG_END_DATE", "2014/01/01/01/01");
             json.put("RG_DELETED_AT", "2014/01/01/01/02");
