@@ -35,12 +35,13 @@ public class RadinGroupJSONParser implements JSONParser<RadinGroupModel> {
     public List<JSONObject> getJsonFromModels(List<RadinGroupModel> modelList) {
         JSONObject json = new JSONObject();
         try {
-            json.put("RG_ID", "0");
-            json.put("RG_name", "Group 1");
-            json.put("RG_creationDate", "2014/01/01/00/00");
-            json.put("RG_description", "A cool group");
-            json.put("RG_avatar", "img/avatar1.png");
-            json.put("RG_deletedAt", "2014/01/01/00/00");
+            json.put("_RID", "0");
+            json.put("RG_NAME", "Group 1");
+            json.put("RG_CREATION_DATE", "2014/01/01/00/00");
+            json.put("RG_DESCRIPTION", "A cool group");
+            json.put("RG_AVATAR", "img/avatar1.png");
+            json.put("RG_END_DATE", "2014/01/01/01/01");
+            json.put("RG_DELETED_AT", "2014/01/01/01/02");
             
         } catch (JSONException e) {
             
