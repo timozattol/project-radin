@@ -1,5 +1,6 @@
 package ch.epfl.sweng.radin.databases;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -7,8 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
  * 
  */
 public class DatabaseFactory {
-	private static final String CREATE_TABLE_USER_RELATIONSHIP = 
-			"CREATE TABLE USER_RELATIONSHIP(_UID_SOURCE INT NOT NULL,"
+	private static final String CREATE_TABLE_USER_RELATIONSHIP = "CREATE TABLE USER_RELATIONSHIP(_UID_SOURCE INT NOT NULL,"
 			+ "_UID_TARGET INT NOT NULL,"
 			+ "RELATION INT NOT NULL,"
 			+ "FOREIGN KEY (_UID_SOURCE, _UID_TARGET), REFERENCES USER(_UID, _UID),"
@@ -22,24 +22,14 @@ public class DatabaseFactory {
 			+ "FOREIGN KEY (_UID) REFERENCES USER(_UID),"
 			+ "FOREIGN KEY (_RID) REFERENCES RADIN_GROUP(_RID),"
 			+ "PRIMARY KEY (_UID, _RID));";
-	private static final String CREATE_TABLE_USER_CONCERNED_BY_TRANSACTION = 
-			"CREATE TABLE USER_CONCERNED_BY_TRANSACTION(\r\n"
+	private static final String CREATE_TABLE_USER_CONCERNED_BY_TRANSACTION = "CREATE TABLE USER_CONCERNED_BY_TRANSACTION(\r\n"
 			+ "_TID INT NOT NULL,"
 			+ "_UID INT NOT NULL,"
 			+ "COEFFICIENT INT NOT NULL,"
 			+ "FOREIGN KEY (_TID) REFERENCES TRANSACTION(_TID),"
 			+ "FOREIGN KEY (_UID) REFERENCES USER(_UID),"
 			+ "PRIMARY KEY (_TID, _UID)" + ");";
-	private static final String CREATE_TABLE_RADIN_GROUP = "CREATE TABLE RADIN_GROUP("
-			+ "_RID INT NOT NULL,"
-			+ "NAME TEXT NOT NULL,"
-			+ "START_DATE TEXT NOT NULL,"
-			+ "DESCRIPTION TEXT,"
-			+ "GROUP TEXT,"
-			+ "MASTER_RID,"
-			+ "AVATAR TEXT,"
-			+ "END_DATE TEXT,"
-			+ "DELETED_AT TEXT," + "PRIMARY KEY (_RID)" + ");";
+
 	private static final String CREATE_TABLE_GROUP_PRESET = "CREATE TABLE GROUP_PRESET("
 			+ "_GID INT NOT NULL,"
 			+ "_RID INT NOT NULL,"
@@ -91,11 +81,7 @@ public class DatabaseFactory {
 	public static void createUsersConcernedByTransactionTable(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE_USER_CONCERNED_BY_TRANSACTION);
 	}
-
-	public static void createRadinGroupTable(SQLiteDatabase db) {
-		db.execSQL(CREATE_TABLE_RADIN_GROUP);
-	}
-
+	
 	public static void createGroupPresetsTable(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE_GROUP_PRESET);
 	}
