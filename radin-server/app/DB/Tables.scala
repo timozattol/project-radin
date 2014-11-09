@@ -73,7 +73,7 @@ class Tables {
       
       def MRuid: Column[Int] = column[Int]("UID", O.NotNull)
       def MRrid: Column[Int] = column[Int]("RID", O.NotNull)
-      def MRstartDate: Column[String] = column[String]("MR_START_DATE", O.NotNull)
+      def MRcreationDate: Column[String] = column[String]("MR_CREATION_DATE", O.NotNull)
       def MRpermission: Column[Int] = column[Int]("MR_PERMISSION", O.NotNull)
       def MRdeletedAt: Column[String] = column[String]("MR_DELETED_AT")
       
@@ -81,7 +81,7 @@ class Tables {
       def memberRadinGroup = foreignKey("MEMBER_RG", MRrid, radinGroups)(_.rid)
       def MRpk = primaryKey("MRpk", (MRuid, MRrid))
       
-      def * = (MRuid, MRrid, MRstartDate, MRpermission, MRdeletedAt)   
+      def * = (MRuid, MRrid, MRcreationDate, MRpermission, MRdeletedAt)   
   }
   lazy val memberInRadins = TableQuery[MemberInRadin]
   
