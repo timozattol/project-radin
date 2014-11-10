@@ -47,21 +47,21 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
 	@Override
-	public RadinGroupModel getById(int id, RadinListener callback) {
+	public boolean getById(int id, RadinListener callback) {
 		RadinGroupConnectionTask connTask = new RadinGroupConnectionTask(callback);
-		connTask.execute()
+		connTask.execute(SERVER_BASE_URL, "GET", String.valueOf(id));
 	}
 
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(android.app.Activity)
 	 */
 	@Override
-	public List<RadinGroupModel> getAll(RadinListener callback) {
+	public boolean getAll(RadinListener callback) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public List<RadinGroupModel> getAllByUserId(int userId, RadinListener callback) {
+	public boolean getAllByUserId(int userId, RadinListener callback) {
 		return null;
 	}
 

@@ -44,7 +44,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int)
 	 */
 	@Override
-	public UserModel getById(int id, RadinListener callback) {
+	public boolean getById(int id, RadinListener callback) {
 		String accessUrl = "user/" + id;
 		if(id < 0) {
 			throw new IllegalArgumentException("User id must be positive");
@@ -59,7 +59,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll()
 	 */
 	@Override
-	public List<UserModel> getAll(RadinListener callback) {
+	public boolean getAll(RadinListener callback) {
 		String accessUrl = "users/";
 		
 		if(isConnected()) {

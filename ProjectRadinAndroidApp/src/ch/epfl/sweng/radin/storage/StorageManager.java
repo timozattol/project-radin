@@ -14,9 +14,9 @@ public interface StorageManager<T> {
 	
 	abstract StorageManager<T> getStorageManager();
 	
-	public T getById(int id, RadinListener callback);
+	public boolean getById(int id, RadinListener callback);
 	
-	public List<T> getAll(RadinListener callback);
+	public boolean getAll(RadinListener callback);
 
 	public boolean create(List<T> entries, RadinListener callback);
 	
