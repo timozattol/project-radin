@@ -12,5 +12,6 @@ libraryDependencies ++= Seq(
   cache,
   ws,
   "com.typesafe.slick" %% "slick" % "2.1.0",
-  "org.slf4j" % "slf4j-nop" % "1.6.4"
+  "org.slf4j" % "slf4j-nop" % "1.6.4",
+  "ws.securesocial" % "securesocial_2.11" % "3.0-M1"
 )
