@@ -27,7 +27,17 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
+		switch(oldVersion) {
+			case 1:
+				//do something;
+				break;
+			case 2:
+				//do something 
+				break;
+			default:
+				//default action
+				break;
+		}
 		
 	}
 	
