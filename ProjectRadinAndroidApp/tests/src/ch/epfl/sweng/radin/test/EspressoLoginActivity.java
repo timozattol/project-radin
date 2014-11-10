@@ -3,24 +3,20 @@
  */
 package ch.epfl.sweng.radin.test;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.*;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.*;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
-
-
-import ch.epfl.sweng.radin.LoginActivity;
 import android.test.ActivityInstrumentationTestCase2;
-
+import ch.epfl.sweng.radin.LoginActivity;
 import ch.epfl.sweng.radin.R;
+
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
+import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 /**
  * @author topali2
  */
-public class EspressoLoginActivity extends ActivityInstrumentationTestCase2<LoginActivity>{
+public class EspressoLoginActivity extends ActivityInstrumentationTestCase2<LoginActivity> {
 
-	/**
-	 * 
-	 */
+	private final int SLEEPTIME = 100;
 	public EspressoLoginActivity() {
 
 		super(LoginActivity.class);
@@ -29,17 +25,25 @@ public class EspressoLoginActivity extends ActivityInstrumentationTestCase2<Logi
 
 	@Override
 	public void setUp() throws Exception {
-	  super.setUp();
-	  getActivity();
+		super.setUp();
+		getActivity();
 	}
 
-	public void testEspresso(){
+	public void testEspresso() {
 
-		onView(withId(R.id.login)).perform(typeText("topali2"));
-		
-		onView(withId(R.id.password)).perform(typeText("youwish..."));
-		
-		onView(withId(R.id.loginButton)).perform(click());
+		Espresso.onView(ViewMatchers.withId(R.id.login)).perform(ViewActions.typeText("topali2"));
+
+		Espresso.closeSoftKeyboard();
+
+		try {
+			Thread.sleep(SLEEPTIME);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		Espresso.onView(ViewMatchers.withId(R.id.password)).perform(ViewActions.typeText("youwish..."));
+
+		Espresso.onView(ViewMatchers.withId(R.id.loginButton)).perform(ViewActions.click());
 	}
 
 }
