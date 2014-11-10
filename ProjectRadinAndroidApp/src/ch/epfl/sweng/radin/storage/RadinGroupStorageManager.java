@@ -50,6 +50,9 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	public boolean getById(int id, RadinListener callback) {
 		RadinGroupConnectionTask connTask = new RadinGroupConnectionTask(callback);
 		connTask.execute(SERVER_BASE_URL, "GET", String.valueOf(id));
+		
+		//TODO make this value represent something.
+		return true;
 	}
 
 	/* (non-Javadoc)
