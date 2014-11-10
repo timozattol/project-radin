@@ -6,6 +6,8 @@ package ch.epfl.sweng.radin.storage;
 import java.net.URL;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -48,7 +50,12 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	}
 	
 	public List<RadinGroupModel> getAllByUserId(int userId, RadinListener callback) {
-		return null;
+		
+		//Fake code to have something to return for testing
+		List<RadinGroupModel> emptyReturnList = null;
+		emptyReturnList.add(new RadinGroupModel(0, null, null, null, null));
+		callback.callFromStorageManagerTrue();
+		return emptyReturnList;
 	}
 
 	/* (non-Javadoc)
