@@ -105,26 +105,37 @@ public class ActionBar {
 
 
 			switch(viewTag) {
-				case SETTINGS: displayActivityIntent = new Intent(v.getContext(),
-						RadinGroupConfigurationActivity.class);
+				case SETTINGS: 
+					displayActivityIntent = new Intent(v.getContext(),
+							RadinGroupConfigurationActivity.class);
 					break;
-				case MY_RADIN_GROUP: displayActivityIntent = new Intent(v.getContext(),
+				case MY_RADIN_GROUP: 
+					displayActivityIntent = new Intent(v.getContext(),
 						RadinGroupViewActivity.class);
 					break;
-				case ADD_EXPENSE: displayActivityIntent = new Intent(v.getContext(),
+				case ADD_EXPENSE:
+					displayActivityIntent = new Intent(v.getContext(),
 						RadinGroupAddExpenseActivity.class);
 					break;
-				case STATS: displayActivityIntent = new Intent(v.getContext(),
+				case STATS:
+					displayActivityIntent = new Intent(v.getContext(),
 						RadinGroupStatsActivity.class);
 					break;
-				case BALANCE: displayActivityIntent = new Intent(v.getContext(),
+				case BALANCE:
+					displayActivityIntent = new Intent(v.getContext(),
 						RadinGroupBalanceActivity.class);
 					break;
-				default: Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
-					Toast.LENGTH_SHORT).show();
+				default:
+					Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+						Toast.LENGTH_SHORT).show();
 			}
 			if (!(displayActivityIntent == null)) {
 				displayActivityIntent.putExtra("key", mRadinGroupName);
+				/*
+				 * set flag to correct the behaviors of creating new activity
+				 * FLAG_ACTIVITY_REORDER_TO_FRONT check if the activity already exist and reorder it to front
+				 * FLAG_ACTIVITY_SINGLE_TOP don't allow creating an new activity of the current activity
+				 */
 				displayActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_SINGLE_TOP);
 				v.getContext().startActivity(displayActivityIntent);
 			}
