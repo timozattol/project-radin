@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.epfl.sweng.radin.ActionBar.ListButton;
 import ch.epfl.sweng.radin.callback.MyRadinGroupsListener;
+import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.RadinGroupStorageManager;
@@ -41,25 +42,18 @@ public class MyRadinGroupsActivity extends Activity {
 		//This is a fake userId used to test the app
 		int userId = 0;
 
-		MyRadinGroupsListener mRGListener = new MyRadinGroupsListener();
+		RadinGroupStorageManager radinGroupStorageManager =  (RadinGroupStorageManager) RadinGroupStorageManager.getStorageManager();
+		
+		radinGroupStorageManager.getAllByUserId(userId, new RadinListener() {
 
-		RadinGroupStorageManager radinGroupStorageManager = (RadinGroupStorageManager) RadinGroupStorageManager.getStorageManager();
-		List<Model> myRadinGroupsList;		
-		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
-		radinGroupStorageManager.getAllByUserId(userId, mRGListener);
-		mRGListener.callback(myRadinGroupsList);
-
-		for (int i = 0; i < myRadinGroupsList.size(); i++) {
-			TextView radinGroupsTextView = new TextView(this);
-			String radinGroupsName = ((RadinGroupModel) myRadinGroupsList.get(i)).getRadinGroupName();
-			radinGroupsTextView.setText(radinGroupsName);
-			radinGroupsTextView.setTextSize(TEXT_SIZE);
-			radinGroupsTextView.setOnClickListener(selectListListener);
-
-			myRadinGroupsLinearLayout.addView(radinGroupsTextView);
-
-		}
-
+			@Override
+			public void callback(List<Model> items) {
+				displayList(items);
+				
+			}
+		});
+		
+		
 		/*We'll need then to import the list, and put the listener to all
 		 * this one is only to work the exemple.
 		 */
@@ -90,6 +84,20 @@ public class MyRadinGroupsActivity extends Activity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	private void displayList(List<Model> myRadinGroupsList){
+		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
+		for (int i = 0; i < myRadinGroupsList.size(); i++) {
+			TextView radinGroupsTextView = new TextView(this);
+			String radinGroupsName = ((RadinGroupModel) myRadinGroupsList.get(i)).getRadinGroupName();
+			radinGroupsTextView.setText(radinGroupsName);
+			radinGroupsTextView.setTextSize(TEXT_SIZE);
+			radinGroupsTextView.setOnClickListener(selectListListener);
+
+			myRadinGroupsLinearLayout.addView(radinGroupsTextView);
+		}
+
 	}
 
 	private OnClickListener addButtonListener = new View.OnClickListener() {
