@@ -20,7 +20,11 @@ public class MyRadinGroupsListener implements RadinListener{
 	
 	public void callback(List<Model> myRadinGroupsList){
 		//normaly load data on the DB and update the activity when ready
-	
+		if (!mIsStorageManagercalled){
+			//do nothing because the associated storage manager wasn't call
+		} else {
+			
+		
 		//fake code to return something
 		RadinGroupModel fakeRadinGroup0 = new RadinGroupModel(0, new DateTime() ,
 				"fake RadinGroup 0", "Fake description 0", "*.*");
@@ -37,6 +41,7 @@ public class MyRadinGroupsListener implements RadinListener{
 		RadinGroupModel fakeRadinGroup4 = new RadinGroupModel(4, new DateTime() ,
 				"fake RadinGroup 4", "Fake description 4", "*_*");
 		myRadinGroupsList.add(fakeRadinGroup4);
+		}
 	}
 	
 	public void callFromStorageManagerTrue(){
