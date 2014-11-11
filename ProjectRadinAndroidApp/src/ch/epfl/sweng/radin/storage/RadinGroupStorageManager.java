@@ -11,8 +11,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -35,7 +38,6 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getStorageManager()
 	 */
-	@Override
 	public StorageManager<RadinGroupModel> getStorageManager() {
 		if(radinGroupStorageManager == null) {
 			radinGroupStorageManager = new RadinGroupStorageManager();
@@ -64,8 +66,12 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 		return null;
 	}
 	
+
 	public boolean getAllByUserId(int userId, RadinListener callback) {
-		return null;
+		callback.callFromStorageManagerTrue();
+		callback.setId(userId);
+
+		return true;
 	}
 
 	/* (non-Javadoc)

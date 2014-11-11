@@ -12,9 +12,6 @@ import ch.epfl.sweng.radin.storage.Model;
  *
  */
 public interface RadinListener {
-
 	
-	public void callback(List<Model> items);
-	
-	
+	void callback(List<Model> items);
 }
