@@ -67,8 +67,6 @@ public class UserJSONParser implements JSONParser<UserModel> {
 
 		json.put("user", jsonArray);
 
-
-
 		return json;
 
 		//        try {
