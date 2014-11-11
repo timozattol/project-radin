@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper{
 	public static final String DB_NAME = "radin_database";
+	public static final int VERSION = 1;
 	private TableHelper radinGroupTableHelper;
 	private TableHelper userRelationshipsTableHelper;
 
@@ -20,8 +21,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 	 * @param version Database version, 1 at first, used to see how to upgrade a database
 	 */
 	public DatabaseOpenHelper(Context context, 
-			CursorFactory factory, int version) {
-		super(context, DB_NAME, factory, version);
+			CursorFactory factory) {
+		super(context, DB_NAME, factory, VERSION);
 		radinGroupTableHelper = new RadinGroupTableHelper();
 		userRelationshipsTableHelper = new UserRelationshipsTableHelper();
 	}
