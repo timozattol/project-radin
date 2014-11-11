@@ -17,22 +17,21 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/myRadinGroupTitle">
 
         <LinearLayout
             android:id="@+id/myRadinGroupsLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/aRadinGroupExemple"
+            <ProgressBar
+                android:id="@+id/myRadinGroupsProgressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/myRadinGroupTitle"
-                android:text="Exemple radin group"
-                android:textColor="#0000FF"
-                android:textSize="12sp" />
+                android:indeterminate="true" />
         </LinearLayout>
     </ScrollView>
 

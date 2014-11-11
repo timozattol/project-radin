@@ -3,7 +3,6 @@ package ch.epfl.sweng.radin;
 import java.util.List;
 
 import ch.epfl.sweng.radin.ActionBar.ListButton;
-import ch.epfl.sweng.radin.callback.MyRadinGroupsListener;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
@@ -11,6 +10,7 @@ import ch.epfl.sweng.radin.storage.RadinGroupStorageManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,23 +45,14 @@ public class MyRadinGroupsActivity extends Activity {
 
 		RadinGroupStorageManager radinGroupStorageManager =  (RadinGroupStorageManager) RadinGroupStorageManager.getStorageManager();
 		
-		radinGroupStorageManager.getAllByUserId(userId, new RadinListener() {
+		radinGroupStorageManager.getAllByUserId(userId, new RadinListener<RadinGroupModel>() {
 
 			@Override
-			public void callback(List<Model> items) {
+			public void callback(List<RadinGroupModel> items) {
 				displayList(items);
 				
 			}
 		});
-		
-		
-		/*We'll need then to import the list, and put the listener to all
-		 * this one is only to work the exemple.
-		 */
-		TextView exempleRadinGroup = (TextView) findViewById(R.id.aRadinGroupExemple);
-		exempleRadinGroup.setTextSize(TEXT_SIZE);
-		exempleRadinGroup.setOnClickListener(selectListListener);
-
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,8 +78,12 @@ public class MyRadinGroupsActivity extends Activity {
 		}
 	}
 	
-	private void displayList(List<Model> myRadinGroupsList){
+	private void displayList(List<RadinGroupModel> myRadinGroupsList){
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
+		myRadinGroupsLinearLayout.setGravity(Gravity.LEFT);
+		ProgressBar myRadinGroupProgressBar = (ProgressBar) findViewById(R.id.myRadinGroupsProgressBar);
+		myRadinGroupsLinearLayout.removeView(myRadinGroupProgressBar);
+		
 		for (int i = 0; i < myRadinGroupsList.size(); i++) {
 			TextView radinGroupsTextView = new TextView(this);
 			String radinGroupsName = ((RadinGroupModel) myRadinGroupsList.get(i)).getRadinGroupName();
