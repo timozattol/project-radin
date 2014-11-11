@@ -13,14 +13,5 @@ import ch.epfl.sweng.radin.storage.Model;
  */
 public interface RadinListener {
 	
-	//turn on the listener
-	void callFromStorageManagerTrue();
-
-	
-	public void callback(List<Model> items);
-
-
-	void setId(int userId);
-
-
+	void callback(List<Model> items);
 }
