@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.epfl.sweng.radin.ActionBar.ListButton;
 import ch.epfl.sweng.radin.callback.MyRadinGroupsListener;
+import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.RadinGroupStorageManager;
 import android.app.Activity;
@@ -27,11 +28,12 @@ import android.widget.Toast;
  *
  */
 public class MyRadinGroupsActivity extends Activity {
-
+	final int TEXT_SIZE = 30;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_radingroups);
+
 
 		Button addBtn = (Button) findViewById(R.id.addBtn);
 		addBtn.setOnClickListener(addButtonListener);
@@ -41,34 +43,28 @@ public class MyRadinGroupsActivity extends Activity {
 
 		MyRadinGroupsListener mRGListener = new MyRadinGroupsListener();
 
-		RadinGroupStorageManager radinGroupStorageManager = new RadinGroupStorageManager();
-		List<RadinGroupModel> myRadinGroupsList = radinGroupStorageManager.getAllByUserId(userId, mRGListener);
+		RadinGroupStorageManager radinGroupStorageManager = (RadinGroupStorageManager) RadinGroupStorageManager.getStorageManager();
+		List<Model> myRadinGroupsList;		
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
+		radinGroupStorageManager.getAllByUserId(userId, mRGListener);
+		mRGListener.callback(myRadinGroupsList);
 
-		boolean isDataLoading;
-		do {
-			isDataLoading = mRGListener.isUpdateRunning(myRadinGroupsList);
+		for (int i = 0; i < myRadinGroupsList.size(); i++) {
+			TextView radinGroupsTextView = new TextView(this);
+			String radinGroupsName = ((RadinGroupModel) myRadinGroupsList.get(i)).getRadinGroupName();
+			radinGroupsTextView.setText(radinGroupsName);
+			radinGroupsTextView.setTextSize(TEXT_SIZE);
+			radinGroupsTextView.setOnClickListener(selectListListener);
 
-			if (!isDataLoading) {
-				for (int i = 0; i < myRadinGroupsList.size(); i++) {
-					TextView radinGroupsTextView = new TextView(this);
-					String radinGroupsName = myRadinGroupsList.get(i).getRadinGroupName();
-					radinGroupsTextView.setText(radinGroupsName);
-					radinGroupsTextView.setTextSize(30);
-					radinGroupsTextView.setOnClickListener(selectListListener);
+			myRadinGroupsLinearLayout.addView(radinGroupsTextView);
 
-					myRadinGroupsLinearLayout.addView(radinGroupsTextView);
-				}
-			}
-			else {
-				Toast.makeText(this, "Data loading, please wait", Toast.LENGTH_SHORT).show();
-			}
-		}while(isDataLoading);
+		}
+
 		/*We'll need then to import the list, and put the listener to all
 		 * this one is only to work the exemple.
 		 */
 		TextView exempleRadinGroup = (TextView) findViewById(R.id.aRadinGroupExemple);
-		exempleRadinGroup.setTextSize(30);
+		exempleRadinGroup.setTextSize(TEXT_SIZE);
 		exempleRadinGroup.setOnClickListener(selectListListener);
 
 	}
@@ -84,15 +80,15 @@ public class MyRadinGroupsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.action_home:
-			Intent intent = new Intent(this, HomeActivity.class);
-			startActivity(intent);
-			return true;
-		case R.id.action_settings:
+			case R.id.action_home:
+				Intent intent = new Intent(this, HomeActivity.class);
+				startActivity(intent);
+				return true;
+			case R.id.action_settings:
 
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 

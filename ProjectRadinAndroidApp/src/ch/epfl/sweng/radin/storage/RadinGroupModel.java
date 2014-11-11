@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
  * RadinGroupModel is an object with only immutable fields which provides a representation of
  * the design of our RadinGroupModel
  */
-public class RadinGroupModel {
+public class RadinGroupModel extends Model{
 	private final int mRadinGroupID;
 	private final DateTime mGroupCreationDateTime;
 

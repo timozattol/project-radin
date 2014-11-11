@@ -41,7 +41,7 @@ public class TransactionStorageManager implements StorageManager<TransactionMode
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
 	@Override
-	public TransactionModel getById(int id, RadinListener callback) {
+	public boolean getById(int id, RadinListener callback) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -50,7 +50,7 @@ public class TransactionStorageManager implements StorageManager<TransactionMode
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(android.app.Activity)
 	 */
 	@Override
-	public List<TransactionModel> getAll(RadinListener callback) {
+	public boolean getAll(RadinListener callback) {
 		// TODO Auto-generated method stub
 		return null;
 	}
