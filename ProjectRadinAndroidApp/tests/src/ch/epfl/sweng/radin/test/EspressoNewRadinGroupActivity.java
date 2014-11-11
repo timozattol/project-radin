@@ -39,7 +39,7 @@ public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCa
 	}
 	
 	
-	public void testAddExpense() {	
+	public void testNewRadinGroup() {	
 		goToActivity();
 		//maybe add restriction on special characters
 		Espresso.onView(ViewMatchers.withId(R.id.edit_name)).perform(ViewActions.typeText("Ma super liste!")).check(ViewAssertions.matches(ViewMatchers.withText("Ma super liste!")));
