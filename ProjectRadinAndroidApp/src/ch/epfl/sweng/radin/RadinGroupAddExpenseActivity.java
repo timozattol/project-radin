@@ -1,17 +1,27 @@
 package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import ch.epfl.sweng.radin.callback.StorageManagerListener;
+import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.UserStorageManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,16 +29,19 @@ import android.widget.Toast;
 /**
  * This activity allows the user to add an expense to a radinGroup by providing the creditor, 
  * debitors and the amount payed.
- *
+ * 
+ * TODO class too big, split, refactor (both dialog creations are almost the same)
  */
 public class RadinGroupAddExpenseActivity extends Activity {
-	private static final String CLIENT_NAME = "0000"; //TODO is there a way to indicate in every activity who's the user?
+	private static final int CLIENT_ID = 121320540;
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
-	private ArrayList<Integer> mSelectedItems;
 	private ArrayList<String> mSelectedDebtors = new ArrayList<String>();
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
 	private String mSelectedCreditor;
 	private double mAmount;
+	private String[] mFriends;
+	private String[] mFriendsAndClient;
+	private boolean[] checkedItems;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		
 		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
+		
+		setDialogData();
 	}
 
 	@Override
@@ -72,33 +87,48 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	}
 
 	/**
-	 * Shows an AlertDialog with a list of potential debitors to select
-	 * by retrieving the people in the radinGroup from the database.
-	 * (currently not implemented)
-	 *
+	 * Shows an AlertDialog with a list of potential debtors to select.
+	 * Shows a toast if data not ready
 	 */
 	public void showDebDialog(View view) {
-		debtorDialog(serverGetFriendsInGroup()).show();
+		if (mFriends != null) {
+			debtorDialog(serverGetFriendsInGroup()).show();
+		} else {
+			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	/**
-	 * Shows an AlertDialog with a list of potential creditors to select
-	 * by retrieving the people in the radinGroup from the database.
-	 * (currently not implemented)
-	 * Adds the user to this list of people.
-	 * @param view
+	 * Shows an AlertDialog with a list of potential creditors to select and
+	 * adds the user to this list of people.
+	 * Shows a toast if data not ready
 	 */
 	public void showCredDialog(View view) {
-		String[] friends = serverGetFriendsInGroup();
-		String[] clientAndFriends = new String[friends.length + 1];
-
-		clientAndFriends[0] = this.getResources().getString(R.string.creditor_selected);
-		for (int i = 1; i < clientAndFriends.length; i++) {
-			clientAndFriends[i] = friends[i-1];
+		if (mFriendsAndClient != null) {
+			creditorDialog(mFriendsAndClient).show();
+		} else {
+			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
 		}
-		creditorDialog(clientAndFriends).show();
 	}
 
+	private void setDialogData() {
+// =========================== Not yet possible=========================
+//		StorageManagerListener listener = new StorageManagerListener();
+//		UserStorageManager usrStManager = new UserStorageManager();
+//		usrStManager.getFriendsById(CLIENT_ID, listener);
+// =====================================================================
+		mFriends = serverGetFriendsInGroup();
+		
+		mFriendsAndClient = new String[mFriends.length + 1];
+		mFriendsAndClient[0] = this.getResources().getString(R.string.creditor_selected);
+		for (int i = 1; i < mFriendsAndClient.length; i++) {
+			mFriendsAndClient[i] = mFriends[i-1];
+		}
+		//initially false (default value)
+		checkedItems = new boolean[mFriends.length];
+		
+	}
+	
 	/**
 	 * This will be a method that retrieve Client's friends in the radinGeoupe from server
 	 * (Currently not implemented)
@@ -120,39 +150,41 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * @return an AlertDialog that is ready to be shown
 	 */
 	private AlertDialog debtorDialog(final String[] names) {
-		mSelectedItems = new ArrayList<Integer>();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.debtorsList);
-		builder.setMultiChoiceItems(names, null, new DialogInterface.OnMultiChoiceClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-				if (isChecked) {
-					// If the user checked the item, add it to the selected items
-					mSelectedItems.add(which);
-				} else if (mSelectedItems.contains(which)) {
-					// Else, if the item is already in the array, remove it
-					mSelectedItems.remove(Integer.valueOf(which));
-				}
-			}
-		});
-
-		// Set the action buttons
+		
+		final ListView listView = new ListView(this);
+		StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.select_dialog_multichoice, names);
+		listView.setAdapter(adapter);
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		for (int i = 0; i < checkedItems.length; i++) {
+			listView.setItemChecked(i, checkedItems[i]);
+		}
+		builder.setView(listView);
+		
+		
+		// Set OK button
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				mSelectedDebtors.clear();
-				for (int index : mSelectedItems) {
-					mSelectedDebtors.add(names[index]);
-				}
-				TextView debitorsSelected = (TextView) findViewById(R.id.debtors_selected);
+			
+				long[] checkedIds = listView.getCheckedItemIds();
 
-				if (!mSelectedDebtors.isEmpty()) {
-					debitorsSelected.setText(mSelectedDebtors.toString());
-				} else {
-					debitorsSelected.setText(R.string.debtors_selected);
+				checkedItems = new boolean[names.length];
+				for (int i = 0; i < checkedIds.length; i++) {
+					checkedItems[(int) checkedIds[i]] = true;
 				}
+				
+				String strNames = "";
+				for (int i = 0; i < checkedIds.length; i++) {
+					strNames = strNames + " " + names[(int) checkedIds[i]];
+				}
+				
+				TextView debitorSelected = (TextView) findViewById(R.id.debtors_selected);
+				debitorSelected.setText(strNames);
 			}
 		});
+		//Set CANCEL button
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
@@ -180,22 +212,23 @@ public class RadinGroupAddExpenseActivity extends Activity {
 			}
 		});
 
-		// Set the action buttons
+		// Set OK button
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				TextView creditorSelected = (TextView) findViewById(R.id.creditor_selected);
-
+				
 				mSelectedCreditor = names[mSelectedIndex];
 				creditorSelected.setText(mSelectedCreditor);
 			}
 		});
+		// Set CANCEL button
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				//nothing to do
-			}
-		});
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					//nothing to do
+				}
+			});
 		return builder.create();
 	}
 
@@ -230,6 +263,32 @@ public class RadinGroupAddExpenseActivity extends Activity {
 
 		}
 	}
+	
+	/**
+	 * TODO make it generic and put it outside the class (shared with NewRadinGroupActivity)
+	 * 
+	 * A stable ids adapter, needed to use getCheckedItemIds() on the listView using the adapter
+	 * Adapted from: http://www.vogella.com/tutorials/AndroidListView/article.html
+	 */
+	public class StableArrayAdapter extends ArrayAdapter<String> {
+		private HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
 
+		public StableArrayAdapter(Context context, int textViewResourceId,
+				String[] objects) {
+			super(context, textViewResourceId, objects);
+			for (int i = 0; i < objects.length; ++i) {
+				mIdMap.put(objects[i], i);
+			}
+		}
+		@Override
+		public long getItemId(int position) {
+			String item = getItem(position);
+			return mIdMap.get(item);
+		}
+		@Override
+		public boolean hasStableIds() {
+			return true;
+		}
+	}
 }
 

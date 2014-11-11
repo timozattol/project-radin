@@ -56,8 +56,8 @@
     <string name="radin_name">Name</string>
     <string name="friends_names">Add people</string>
     <string name="hint_name">Type the list\'s name</string>
-    <string name="multi_friend">Type the participants\' names</string>
-    <string name="add_info">If a name doesn\'t belong to the suggestions it means that it has been misspelled or doesn\'t belong to your friends, you will be able to add it in the next screen</string>
+    <string name="multi_friend">Add friends to list</string>
+    <string name="add_info"></string>
     <string name="create_radin_group">Create</string>
     
     <!-- ProfileActivity -->
@@ -85,5 +85,6 @@
     <string name="invalid_amount">This amount is not valid</string>
     <string name="invalid_debtors">Please select debitors first</string>
     <string name="expense_added">Expense added!</string>
+    <string name="not_ready">Please wait for the data to be retrieved</string>
     
 </resources>
