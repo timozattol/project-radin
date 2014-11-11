@@ -3,6 +3,7 @@ package ch.epfl.sweng.radin.test;
 import android.test.ActivityInstrumentationTestCase2;
 import ch.epfl.sweng.radin.LoginActivity;
 import ch.epfl.sweng.radin.R;
+
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
@@ -28,8 +29,8 @@ public class EspressoRadinGroupAddExpenseActivity extends ActivityInstrumentatio
 		}
 	}
 	
-	public void testEspresso() {
-		//Go to RadinGroupAddExenseActivity
+	public void goToActivity() {
+		//Go to RadinGroupAddExpenseActivity
 		Espresso.onView(ViewMatchers.withId(R.id.loginButton)).perform(ViewActions.click());
 		sleep();
 		Espresso.onView(ViewMatchers.withId(R.id.myListBtn)).perform(ViewActions.click());
@@ -37,8 +38,18 @@ public class EspressoRadinGroupAddExpenseActivity extends ActivityInstrumentatio
 		Espresso.onView(ViewMatchers.withId(R.id.aRadinGroupExemple)).perform(ViewActions.click());
 		sleep();
 		Espresso.onView(ViewMatchers.withId(R.id.addExpeseActionBar)).perform(ViewActions.click());
-		
-		//tests on RadinGroupAddExenseActivity
+	}
+	
+	
+	public void testAddExpense() {	
+		goToActivity();
+		Espresso.onView(ViewMatchers.withId(R.id.add_creditor)).perform(ViewActions.click());
+		sleep();
+		Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.pressBack());
+		sleep();
+		Espresso.onView(ViewMatchers.withId(R.id.add_debtors)).perform(ViewActions.click());
+		sleep();
+		Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.pressBack());
 		
 		//should allow only numericals
 		Espresso.onView(ViewMatchers.withId(R.id.amount_Field)).perform(ViewActions.typeText("Salut")).check(ViewAssertions.matches(ViewMatchers.withText("")));
