@@ -33,11 +33,27 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     "RG_avatar": "img/avatar1.png",
     "RG_deletedAt": "2014/01/01 00/00"
     }]
-}
+   }
       """)
+      
+   val authJson: JsValue = Json.parse("""
+       {"radinGroup":[
+   {"RG_ID": "1",
+    "RG_name": "Auth Group 1",
+    "RG_creationDate": "2014/01/01 00/00",
+    "RG_description": "A cooler group",
+    "RG_avatar": "img/avatar1.png",
+    "RG_deletedAt": "2014/01/01 00/00"
+    }]
+   }
+       """)
 
   def myGroups = Action {
     Ok(json)
+  }
+  
+    def authGroups = SecuredAction { implicit request =>
+    Ok(authJson)
   }
 
   /**
