@@ -4,7 +4,8 @@
 
 # Framework home page
 
-GET        /only-twitter        @controllers.Application.onlyTwitter
+GET        /only-facebook       @controllers.Application.onlyFacebook
+GET		   /only-google			@controllers.Application.onlyGoogle
 GET        /link-result         @controllers.Application.linkResult
 GET        /current-user        @controllers.Application.currentUser
 GET        /custom/login        @controllers.CustomLoginController.login
