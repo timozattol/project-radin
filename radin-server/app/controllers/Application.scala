@@ -3,6 +3,7 @@ package controllers
 import securesocial.core._
 import service.DemoUser
 import play.api.mvc.{ Action, RequestHeader }
+import play.api.libs.json._
 
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
   def index = SecuredAction { implicit request =>
@@ -17,8 +18,23 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   def linkResult = SecuredAction { implicit request =>
     Ok(views.html.linkResult(request.user))
   }
-  
-  def myGroups = TODO
+
+  // example Json value
+  val json: JsValue = Json.parse("""
+      {"radinGroup":[
+   {"RG_ID": "0",
+    "RG_name": "Group 1",
+    "RG_creationDate": "2014/01/01 00/00",
+    "RG_description": "A cool group",
+    "RG_avatar": "img/avatar1.png",
+    "RG_deletedAt": "2014/01/01 00/00"
+    }]
+}
+      """)
+
+  def myGroups = Action {
+    Ok(json)
+  }
 
   /**
    * Sample use of SecureSocial.currentUser. Access the /current-user to test it
@@ -38,4 +54,5 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }
 
   }
+
 }
