@@ -11,8 +11,12 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   // a sample action using an authorization implementation
-  def onlyTwitter = SecuredAction(WithProvider("twitter")) { implicit request =>
-    Ok("You can see this because you logged in using Twitter")
+  def onlyFacebook = SecuredAction(WithProvider("facebook")) { implicit request =>
+    Ok("You can see this because you logged in using Facebook")
+  }
+  
+  def onlyGoogle = SecuredAction(WithProvider("google")) { implicit request =>
+    Ok("You can see this because you logged in using Google")
   }
 
   def linkResult = SecuredAction { implicit request =>
