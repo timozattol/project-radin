@@ -140,13 +140,9 @@ public class RadinGroupModel extends Model{
 		mAvatar = avatar;
 	}
 	
-	/**
-	 * @return
-	 * @deprecated use {@link #getType() instead}
-	 */
-	@Deprecated
+	
 	public boolean hasMasterID() {
-	    return mHasMasterID;
+	    return mType == TypeOfRadinGroup.WITH_MASTER_ID;
 	}
 	
 	public TypeOfRadinGroup getType() {
