@@ -2,6 +2,10 @@ package ch.epfl.sweng.radin.storage;
 
 import org.joda.time.DateTime;
 
+import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
+
+import android.content.ContentValues;
+
 /**
  * @author Simonchelbc
  * RadinGroupModel is an object with only immutable fields which provides a representation of
@@ -14,6 +18,7 @@ public class RadinGroupModel extends Model{
 	public enum TypeOfRadinGroup {
 		WITH_MASTER_ID, WITHOUT_MASTER_ID
 	}
+	//TODO simplify names of class fields
 	private final int mRadinGroupID;
 	private final DateTime mGroupCreationDateTime;
 
@@ -23,10 +28,10 @@ public class RadinGroupModel extends Model{
 	private String mRadinGroupName;
 	private String mGroupDescription;
 	private String mAvatar;
+	private String mRgGroup;
 	
 	// Set if this group is contained in another RadinGroup which ID we will set as this.mMasterID
 	private int mMasterID;
-	private boolean mHasMasterID;
 	private TypeOfRadinGroup mType;
 	
 
@@ -49,7 +54,6 @@ public class RadinGroupModel extends Model{
 		
 		mType = TypeOfRadinGroup.WITHOUT_MASTER_ID;
 		
-		mHasMasterID = false;
 	}
 
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
@@ -60,7 +64,32 @@ public class RadinGroupModel extends Model{
 		checkArgumentPositive("masterID", masterID);
 		mMasterID = masterID;
 		mType = TypeOfRadinGroup.WITH_MASTER_ID;
-		mHasMasterID = true;
+	}
+	//TODO add getContentValues to Model interface
+	public ContentValues getContentValues() {
+		ContentValues values= new ContentValues();
+		values.put(RadinGroupTableHelper.Column.RID.getSqlName(),
+				mRadinGroupID);
+		values.put(RadinGroupTableHelper.Column.RG_AVATAR.getSqlName(),
+				mAvatar);
+		values.put(RadinGroupTableHelper.Column.RG_CREATION_DATE.getSqlName(), 
+				mGroupCreationDateTime.toString()); //TODO discuss format of dates in db!
+		values.put(RadinGroupTableHelper.Column.RG_DELETED_AT.getSqlName(), 
+				mRadinGroupDeletionDateTime.toString()); //TODO discuss format of dates in db!
+		values.put(RadinGroupTableHelper.Column.RG_END_DATE.getSqlName(), 
+				mRadinGroupEndDateTime.toString());
+		values.put(RadinGroupTableHelper.Column.RG_DESCRIPTION.getSqlName(), 
+				mGroupDescription);
+		values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(),
+				mRgGroup);
+		values.put(RadinGroupTableHelper.Column.RG_NAME.getSqlName(), 
+				mRadinGroupName);
+		
+		if (hasMasterID()) {
+			values.put(RadinGroupTableHelper.Column.RG_MASTER_RID.getSqlName(), 
+					mMasterID);			
+		}
+		return values;
 	}
 
 	private void checkArgumentPositive(String argName, double arg) {
@@ -156,7 +185,6 @@ public class RadinGroupModel extends Model{
 	public void setMasterID(int masterID) {
 		checkArgumentPositive("masterID", masterID); 
 		mMasterID = masterID;
-		mHasMasterID = true;
 		mType = TypeOfRadinGroup.WITH_MASTER_ID;
 	}
 
