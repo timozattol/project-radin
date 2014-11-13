@@ -68,6 +68,13 @@ public class RadinGroupModel extends Model {
 	private int mMasterID;
 	private Set<TypeOfRadinGroup> mTypes;
 
+	/**
+	 * @param radinGroupID
+	 * @param groupCreationDateTime
+	 * @param radinGroupName
+	 * @param groupDescription
+	 * @param avatar
+	 */
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
 			String radinGroupName, String groupDescription, String avatar) {
 		mTypes = new HashSet<>();
@@ -99,6 +106,14 @@ public class RadinGroupModel extends Model {
 
 	}
 
+	/**
+	 * @param radinGroupID
+	 * @param groupCreationDateTime
+	 * @param radinGroupName
+	 * @param groupDescription
+	 * @param avatar
+	 * @param masterID
+	 */
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
 			String radinGroupName, String groupDescription, String avatar,
 			int masterID) {
