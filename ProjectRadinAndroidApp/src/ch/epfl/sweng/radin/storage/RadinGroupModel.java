@@ -18,15 +18,14 @@ public class RadinGroupModel extends Model{
 	public enum TypeOfRadinGroup {
 		WITH_MASTER_ID, WITHOUT_MASTER_ID
 	}
-	//TODO simplify names of class fields
-	private final int mRadinGroupID;
-	private final DateTime mGroupCreationDateTime;
+	private final int mRID;
+	private final DateTime mCreationDateTime;
 
-	private DateTime mRadinGroupEndDateTime;
-	private DateTime mRadinGroupDeletionDateTime;
+	private DateTime mEndDateTime;
+	private DateTime mDeletionDateTime;
 	
-	private String mRadinGroupName;
-	private String mGroupDescription;
+	private String mName;
+	private String mDescription;
 	private String mAvatar;
 	private String mRgGroup;
 	
@@ -38,16 +37,16 @@ public class RadinGroupModel extends Model{
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
 			String radinGroupName, String groupDescription, String avatar) {
 		checkArgumentPositive("radinGroupID", radinGroupID);
-		mRadinGroupID = radinGroupID;
+		mRID = radinGroupID;
 
 		checkArgumentNotNull("groupCreationDateTime", groupCreationDateTime);
-		mGroupCreationDateTime = groupCreationDateTime;
+		mCreationDateTime = groupCreationDateTime;
 
 		checkString("radinGroupName", radinGroupName);
-		mRadinGroupName = radinGroupName;
+		mName = radinGroupName;
 
 		checkString("groupDescription", groupDescription);
-		mGroupDescription = groupDescription;
+		mDescription = groupDescription;
 		
 		checkString("avatar", avatar);
 		mAvatar = avatar;
@@ -69,21 +68,21 @@ public class RadinGroupModel extends Model{
 	public ContentValues getContentValues() {
 		ContentValues values= new ContentValues();
 		values.put(RadinGroupTableHelper.Column.RID.getSqlName(),
-				mRadinGroupID);
+				mRID);
 		values.put(RadinGroupTableHelper.Column.RG_AVATAR.getSqlName(),
 				mAvatar);
 		values.put(RadinGroupTableHelper.Column.RG_CREATION_DATE.getSqlName(), 
-				mGroupCreationDateTime.toString()); //TODO discuss format of dates in db!
+				mCreationDateTime.toString()); //TODO discuss format of dates in db!
 		values.put(RadinGroupTableHelper.Column.RG_DELETED_AT.getSqlName(), 
-				mRadinGroupDeletionDateTime.toString()); //TODO discuss format of dates in db!
+				mDeletionDateTime.toString()); //TODO discuss format of dates in db!
 		values.put(RadinGroupTableHelper.Column.RG_END_DATE.getSqlName(), 
-				mRadinGroupEndDateTime.toString());
+				mEndDateTime.toString());
 		values.put(RadinGroupTableHelper.Column.RG_DESCRIPTION.getSqlName(), 
-				mGroupDescription);
+				mDescription);
 		values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(),
 				mRgGroup);
 		values.put(RadinGroupTableHelper.Column.RG_NAME.getSqlName(), 
-				mRadinGroupName);
+				mName);
 		
 		if (hasMasterID()) {
 			values.put(RadinGroupTableHelper.Column.RG_MASTER_RID.getSqlName(), 
@@ -117,23 +116,23 @@ public class RadinGroupModel extends Model{
 	}
 
 	public DateTime getRadinGroupEndDateTime() {
-		return mRadinGroupEndDateTime;
+		return mEndDateTime;
 	}
 
 	public void setRadinGroupEndDateTime(DateTime radinGroupEndDateTime) {
 		checkArgumentNotNull("radinGroupEndDateTime", radinGroupEndDateTime);
-		checkFirstHappensBeforeSecond(mGroupCreationDateTime, radinGroupEndDateTime);
-		mRadinGroupEndDateTime = radinGroupEndDateTime;
+		checkFirstHappensBeforeSecond(mCreationDateTime, radinGroupEndDateTime);
+		mEndDateTime = radinGroupEndDateTime;
 	}
 
 	public DateTime getRadinGroupDeletionDateTime() {
-		return mRadinGroupDeletionDateTime;
+		return mDeletionDateTime;
 	}
 
 	public void setRadinGroupDeletionDateTime(DateTime radinGroupDeletionDateTime) {
 		checkArgumentNotNull("radinGroupDeletionDateTime", radinGroupDeletionDateTime);
-		checkFirstHappensBeforeSecond(mGroupCreationDateTime, radinGroupDeletionDateTime);
-		mRadinGroupDeletionDateTime = radinGroupDeletionDateTime;
+		checkFirstHappensBeforeSecond(mCreationDateTime, radinGroupDeletionDateTime);
+		mDeletionDateTime = radinGroupDeletionDateTime;
 	}
     
 	private void checkFirstHappensBeforeSecond(DateTime firstEvent, DateTime secondEvent) {
@@ -143,21 +142,21 @@ public class RadinGroupModel extends Model{
 	}
 	
 	public String getRadinGroupName() {
-		return mRadinGroupName;
+		return mName;
 	}
 
 	public void setRadinGroupName(String radinGroupName) {
 		checkString("radinGroupName", radinGroupName);
-		mRadinGroupName = radinGroupName;
+		mName = radinGroupName;
 	}
 
 	public String getGroupDescription() {
-		return mGroupDescription;
+		return mDescription;
 	}
 
 	public void setGroupDescription(String groupDescription) {
 		checkString("groupDescription", groupDescription);
-		mGroupDescription = groupDescription;
+		mDescription = groupDescription;
 	}
 
 	public String getAvatar() {
@@ -189,10 +188,10 @@ public class RadinGroupModel extends Model{
 	}
 
 	public int getRadinGroupID() {
-		return mRadinGroupID;
+		return mRID;
 	}
 
 	public DateTime getGroupCreationDateTime() {
-		return mGroupCreationDateTime;
+		return mCreationDateTime;
 	}
 }
