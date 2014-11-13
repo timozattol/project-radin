@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import ch.epfl.sweng.radin.databases.DatabaseOpenHelper;
+import ch.epfl.sweng.radin.databases.Database;
 import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.test.R;
@@ -38,14 +38,9 @@ import static org.hamcrest.Matchers.not;
  *         table
  * 
  */
+
 public class DatabaseRadinGroupTableActivityEspressoTest extends
 		ActivityInstrumentationTestCase2<DatabaseRadinGroupTableActivity> {
-	DatabaseOpenHelper dbOpenHelper;
-
-	private static final DateTime RIGHT_NOW = DateTime.now();
-	private static final DateTime YESTERDAY = RIGHT_NOW.minusDays(1);
-	private static final DateTime TOMORROW = RIGHT_NOW.plusDays(1);
-	private static final DateTime AFTER_TOMORROW = RIGHT_NOW.plusDays(2);
 
 	public DatabaseRadinGroupTableActivityEspressoTest(
 			Class<DatabaseRadinGroupTableActivity> activityClass) {
@@ -73,12 +68,6 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		typeTextInField(R.id.RGEndedAt, "tomorrow");
 		typeTextInField(R.id.RGDeletedAt, "after-tomorrow");
 		onView(withId(R.id.submitRadinGroupToDB)).perform(click());
-
-		dbOpenHelper = new DatabaseOpenHelper(getActivity(), null);
-		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-		assertTrue(db.isOpen());
-		getAllModels(db);
-
 	}
 
 	private List<RadinGroupModel> getAllModels(SQLiteDatabase db) {
@@ -94,6 +83,10 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 	}
 
 	private RadinGroupModel cursorToRadinGroupModel(Cursor cursor) {
+//		String[] columns = cursor.getColumnNames();
+//		for(String col: columns) {
+//			
+//		}
 		int rid = cursor.getColumnIndex(RadinGroupTableHelper.Column.RID
 				.getSqlName());
 
@@ -117,9 +110,9 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 				.getColumnIndex(RadinGroupTableHelper.Column.RG_DESCRIPTION
 						.getSqlName());
 
-		int rgGroup = cursor
-				.getColumnIndex(RadinGroupTableHelper.Column.RG_GROUP
-						.getSqlName());
+//		int rgGroup = cursor
+//				.getColumnIndex(RadinGroupTableHelper.Column.RG_GROUP
+//						.getSqlName()); //TODO #rgGroup
 
 		int rgMasterId = cursor
 				.getColumnIndex(RadinGroupTableHelper.Column.RG_MASTER_RID
@@ -127,29 +120,15 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 
 		int rgName = cursor.getColumnIndex(RadinGroupTableHelper.Column.RG_NAME
 				.getSqlName());
+		
 
 		cursor.getString(rgCreation);
 		cursor.getString(rgDeleted);
 		cursor.getString(rgEndDate);
 		RadinGroupModel rgModel = new RadinGroupModel(rid, null, null, null,
 				null, 0);
+		return rgModel;
 	}
 
-	private DateTime getTimeFrom(String strTime) {
-		DateTime time = null;
-		switch (strTime) {
-		case "today":
-			time = RIGHT_NOW;
-			break;
-		case "tomorrow":
-			time = TOMORROW;
-			break;
-		case "after-tomorrow":
-			time = AFTER_TOMORROW;
-			break;
-		default:
-			break;
-		}
-		return time;
-	}
+	
 }

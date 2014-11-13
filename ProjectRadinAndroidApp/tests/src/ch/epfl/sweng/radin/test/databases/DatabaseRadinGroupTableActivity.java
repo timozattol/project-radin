@@ -1,7 +1,13 @@
 package ch.epfl.sweng.radin.test.databases;
 
-import ch.epfl.sweng.radin.databases.DatabaseOpenHelper;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.joda.time.DateTime;
+
+import ch.epfl.sweng.radin.databases.Database;
 import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.test.R;
 import android.app.Activity;
 import android.content.ContentValues;
@@ -19,7 +25,10 @@ import android.widget.TextView;
  * 
  */
 public class DatabaseRadinGroupTableActivity extends Activity {
-
+	private static final DateTime TODAY = DateTime.now();
+	private static final DateTime TOMORROW = TODAY.plusDays(1);
+	private static final DateTime AFTER_TOMORROW = TOMORROW.plusDays(1);
+	private Database db;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,6 +36,7 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		Button submitRadinGroupToDatabaseBtn = (Button) findViewById(R.id.submitRadinGroupToDB);
 		submitRadinGroupToDatabaseBtn
 		.setOnClickListener(submitRadinGroupOnClickListener);
+		db = new Database(this);
 	}
 
 	@Override
@@ -48,28 +58,39 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private ContentValues getContentValuesFromFields() {
-		ContentValues values = new ContentValues();
-		values.put(RadinGroupTableHelper.Column.RID.getSqlName(),
-				returnText((TextView) findViewById(R.id.RID)));
-		values.put(RadinGroupTableHelper.Column.RG_AVATAR.getSqlName(),
-				returnText((TextView) findViewById(R.id.RGAvatar)));
-		values.put(RadinGroupTableHelper.Column.RG_CREATION_DATE.getSqlName(), 
-				returnText((TextView) findViewById(R.id.RGCreationDate)));
-		values.put(RadinGroupTableHelper.Column.RG_DELETED_AT.getSqlName(), 
-				returnText((TextView) findViewById(R.id.RGDeletedAt)));
-		values.put(RadinGroupTableHelper.Column.RG_DESCRIPTION.getSqlName(), 
-				returnText((TextView) findViewById(R.id.RGDescription)));
-		values.put(RadinGroupTableHelper.Column.RG_END_DATE.getSqlName(), 
-				returnText((TextView) findViewById(R.id.RGEndedAt)));
-		values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(),
-				returnText((TextView) findViewById(R.id.RGGroup)));
-		values.put(RadinGroupTableHelper.Column.RG_MASTER_RID.getSqlName(), 
-				returnText((TextView) findViewById(R.id.RGMasterID)));
-		values.put(RadinGroupTableHelper.Column.RG_NAME.getSqlName(), 
-				returnText((TextView) findViewById(R.id.RGName)));
+	private RadinGroupModel getRadinGroupFromFields() {
 		
-		return values;
+		int rid = Integer.parseInt(returnText((TextView) findViewById(R.id.RID)));
+		String name = returnText((TextView) findViewById(R.id.RGName));
+		String creationDate = returnText((TextView) findViewById(R.id.RGCreationDate));
+		String avatar = returnText((TextView) findViewById(R.id.RGAvatar));
+		String description = returnText((TextView) findViewById(R.id.RGDescription));
+//		values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(), // TODO #rgGroup
+//				returnText((TextView) findViewById(R.id.RGGroup)));
+		returnText((TextView) findViewById(R.id.RGMasterID));
+		returnText((TextView) findViewById(R.id.RGEndedAt));
+		returnText((TextView) findViewById(R.id.RGDeletedAt));
+		
+		RadinGroupModel rg = new RadinGroupModel(rid, getTimeFrom(creationDate), name, description, avatar);
+		return rg;
+	}
+	
+	private DateTime getTimeFrom(String strTime) {
+		DateTime time = null;
+		switch (strTime) {
+			case "today":
+				time = TODAY;
+				break;
+			case "tomorrow":
+				time = TOMORROW;
+				break;
+			case "after-tomorrow":
+				time = AFTER_TOMORROW;
+				break;
+			default:
+				break;
+		}
+		return time;
 	}
 	
 	private String returnText(TextView textView) {
@@ -77,12 +98,9 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	}
 
 	private void insertFieldsInDB() {
-		DatabaseOpenHelper dbOpenHelper = new DatabaseOpenHelper(this,
-				null);
-		SQLiteDatabase writableDB = dbOpenHelper.getWritableDatabase();
-		writableDB.insert(RadinGroupTableHelper.TABLE_RADIN_GROUP,
-				null, getContentValuesFromFields()); // TODO checkout info
-		// about nullHack
+		List<RadinGroupModel> radinGroups = new LinkedList<>();
+		radinGroups.add(getRadinGroupFromFields());
+		db.insertRadinGroups(radinGroups);
 	}
 	
 	private OnClickListener submitRadinGroupOnClickListener = new View.OnClickListener() {
