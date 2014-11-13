@@ -2,7 +2,9 @@ package ch.epfl.sweng.radin.test.storage;
 
 import org.joda.time.DateTime;
 
+import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import android.content.ContentValues;
 import android.test.AndroidTestCase;
 
 /**
@@ -58,9 +60,7 @@ public class RadingGroupModelTest extends AndroidTestCase {
 
     public void testMasterID() throws Exception {
         assertTrue(radinGroupWithMaster.hasMasterID());
-        assertEquals(RadinGroupModel.TypeOfRadinGroup.WITH_MASTER_ID, radinGroupWithMaster.getType());
         assertFalse(radinGroupWithoutMaster.hasMasterID());
-        assertEquals(RadinGroupModel.TypeOfRadinGroup.WITHOUT_MASTER_ID, radinGroupWithoutMaster.getType());
     }
 
     public void testWithoutMasterIDConstructorNullFields() {
@@ -124,6 +124,16 @@ public class RadingGroupModelTest extends AndroidTestCase {
             assertNotNull(e);
         }
     }
+    public void testGetContentValuesWithGoodParameters() throws Exception {
+    	ContentValues values = radinGroupWithMaster.getContentValues();
+    	assertEquals(DEFAULT_AVATAR, values.get(RadinGroupTableHelper.Column.RG_AVATAR.getSqlName()));
+    	assertEquals(DEFAULT_DESCRIPTION, values.get(RadinGroupTableHelper.Column.RG_DESCRIPTION.getSqlName()));
+//    	assertEquals(DEFAULT_GROUP_GROUP, values.get(RadinGroupTableHelper.Column.RG_GROUP.getSqlName())); 
+    	//TODO #rgGroup
+    	assertEquals(DEFAULT_GROUP_NAME, values.get(RadinGroupTableHelper.Column.RG_NAME.getSqlName()));
+    	assertEquals(DEFAULT_MASTER_ID, values.get(RadinGroupTableHelper.Column.RG_MASTER_RID.getSqlName()));
+    	assertEquals(DEFAULT_RADIN_GROUP_ID, values.get(RadinGroupTableHelper.Column.RID.getSqlName()));
+	}
 
     public void testModifyingValuesWithSettersWithMasterID() {
         radinGroupWithMaster.setAvatar(NEW_AVATAR);
@@ -136,7 +146,6 @@ public class RadingGroupModelTest extends AndroidTestCase {
         radinGroupWithMaster.setMasterID(NEW_MASTER_ID);
         assertEquals(radinGroupWithMaster.getMasterID(), NEW_MASTER_ID);
         assertTrue(radinGroupWithMaster.hasMasterID());
-        assertEquals(RadinGroupModel.TypeOfRadinGroup.WITH_MASTER_ID, radinGroupWithMaster.getType());
 
         radinGroupWithMaster.setRadinGroupEndDateTime(TOMORROW);
         assertEquals(radinGroupWithMaster.getRadinGroupEndDateTime(),
@@ -155,7 +164,6 @@ public class RadingGroupModelTest extends AndroidTestCase {
     public void testSetMasterIDToGroupWithoutMasterID() throws Exception {
         radinGroupWithoutMaster.setMasterID(NEW_MASTER_ID);
         assertTrue(radinGroupWithoutMaster.hasMasterID());
-        assertEquals(RadinGroupModel.TypeOfRadinGroup.WITH_MASTER_ID, radinGroupWithoutMaster.getType());
         assertEquals(radinGroupWithoutMaster.getMasterID(), NEW_MASTER_ID);
     }
 
