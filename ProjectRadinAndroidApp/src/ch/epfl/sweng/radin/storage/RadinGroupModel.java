@@ -8,6 +8,12 @@ import org.joda.time.DateTime;
  * the design of our RadinGroupModel
  */
 public class RadinGroupModel extends Model{
+	/**
+	 * @author Simonchelbc
+	 */
+	public enum TypeOfRadinGroup {
+		WITH_MASTER_ID, WITHOUT_MASTER_ID
+	}
 	private final int mRadinGroupID;
 	private final DateTime mGroupCreationDateTime;
 
@@ -21,6 +27,7 @@ public class RadinGroupModel extends Model{
 	// Set if this group is contained in another RadinGroup which ID we will set as this.mMasterID
 	private int mMasterID;
 	private boolean mHasMasterID;
+	private TypeOfRadinGroup mType;
 	
 
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
@@ -40,6 +47,8 @@ public class RadinGroupModel extends Model{
 		checkString("avatar", avatar);
 		mAvatar = avatar;
 		
+		mType = TypeOfRadinGroup.WITHOUT_MASTER_ID;
+		
 		mHasMasterID = false;
 	}
 
@@ -50,6 +59,7 @@ public class RadinGroupModel extends Model{
 				groupDescription, avatar);
 		checkArgumentPositive("masterID", masterID);
 		mMasterID = masterID;
+		mType = TypeOfRadinGroup.WITH_MASTER_ID;
 		mHasMasterID = true;
 	}
 
@@ -130,8 +140,17 @@ public class RadinGroupModel extends Model{
 		mAvatar = avatar;
 	}
 	
+	/**
+	 * @return
+	 * @deprecated use {@link #getType() instead}
+	 */
+	@Deprecated
 	public boolean hasMasterID() {
 	    return mHasMasterID;
+	}
+	
+	public TypeOfRadinGroup getType() {
+		return mType;
 	}
 
 	public int getMasterID() {
@@ -142,6 +161,7 @@ public class RadinGroupModel extends Model{
 		checkArgumentPositive("masterID", masterID); 
 		mMasterID = masterID;
 		mHasMasterID = true;
+		mType = TypeOfRadinGroup.WITH_MASTER_ID;
 	}
 
 	public int getRadinGroupID() {
