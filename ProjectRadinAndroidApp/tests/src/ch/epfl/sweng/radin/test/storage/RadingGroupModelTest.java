@@ -49,10 +49,18 @@ public class RadingGroupModelTest extends AndroidTestCase {
                 RIGHT_NOW, DEFAULT_GROUP_NAME, DEFAULT_DESCRIPTION,
                 DEFAULT_AVATAR, DEFAULT_MASTER_ID);
     }
+    
+    @Override
+    protected void tearDown() throws Exception {
+    	// TODO Auto-generated method stub
+    	super.tearDown();
+    }
 
     public void testMasterID() throws Exception {
         assertTrue(radinGroupWithMaster.hasMasterID());
+        assertEquals(RadinGroupModel.TypeOfRadinGroup.WITH_MASTER_ID, radinGroupWithMaster.getType());
         assertFalse(radinGroupWithoutMaster.hasMasterID());
+        assertEquals(RadinGroupModel.TypeOfRadinGroup.WITHOUT_MASTER_ID, radinGroupWithoutMaster.getType());
     }
 
     public void testWithoutMasterIDConstructorNullFields() {
@@ -128,6 +136,7 @@ public class RadingGroupModelTest extends AndroidTestCase {
         radinGroupWithMaster.setMasterID(NEW_MASTER_ID);
         assertEquals(radinGroupWithMaster.getMasterID(), NEW_MASTER_ID);
         assertTrue(radinGroupWithMaster.hasMasterID());
+        assertEquals(RadinGroupModel.TypeOfRadinGroup.WITH_MASTER_ID, radinGroupWithMaster.getType());
 
         radinGroupWithMaster.setRadinGroupEndDateTime(TOMORROW);
         assertEquals(radinGroupWithMaster.getRadinGroupEndDateTime(),
@@ -146,6 +155,7 @@ public class RadingGroupModelTest extends AndroidTestCase {
     public void testSetMasterIDToGroupWithoutMasterID() throws Exception {
         radinGroupWithoutMaster.setMasterID(NEW_MASTER_ID);
         assertTrue(radinGroupWithoutMaster.hasMasterID());
+        assertEquals(RadinGroupModel.TypeOfRadinGroup.WITH_MASTER_ID, radinGroupWithoutMaster.getType());
         assertEquals(radinGroupWithoutMaster.getMasterID(), NEW_MASTER_ID);
     }
 
