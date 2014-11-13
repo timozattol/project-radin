@@ -27,7 +27,7 @@ public class RadinGroupModel extends Model{
 	private String mName;
 	private String mDescription;
 	private String mAvatar;
-	private String mRgGroup;
+//	private String mRgGroup; // TODO #rgGroup
 	
 	// Set if this group is contained in another RadinGroup which ID we will set as this.mMasterID
 	private int mMasterID;
@@ -79,8 +79,8 @@ public class RadinGroupModel extends Model{
 				mEndDateTime.toString());
 		values.put(RadinGroupTableHelper.Column.RG_DESCRIPTION.getSqlName(), 
 				mDescription);
-		values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(),
-				mRgGroup);
+		//values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(),
+//				mRgGroup); // TODO #rgGroup
 		values.put(RadinGroupTableHelper.Column.RG_NAME.getSqlName(), 
 				mName);
 		
