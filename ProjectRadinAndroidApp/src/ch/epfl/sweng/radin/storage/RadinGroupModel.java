@@ -1,6 +1,7 @@
 package ch.epfl.sweng.radin.storage;
 
 import java.sql.Types;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -69,6 +70,8 @@ public class RadinGroupModel extends Model {
 
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
 			String radinGroupName, String groupDescription, String avatar) {
+		mTypes = new HashSet<>();
+		
 		checkArgumentPositive("radinGroupID", radinGroupID);
 		mRID = radinGroupID;
 
@@ -248,6 +251,7 @@ public class RadinGroupModel extends Model {
 	public boolean hasMasterID() {
 		return mTypes.contains(TypeOfRadinGroup.WITH_MASTER_ID);
 	}
+	
 
 	public Set<TypeOfRadinGroup> getTypes() {
 		return mTypes;
