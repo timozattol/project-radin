@@ -175,6 +175,8 @@ public class RadingGroupModelTest extends AndroidTestCase {
             assertNotNull(e);
         }
     }
+    
+
 
     public void testSetGroupEndDateTimeHappeningBeforeCreationTime() {
         try {
@@ -184,4 +186,6 @@ public class RadingGroupModelTest extends AndroidTestCase {
             assertNotNull(e);
         }
     }
+    
+    //TODO add test for ContentValues
 }
