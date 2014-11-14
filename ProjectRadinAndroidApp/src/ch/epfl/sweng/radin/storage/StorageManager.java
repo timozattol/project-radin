@@ -60,7 +60,7 @@ public abstract class StorageManager<M extends Model> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
 	public boolean getById(int id, RadinListener<M> callback) {
-		GeneralConnectionTask connTask = new GeneralConnectionTask(callback);
+		ServerConnectionTask connTask = new ServerConnectionTask(callback);
 		connTask.execute(SERVER_BASE_URL + getTypeUrl(), "GET", String.valueOf(id));
 		
 		//TODO make this value represent something.
@@ -107,11 +107,20 @@ public abstract class StorageManager<M extends Model> {
 		return networkInfo != null && networkInfo.isConnected();
 	}
 
-	private class GeneralConnectionTask extends AsyncTask<String, Void, String> {
+	/**
+	 * An Asynchronous task who communicates with the server. 
+	 * The execute method takes 3 String arguments: 
+	 * 1. The url to connect to
+	 * 2. The request method (GET, POST, PUT, DELETE).
+	 * 3. The json data to post or put. (Can be empty if request method is get or delete).
+	 * @author timozattol
+	 *
+	 */
+	private class ServerConnectionTask extends AsyncTask<String, Void, String> {
 
-		private RadinListener mListener;
+		private RadinListener<M> mListener;
 		
-		public GeneralConnectionTask(RadinListener listener) {
+		public ServerConnectionTask(RadinListener<M> listener) {
 			mListener = listener;
 		}
 		
@@ -123,7 +132,7 @@ public abstract class StorageManager<M extends Model> {
 			try {
 				URL url = new URL(params[0]);
 				String requestMethod = params[1];
-				String jsonParams = params[2];
+				String jsonData = params[2];
 				
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	            conn.setRequestMethod(requestMethod);
