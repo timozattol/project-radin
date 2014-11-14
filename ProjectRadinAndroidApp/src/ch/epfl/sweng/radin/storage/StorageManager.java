@@ -125,13 +125,6 @@ public abstract class StorageManager<M extends Model> {
 				String requestMethod = params[1];
 				String jsonParams = params[2];
 				
-				//Database AND/OR server:
-				// Very rough pseudo code! must see with server and database for specifics.
-				Database db = new Database();
-				if(requestMethod.equals("GET")) {
-					db.select(jsonParams);
-				}
-				
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	            conn.setRequestMethod(requestMethod);
 	            conn.setDoInput(true);
