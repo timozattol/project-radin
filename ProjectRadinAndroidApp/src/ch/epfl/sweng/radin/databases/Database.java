@@ -73,7 +73,7 @@ public class Database {
 				throw new IllegalArgumentException(
 						"radinGroups cannot be Empty");
 			} else {
-				final Map<Long, Model> rowIDToRadinGroup = new HashMap<>(
+				final Map<Long, Model> rowIDToRadinGroup = new HashMap<Long, Model>(
 						radinGroups.size());
 				for (RadinGroupModel rg : radinGroups) {
 					if (rg == null) {
