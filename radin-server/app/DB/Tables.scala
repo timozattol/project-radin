@@ -5,18 +5,17 @@ import scala.slick.lifted.{ ProvenShape, ForeignKeyQuery }
 
 class Tables {
 
-  class RadinGroup(tag: Tag) extends Table[(Int, String, String, String, String, Int, String, String, String)](tag, "RADINGROUP") {
+  class RadinGroup(tag: Tag) extends Table[(Int, String, String, String, Int, String, String, String)](tag, "RADINGROUP") {
     def rid: Column[Int] = column[Int]("RID", O.PrimaryKey, O.AutoInc, O.NotNull)
     def RGname: Column[String] = column[String]("RG_NAME", O.NotNull)
     def RGstartDate: Column[String] = column[String]("RG_STARTDATE", O.NotNull)
     def RGdescription: Column[String] = column[String]("RG_DESCRIPTION")
-    def RGgroup: Column[String] = column[String]("RG_GROUP")
     def RGmasterRID: Column[Int] = column[Int]("RG_MASTERRID")
     def RGavatar: Column[String] = column[String]("RG_AVATAR")
     def RGendDate: Column[String] = column[String]("RG_ENDDATE")
     def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
 
-    def * = (rid, RGname, RGstartDate, RGdescription, RGgroup, RGmasterRID, RGavatar, RGendDate, RGdeletedAt)
+    def * = (rid, RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, RGendDate, RGdeletedAt)
   }
   lazy val radinGroups = TableQuery[RadinGroup]
 

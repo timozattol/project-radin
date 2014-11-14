@@ -48,7 +48,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
    }
        """)
 
-  def myGroups = Action {
+  def myGroups = Action { 
     Ok(json)
   }
   
