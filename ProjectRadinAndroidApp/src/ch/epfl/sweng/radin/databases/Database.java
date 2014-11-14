@@ -25,8 +25,8 @@ public class Database {
 		mOpenHelper = new DatabaseOpenHelper(context);
 	}
 
-	public void insertRadinGroups(List<RadinGroupModel> radinGroups) {
-		mOpenHelper.insertRadinGroups(radinGroups);
+	public Map<Long, Model> insert(List<RadinGroupModel> radinGroups) {
+		return mOpenHelper.insert(radinGroups);
 	}
 
 	/**
@@ -65,8 +65,7 @@ public class Database {
 		}
 
 		// TODO add to interface
-		public Map<Long, Model> insertRadinGroups(
-				List<RadinGroupModel> radinGroups) {
+		public Map<Long, Model> insert(List<RadinGroupModel> radinGroups) {
 			if (radinGroups == null) {
 				throw new IllegalArgumentException(
 						"radinGroups pointing to null");
@@ -89,17 +88,20 @@ public class Database {
 				return rowIDToRadinGroup;
 			}
 		}
-		
+
 		/**
-		 * @param table the name of the table to search into
+		 * @param table
+		 *            the name of the table to search into
 		 * @return
 		 */
-		public Cursor queryIn(String table, String[] columns, String whereClause, String[] selectionArgs,
-				String groupBy, String having, String sortOrder) {
+		public Cursor queryIn(String table, String[] columns,
+				String whereClause, String[] selectionArgs, String groupBy,
+				String having, String sortOrder) {
 			SQLiteQueryBuilder buider = new SQLiteQueryBuilder();
 			buider.setTables(table);
-			Cursor cursor = buider.query(mDatabase, columns, whereClause, selectionArgs, groupBy, having, sortOrder);
-			
+			Cursor cursor = buider.query(mDatabase, columns, whereClause,
+					selectionArgs, groupBy, having, sortOrder);
+
 			if (cursor == null) {
 				return null;
 			} else if (!cursor.moveToFirst()) {
@@ -108,9 +110,6 @@ public class Database {
 			}
 			return cursor;
 		}
-		
-		
-		
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
