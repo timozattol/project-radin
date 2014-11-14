@@ -34,6 +34,7 @@ public class RadinGroupJSONParser implements JSONParser<RadinGroupModel> {
 
 			JSONObject jsonData = jsonArray.getJSONObject(i);
 			RadinGroupModel radinGroupModel;
+			
 			if (jsonData.has("RG_MASTER_RID")) {
 
 				radinGroupModel = new RadinGroupModel(
@@ -67,6 +68,8 @@ public class RadinGroupJSONParser implements JSONParser<RadinGroupModel> {
 							dtf.parseDateTime(jsonData.getString("RG_DELETED_AT")));
 				}
 			}
+			
+			radinGroupModels.add(radinGroupModel);
 		}
 
 		//        radinGroupModels.add(new RadinGroupModel(0, DateTime.now(), "Group 1", 
