@@ -1,4 +1,5 @@
 package ch.epfl.sweng.radin;
+import ch.epfl.sweng.radin.storage.StorageManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class LoginActivity extends Activity {
 		loginBtn.setOnClickListener(loginButtonListener);
 		Button newAccountBtn = (Button) findViewById(R.id.creatAcountButton);
 		newAccountBtn.setOnClickListener(createAccountButtonListener);
+		
+		StorageManager.init(this);
 	}
 	private OnClickListener loginButtonListener = new View.OnClickListener() {	
 		@Override

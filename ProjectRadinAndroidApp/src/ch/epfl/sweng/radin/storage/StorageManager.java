@@ -24,18 +24,44 @@ import ch.epfl.sweng.radin.callback.RadinListener;
  * @param <M> the type of Model handled by the StorageManager
  */
 public abstract class StorageManager<M extends Model> {
-	
+    
+	private static Context context = null;
 	static final String SERVER_BASE_URL = "radin.epfl.ch/";
-	JSONParser jsonParser = null;
+	private JSONParser<M> mJsonParser = null;
 	
-	abstract StorageManager<M> getStorageManager();
+	public abstract StorageManager<M> getStorageManager();
+	
+	/**
+	 * Meant to be overridden by child classes, to fill jsonParser with a new 
+	 * type-specific parser if empty, then return the mJsonParser
+	 * @return the type-specific json parser.
+	 */
+	public abstract JSONParser<M> getJSONParser();
+
+	/**
+	 * Meant to be overridden by child classes, to be the specific-to-type server url.
+	 * For example "user", or "radinGroup"
+	 * @return the type url.
+	 */
+    protected abstract String getTypeUrl();
+	
+	/**
+	 * Initiates the StorageManager with the application Context
+	 * The Context is needed when we check the connection
+	 * @param appContext the context of the Application
+	 */
+	public static void init(Context appContext) {
+	    if (context == null) {
+	        context = appContext;
+	    }
+	}
 	
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
 	public boolean getById(int id, RadinListener<M> callback) {
 		GeneralConnectionTask connTask = new GeneralConnectionTask(callback);
-		connTask.execute(SERVER_BASE_URL, "GET", String.valueOf(id));
+		connTask.execute(SERVER_BASE_URL + getTypeUrl(), "GET", String.valueOf(id));
 		
 		//TODO make this value represent something.
 		return true;
@@ -44,7 +70,7 @@ public abstract class StorageManager<M extends Model> {
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(android.app.Activity)
 	 */
-	public boolean getAll(RadinListener callback) {
+	public boolean getAll(RadinListener<M> callback) {
 		//TODO make this value represent something.
 		return false;
 	}
@@ -73,15 +99,14 @@ public abstract class StorageManager<M extends Model> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	private boolean isConnected() {
-		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
 		return networkInfo != null && networkInfo.isConnected();
 	}
-	
-	
-	
+
 	private class GeneralConnectionTask extends AsyncTask<String, Void, String> {
 
 		private RadinListener mListener;
@@ -132,7 +157,7 @@ public abstract class StorageManager<M extends Model> {
 				//HACK because the parser takes a list, should it take just one object instead?
 				List<JSONObject> jsonList = new ArrayList<JSONObject>();
 				jsonList.add(json);
-				List<Model> models = jsonParser.getModelsFromJson(jsonList);
+				List<Model> models = mJsonParser.getModelsFromJson(jsonList);
 				
 				mListener.callback(models);
 			} catch (JSONException e) {
