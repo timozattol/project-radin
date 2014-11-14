@@ -25,7 +25,8 @@ import ch.epfl.sweng.radin.callback.RadinListener;
  * @author CedricCook
  *
  */
-public final class RadinGroupStorageManager implements StorageManager<RadinGroupModel> {
+
+public class RadinGroupStorageManager extends StorageManager<RadinGroupModel> {
 
 	private RadinGroupStorageManager radinGroupStorageManager = null;
 	
@@ -105,13 +106,6 @@ public final class RadinGroupStorageManager implements StorageManager<RadinGroup
         return false;
     }
 	
-	private boolean isConnected() {
-		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-		return (networkInfo != null && networkInfo.isConnected());
-	}
-
 	private class RadinGroupConnectionTask extends AsyncTask<String, Void, String> {
 
 		private RadinListener<RadinGroupModel> mListener;
