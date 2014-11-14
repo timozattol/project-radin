@@ -20,7 +20,7 @@ import android.widget.Toast;
  * @author CedricCook
  *
  */
-public class UserStorageManager implements StorageManager<UserModel> {
+public class UserStorageManager extends StorageManager<UserModel> {
 	
 	private UserStorageManager userStorageManager;
 	private Parser parser = new UserParser();
@@ -86,7 +86,7 @@ public class UserStorageManager implements StorageManager<UserModel> {
 	public boolean update(List<UserModel> entries, RadinListener callback) {
 		String accessUrl = "users/";
 		
-		if(isConnected()) {
+		if (isConnected()) {
 			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "PUT", parser.modelsToJson(entries));
 		}
 	}
@@ -101,13 +101,6 @@ public class UserStorageManager implements StorageManager<UserModel> {
 		if(isConnected()) {
 			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "DELETE", parser.modelsToJson(entries));
 		}
-	}
-	
-	private boolean isConnected() {
-		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-		return (networkInfo != null && networkInfo.isConnected());
 	}
 	
 	private class UserConnectionTask extends AsyncTask<String, Void, UserModel> {

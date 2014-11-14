@@ -18,7 +18,7 @@ import android.os.AsyncTask;
  * @author CedricCook
  *
  */
-public class TransactionStorageManager implements StorageManager<TransactionModel> {
+public class TransactionStorageManager extends StorageManager<TransactionModel> {
 	TransactionStorageManager transactionStorageManager;
 	private Parser parser = new TransactionParser();
 	
@@ -35,58 +35,6 @@ public class TransactionStorageManager implements StorageManager<TransactionMode
 			transactionStorageManager = new TransactionStorageManager();
 		}
 		return transactionStorageManager;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
-	 */
-	@Override
-	public boolean getById(int id, RadinListener callback) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(android.app.Activity)
-	 */
-	@Override
-	public boolean getAll(RadinListener callback) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List, android.app.Activity)
-	 */
-	@Override
-	public boolean create(List<TransactionModel> entries, RadinListener callback) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List, android.app.Activity)
-	 */
-	@Override
-	public boolean update(List<TransactionModel> entries, RadinListener callback) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List, android.app.Activity)
-	 */
-	@Override
-	public boolean delete(List<TransactionModel> entries, RadinListener callback) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	private boolean isConnected() {
-		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-		return (networkInfo != null && networkInfo.isConnected());
 	}
 	
 	private class TransactionConnectionTask extends AsyncTask<String, Void, String> {
