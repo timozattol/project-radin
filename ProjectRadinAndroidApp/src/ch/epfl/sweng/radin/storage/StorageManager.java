@@ -9,21 +9,22 @@ import ch.epfl.sweng.radin.callback.RadinListener;
 /**
  * @author CedricCook
  *	A StorageManager allows CRUD operations and handles on & offline data storage.
+ * @param <M> the type of Model handled by the StorageManager
  */
 public interface StorageManager<M extends Model> {
 	
-	abstract StorageManager<M> getStorageManager();
+	StorageManager<M> getStorageManager();
 	
-	public boolean getById(int id, RadinListener<M> callback);
+	boolean getById(int id, RadinListener<M> callback);
 	
-	public boolean getAll(RadinListener<M> callback);
+	boolean getAll(RadinListener<M> callback);
 
-	public boolean create(List<M> entries, RadinListener<M> callback);
+	boolean create(List<M> entries, RadinListener<M> callback);
 	
-	public boolean update(List<M> entries, RadinListener<M> callback);
+	boolean update(List<M> entries, RadinListener<M> callback);
 	
-	public boolean delete(List<M> entries, RadinListener<M> callback);
+	boolean delete(List<M> entries, RadinListener<M> callback);
 	
-	static final String SERVER_BASE_URL = "radin.epfl.ch/";
+	String SERVER_BASE_URL = "radin.epfl.ch/";
 	
 }
