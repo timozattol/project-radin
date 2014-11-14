@@ -74,57 +74,54 @@ public abstract class StorageManager<M extends Model> {
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(android.app.Activity)
 	 */
-	public boolean getAll(RadinListener<M> callback) {
+	public void getAll(RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback);
 				connTask.execute(SERVER_BASE_URL + getTypeUrl(), "GET");
-				return true;
+				return;
 			}
 		}
 		//TODO take the data from the local DB
-		//TODO make this value represent something.
-		return true;
 	}
 
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List, android.app.Activity)
 	 */
 
-	public boolean create(List<M> entries, RadinListener<M> callback) {
+	public void create(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()){
 			ServerConnectionTask connTask = new ServerConnectionTask(callback);
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
 			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "POST", json.toString());
 		}
-		//TODO set the data in the local DB
-		return true;
+		return;
 	}
 
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List, android.app.Activity)
 	 */
-	public boolean update(List<M> entries, RadinListener<M> callback) {
+	public void update(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()){
 			ServerConnectionTask connTask = new ServerConnectionTask(callback);
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
 			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "PUT", json.toString());
 		}
 		//TODO modify the data in the local DB
-		return true;
+		return;
 	}
 
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List, android.app.Activity)
 	 */
-	public boolean delete(List<M> entries, RadinListener<M> callback) {
+	public void delete(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()){
 			ServerConnectionTask connTask = new ServerConnectionTask(callback);
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
 			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "DELETE", json.toString());
 		}
 		//TODO delet the data in the local DB
-		return true;
+		return;
 	}
 
 	private boolean isConnected() {
