@@ -32,8 +32,8 @@ public final class TransactionModel extends Model {
      * Public constructor for TransactionModel
      */
     public TransactionModel(int transactionID, int parentRadinGroupID, int debitorID, 
-            int creatorID, double amount, Currency currency, DateTime dateTime, String purpose, 
-            String justificativePath, TransactionType type) {
+            int creatorID, double amount, Currency currency, DateTime dateTime, String purpose,
+            TransactionType type) {
         
         // Sanity checks
         checkArgumentPositive("Transaction ID", transactionID);
@@ -62,7 +62,6 @@ public final class TransactionModel extends Model {
         mDateTime = dateTime;
         
         mPurpose = purpose;
-        mJustificativePath = justificativePath;
         mType = type;
     }
 
