@@ -11,35 +11,33 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 /**
  * @author CedricCook
  *
  */
-public class RadinGroupStorageManager implements StorageManager<RadinGroupModel> {
+public final class RadinGroupStorageManager implements StorageManager<RadinGroupModel> {
 
 	private RadinGroupStorageManager radinGroupStorageManager = null;
 	
-	private RadinGroupStorageManager() {}
+	private RadinGroupStorageManager() {
+	    
+	}
 	
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getStorageManager()
 	 */
 	public StorageManager<RadinGroupModel> getStorageManager() {
-		if(radinGroupStorageManager == null) {
+		if (radinGroupStorageManager == null) {
 			radinGroupStorageManager = new RadinGroupStorageManager();
 		}
 		return radinGroupStorageManager;
@@ -49,57 +47,63 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
 	@Override
-	public boolean getById(int id, RadinListener callback) {
+	public boolean getById(int id, RadinListener<RadinGroupModel> callback) {
 		RadinGroupConnectionTask connTask = new RadinGroupConnectionTask(callback);
 		connTask.execute(SERVER_BASE_URL, "GET", String.valueOf(id));
 		
 		//TODO make this value represent something.
 		return true;
 	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(android.app.Activity)
-	 */
-	@Override
-	public boolean getAll(RadinListener callback) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
+    /* (non-Javadoc)
+     * @see ch.epfl.sweng.radin.storage.StorageManager#getAll(ch.epfl.sweng.radin.callback.RadinListener)
+     */
+    @Override
+    public boolean getAll(RadinListener<RadinGroupModel> callback) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    public boolean getAllByUserId(int userId, RadinListener<RadinGroupModel> callback) {
+        // TODO what is this ?
+        //callback.callFromStorageManagerTrue();
+        //callback.setId(userId);
 
-	public boolean getAllByUserId(int userId, RadinListener callback) {
-		callback.callFromStorageManagerTrue();
-		callback.setId(userId);
+        return true;
+    }
 
-		return true;
-	}
+    /* (non-Javadoc)
+     * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List, 
+     * ch.epfl.sweng.radin.callback.RadinListener)
+     */
+    @Override
+    public boolean create(List<RadinGroupModel> entries,
+            RadinListener<RadinGroupModel> callback) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List, android.app.Activity)
-	 */
-	@Override
-	public boolean create(List<RadinGroupModel> entries, RadinListener callback) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List, 
+     * ch.epfl.sweng.radin.callback.RadinListener)
+     */
+    @Override
+    public boolean update(List<RadinGroupModel> entries,
+            RadinListener<RadinGroupModel> callback) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List, android.app.Activity)
-	 */
-	@Override
-	public boolean update(List<RadinGroupModel> entries, RadinListener callback) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List, android.app.Activity)
-	 */
-	@Override
-	public boolean delete(List<RadinGroupModel> entries, RadinListener callback) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List, 
+     * ch.epfl.sweng.radin.callback.RadinListener)
+     */
+    @Override
+    public boolean delete(List<RadinGroupModel> entries,
+            RadinListener<RadinGroupModel> callback) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 	
 	private boolean isConnected() {
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -107,12 +111,12 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 
 		return (networkInfo != null && networkInfo.isConnected());
 	}
-	
+
 	private class RadinGroupConnectionTask extends AsyncTask<String, Void, String> {
 
-		private RadinListener mListener;
-		
-		public RadinGroupConnectionTask(RadinListener listener) {
+		private RadinListener<RadinGroupModel> mListener;
+
+		public RadinGroupConnectionTask(RadinListener<RadinGroupModel> listener) {
 			mListener = listener;
 		}
 		
@@ -129,16 +133,18 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 				//Database AND/OR server:
 				// Very rough pseudo code! must see with server and database for specifics.
 				Database db = new Database();
-				if(requestMethod.equals("GET")) {
+				if (requestMethod.equals("GET")) {
 					db.select(jsonParams);
 				}
 				
-				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	            conn.setRequestMethod(requestMethod);
-	            conn.setDoInput(true);
-	            conn.connect();
-	            
-	            return fetchContent(conn);
+//				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//	            conn.setRequestMethod(requestMethod);
+//	            conn.setDoInput(true);
+//	            conn.connect();
+//
+//	            return fetchContent(conn);
+
+				return null;
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -150,7 +156,7 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 		 */
 		@Override
 		protected void onPostExecute(String result) {
-			JSONParser jsonParser = new RadinGroupJSONParser();
+			JSONParser<RadinGroupModel> jsonParser = new RadinGroupJSONParser();
 			//TODO check that result is valid json
 			JSONObject json;
 			try {
@@ -159,7 +165,7 @@ public class RadinGroupStorageManager implements StorageManager<RadinGroupModel>
 				//HACK because the parser takes a list, should it take just one object instead?
 				List<JSONObject> jsonList = new ArrayList<JSONObject>();
 				jsonList.add(json);
-				List<Model> models = jsonParser.getModelsFromJson(jsonList);
+				List<RadinGroupModel> models = jsonParser.getModelsFromJson(jsonList);
 				
 				mListener.callback(models);
 			} catch (JSONException e) {
