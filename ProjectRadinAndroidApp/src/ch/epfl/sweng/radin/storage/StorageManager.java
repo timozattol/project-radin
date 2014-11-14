@@ -62,7 +62,7 @@ public abstract class StorageManager<M extends Model> {
 	public boolean getById(int id, RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				GeneralConnectionTask connTask = new GeneralConnectionTask(callback);
+				ServerConnectionTask connTask = new ServerConnectionTask(callback);
 				connTask.execute(SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(id), "GET");
 			}
 		}
@@ -77,7 +77,7 @@ public abstract class StorageManager<M extends Model> {
 	public boolean getAll(RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				GeneralConnectionTask connTask = new GeneralConnectionTask(callback);
+				ServerConnectionTask connTask = new ServerConnectionTask(callback);
 				connTask.execute(SERVER_BASE_URL + getTypeUrl(), "GET");
 				return true;
 			}
@@ -93,7 +93,7 @@ public abstract class StorageManager<M extends Model> {
 
 	public boolean create(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()){
-			GeneralConnectionTask connTask = new GeneralConnectionTask(callback);
+			ServerConnectionTask connTask = new ServerConnectionTask(callback);
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
 			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "POST", json.toString());
 		}
@@ -106,7 +106,7 @@ public abstract class StorageManager<M extends Model> {
 	 */
 	public boolean update(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()){
-			GeneralConnectionTask connTask = new GeneralConnectionTask(callback);
+			ServerConnectionTask connTask = new ServerConnectionTask(callback);
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
 			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "PUT", json.toString());
 		}
@@ -119,7 +119,7 @@ public abstract class StorageManager<M extends Model> {
 	 */
 	public boolean delete(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()){
-			GeneralConnectionTask connTask = new GeneralConnectionTask(callback);
+			ServerConnectionTask connTask = new ServerConnectionTask(callback);
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
 			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "DELETE", json.toString());
 		}
@@ -139,11 +139,22 @@ public abstract class StorageManager<M extends Model> {
 		return true;
 	}
 
-	private class GeneralConnectionTask extends AsyncTask<String, Void, String> {
+	/**
+	 * An Asynchronous task who communicates with the server. 
+	 * The execute method takes 3 String arguments: 
+	 * 1. The url to connect to
+	 * 2. The request method (GET, POST, PUT, DELETE).
+	 * 3. The json data to post or put. (Can be empty if request method is get or delete).
+	 * @author timozattol
+	 *
+	 */
+	private class ServerConnectionTask extends AsyncTask<String, Void, String> {
 
-		private RadinListener mListener;
 
-		public GeneralConnectionTask(RadinListener listener) {
+		private RadinListener<M> mListener;
+		
+		public ServerConnectionTask(RadinListener<M> listener) {
+
 			mListener = listener;
 		}
 
@@ -155,14 +166,8 @@ public abstract class StorageManager<M extends Model> {
 			try {
 				URL url = new URL(params[0]);
 				String requestMethod = params[1];
-				String jsonParams = params[2];
-
-				//Database AND/OR server:
-				// Very rough pseudo code! must see with server and database for specifics.
-				Database db = new Database();
-				if(requestMethod.equals("GET")) {
-					db.select(jsonParams);
-				}
+				String jsonData = params[2];
+				
 
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod(requestMethod);
