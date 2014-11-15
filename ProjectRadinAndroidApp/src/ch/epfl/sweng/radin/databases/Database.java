@@ -28,6 +28,12 @@ public class Database {
 	public Map<Long, Model> insert(List<RadinGroupModel> radinGroups) {
 		return mOpenHelper.insert(radinGroups);
 	}
+	
+	public Cursor query(String table, String[] columns,
+				String whereClause, String[] selectionArgs, String groupBy,
+				String having, String sortOrder) {
+		return mOpenHelper.query(table, columns, whereClause, selectionArgs, groupBy, having, sortOrder);
+	}
 
 	/**
 	 * @author Simonchelbc
@@ -94,7 +100,7 @@ public class Database {
 		 *            the name of the table to search into
 		 * @return
 		 */
-		public Cursor queryIn(String table, String[] columns,
+		public Cursor query(String table, String[] columns,
 				String whereClause, String[] selectionArgs, String groupBy,
 				String having, String sortOrder) {
 			SQLiteQueryBuilder buider = new SQLiteQueryBuilder();
