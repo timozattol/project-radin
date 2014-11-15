@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,17 @@ public abstract class StorageManager<M extends Model> {
 	private static Context context = null;
 	static final String SERVER_BASE_URL = "radin.epfl.ch/";
 	private JSONParser<M> mJsonParser = null;
+	
+	/**
+     * Initiates the StorageManager with the application Context
+     * The Context is needed when we check the connection
+     * @param appContext the context of the Application
+     */
+    public static void init(Context appContext) {
+        if (context == null) {
+            context = appContext;
+        }
+    }
 
 	public abstract StorageManager<M> getStorageManager();
 
@@ -46,25 +58,15 @@ public abstract class StorageManager<M extends Model> {
 	 */
 	protected abstract String getTypeUrl();
 
-	/**
-	 * Initiates the StorageManager with the application Context
-	 * The Context is needed when we check the connection
-	 * @param appContext the context of the Application
-	 */
-	public static void init(Context appContext) {
-		if (context == null) {
-			context = appContext;
-		}
-	}
-
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
 	public boolean getById(int id, RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask connTask = new ServerConnectionTask(callback);
-				connTask.execute(SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(id), "GET");
+				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET, 
+				        SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(id));
+				connTask.execute();
 			}
 		}
 		//TODO take the data from the local DB		
@@ -78,8 +80,9 @@ public abstract class StorageManager<M extends Model> {
 	public void getAll(RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask connTask = new ServerConnectionTask(callback);
-				connTask.execute(SERVER_BASE_URL + getTypeUrl(), "GET");
+				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
+				        SERVER_BASE_URL + getTypeUrl());
+				connTask.execute();
 				return;
 			}
 		}
@@ -91,10 +94,11 @@ public abstract class StorageManager<M extends Model> {
 	 */
 
 	public void create(List<M> entries, RadinListener<M> callback) {
-		if (isConnected()){
-			ServerConnectionTask connTask = new ServerConnectionTask(callback);
+		if (isConnected()) {
+			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
+			        SERVER_BASE_URL + getTypeUrl());
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
-			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "POST", json.toString());
+			connTask.execute(json.toString());
 		}
 		return;
 	}
@@ -103,10 +107,11 @@ public abstract class StorageManager<M extends Model> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List, android.app.Activity)
 	 */
 	public void update(List<M> entries, RadinListener<M> callback) {
-		if (isConnected()){
-			ServerConnectionTask connTask = new ServerConnectionTask(callback);
+		if (isConnected()) {
+			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.PUT,
+			        SERVER_BASE_URL + getTypeUrl());
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
-			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "PUT", json.toString());
+			connTask.execute(json.toString());
 		}
 		//TODO modify the data in the local DB
 		return;
@@ -116,10 +121,11 @@ public abstract class StorageManager<M extends Model> {
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List, android.app.Activity)
 	 */
 	public void delete(List<M> entries, RadinListener<M> callback) {
-		if (isConnected()){
-			ServerConnectionTask connTask = new ServerConnectionTask(callback);
+		if (isConnected()) {
+			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.DELETE,
+			        SERVER_BASE_URL + getTypeUrl());
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
-			connTask.execute(SERVER_BASE_URL + getTypeUrl(), "DELETE", json.toString());
+			connTask.execute(json.toString());
 		}
 		//TODO delet the data in the local DB
 		return;
@@ -132,7 +138,7 @@ public abstract class StorageManager<M extends Model> {
 		return networkInfo != null && networkInfo.isConnected();
 	}
 	
-	private boolean isHashMatchServer(){
+	private boolean isHashMatchServer() {
 		// TODO Creat a methode who verify our hash match the one from the server
 		return true;
 	}
@@ -141,8 +147,7 @@ public abstract class StorageManager<M extends Model> {
 	 * An Asynchronous task who communicates with the server. 
 	 * The execute method takes 3 String arguments: 
 	 * 1. The url to connect to
-	 * 2. The request method (GET, POST, PUT, DELETE).
-	 * 3. The json data to post or put. (Can be empty if request method is get or delete).
+	 * 2. The json data to post or put. (Can be empty if request method is get or delete).
 	 * @author timozattol
 	 *
 	 */
@@ -150,10 +155,20 @@ public abstract class StorageManager<M extends Model> {
 
 
 		private RadinListener<M> mListener;
+		private RequestType mRequestType;
+		private URL mURL;
 		
-		public ServerConnectionTask(RadinListener<M> listener) {
+		public ServerConnectionTask(RadinListener<M> listener, RequestType requestType, String url) {
 
 			mListener = listener;
+			mRequestType = requestType;
+			
+			try {
+                mURL = new URL(url);
+            } catch (MalformedURLException e) {
+                // TODO handle this exception
+                e.printStackTrace();
+            }
 		}
 
 		/* (non-Javadoc)
@@ -162,21 +177,51 @@ public abstract class StorageManager<M extends Model> {
 		@Override
 		protected String doInBackground(String... params) {
 			try {
-				URL url = new URL(params[0]);
-				String requestMethod = params[1];
-				String jsonData = params[2];
-				
+			    String jsonData = "";
+			    
+			    // Sanity checks on params[0] (the jsonData to send)
+			    if (params.length == 1) {
+			        if (mRequestType != RequestType.POST || mRequestType != RequestType.PUT) {
+			            throw new IllegalArgumentException("There should be jsonData "
+			            		+ "to send only if POST or PUT");
+			        }
+                    
+			        jsonData = params[0];
+                } else if (params.length == 0) {
+			        if (mRequestType != RequestType.GET || mRequestType != RequestType.DELETE) {
+                        throw new IllegalArgumentException("There shouldn't be jsonData "
+                                + "with GET or DELETE");
+                    }
+			    }
+                
+			    
+				switch(mRequestType) {
+                    case GET:
+                        break;
+                    case POST:
+                        break;
+                    case PUT:
+                        break;
+                    case DELETE:
+                        break;
+                    default:
+                        break;
+				    
+				}
 
-				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-				conn.setRequestMethod(requestMethod);
+
+				HttpURLConnection conn = (HttpURLConnection) mURL.openConnection();
+				conn.setRequestMethod(mRequestType.name());
 				conn.setDoInput(true);
 				conn.connect();
 
 				return fetchContent(conn);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ProtocolException e) {
+                // TODO Handle this exception
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 		}
 
 		/* (non-Javadoc)
@@ -217,7 +262,6 @@ public abstract class StorageManager<M extends Model> {
 				is.close();
 			}
 		}
-
 	}
 
 }
