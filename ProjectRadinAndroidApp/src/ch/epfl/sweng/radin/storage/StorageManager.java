@@ -193,7 +193,7 @@ public abstract class StorageManager<M extends Model> {
 				jsonList.add(json);
 				List<Model> models = mJsonParser.getModelsFromJson(jsonList);
 
-				mListener.callback(models);
+				mListener.callback(models, null);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

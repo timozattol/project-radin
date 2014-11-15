@@ -157,7 +157,7 @@ public class RadinGroupStorageManager extends StorageManager<RadinGroupModel> {
 				jsonList.add(json);
 				List<RadinGroupModel> models = jsonParser.getModelsFromJson(jsonList);
 				
-				mListener.callback(models);
+				mListener.callback(models, null);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

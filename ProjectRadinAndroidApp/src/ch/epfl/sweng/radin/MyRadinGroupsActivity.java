@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.epfl.sweng.radin.ActionBar.ListButton;
 import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.RadinGroupStorageManager;
@@ -48,7 +49,7 @@ public class MyRadinGroupsActivity extends Activity {
 		radinGroupStorageManager.getAllByUserId(userId, new RadinListener<RadinGroupModel>() {
 
 			@Override
-			public void callback(List<RadinGroupModel> items) {
+			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 				displayList(items);
 				
 			}
