@@ -188,7 +188,7 @@ public abstract class StorageManager<M extends Model> {
 			JSONObject json;			
 			
 			StorageManagerRequestStatus status = StorageManagerRequestStatus.OK;
-			if(result == null) { 
+			if(result.equals("FAIL")) {
 				status = StorageManagerRequestStatus.FAIL;
 			}
 			
@@ -202,7 +202,8 @@ public abstract class StorageManager<M extends Model> {
 
 				mListener.callback(models, status);
 			} catch (JSONException e) {
-				mListener.callback(null, StorageManagerRequestStatus.FAIL);
+				e.printStackTrace();
+				//TODO handle exception
 			}
 		}
 
