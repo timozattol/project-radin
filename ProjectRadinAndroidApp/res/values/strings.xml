@@ -21,7 +21,6 @@
     <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
-    
     <string name="home_title">Home</string>
     <string name="my_radingroups">My Radin Groups</string>
     <string name="profile">Profile</string>
@@ -38,6 +37,17 @@
     <string name="stats">Stats</string>
     <string name="create_account">Create new account</string>
     
+    <!-- for DatabaseRadinGroupTableActivity -->
+	<string name="radin_group_table_activity_title">RadinGroup DB Table test</string>
+	<string name="rid">_RID</string>
+	<string name="rg_creation_date_hint">Group creation date[now or tomorrow]</string>
+	<string name="rg_deletion_date_hint">Group deletion date[tomorrow]</string>
+	<string name="rg_end_date_hint">Group end date[tomorrow]</string>
+	<string name="rg_name_hint">Group name</string>
+	<string name="rg_avatar_hint">Avatar location</string>
+	<string name="rg_master_id_hint">RG MasterID</string>
+	<string name="rg_description_hint">RG Description</string>
+	<string name="title_activity_database_radin_group_table">DatabaseRadinGroupTableActivity</string>
     <!-- Linked to register and login activity -->
     <string name="login">Login</string>
     <string name="password">Password</string>
@@ -50,7 +60,6 @@
     <string name="address">Home address</string>
     <string name="bic_swift_address">BIC/SWIFT address</string>
     <string name="sign_up_button_text">Sign up</string>
-    
 
     <!-- NewListActivity -->
     <string name="radin_name">Name</string>
@@ -59,13 +68,13 @@
     <string name="multi_friend">Type the participants\' names</string>
     <string name="add_info">If a name doesn\'t belong to the suggestions it means that it has been misspelled or doesn\'t belong to your friends, you will be able to add it in the next screen</string>
     <string name="create_radin_group">Create</string>
-    
+
     <!-- ProfileActivity -->
     <string name="profile_last_name">Last Name</string>
     <string name="profile_first_name">First Name</string>
     <string name="profile_address">Address</string>
     <string name="profile_iban">Iban</string>
-    
+
     <!-- AddExpenseActivity -->
     <string name="creditor">Creditor :</string>
     <string name="debtors">Add debtor(s)</string>
@@ -86,4 +95,5 @@
     <string name="invalid_debtors">Please select debitors first</string>
     <string name="expense_added">Expense added!</string>
     
+
 </resources>
