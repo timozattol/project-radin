@@ -17,6 +17,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 
 /**
  * @author CedricCook
@@ -184,7 +185,13 @@ public abstract class StorageManager<M extends Model> {
 		@Override
 		protected void onPostExecute(String result) {
 			//TODO check that result is valid json
-			JSONObject json;
+			JSONObject json;			
+			
+			StorageManagerRequestStatus status = StorageManagerRequestStatus.OK;
+			if(result == null) { 
+				status = StorageManagerRequestStatus.FAIL;
+			}
+			
 			try {
 				json = new JSONObject(result);
 
@@ -193,10 +200,9 @@ public abstract class StorageManager<M extends Model> {
 				jsonList.add(json);
 				List<M> models = mJsonParser.getModelsFromJson(jsonList);
 
-				mListener.callback(models, null);
+				mListener.callback(models, status);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				mListener.callback(null, StorageManagerRequestStatus.FAIL);
 			}
 		}
 
