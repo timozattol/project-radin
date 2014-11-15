@@ -71,7 +71,7 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		Log.v(TAG, "performing click on submitRadinGroupToDB");
 		onView(withId(R.id.submitRadinGroupToDB)).perform(scrollTo());
 		assertTrue(withEffectiveVisibility(Visibility.VISIBLE).matches(withId(R.id.submitRadinGroupToDB)));
-		onView(allOf(withId(R.id.submitRadinGroupToDB))).perform(scrollTo(), click());
+		onView(withId(R.id.submitRadinGroupToDB)).perform(scrollTo(), click());
 		
 		List<Map<String, String>> rows = mRadinGroupActivity
 				.getEverythingFromRadinGroupTable();
