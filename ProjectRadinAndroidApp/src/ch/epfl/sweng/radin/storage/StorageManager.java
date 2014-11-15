@@ -191,7 +191,7 @@ public abstract class StorageManager<M extends Model> {
 				//HACK because the parser takes a list, should it take just one object instead?
 				List<JSONObject> jsonList = new ArrayList<JSONObject>();
 				jsonList.add(json);
-				List<Model> models = mJsonParser.getModelsFromJson(jsonList);
+				List<M> models = mJsonParser.getModelsFromJson(jsonList);
 
 				mListener.callback(models, null);
 			} catch (JSONException e) {
