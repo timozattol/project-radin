@@ -41,11 +41,6 @@ public abstract class StorageManager<M extends Model> {
         }
     }
 
-    /**
-     * @return the type-corresponding StorageManager. This manager should be a singleton.
-     */
-	public abstract StorageManager<M> getStorageManager();
-
 	/**
 	 * Meant to be overridden by child classes, to fill jsonParser with a new 
 	 * type-specific parser if empty, then return the mJsonParser

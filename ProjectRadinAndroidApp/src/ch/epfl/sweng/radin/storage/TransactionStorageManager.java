@@ -8,17 +8,17 @@ package ch.epfl.sweng.radin.storage;
  *
  */
 public final class TransactionStorageManager extends StorageManager<TransactionModel> {
-    private TransactionStorageManager transactionStorageManager = null;
+    private static TransactionStorageManager transactionStorageManager = null;
     
     private TransactionStorageManager() {
         
     }
 
-    /* (non-Javadoc)
-     * @see ch.epfl.sweng.radin.storage.StorageManager#getStorageManager()
+ 
+    /**
+     * @return the singleton TransactionStorageManager
      */
-    @Override
-    public StorageManager<TransactionModel> getStorageManager() {
+    public static TransactionStorageManager getStorageManager() {
         if (transactionStorageManager == null) {
             transactionStorageManager = new TransactionStorageManager();
         }

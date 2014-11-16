@@ -9,17 +9,16 @@ package ch.epfl.sweng.radin.storage;
  */
 public final class UserStorageManager extends StorageManager<UserModel> {
 	
-	private UserStorageManager userStorageManager = null;
+	private static UserStorageManager userStorageManager = null;
 	
 	private UserStorageManager() {
 
 	}
 	
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#getStorageManager()
-	 */
-	@Override
-	public StorageManager<UserModel> getStorageManager() {
+    /**
+     * @return the singleton UserStorageManager
+     */
+	public static UserStorageManager getStorageManager() {
 		if (userStorageManager == null) {
 			userStorageManager = new UserStorageManager();
 		}

@@ -3,6 +3,8 @@
  */
 package ch.epfl.sweng.radin.storage;
 
+import ch.epfl.sweng.radin.callback.RadinListener;
+
 /**
  * @author CedricCook
  *
@@ -10,16 +12,16 @@ package ch.epfl.sweng.radin.storage;
 
 public final class RadinGroupStorageManager extends StorageManager<RadinGroupModel> {
 
-	private RadinGroupStorageManager radinGroupStorageManager = null;
+	private static RadinGroupStorageManager radinGroupStorageManager = null;
 	
 	private RadinGroupStorageManager() {
 	    
 	}
 	
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#getStorageManager()
-	 */
-	public StorageManager<RadinGroupModel> getStorageManager() {
+    /**
+     * @return the singleton RadinGroupStorageManager
+     */
+	public static RadinGroupStorageManager getStorageManager() {
 		if (radinGroupStorageManager == null) {
 			radinGroupStorageManager = new RadinGroupStorageManager();
 		}
@@ -40,6 +42,12 @@ public final class RadinGroupStorageManager extends StorageManager<RadinGroupMod
     @Override
     protected String getTypeUrl() {
         return "radinGroup";
+    }
+
+    //TODO implement this, and add javadoc
+    public void getAllByUserId(int userId,
+            RadinListener<RadinGroupModel> radinListener) {
+        
     }
 
 }
