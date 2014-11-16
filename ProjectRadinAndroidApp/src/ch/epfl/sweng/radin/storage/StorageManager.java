@@ -1,10 +1,10 @@
 package ch.epfl.sweng.radin.storage;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,6 @@ public abstract class StorageManager<M extends Model> {
 
 	private static Context context = null;
 	static final String SERVER_BASE_URL = "radin.epfl.ch/";
-	private JSONParser<M> mJsonParser = null;
 	
 	/**
      * Initiates the StorageManager with the application Context
@@ -42,6 +41,9 @@ public abstract class StorageManager<M extends Model> {
         }
     }
 
+    /**
+     * @return the type-corresponding StorageManager. This manager should be a singleton.
+     */
 	public abstract StorageManager<M> getStorageManager();
 
 	/**
@@ -127,7 +129,7 @@ public abstract class StorageManager<M extends Model> {
 			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
 			connTask.execute(json.toString());
 		}
-		//TODO delet the data in the local DB
+		//TODO delete the data in the local DB
 		return;
 	}
 
@@ -139,7 +141,7 @@ public abstract class StorageManager<M extends Model> {
 	}
 	
 	private boolean isHashMatchServer() {
-		// TODO Creat a methode who verify our hash match the one from the server
+		// TODO Create a method that verifies that our hash matches the one from the server
 		return true;
 	}
 
@@ -153,21 +155,27 @@ public abstract class StorageManager<M extends Model> {
 	 */
 	private class ServerConnectionTask extends AsyncTask<String, Void, String> {
 
-
+	    private static final int SUCCESS_CODE = 200;
 		private RadinListener<M> mListener;
 		private RequestType mRequestType;
 		private URL mURL;
 		
 		public ServerConnectionTask(RadinListener<M> listener, RequestType requestType, String url) {
-
+		    if (listener == null) {
+		        throw new IllegalArgumentException("The RadinListener should not be null");
+		    } else if (requestType == null) {
+		        throw new IllegalArgumentException("The RequestType should not be null");
+		    } else if (url == null || url.equals("")) {
+		        throw new IllegalArgumentException("The url should not be null nor empty");
+		    }
+		    
 			mListener = listener;
 			mRequestType = requestType;
 			
 			try {
                 mURL = new URL(url);
             } catch (MalformedURLException e) {
-                // TODO handle this exception
-                e.printStackTrace();
+                throw new IllegalArgumentException("The url should be a valid url");
             }
 		}
 
@@ -187,40 +195,56 @@ public abstract class StorageManager<M extends Model> {
 			        }
                     
 			        jsonData = params[0];
+
                 } else if (params.length == 0) {
 			        if (mRequestType != RequestType.GET || mRequestType != RequestType.DELETE) {
                         throw new IllegalArgumentException("There shouldn't be jsonData "
                                 + "with GET or DELETE");
                     }
+			    } else {
+			        throw new IllegalArgumentException("There should be zero or one argument "
+                            + "to the execute method");
 			    }
-                
+			    
+			    HttpURLConnection conn = (HttpURLConnection) mURL.openConnection();
+			    conn.setRequestMethod(mRequestType.name());
 			    
 				switch(mRequestType) {
                     case GET:
+                        conn.connect();
+
                         break;
+
                     case POST:
-                        break;
                     case PUT:
+                        conn.setDoOutput(true);
+                        conn.setRequestProperty("Content-Type", "application/json");
+                        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+                        wr.writeBytes(jsonData);
+                        wr.flush();
+                        wr.close();
+
                         break;
+                        
                     case DELETE:
+                        conn.connect();
+
                         break;
+                        
                     default:
-                        break;
-				    
+                        throw new IllegalStateException("The request type must be one of the 4 values,"
+                        		+ " since it should not be null");
+				}
+				
+				if (conn.getResponseCode() != SUCCESS_CODE) {
+				    return "FAILURE";
 				}
 
+				String response = fetchContent(conn);				
 
-				HttpURLConnection conn = (HttpURLConnection) mURL.openConnection();
-				conn.setRequestMethod(mRequestType.name());
-				conn.setDoInput(true);
-				conn.connect();
-
-				return fetchContent(conn);
-			} catch (ProtocolException e) {
-                // TODO Handle this exception
+				return response;
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                return "FAILURE";
             }
 		}
 
@@ -228,27 +252,28 @@ public abstract class StorageManager<M extends Model> {
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override
-		protected void onPostExecute(String result) {
-			//TODO check that result is valid json
-			JSONObject json;			
-			
-			StorageManagerRequestStatus status = StorageManagerRequestStatus.OK;
-			if(result.equals("FAIL")) {
-				status = StorageManagerRequestStatus.FAIL;
-			}
-			
-			try {
-				json = new JSONObject(result);
+		protected void onPostExecute(String result) {			
+			 
+			if (result.equals("FAILURE")) {
+			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
+			} else {
+			    JSONObject jsonResult;
 
-				//HACK because the parser takes a list, should it take just one object instead?
-				List<JSONObject> jsonList = new ArrayList<JSONObject>();
-				jsonList.add(json);
-				List<M> models = mJsonParser.getModelsFromJson(jsonList);
+                try {
+                    jsonResult = new JSONObject(result);
+                } catch (JSONException e) {
+                    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
+                    return;
+                }
 
-				mListener.callback(models, status);
-			} catch (JSONException e) {
-				e.printStackTrace();
-				//TODO handle exception
+			    //HACK because the parser takes a list, should it take just one object instead? 
+                //TODO refactor when merge with Thomas' real parsers
+                List<JSONObject> jsonList = new ArrayList<JSONObject>();
+                jsonList.add(jsonResult);
+                
+			    List<M> parsedModels = getJSONParser().getModelsFromJson(jsonList);
+			    
+			    mListener.callback(parsedModels, StorageManagerRequestStatus.SUCCESS);
 			}
 		}
 
