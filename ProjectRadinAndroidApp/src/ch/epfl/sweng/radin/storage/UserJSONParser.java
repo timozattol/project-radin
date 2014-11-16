@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * @author timozattol
- * A JSONParser for UserModel. A "fake" one, which always returns the same thing.
+ * @author topali2
+ * A JSONParser for UserModel.
  * It's very ugly but it's just to have something that "works" for now.
  */
 public class UserJSONParser implements JSONParser<UserModel> {
@@ -27,18 +27,16 @@ public class UserJSONParser implements JSONParser<UserModel> {
 
 			JSONObject jsonData = jsonArray.getJSONObject(i);
 			userModels.add(new UserModel(
-					jsonData.getString("firstName"),
-					jsonData.getString("lastName"),
-					jsonData.getString("email"),
-					jsonData.getString("address"),
-					jsonData.getString("iban"),
-					jsonData.getString("picture"),
-					jsonData.getInt("id")));
-
+					jsonData.getString("U_firstName"),
+					jsonData.getString("U_lastName"),
+					jsonData.getString("U_email"),
+					jsonData.getString("U_address"),
+					jsonData.getString("U_iban"),
+					jsonData.getString("U_picture"),
+					jsonData.getInt("U_ID")));
 
 		}
-		//        userModels.add(new UserModel("Alexandra", "Din", "alexandra.din@radin.ch", 
-		//                "69 Radin Street, Zurich (CH)", "CH928375340", "img/avatar00001.jpg", 0));
+
 		return userModels;
 	}
 
@@ -54,13 +52,13 @@ public class UserJSONParser implements JSONParser<UserModel> {
 		for (UserModel userModel : modelList) {
 			JSONObject jsonData = new JSONObject();
 
-			jsonData.put("firstName", userModel.getFirstName());
-			jsonData.put("lastName", userModel.getLastName());
-			jsonData.put("email", userModel.getEmail());
-			jsonData.put("address", userModel.getAddress());
-			jsonData.put("iban", userModel.getIban());
-			jsonData.put("picture", userModel.getPicture());
-			jsonData.put("id", userModel.getId());
+			jsonData.put("U_firstName", userModel.getFirstName());
+			jsonData.put("U_lastName", userModel.getLastName());
+			jsonData.put("U_email", userModel.getEmail());
+			jsonData.put("U_address", userModel.getAddress());
+			jsonData.put("U_iban", userModel.getIban());
+			jsonData.put("U_picture", userModel.getPicture());
+			jsonData.put("U_ID", userModel.getId());
 
 			jsonArray.put(jsonData);
 		}
@@ -69,21 +67,6 @@ public class UserJSONParser implements JSONParser<UserModel> {
 
 		return json;
 
-		//        try {
-		//        	
-		//            json.put("U_ID", 0);
-		//            json.put("U_firstName", "Alexandra");
-		//            json.put("U_lastName", "Din");
-		//            json.put("U_email", "alexandra.din@radin.ch");
-		//            json.put("U_address", "69 Radin Street, Zurich (CH)");
-		//            json.put("U_iban", "CH928375340");
-		//            json.put("U_picture", "img/avatar00001.jpg");            
-		//        } catch (JSONException e) {
-		//            
-		//        }
-		//        List<JSONObject> jsonList = new ArrayList<JSONObject>();
-		//        jsonList.add(json);
-		//        return jsonList;
 	}
 
 }
