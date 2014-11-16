@@ -8,5 +8,5 @@ package ch.epfl.sweng.radin.callback;
  *
  */
 public enum StorageManagerRequestStatus {
-	OK, FAIL
+	SUCCESS, FAILURE
 }
