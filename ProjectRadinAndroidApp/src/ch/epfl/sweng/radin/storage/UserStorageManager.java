@@ -9,7 +9,7 @@ package ch.epfl.sweng.radin.storage;
  */
 public final class UserStorageManager extends StorageManager<UserModel> {
 	
-	private UserStorageManager userStorageManager;
+	private UserStorageManager userStorageManager = null;
 	
 	private UserStorageManager() {
 

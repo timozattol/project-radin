@@ -281,8 +281,15 @@ public abstract class StorageManager<M extends Model> {
 			// Credits go to http://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string
 			InputStream is = conn.getInputStream();
 			try {
-				java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-				return s.hasNext() ? s.next() : "";
+			    java.util.Scanner s = new java.util.Scanner(is);
+				java.util.Scanner scanner = s.useDelimiter("\\A");
+				
+				String result = scanner.hasNext() ? scanner.next() : "";
+				
+				s.close();
+				scanner.close();
+				
+				return result;
 			} finally {
 				is.close();
 			}

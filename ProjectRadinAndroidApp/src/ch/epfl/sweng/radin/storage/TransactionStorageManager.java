@@ -19,7 +19,7 @@ public final class TransactionStorageManager extends StorageManager<TransactionM
      */
     @Override
     public StorageManager<TransactionModel> getStorageManager() {
-        if(transactionStorageManager == null) {
+        if (transactionStorageManager == null) {
             transactionStorageManager = new TransactionStorageManager();
         }
         return transactionStorageManager;
