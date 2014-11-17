@@ -233,7 +233,6 @@ public abstract class StorageManager<M extends Model> {
 				}
 				
 				if (conn.getResponseCode() != SUCCESS_CODE) {
-				    System.out.println("Respcode " + conn.getResponseCode());
 				    return "FAILURE";
 				}
 
@@ -249,8 +248,7 @@ public abstract class StorageManager<M extends Model> {
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override
-		protected void onPostExecute(String result) {	
-		    System.out.println(result);
+		protected void onPostExecute(String result) {
 			 
 			if (result.equals("FAILURE")) {
 			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
