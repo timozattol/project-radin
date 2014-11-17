@@ -62,7 +62,7 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 	private static final String TAG = "DatabaseRadinGroupTableActivityEspressoTest";
 	private static final int SLEEP_TIME = 100;
 
-//	private DatabaseRadinGroupTableActivity mRadinGroupActivity;
+	// private DatabaseRadinGroupTableActivity mRadinGroupActivity;
 
 	public DatabaseRadinGroupTableActivityEspressoTest() {
 		super(DatabaseRadinGroupTableActivity.class);
@@ -101,30 +101,29 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		onView(withId(rId)).perform(scrollTo(), typeText(text));
 	}
 
-	// public void testDBAfterInsert() throws Exception {
-	// typeTextInField(R.id.RID, "0");
-	// typeTextInField(R.id.RGCreatedAt, "today");
-	// typeTextInField(R.id.RGDeletedAt, "after-tomorrow");
-	// typeTextInField(R.id.RGEndedAt, "tomorrow");
-	// typeTextInField(R.id.RGName, "test group");
-	// typeTextInField(R.id.RGAvatar, "img/avatar1.png");
-	// typeTextInField(R.id.RGMasterID, "10");
-	// typeTextInField(R.id.RGDescription, "A cool group");
-	// closeSoftKeyboard();
-	//
-	// Log.v(TAG, "performing click on submitRadinGroupToDB");
-	// onView(withId(R.id.submitRadinGroupToDB)).perform(scrollTo());
-	// assertTrue(withEffectiveVisibility(Visibility.VISIBLE).matches(
-	// withId(R.id.submitRadinGroupToDB)));
-	// ViewInteraction submitButton = onView(withId(R.id.submitRadinGroupToDB));
-	// submitButton.perform(scrollTo(), click());
-	//
-	// List<Map<String, String>> rows = mRadinGroupActivity
-	// .getEverythingFromRadinGroupTable();
-	// assertEquals(rows.size(), 1);
-	// Map<String, String> uniqueRow = rows.get(0);
-	// uniqueRow.get(0);
-	//
-	// }
+	public void testDBAfterInsert() throws Exception {
+		typeTextInField(R.id.RID, "0");
+		typeTextInField(R.id.RGCreatedAt, "today");
+		typeTextInField(R.id.RGDeletedAt, "after-tomorrow");
+		typeTextInField(R.id.RGEndedAt, "tomorrow");
+		typeTextInField(R.id.RGName, "test group");
+		typeTextInField(R.id.RGAvatar, "img/avatar1.png");
+		typeTextInField(R.id.RGMasterID, "10");
+		typeTextInField(R.id.RGDescription, "A cool group");
+		closeSoftKeyboard();
+
+		Log.v(TAG, "performing click on submitRadinGroupToDB");
+		onView(withId(R.id.submitRadinGroupToDB)).perform(scrollTo());
+		assertTrue(withEffectiveVisibility(Visibility.VISIBLE).matches(
+				withId(R.id.submitRadinGroupToDB)));
+		ViewInteraction submitButton = onView(withId(R.id.submitRadinGroupToDB));
+		submitButton.perform(scrollTo(), click());
+
+		List<Map<String, String>> rows = getActivity()
+				.getEverythingFromRadinGroupTable();
+		assertEquals(rows.size(), 1);
+		Map<String, String> uniqueRow = rows.get(0);
+		uniqueRow.get(0);
+	}
 
 }
