@@ -2,6 +2,7 @@ package ch.epfl.sweng.radin.storage;
 
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -12,6 +13,6 @@ import org.json.JSONObject;
  * @param <M> the "real" Model type
  */
 public interface JSONParser<M extends Model> {
-    List<M> getModelsFromJson(List<JSONObject> jsonList);
-    List<JSONObject> getJsonFromModels(List<M> modelList);
+    List<M> getModelsFromJson(JSONObject jsonList) throws JSONException;
+    JSONObject getJsonFromModels(List<M> modelList) throws JSONException;
 }
