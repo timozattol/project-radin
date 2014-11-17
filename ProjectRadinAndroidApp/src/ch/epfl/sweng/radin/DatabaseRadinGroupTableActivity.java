@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 import ch.epfl.sweng.radin.databases.Database;
 import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -20,10 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-/**
- * @author Simonchelbc
- * 
- */
 public class DatabaseRadinGroupTableActivity extends Activity {
 	private static final String TAG = "DatabaseRadinGroupTableActivity";
 	
@@ -36,9 +33,9 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_database_radin_group_table);
 		db = new Database(this);
 		Log.v(TAG, "created");
+		setContentView(R.layout.activity_database_radin_group_table);
 	}
 
 	@Override
@@ -59,8 +56,6 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-
 	private DateTime getTimeFrom(String strTime) {
 		DateTime time = null;
 		if (strTime != null) {
