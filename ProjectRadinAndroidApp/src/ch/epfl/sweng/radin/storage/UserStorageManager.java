@@ -22,8 +22,7 @@ import android.widget.Toast;
  */
 public class UserStorageManager extends StorageManager<UserModel> {
 	
-	private UserStorageManager userStorageManager;
-	private Parser parser = new UserParser();
+	private UserStorageManager userStorageManager = null;
 	
 	private UserStorageManager() {}
 	
@@ -39,69 +38,21 @@ public class UserStorageManager extends StorageManager<UserModel> {
 			return userStorageManager;
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int)
-	 */
+	
 	@Override
-	public boolean getById(int id, RadinListener callback) {
-		String accessUrl = "user/" + id;
-		if(id < 0) {
-			throw new IllegalArgumentException("User id must be positive");
+	public JSONParser<UserModel> getJSONParser() {
+		if (mJsonParser == null) {
+			mJsonParser = new UserJSONParser();
 		}
-		
-		if (isConnected()) {
-			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "GET");
-		}
+		return mJsonParser;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#getAll()
-	 */
 	@Override
-	public boolean getAll(RadinListener callback) {
-		String accessUrl = "users/";
-		
-		if(isConnected()) {
-			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "GET");
-		}
+	protected String getTypeUrl() {
+		return "user";
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List)
-	 */
-	@Override
-	public boolean create(List<UserModel> entries, RadinListener callback) {
-		String accessUrl = "users/";
-		
-		if(isConnected()) {
-			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "POST", parser.modelsToJson(entries));
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#update(java.util.List)
-	 */
-	@Override
-	public boolean update(List<UserModel> entries, RadinListener callback) {
-		String accessUrl = "users/";
-		
-		if (isConnected()) {
-			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "PUT", parser.modelsToJson(entries));
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.epfl.sweng.radin.storage.StorageManager#delete(java.util.List)
-	 */
-	@Override
-	public boolean delete(List<UserModel> entries, RadinListener callback) {
-		String accessUrl = "users/";
-		
-		if(isConnected()) {
-			new UserConnectionTask().execute(SERVER_BASE_URL + accessUrl, "DELETE", parser.modelsToJson(entries));
-		}
-	}
+	
 	
 	private class UserConnectionTask extends AsyncTask<String, Void, UserModel> {
 		/* (non-Javadoc)
@@ -119,5 +70,9 @@ public class UserStorageManager extends StorageManager<UserModel> {
 
 
 	}
+
+
+
+
 
 }

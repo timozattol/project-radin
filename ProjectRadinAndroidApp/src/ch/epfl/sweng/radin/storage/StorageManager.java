@@ -25,9 +25,9 @@ import ch.epfl.sweng.radin.callback.RadinListener;
  */
 public abstract class StorageManager<M extends Model> {
 
-	private static Context context = null;
+	private static Context mContext = null;
 	static final String SERVER_BASE_URL = "radin.epfl.ch/";
-	private JSONParser<M> mJsonParser = null;
+	protected JSONParser<M> mJsonParser = null;
 
 	public abstract StorageManager<M> getStorageManager();
 
@@ -51,8 +51,8 @@ public abstract class StorageManager<M extends Model> {
 	 * @param appContext the context of the Application
 	 */
 	public static void init(Context appContext) {
-		if (context == null) {
-			context = appContext;
+		if (mContext == null) {
+			mContext = appContext;
 		}
 	}
 
@@ -127,14 +127,14 @@ public abstract class StorageManager<M extends Model> {
 		return true;
 	}
 
-	private boolean isConnected() {
-		ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	protected boolean isConnected() {
+		ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
 		return networkInfo != null && networkInfo.isConnected();
 	}
 	
-	private boolean isHashMatchServer(){
+	protected boolean isHashMatchServer(){
 		// TODO Creat a methode who verify our hash match the one from the server
 		return true;
 	}

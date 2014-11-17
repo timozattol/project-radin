@@ -37,6 +37,21 @@ public class TransactionStorageManager extends StorageManager<TransactionModel> 
 		return transactionStorageManager;
 	}
 	
+	@Override
+	public JSONParser<TransactionModel> getJSONParser() {
+		if (mJsonParser == null) {
+			mJsonParser = new TransactionJSONParser();
+		}
+		return mJsonParser;
+	}
+
+	@Override
+	protected String getTypeUrl() {
+		return "transaction";
+	}
+
+	
+	
 	private class TransactionConnectionTask extends AsyncTask<String, Void, String> {
 
 		/* (non-Javadoc)
@@ -58,5 +73,4 @@ public class TransactionStorageManager extends StorageManager<TransactionModel> 
 		}
 		
 	}
-
 }
