@@ -60,7 +60,7 @@
     <string name="add_info"></string>
     <string name="create_radin_group">Create</string>
     <string name="invalid_name">Please add a group name</string>
-    <string name="invalid_participants">Please select at list one person to create a groupe</string>
+    <string name="invalid_participants">Please select at least one person to create a groupe</string>
     
     <!-- ProfileActivity -->
     <string name="profile_last_name">Last Name</string>
