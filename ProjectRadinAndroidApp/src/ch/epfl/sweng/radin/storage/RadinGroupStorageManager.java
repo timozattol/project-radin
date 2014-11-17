@@ -40,20 +40,19 @@ public final class RadinGroupStorageManager extends StorageManager<RadinGroupMod
  	*/
     @Override
 	protected String getTypeUrl() {
-    	return "radinGroup";
+    	return "groups";
     }
     
-    public boolean getAllByUserId(int userId, RadinListener<RadinGroupModel> callback) {
+    public void getAllByUserId(int userId, RadinListener<RadinGroupModel> callback) {
     	if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-						SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(userId));
+						SERVER_BASE_URL + "mygroups");
 				connTask.execute();
+				return;
 			}
 		}
-		//TODO take the data from the local DB		
-		//TODO make this value represent something.
-		return true;
+		//TODO take the data from the local DB
     }
 }
 

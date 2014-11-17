@@ -28,7 +28,7 @@ import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 public abstract class StorageManager<M extends Model> {
 
 	private static Context mContext = null;
-	static final String SERVER_BASE_URL = "radin.epfl.ch/";
+	static final String SERVER_BASE_URL = "http://radin.epfl.ch/";
 
 	/**
 	 * Meant to be overridden by child classes, to fill jsonParser with a new 
@@ -59,17 +59,16 @@ public abstract class StorageManager<M extends Model> {
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#getById(int, android.app.Activity)
 	 */
-	public boolean getById(int id, RadinListener<M> callback) {
+	public void getById(int id, RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET, 
 				        SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(id));
 				connTask.execute();
+				return;
 			}
 		}
-		//TODO take the data from the local DB		
-		//TODO make this value represent something.
-		return true;
+		//TODO take the data from the local DB
 	}
 
 	/* (non-Javadoc)
@@ -138,7 +137,7 @@ public abstract class StorageManager<M extends Model> {
 	
 	protected boolean isHashMatchServer() {
 		// TODO Create a method that verifies that our hash matches the one from the server
-		return true;
+		return false;
 	}
 
 	/**
@@ -185,17 +184,18 @@ public abstract class StorageManager<M extends Model> {
 			    
 			    // Sanity checks on params[0] (the jsonData to send)
 			    if (params.length == 1) {
-			        if (mRequestType != RequestType.POST || mRequestType != RequestType.PUT) {
-			            throw new IllegalArgumentException("There should be jsonData "
-			            		+ "to send only if POST or PUT");
+			        if (mRequestType == RequestType.GET || mRequestType == RequestType.DELETE) {
+			            throw new IllegalArgumentException("There shouldn't be jsonData "
+                                + "with GET or DELETE");
 			        }
                     
 			        jsonData = params[0];
 
                 } else if (params.length == 0) {
-			        if (mRequestType != RequestType.GET || mRequestType != RequestType.DELETE) {
-                        throw new IllegalArgumentException("There shouldn't be jsonData "
-                                + "with GET or DELETE");
+			        if (mRequestType == RequestType.POST || mRequestType == RequestType.PUT) {
+			            throw new IllegalArgumentException("There should be jsonData "
+                                + "when POST or PUT");
+                        
                     }
 			    } else {
 			        throw new IllegalArgumentException("There should be zero or one argument "
@@ -233,10 +233,11 @@ public abstract class StorageManager<M extends Model> {
 				}
 				
 				if (conn.getResponseCode() != SUCCESS_CODE) {
+				    System.out.println("Respcode " + conn.getResponseCode());
 				    return "FAILURE";
 				}
 
-				String response = fetchContent(conn);				
+				String response = fetchContent(conn);
 
 				return response;
             } catch (IOException e) {
@@ -248,7 +249,8 @@ public abstract class StorageManager<M extends Model> {
 		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 		 */
 		@Override
-		protected void onPostExecute(String result) {			
+		protected void onPostExecute(String result) {	
+		    System.out.println(result);
 			 
 			if (result.equals("FAILURE")) {
 			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);

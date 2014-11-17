@@ -37,6 +37,6 @@ public final class TransactionStorageManager extends StorageManager<TransactionM
      */
     @Override
     protected String getTypeUrl() {
-        return "transaction";
+        return "transactions";
     }
 }

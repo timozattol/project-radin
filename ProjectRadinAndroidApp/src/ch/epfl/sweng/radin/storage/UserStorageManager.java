@@ -38,6 +38,6 @@ public final class UserStorageManager extends StorageManager<UserModel> {
      */
     @Override
     protected String getTypeUrl() {
-        return "user";
+        return "users";
     }
 }
