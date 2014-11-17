@@ -27,9 +27,23 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   val json: JsValue = Json.parse("""
       {"radinGroup":[
    {"RG_ID": "0",
-    "RG_name": "Group 1",
+    "RG_name": "Scrum expenses",
     "RG_creationDate": "2014/01/01 00/00",
     "RG_description": "A cool group",
+    "RG_avatar": "img/avatar1.png",
+    "RG_deletedAt": "2014/01/01 00/00"
+    },
+    {"RG_ID": "0",
+    "RG_name": "Coloc",
+    "RG_creationDate": "2014/01/01 00/00",
+    "RG_description": "The coolest group",
+    "RG_avatar": "img/avatar1.png",
+    "RG_deletedAt": "2014/01/01 00/00"
+    },
+    {"RG_ID": "0",
+    "RG_name": "Sweng-Swag",
+    "RG_creationDate": "2014/01/01 00/00",
+    "RG_description": "A cooler group",
     "RG_avatar": "img/avatar1.png",
     "RG_deletedAt": "2014/01/01 00/00"
     }]
