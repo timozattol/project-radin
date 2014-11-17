@@ -151,4 +151,82 @@ public class RadinGroupModel extends Model{
 	public DateTime getGroupCreationDateTime() {
 		return mGroupCreationDateTime;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+
+		return mRadinGroupID;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			
+			return true;
+		}
+		if (obj == null) {
+			
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			
+			return false;
+		}
+		RadinGroupModel other = (RadinGroupModel) obj;
+		if (mAvatar == null) {
+			if (other.mAvatar != null) {
+				
+				return false;
+			}
+		} else if (!mAvatar.equals(other.mAvatar)) {
+			
+			return false;
+		}
+		if (mGroupCreationDateTime == null) {
+			if (other.mGroupCreationDateTime != null) {
+				
+				return false;
+			}
+		} else if (!mGroupCreationDateTime.equals(other.mGroupCreationDateTime)) {
+			
+			return false;
+		}
+		if (mGroupDescription == null) {
+			if (other.mGroupDescription != null) {
+				
+				return false;
+			}
+		} else if (!mGroupDescription.equals(other.mGroupDescription)) {
+			
+			return false;
+		}
+		if (mHasMasterID != other.mHasMasterID) {
+			
+			return false;
+		}
+		if (mMasterID != other.mMasterID) {
+			
+			return false;
+		}
+		if (mRadinGroupID != other.mRadinGroupID) {
+			
+			return false;
+		}
+		if (mRadinGroupName == null) {
+			if (other.mRadinGroupName != null) {
+				
+				return false;
+			}
+		} else if (!mRadinGroupName.equals(other.mRadinGroupName)) {
+			
+			return false;
+		}
+		return true;
+	}
 }

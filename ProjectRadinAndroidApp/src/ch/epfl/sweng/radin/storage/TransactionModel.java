@@ -237,5 +237,89 @@ public final class TransactionModel extends Model {
             throw new IllegalArgumentException(argName + " cannot be the empty String");
         }
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return mTransactionID;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			
+			return true;
+		}
+		if (obj == null) {
+			
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			
+			return false;
+		}
+		TransactionModel other = (TransactionModel) obj;
+		if (Double.doubleToLongBits(mAmount) != Double.doubleToLongBits(other.mAmount)) {
+			
+			return false;
+		}
+		if (mCreatorID != other.mCreatorID) {
+			
+			return false;
+		}
+		if (mCurrency != other.mCurrency) {
+			
+			return false;
+		}
+		if (mDateTime == null) {
+			if (other.mDateTime != null) {
+				
+				return false;
+			}
+		} else if (!mDateTime.equals(other.mDateTime)) {
+			
+			return false;
+		}
+		if (mDebitorID != other.mDebitorID) {
+			
+			return false;
+		}
+		if (mJustificativePath == null) {
+			if (other.mJustificativePath != null) {
+				
+				return false;
+			}
+		} else if (!mJustificativePath.equals(other.mJustificativePath)) {
+			
+			return false;
+		}
+		if (mParentRadinGroupID != other.mParentRadinGroupID) {
+			
+			return false;
+		}
+		if (mPurpose == null) {
+			if (other.mPurpose != null) {
+				
+				return false;
+			}
+		} else if (!mPurpose.equals(other.mPurpose)) {
+			
+			return false;
+		}
+		if (mTransactionID != other.mTransactionID) {
+			
+			return false;
+		}
+		if (mType != other.mType) {
+			
+			return false;
+		}
+		return true;
+	}
     
 }
