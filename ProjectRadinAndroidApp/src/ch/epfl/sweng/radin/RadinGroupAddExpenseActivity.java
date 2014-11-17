@@ -1,25 +1,15 @@
 package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import ch.epfl.sweng.radin.callback.StorageManagerListener;
-import ch.epfl.sweng.radin.storage.UserModel;
-import ch.epfl.sweng.radin.storage.UserStorageManager;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.storage.StorageManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -33,7 +23,7 @@ import android.widget.Toast;
  * TODO class too big, split, refactor (both dialog creations are almost the same)
  */
 public class RadinGroupAddExpenseActivity extends Activity {
-	private static final int CLIENT_ID = 121320540;
+	private static final int CLIENT_ID = 1234; //will be propagated from LoginActivity?
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
 	private ArrayList<String> mSelectedDebtors = new ArrayList<String>();
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
@@ -42,6 +32,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	private String[] mFriends;
 	private String[] mFriendsAndClient;
 	private boolean[] checkedItems;
+	private String  mPurpose;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +70,6 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	        	startActivity(intent);
 	            return true;
 	        case R.id.action_settings:
-	         
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -110,7 +100,10 @@ public class RadinGroupAddExpenseActivity extends Activity {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
 		}
 	}
-
+	
+	/**
+	 * Retrieve friends and sets the arrays for the dialogs
+	 */
 	private void setDialogData() {
 // =========================== Not yet possible=========================
 //		StorageManagerListener listener = new StorageManagerListener();
@@ -126,7 +119,6 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		}
 		//initially false (default value)
 		checkedItems = new boolean[mFriends.length];
-		
 	}
 	
 	/**
@@ -154,7 +146,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		builder.setTitle(R.string.debtorsList);
 		
 		final ListView listView = new ListView(this);
-		StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.select_dialog_multichoice, names);
+		StableArrayAdapter<String> adapter = 
+				new StableArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice, names);
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		for (int i = 0; i < checkedItems.length; i++) {
@@ -167,19 +160,18 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-			
+				//remember choices
 				long[] checkedIds = listView.getCheckedItemIds();
-
 				checkedItems = new boolean[names.length];
 				for (int i = 0; i < checkedIds.length; i++) {
 					checkedItems[(int) checkedIds[i]] = true;
-				}
-				
+				}				
+				//add to list & set textView
 				String strNames = "";
 				for (int i = 0; i < checkedIds.length; i++) {
 					strNames = strNames + " " + names[(int) checkedIds[i]];
+					mSelectedDebtors.add(names[(int) checkedIds[i]]);
 				}
-				
 				TextView debitorSelected = (TextView) findViewById(R.id.debtors_selected);
 				debitorSelected.setText(strNames);
 			}
@@ -188,7 +180,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				//nothing to do
+				//nothing to do, changes are discarded
 			}
 		});
 		return builder.create();
@@ -216,8 +208,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
+				//set textView
 				TextView creditorSelected = (TextView) findViewById(R.id.creditor_selected);
-				
 				mSelectedCreditor = names[mSelectedIndex];
 				creditorSelected.setText(mSelectedCreditor);
 			}
@@ -226,68 +218,36 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
-					//nothing to do
+					//nothing to do, changes are discarded
 				}
 			});
 		return builder.create();
 	}
 
 	/**
-	 * Checks all inputs filled in by the user, and send them to server if valid, show a Toast otherwise.
+	 * Checks users'choices, and send them to server if valid through storageManager, show a Toast otherwise.
 	 *
 	 */
 	public void sendExpense(View view) {
-		EditText amountField = (EditText) findViewById(R.id.amount_Field);
-		String amountText = amountField.getText().toString();
-		if (amountText == null || amountText.isEmpty()) {
+		mPurpose = ((EditText) findViewById(R.id.purpose_title)).getText().toString();
+		String tmpAmount = ((EditText) findViewById(R.id.amount_Field)).getText().toString();
+		if (tmpAmount.equals("")) {
+			mAmount = 0;
+		} else {
+			mAmount = Double.parseDouble(tmpAmount);
+		}
+
+		if (mPurpose == null || mPurpose.isEmpty()) {
+			Toast.makeText(this, R.string.invalid_purpose, Toast.LENGTH_SHORT).show();
+		} else if (mSelectedDebtors.isEmpty()) {
+			Toast.makeText(this, R.string.invalid_debtors, Toast.LENGTH_SHORT).show();
+		} else if (mAmount == 0) {
 			Toast.makeText(this, R.string.invalid_amount, Toast.LENGTH_SHORT).show();
 		} else {
-			mAmount = Double.parseDouble(amountField.getText().toString());
-			if (!mSelectedDebtors.isEmpty()) {
-				if (mSelectedCreditor.equals(this.getResources().getString(R.string.creditor_selected))) {
-					//TODO Server the creditor is CLIENT_NAME
-					//server amount = amount
-					//server debitors = mSelectedDebtors
-					this.finish();
-					Toast.makeText(this, R.string.expense_added, Toast.LENGTH_SHORT).show();
-				} else {
-					//server: the creditor is mSelectedCreditor
-					//server amount = amount
-					//server debitors = mSelectedDebtors
-					this.finish();
-					Toast.makeText(this, R.string.expense_added, Toast.LENGTH_SHORT).show();
-				}
-			} else {
-				Toast.makeText(this, R.string.invalid_debtors, Toast.LENGTH_SHORT).show();
-			}
-
-		}
-	}
-	
-	/**
-	 * TODO make it generic and put it outside the class (shared with NewRadinGroupActivity)
-	 * 
-	 * A stable ids adapter, needed to use getCheckedItemIds() on the listView using the adapter
-	 * Adapted from: http://www.vogella.com/tutorials/AndroidListView/article.html
-	 */
-	public class StableArrayAdapter extends ArrayAdapter<String> {
-		private HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-		public StableArrayAdapter(Context context, int textViewResourceId,
-				String[] objects) {
-			super(context, textViewResourceId, objects);
-			for (int i = 0; i < objects.length; ++i) {
-				mIdMap.put(objects[i], i);
-			}
-		}
-		@Override
-		public long getItemId(int position) {
-			String item = getItem(position);
-			return mIdMap.get(item);
-		}
-		@Override
-		public boolean hasStableIds() {
-			return true;
+			//Fields OK (creditor is always assigned)
+			// Create and send Model
+			this.finish();
+			Toast.makeText(this, R.string.expense_added, Toast.LENGTH_SHORT).show();
 		}
 	}
 }

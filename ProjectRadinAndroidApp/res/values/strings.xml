@@ -59,6 +59,8 @@
     <string name="multi_friend">Add friends to list</string>
     <string name="add_info"></string>
     <string name="create_radin_group">Create</string>
+    <string name="invalid_name">Please add a group name</string>
+    <string name="invalid_participants">Please select at list one person to create a groupe</string>
     
     <!-- ProfileActivity -->
     <string name="profile_last_name">Last Name</string>
@@ -82,9 +84,12 @@
     <string name="amount_hint">Amount paid</string>
     <string name="currency">CHF</string>
     <string name="add_this_expense">Add this expense</string>
-    <string name="invalid_amount">This amount is not valid</string>
+    <string name="invalid_amount">The amount is not valid</string>
     <string name="invalid_debtors">Please select debitors first</string>
     <string name="expense_added">Expense added!</string>
     <string name="not_ready">Please wait for the data to be retrieved</string>
+    <string name="purpose_hint">Expense\'s name</string>
+    <string name="invalid_purpose">No expense purpose</string>
+    
     
 </resources>

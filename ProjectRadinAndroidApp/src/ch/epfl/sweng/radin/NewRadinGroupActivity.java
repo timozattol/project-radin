@@ -1,21 +1,19 @@
 package ch.epfl.sweng.radin;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 /**
@@ -24,11 +22,12 @@ import android.widget.Toast;
  *
  */
 public class NewRadinGroupActivity extends Activity {
-	private final int mClientID = 0;
-	private String[] mPeopleInRadinGroup;
+	private final int mClientID = 1234; //will be propagated from LoginActivity?
 	private EditText mNameEdit;
 	private boolean[] checkedItems;
 	private String[] mFriends;
+	private ArrayList<String> mParticipants;
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class NewRadinGroupActivity extends Activity {
         setContentView(R.layout.activity_new_radingroup);
         
         retrieveData();
-        createDialog(mFriends);
+        createDialog();
 		
         mNameEdit = (EditText) findViewById(R.id.edit_name);
     }
@@ -57,7 +56,6 @@ public class NewRadinGroupActivity extends Activity {
 	        	startActivity(intent);
 	            return true;
 	        case R.id.action_settings:
-	         
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -65,19 +63,20 @@ public class NewRadinGroupActivity extends Activity {
 	}
 	
 	/**
-	 * Shows AlertDialog
+	 * Shows AlertDialog containing friends to select
 	 *
 	 */
 	public void showDialog(View view) {
-		createDialog(mFriends).show();
+		createDialog().show();
 	}
 	
-	
+	/**
+	 * Retrieves the data () from StorageManager
+	 */
 	public void retrieveData() {
 		mFriends = serverGetFriendsInGroup();
 		//initially false (default value)
 		checkedItems = new boolean[mFriends.length];
-		
 	}
 	
 	/**
@@ -98,12 +97,13 @@ public class NewRadinGroupActivity extends Activity {
 	 * @param friendNames Client's Friends
 	 * @return AlertDialog ready to be shown
 	 */
-	private AlertDialog createDialog(final String[] friendNames) {
+	private AlertDialog createDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.multi_friend);
 		
 		final ListView listView = new ListView(this);
-		StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.select_dialog_multichoice, friendNames);
+		StableArrayAdapter<String> adapter =
+				new StableArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice, mFriends);
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		for (int i = 0; i < checkedItems.length; i++) {
@@ -111,18 +111,20 @@ public class NewRadinGroupActivity extends Activity {
 		}
 		builder.setView(listView);
 		
-		
 		// Set OK button
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-			
 				long[] checkedIds = listView.getCheckedItemIds();
-
-				checkedItems = new boolean[friendNames.length];
+				mParticipants = new ArrayList<String>();
+		
+				checkedItems = new boolean[mFriends.length];
 				for (int i = 0; i < checkedIds.length; i++) {
 					checkedItems[(int) checkedIds[i]] = true;
+					mParticipants.add(mFriends[(int) checkedIds[i]]);
+					//Log.i("participant" + i, mFriends[(int) checkedIds[i]]);
 				}
+				//TODO show participants in a TextView
 			}
 		});
 		//Set CANCEL button
@@ -135,45 +137,17 @@ public class NewRadinGroupActivity extends Activity {
 		return builder.create();
 	}
 	
-	
-	
 	public void createRadinGroup(View view) {
 		String listName = mNameEdit.getText().toString();
     	if (listName.equals("") || (listName == null)) {
-    		Toast.makeText(getBaseContext(), "You must provide a name for the list", Toast.LENGTH_SHORT).show(); // should be in values/string
-        //} else if (friendsSelected.isEmpty) {
-    	//	Toast.makeText(getBaseContext(), "Please select at list one person to create a groupe", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getBaseContext(), R.string.invalid_name, Toast.LENGTH_SHORT).show();
+        } else if (mParticipants == null || mParticipants.isEmpty()) {
+    		Toast.makeText(getBaseContext(), R.string.invalid_participants, Toast.LENGTH_SHORT).show();
         } else {
+        	//valid data
         	//TODO USE STORAGEMANAGER + LISTENER TO SEND TO SERV
         	Toast.makeText(getBaseContext(), "Radin Group created", Toast.LENGTH_LONG).show();
         	this.finish();
         }
     }
-	
-	/**
-	 * TODO make it generic and put it outside the class (shared with RadinGroupAddExpenseActivity)
-	 * 
-	 * A stable ids adapter, needed to use getCheckedItemIds() on the listView using the adapter
-	 * Adapted from: http://www.vogella.com/tutorials/AndroidListView/article.html
-	 */
-	public class StableArrayAdapter extends ArrayAdapter<String> {
-		private HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-		public StableArrayAdapter(Context context, int textViewResourceId,
-				String[] objects) {
-			super(context, textViewResourceId, objects);
-			for (int i = 0; i < objects.length; ++i) {
-				mIdMap.put(objects[i], i);
-			}
-		}
-		@Override
-		public long getItemId(int position) {
-			String item = getItem(position);
-			return mIdMap.get(item);
-		}
-		@Override
-		public boolean hasStableIds() {
-			return true;
-		}
-	}
 }
