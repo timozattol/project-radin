@@ -14,6 +14,9 @@ GET        /custom/logout       @controllers.CustomLoginController.logout
 GET		   /mygroups			@controllers.Application.myGroups
 GET		   /myauthgroups		@controllers.Application.authGroups
 
+GET		   /newuser				@controllers.Application.newUser
+POST	   /newuser				@controllers.Application.receiveUser
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
