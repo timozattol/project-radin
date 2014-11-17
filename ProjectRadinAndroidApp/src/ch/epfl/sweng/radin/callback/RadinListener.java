@@ -15,5 +15,5 @@ import ch.epfl.sweng.radin.storage.Model;
  */
 public interface RadinListener<M extends Model> {
 	
-    void callback(List<M> items);
+    void callback(List<M> items, StorageManagerRequestStatus status);
 }

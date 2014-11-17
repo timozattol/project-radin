@@ -2,9 +2,8 @@ package ch.epfl.sweng.radin;
 
 import java.util.List;
 
-import ch.epfl.sweng.radin.ActionBar.ListButton;
 import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.storage.Model;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.RadinGroupStorageManager;
 import android.app.Activity;
@@ -20,7 +19,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * 
@@ -30,7 +28,8 @@ import android.widget.Toast;
  *
  */
 public class MyRadinGroupsActivity extends Activity {
-	final int TEXT_SIZE = 30;
+	private final static int TEXT_SIZE = 30;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,12 +42,12 @@ public class MyRadinGroupsActivity extends Activity {
 		//This is a fake userId used to test the app
 		int userId = 0;
 
-		RadinGroupStorageManager radinGroupStorageManager =  (RadinGroupStorageManager) RadinGroupStorageManager.getStorageManager();
+		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
 		
 		radinGroupStorageManager.getAllByUserId(userId, new RadinListener<RadinGroupModel>() {
 
 			@Override
-			public void callback(List<RadinGroupModel> items) {
+			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 				displayList(items);
 				
 			}
@@ -78,7 +77,7 @@ public class MyRadinGroupsActivity extends Activity {
 		}
 	}
 	
-	private void displayList(List<RadinGroupModel> myRadinGroupsList){
+	private void displayList(List<RadinGroupModel> myRadinGroupsList) {
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
 		myRadinGroupsLinearLayout.setGravity(Gravity.LEFT);
 		ProgressBar myRadinGroupProgressBar = (ProgressBar) findViewById(R.id.myRadinGroupsProgressBar);
