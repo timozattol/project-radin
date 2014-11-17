@@ -6,6 +6,12 @@ import play.api.mvc.{ Action, RequestHeader }
 import play.api.libs.json._
 
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
+  
+  def newUser = TODO
+  //return an id for a new user
+  
+  def receiveUser = TODO
+  
   def index = SecuredAction { implicit request =>
     Ok(views.html.index(request.user.main))
   }
