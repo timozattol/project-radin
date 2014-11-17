@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 
@@ -48,8 +49,11 @@ public class MyRadinGroupsActivity extends Activity {
 
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
-				displayList(items);
-				
+			    if(status == StorageManagerRequestStatus.SUCCESS) {
+			        displayList(items);
+			    } else {
+			        displayErrorToast("There was an error, please try again");
+			    }
 			}
 		});
 	}
@@ -75,6 +79,10 @@ public class MyRadinGroupsActivity extends Activity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	private void displayErrorToast(String message) {
+	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 	
 	private void displayList(List<RadinGroupModel> myRadinGroupsList) {
