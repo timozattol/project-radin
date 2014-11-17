@@ -94,8 +94,15 @@ public abstract class StorageManager<M extends Model> {
 		if (isConnected()) {
 			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
 			        SERVER_BASE_URL + getTypeUrl());
-			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
-			connTask.execute(json.toString());
+			JSONObject json;
+			
+            try {
+                json = (JSONObject) getJSONParser().getJsonFromModels(entries);
+                connTask.execute(json.toString());
+            } catch (JSONException e) {
+                // TODO Handle error
+                e.printStackTrace();
+            }
 		}
 		return;
 	}
@@ -107,8 +114,15 @@ public abstract class StorageManager<M extends Model> {
 		if (isConnected()) {
 			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.PUT,
 			        SERVER_BASE_URL + getTypeUrl());
-			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
-			connTask.execute(json.toString());
+			
+			JSONObject json;
+            try {
+                json = (JSONObject) getJSONParser().getJsonFromModels(entries);
+                connTask.execute(json.toString());
+            } catch (JSONException e) {
+                // TODO Handle error
+            }
+			
 		}
 		//TODO modify the data in the local DB
 		return;
@@ -121,8 +135,14 @@ public abstract class StorageManager<M extends Model> {
 		if (isConnected()) {
 			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.DELETE,
 			        SERVER_BASE_URL + getTypeUrl());
-			JSONObject json = (JSONObject) getJSONParser().getJsonFromModels(entries);
-			connTask.execute(json.toString());
+			
+			JSONObject json;
+            try {
+                json = (JSONObject) getJSONParser().getJsonFromModels(entries);
+                connTask.execute(json.toString());
+            } catch (JSONException e) {
+                // TODO Handle error
+            }
 		}
 		//TODO delete the data in the local DB
 		return;
@@ -261,15 +281,15 @@ public abstract class StorageManager<M extends Model> {
                     mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
                     return;
                 }
-
-			    //HACK because the parser takes a list, should it take just one object instead? 
-                //TODO refactor when merge with Thomas' real parsers
-                List<JSONObject> jsonList = new ArrayList<JSONObject>();
-                jsonList.add(jsonResult);
                 
-			    List<M> parsedModels = getJSONParser().getModelsFromJson(jsonList);
+			    List<M> parsedModels;
 			    
-			    mListener.callback(parsedModels, StorageManagerRequestStatus.SUCCESS);
+                try {
+                    parsedModels = getJSONParser().getModelsFromJson(jsonResult);
+                    mListener.callback(parsedModels, StorageManagerRequestStatus.SUCCESS);
+                } catch (JSONException e) {
+                    // TODO Handle error
+                }
 			}
 		}
 
