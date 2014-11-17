@@ -77,7 +77,7 @@ public class RadinGroupModel extends Model {
 	 */
 	public RadinGroupModel(int radinGroupID, DateTime groupCreationDateTime,
 			String radinGroupName, String groupDescription, String avatar) {
-		mTypes = new HashSet<>();
+		mTypes = new HashSet<TypeOfRadinGroup>();
 		
 		checkArgumentPositive("radinGroupID", radinGroupID);
 		mRID = radinGroupID;
