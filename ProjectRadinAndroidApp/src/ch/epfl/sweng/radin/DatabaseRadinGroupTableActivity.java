@@ -18,8 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -28,18 +26,17 @@ import android.widget.TextView;
  */
 public class DatabaseRadinGroupTableActivity extends Activity {
 	private static final String TAG = "DatabaseRadinGroupTableActivity";
+	
+	private Database db;
+	
 	private static final DateTime TODAY = DateTime.now();
 	private static final DateTime TOMORROW = TODAY.plusDays(1);
 	private static final DateTime AFTER_TOMORROW = TOMORROW.plusDays(1);
-	private Database db;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_database_radin_group_table);
-		Button submitRadinGroupToDatabaseBtn = (Button) findViewById(R.id.submitRadinGroupToDB);
-		submitRadinGroupToDatabaseBtn
-		.setOnClickListener(submitRadinGroupOnClickListener);
 		db = new Database(this);
 		Log.v(TAG, "created");
 	}
@@ -63,61 +60,43 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private RadinGroupModel getRadinGroupFromFields() {
-		
-		int rid = Integer.parseInt(returnText((TextView) findViewById(R.id.RID)));
-		String name = returnText((TextView) findViewById(R.id.RGName));
-		String creationDate = returnText((TextView) findViewById(R.id.RGCreatedAt));
-		String avatar = returnText((TextView) findViewById(R.id.RGAvatar));
-		String description = returnText((TextView) findViewById(R.id.RGDescription));
-//		values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(), // TODO #rgGroup
-//				returnText((TextView) findViewById(R.id.RGGroup)));
-		returnText((TextView) findViewById(R.id.RGMasterID));
-		returnText((TextView) findViewById(R.id.RGEndedAt));
-		returnText((TextView) findViewById(R.id.RGDeletedAt));
-		
-		RadinGroupModel rg = new RadinGroupModel(rid, getTimeFrom(creationDate), name, description, avatar);
-		return rg;
-	}
-	
-	DateTime getTimeFrom(String strTime) {
+
+	private DateTime getTimeFrom(String strTime) {
 		DateTime time = null;
-		switch (strTime) {
-			case "today":
+		if (strTime != null) {
+			if (strTime.equals("today")) {
 				time = TODAY;
-				break;
-			case "tomorrow":
+			} else if (strTime.equals("tomorrow")) {
 				time = TOMORROW;
-				break;
-			case "after-tomorrow":
+			} else if (strTime.equals("after-tomorrow")) {
 				time = AFTER_TOMORROW;
-				break;
-			default:
-				break;
+			}
 		}
 		return time;
 	}
-	
+
 	private String returnText(TextView textView) {
 		return textView.getText().toString();
 	}
-	
+
+	/**
+	 * @return {@code rowsColumnToValue} that associates to each row a map from column name to value 
+	 */
 	public List<Map<String, String>> getEverythingFromRadinGroupTable() {
 		Cursor cursor = db.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
 				null, null, null, null, null);
-		List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> rowsColumnToValue = new ArrayList<Map<String, String>>();
 		cursor.moveToFirst();
 		do {
-			rows.add(rowPointedBy(cursor));
+			rowsColumnToValue.add(rowPointedBy(cursor));
 		} while (cursor.moveToNext());
 		cursor.close();
-		return rows;
+		return rowsColumnToValue;
 	}
 
 	/**
-	 * @param cursor
-	 *            that is currently pointing to a row
-	 * @return
+	 * @param cursor that is currently pointing to a row
+	 * @return a map associated with the row pointed by cursor, it's a mapping from column name to its value
 	 */
 	private Map<String, String> rowPointedBy(Cursor cursor) {
 		Map<String, String> columnNameToValue = new HashMap<String, String>();
@@ -128,12 +107,39 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		return columnNameToValue;
 	}
 	
-	private OnClickListener submitRadinGroupOnClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			List<RadinGroupModel> radinGroups = new LinkedList<>();
-			radinGroups.add(getRadinGroupFromFields());
-			db.insert(radinGroups);
-		}
-	};
+	/**
+	 * Used since using the button doesn't work but is meant to be 
+	 * the code used in submitRadinGroupOnClickListener
+	 */
+	public void sendRadinGroupModelToDB(List<RadinGroupModel> radinGroups) {
+		db.insert(radinGroups);
+	}
+	private RadinGroupModel getRadinGroupFromFields() {
+		
+		int rid = Integer
+				.parseInt(returnText((TextView) findViewById(R.id.RID)));
+		String name = returnText((TextView) findViewById(R.id.RGName));
+		String creationDate = returnText((TextView) findViewById(R.id.RGCreatedAt));
+		String avatar = returnText((TextView) findViewById(R.id.RGAvatar));
+		String description = returnText((TextView) findViewById(R.id.RGDescription));
+		// values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(), //
+		// TODO #rgGroup
+		// returnText((TextView) findViewById(R.id.RGGroup)));
+		returnText((TextView) findViewById(R.id.RGMasterID));
+		returnText((TextView) findViewById(R.id.RGEndedAt));
+		returnText((TextView) findViewById(R.id.RGDeletedAt));
+		
+		RadinGroupModel rg = new RadinGroupModel(rid,
+				getTimeFrom(creationDate), name, description, avatar);
+		return rg;
+	}
+	/**
+	 * @param v
+	 * Called when the user touches the button
+	 */
+	public void submitRadinGroupOnClickListener(View v) {
+		List<RadinGroupModel> radinGroups = new LinkedList<RadinGroupModel>();
+		radinGroups.add(getRadinGroupFromFields());
+		db.insert(radinGroups);
+	}
 }
