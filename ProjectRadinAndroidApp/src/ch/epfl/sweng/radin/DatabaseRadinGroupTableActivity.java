@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 
 import ch.epfl.sweng.radin.databases.Database;
 import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
+import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 import android.app.Activity;
@@ -21,10 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * @author Simonchelbc
+ * Demonstration activity using the database
+ */
 public class DatabaseRadinGroupTableActivity extends Activity {
 	private static final String TAG = "DatabaseRadinGroupTableActivity";
-	
-	private Database db;
 	
 	private static final DateTime TODAY = DateTime.now();
 	private static final DateTime TOMORROW = TODAY.plusDays(1);
@@ -33,7 +36,6 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		db = new Database(this);
 		Log.v(TAG, "created");
 		setContentView(R.layout.activity_database_radin_group_table);
 	}
@@ -78,7 +80,8 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	 * @return {@code rowsColumnToValue} that associates to each row a map from column name to value 
 	 */
 	public List<Map<String, String>> getEverythingFromRadinGroupTable() {
-		Cursor cursor = db.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
+		Database.initialize(this); //TODO Only do something if database initialized
+		Cursor cursor = Database.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
 				null, null, null, null, null);
 		List<Map<String, String>> rowsColumnToValue = new ArrayList<Map<String, String>>();
 		cursor.moveToFirst();
@@ -105,9 +108,14 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	/**
 	 * Used since using the button doesn't work but is meant to be 
 	 * the code used in submitRadinGroupOnClickListener
+	 * @return 
 	 */
-	public void sendRadinGroupModelToDB(List<RadinGroupModel> radinGroups) {
-		db.insert(radinGroups);
+	public Map<Long, Model> sendRadinGroupModelToDB(List<RadinGroupModel> radinGroups) {
+		if (radinGroups.isEmpty()) {
+			throw new IllegalArgumentException("radin groups can't be empty lists");
+		}
+		Database.initialize(this.getApplicationContext());
+		return Database.insert(radinGroups);
 	}
 	private RadinGroupModel getRadinGroupFromFields() {
 		
@@ -135,6 +143,7 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	public void submitRadinGroupOnClickListener(View v) {
 		List<RadinGroupModel> radinGroups = new LinkedList<RadinGroupModel>();
 		radinGroups.add(getRadinGroupFromFields());
-		db.insert(radinGroups);
+		Database.initialize(this);
+		Database.insert(radinGroups);
 	}
 }
