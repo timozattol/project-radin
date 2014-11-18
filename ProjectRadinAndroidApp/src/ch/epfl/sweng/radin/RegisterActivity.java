@@ -1,6 +1,11 @@
 package ch.epfl.sweng.radin;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import ch.epfl.sweng.radin.R.id;
+import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.UserStorageManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +22,7 @@ import android.widget.TextView;
  */
 public class RegisterActivity extends Activity {
 	private boolean newUserDataUsable = false;
+	private UserModel mNewUser = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,7 @@ public class RegisterActivity extends Activity {
 		setContentView(R.layout.activity_register);
 		Button signUpButton = (Button) findViewById(id.sign_up_button);
 		signUpButton.setOnClickListener(signUpButtonListener);
+		mNewUser = new UserModel();
 	}
 
 	@Override
@@ -57,31 +64,47 @@ public class RegisterActivity extends Activity {
 	 * Sends the new user's data to the server
 	 */
 	private void submitUserToServer() {
+		
+		//UserStorageManager usrStManager = new UserStorageManager();
+
 
 	}
 
 	/**
-	 * Package fields of the different {@code TextView} in a object that will be
-	 * sent to the server if a {@code TextView} contains badly formatted input
-	 * resets the field of the {@code TextView} and sets
+	 * Package fields of the different {@code TextView} in a UserModel that 
+	 * will be sent to the server, if a {@code TextView} contains badly 
+	 * formatted input resets the field of the {@code TextView} and sets
 	 * {@code newUserDataUsable} to false sets {@code newUserDataUsable} to true
 	 * if input is in good format
 	 */
 	private void retrieveNewUserData() {
 		final CharSequence newUserFirstName = ((TextView) findViewById(id.first_name_new_user))
-				.getText();
+				.getText();	      
 		final CharSequence newUserLastName = ((TextView) findViewById(id.last_name_new_user))
 				.getText();
 		final CharSequence newUserEmail = ((TextView) findViewById(id.email_new_user))
 				.getText();
 		final CharSequence newUserPassword = ((TextView) findViewById(id.password_new_user))
 				.getText();
+		final CharSequence newUserAddress = ((TextView) findViewById(id.address_new_user))
+				.getText();
 		final CharSequence newUserIban = ((TextView) findViewById(id.iban_new_user))
 				.getText();
 		final CharSequence newUserBicSwift = ((TextView) findViewById(id.bic_swift_address_new_user))
 				.getText();
+		
+		mNewUser.setFirstName(newUserFirstName.toString());
+		mNewUser.setLastName(newUserLastName.toString());
+		mNewUser.setPassword(newUserPassword.toString()); 
+		mNewUser.setEmail(newUserEmail.toString()); 
+		mNewUser.setAddress(newUserAddress.toString()); 
+		mNewUser.setIban(newUserIban.toString()); 
+		mNewUser.setBicSwift(newUserBicSwift.toString());
+		mNewUser.setPicture("drawable/profile_pic");
+		mNewUser.setId(-1);
 
 		newUserDataUsable = true;
+		
 	}
 
 	@Override
