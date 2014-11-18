@@ -4,10 +4,10 @@
 package ch.epfl.sweng.radin.storage.managers;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.storage.JSONParser;
-import ch.epfl.sweng.radin.storage.RadinGroupJSONParser;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.RequestType;
+import ch.epfl.sweng.radin.storage.parsers.JSONParser;
+import ch.epfl.sweng.radin.storage.parsers.RadinGroupJSONParser;
 
 /**
  * @author CedricCook

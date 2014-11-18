@@ -3,9 +3,9 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
-import ch.epfl.sweng.radin.storage.JSONParser;
-import ch.epfl.sweng.radin.storage.UserJSONParser;
 import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.parsers.JSONParser;
+import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
 /**
  * @author CedricCook

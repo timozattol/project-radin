@@ -1,9 +1,11 @@
-package ch.epfl.sweng.radin.storage;
+package ch.epfl.sweng.radin.storage.parsers;
 
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import ch.epfl.sweng.radin.storage.Model;
 
 /**
  * @author timozattol

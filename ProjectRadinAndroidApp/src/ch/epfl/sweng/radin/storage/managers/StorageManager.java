@@ -19,9 +19,9 @@ import android.os.AsyncTask;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.JSONParser;
 import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RequestType;
+import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 
 /**
  * @author CedricCook
