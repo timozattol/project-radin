@@ -4,6 +4,8 @@
 
 # Framework home page
 
+GET		   /					@controllers.Application.index
+
 GET        /only-facebook       @controllers.Application.onlyFacebook
 GET		   /only-google			@controllers.Application.onlyGoogle
 GET        /link-result         @controllers.Application.linkResult
@@ -14,7 +16,9 @@ GET        /custom/logout       @controllers.CustomLoginController.logout
 GET		   /mygroups			@controllers.Application.myGroups
 GET		   /myauthgroups		@controllers.Application.authGroups
 
-GET		   /newuser				@controllers.Application.newUser
+GET		   /radingroups			@controllers.Application.jsonFindAll
+POST	   /radingroups			@controllers.Application.jsonInsert
+
 POST	   /newuser				@controllers.Application.receiveUser
 
 # Map static resources from the /public folder to the /assets URL path
