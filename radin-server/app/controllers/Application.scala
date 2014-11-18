@@ -3,24 +3,37 @@ package controllers
 import securesocial.core._
 import service.DemoUser
 import play.api.mvc.{ Action, RequestHeader }
+import play.api._
+import scala.slick._
+import scala.slick.driver.SQLiteDriver.simple._
+import play.api.db.slick._
+import play.api.data._
+import play.api.data.Forms._
+import play.api.mvc._
+import play.api.Play.current
+import play.api.mvc.BodyParsers._
 import play.api.libs.json._
+import play.api.libs.json.Json._
+import database._
 
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
-  
+
   def newUser = TODO
   //return an id for a new user
-  
+
   def receiveUser = TODO
+
   
-  def index = SecuredAction { implicit request =>
-    Ok(views.html.index(request.user.main))
+  def index = DBAction { implicit rs =>
+    radinGroups.insert(RadinGroup("Sweng", "today", "The coolest group", 1, "", "", ""))
+    Ok("Done!")
   }
 
   // a sample action using an authorization implementation
   def onlyFacebook = SecuredAction(WithProvider("facebook")) { implicit request =>
     Ok("You can see this because you logged in using Facebook")
   }
-  
+
   def onlyGoogle = SecuredAction(WithProvider("google")) { implicit request =>
     Ok("You can see this because you logged in using Google")
   }
@@ -55,8 +68,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }]
    }
       """)
-      
-   val authJson: JsValue = Json.parse("""
+
+  val authJson: JsValue = Json.parse("""
        {"radinGroup":[
    {"RG_ID": "1",
     "RG_name": "Auth Group 1",
@@ -68,11 +81,11 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
    }
        """)
 
-  def myGroups = Action { 
+  def myGroups = Action {
     Ok(json)
   }
-  
-    def authGroups = SecuredAction { implicit request =>
+
+  def authGroups = SecuredAction { implicit request =>
     Ok(authJson)
   }
 
@@ -87,12 +100,27 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }
   }
 
-  // An Authorization implementation that only authorizes uses that logged in using twitter
-  case class WithProvider(provider: String) extends Authorization[DemoUser] {
-    def isAuthorized(user: DemoUser, request: RequestHeader) = {
-      user.main.providerId == provider
-    }
+  lazy val radinGroups = TableQuery[RadinGroups]
 
+  implicit val radinGroupFormat = Json.format[RadinGroup]
+
+  def jsonFindAll = DBAction { implicit rs =>
+    Ok(toJson(radinGroups.list))
+  }
+
+  def jsonInsert = DBAction(parse.json) { implicit rs =>
+    rs.request.body.validate[RadinGroup].map { rg =>
+      radinGroups.insert(rg)
+      Ok(toJson(rg))
+    }.getOrElse(BadRequest("invalid json"))
+  }
+
+}
+
+// An Authorization implementation that only authorizes uses that logged in using twitter
+case class WithProvider(provider: String) extends Authorization[DemoUser] {
+  def isAuthorized(user: DemoUser, request: RequestHeader) = {
+    user.main.providerId == provider
   }
 
 }

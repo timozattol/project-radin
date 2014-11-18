@@ -1,4 +1,4 @@
-package DB
+package database
 
 //import scala.slick.driver.H2Driver.simple._
 import scala.slick.lifted.{ ProvenShape, ForeignKeyQuery }
@@ -10,7 +10,7 @@ import play.api.libs.json.Json._
 
 class Tables {
 
-  val radinGroups = TableQuery[RadinGroups]
+  lazy val radinGroups = TableQuery[RadinGroups]
 
   class Transaction(tag: Tag) extends Table[(Int, Int, Int, Int, Int, String, Int, String, Int, String, Int, String)](tag, "TRANSACTION") {
 
@@ -141,7 +141,7 @@ class Tables {
 case class RadinGroup(RGname: String, RGstartDate: String, RGdescription: String, RGmasterID: Int, RGavatar: String, RGendDate: String, RGdeletedAt: String, id: Option[Int] = None)
 
 class RadinGroups(tag: Tag) extends Table[RadinGroup](tag, "RADINGROUP") {
-  def rid: Column[Int] = column[Int]("RID", O.PrimaryKey, O.AutoInc, O.NotNull)
+  def rid: Column[Int] = column[Int]("RID", O.PrimaryKey, O.AutoInc)
   def RGname: Column[String] = column[String]("RG_NAME", O.NotNull)
   def RGstartDate: Column[String] = column[String]("RG_STARTDATE", O.NotNull)
   def RGdescription: Column[String] = column[String]("RG_DESCRIPTION")
