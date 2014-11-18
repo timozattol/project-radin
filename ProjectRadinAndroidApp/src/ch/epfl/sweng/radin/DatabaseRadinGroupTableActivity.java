@@ -117,7 +117,7 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		Database.initialize(this.getApplicationContext());
 		return Database.insert(radinGroups);
 	}
-	private RadinGroupModel getRadinGroupFromFields() {
+	private RadinGroupModel getRadinGroupFromFields() { //TODO to finish
 		
 		int rid = Integer
 				.parseInt(returnText((TextView) findViewById(R.id.RID)));
