@@ -126,13 +126,13 @@ public class RadingGroupModelTest extends AndroidTestCase {
     }
     public void testGetContentValuesWithGoodParameters() throws Exception {
     	ContentValues values = radinGroupWithMaster.getContentValues();
-    	assertEquals(DEFAULT_AVATAR, values.get(RadinGroupTableHelper.Column.RG_AVATAR.getSqlName()));
-    	assertEquals(DEFAULT_DESCRIPTION, values.get(RadinGroupTableHelper.Column.RG_DESCRIPTION.getSqlName()));
+    	assertEquals(DEFAULT_AVATAR, values.get(RadinGroupTableHelper.Column.RG_AVATAR.toString()));
+    	assertEquals(DEFAULT_DESCRIPTION, values.get(RadinGroupTableHelper.Column.RG_DESCRIPTION.toString()));
 //    	assertEquals(DEFAULT_GROUP_GROUP, values.get(RadinGroupTableHelper.Column.RG_GROUP.getSqlName())); 
     	//TODO #rgGroup
-    	assertEquals(DEFAULT_GROUP_NAME, values.get(RadinGroupTableHelper.Column.RG_NAME.getSqlName()));
-    	assertEquals(DEFAULT_MASTER_ID, values.get(RadinGroupTableHelper.Column.RG_MASTER_RID.getSqlName()));
-    	assertEquals(DEFAULT_RADIN_GROUP_ID, values.get(RadinGroupTableHelper.Column.RID.getSqlName()));
+    	assertEquals(DEFAULT_GROUP_NAME, values.get(RadinGroupTableHelper.Column.RG_NAME.toString()));
+    	assertEquals(DEFAULT_MASTER_ID, values.get(RadinGroupTableHelper.Column.RG_MASTER_RID.toString()));
+    	assertEquals(DEFAULT_RADIN_GROUP_ID, values.get(RadinGroupTableHelper.Column.RID.toString()));
 	}
 
     public void testModifyingValuesWithSettersWithMasterID() {
