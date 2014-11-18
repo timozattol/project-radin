@@ -64,6 +64,22 @@ public final class TransactionModel extends Model {
         mPurpose = purpose;
         mType = type;
     }
+    
+    /**
+     * Copy constructor for TransactionModel
+     * @param original the original TransactionModel to be copied
+     */
+    public TransactionModel(TransactionModel original) {
+        mTransactionID = original.getTransactionID();
+        mParentRadinGroupID = original.getParentRadinGroupID();
+        mCreditorID = original.getCreditorID();
+        mCreatorID = original.getCreatorID();
+        mAmount = original.getAmount();
+        mCurrency = original.getCurrency(); 
+        mDateTime = original.getDateTime(); 
+        mPurpose = original.getPurpose();
+        mType = original.getType();
+    }
 
     /**
      * @return the transactionID
