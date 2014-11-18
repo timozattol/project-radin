@@ -16,7 +16,7 @@ public final class TransactionModel extends Model {
     private int mCreatorID;
 
     // The id of the User who paid for this Transaction
-    private int mDebitorID;
+    private int mCreditorID;
 
     private double mAmount;
     private Currency mCurrency;
@@ -31,7 +31,7 @@ public final class TransactionModel extends Model {
     /**
      * Public constructor for TransactionModel
      */
-    public TransactionModel(int transactionID, int parentRadinGroupID, int debitorID, 
+    public TransactionModel(int transactionID, int parentRadinGroupID, int creditorID, 
             int creatorID, double amount, Currency currency, DateTime dateTime, String purpose,
             TransactionType type) {
         
@@ -39,7 +39,7 @@ public final class TransactionModel extends Model {
         checkArgumentPositive("Transaction ID", transactionID);
         checkArgumentPositive("RadinGroup ID", parentRadinGroupID);
         checkArgumentPositive("Transaction creator ID", creatorID);
-        checkArgumentPositive("Transaction debitor ID", debitorID);
+        checkArgumentPositive("Transaction creditor ID", creditorID);
         
         checkArgumentPositive("Transaction amount", amount);
         if (amount == 0) {
@@ -54,7 +54,7 @@ public final class TransactionModel extends Model {
         mTransactionID = transactionID;
         mParentRadinGroupID = parentRadinGroupID;
         mCreatorID = creatorID;
-        mDebitorID = debitorID;
+        mCreditorID = creditorID;
         mAmount = amount;
         mCurrency = currency;
         
@@ -111,18 +111,18 @@ public final class TransactionModel extends Model {
     }
 
     /**
-     * @return the debitorID
+     * @return the creditorID
      */
-    public int getDebitorID() {
-        return mDebitorID;
+    public int getCreditorID() {
+        return mCreditorID;
     }
 
     /**
-     * @param debitorID the debitorID to set
+     * @param creditorID the creditorID to set
      */
-    public void setDebitorID(int debitorID) {
-        checkArgumentPositive("Transaction debitor ID", debitorID);
-        this.mDebitorID = debitorID;
+    public void setCreditorID(int creditorID) {
+        checkArgumentPositive("Transaction creditor ID", creditorID);
+        this.mCreditorID = creditorID;
     }
 
     /**
@@ -285,7 +285,7 @@ public final class TransactionModel extends Model {
 			
 			return false;
 		}
-		if (mDebitorID != other.mDebitorID) {
+		if (mCreditorID != other.mCreditorID) {
 			
 			return false;
 		}

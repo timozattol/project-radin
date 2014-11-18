@@ -63,7 +63,7 @@ public class TransactionJSONParser implements JSONParser<TransactionModel> {
 			
         	jsonObject.put("T_ID", transactionModel.getTransactionID());
         	jsonObject.put("T_parentRadinGroupID", transactionModel.getParentRadinGroupID());
-        	jsonObject.put("T_debitorID", transactionModel.getDebitorID());
+        	jsonObject.put("T_debitorID", transactionModel.getCreditorID());
         	jsonObject.put("T_creatorID", transactionModel.getCreatorID());
         	jsonObject.put("T_amount", transactionModel.getAmount());
         	jsonObject.put("T_currency", transactionModel.getCurrency().toString());
