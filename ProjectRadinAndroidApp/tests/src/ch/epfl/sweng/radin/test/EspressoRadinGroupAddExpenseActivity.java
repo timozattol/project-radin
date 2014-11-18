@@ -23,8 +23,9 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
  * 
  * @author Jolauka
  */
-public class EspressoRadinGroupAddExpenseActivity extends ActivityInstrumentationTestCase2<RadinGroupAddExpenseActivity> {
-	public EspressoRadinGroupAddExpenseActivity(){
+public class EspressoRadinGroupAddExpenseActivity extends
+	ActivityInstrumentationTestCase2<RadinGroupAddExpenseActivity> {
+	public EspressoRadinGroupAddExpenseActivity() {
 		super(RadinGroupAddExpenseActivity.class);
 	}
 	
