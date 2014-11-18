@@ -1,6 +1,5 @@
 package ch.epfl.sweng.radin.databases;
 
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -10,42 +9,49 @@ import android.database.sqlite.SQLiteDatabase;
 public final class RadinGroupTableHelper implements TableHelper {
 	/**
 	 * @author Simonchelbc
-	 *
+	 * 
 	 */
 	public enum Column {// TODO problem letting it public might
 		// be bad for privacy but we need it
 		// for test.databases so far
 		RID("_RID"), RG_NAME("RG_NAME"), RG_CREATION_DATE("RG_CREATION_DATE"), RG_DESCRIPTION(
-				"RG_DESCRIPTION"),  RG_MASTER_RID(
-				"RG_MASTER_RID"), RG_AVATAR("RG_AVATAR"), RG_DELETED_AT(
-				"RG_DELETED_AT"), RG_END_DATE("RG_END_DATE"); //RG_GROUP("RG_GROUP"), TODO #radinGroup
+				"RG_DESCRIPTION"), RG_MASTER_RID("RG_MASTER_RID"), RG_AVATAR(
+				"RG_AVATAR"), RG_DELETED_AT("RG_DELETED_AT"), RG_END_DATE(
+				"RG_END_DATE"); // RG_GROUP("RG_GROUP"), TODO #radinGroup
 
-		private final String getSqlName; 
+		private final String mInString;
 
 		private Column(String sqlName) {
-			getSqlName = sqlName;
+			mInString = sqlName;
 		}
-		
-		public String getSqlName() {
-			return getSqlName;
+		@Override
+		public String toString() {
+			return mInString;
 		}
 	}
 
 	public static final String TABLE_RADIN_GROUP = "RADIN_GROUP";
 
-	private static final String CREATE_TABLE_RADIN_GROUP = "CREATE TABLE "
-			+ TABLE_RADIN_GROUP + "(" + Column.RID.getSqlName + " INT NOT NULL,"
-			+ Column.RG_NAME.getSqlName + " TEXT NOT NULL,"
-			+ Column.RG_CREATION_DATE.getSqlName + " TEXT NOT NULL,"
-			+ Column.RG_DESCRIPTION.getSqlName + " TEXT,"
-//			+ Column.RG_GROUP.getSqlName + " TEXT," //TODO #rgGroup
-			+ Column.RG_MASTER_RID.getSqlName + "," + Column.RG_AVATAR.getSqlName
-			+ " TEXT," + Column.RG_END_DATE.getSqlName + " TEXT,"
-			+ Column.RG_DELETED_AT.getSqlName + " TEXT," + "PRIMARY KEY ("
-			+ Column.RID.getSqlName + "));";
+	RadinGroupTableHelper() {
+	}
 
-//	private final String[] mNames = new String[Column.values().length]; //TODO possibility to make it look like a 
-	//lazy val?
+	private static final String TEXT = " TEXT,";
+	private static final String TEXT_NOT_NULL = " TEXT NOT NULL,";
+	private static final String CREATE_TABLE_RADIN_GROUP = "CREATE TABLE "
+			+ TABLE_RADIN_GROUP + "(" + Column.RID.mInString
+			+ " INT NOT NULL," + Column.RG_NAME.mInString + TEXT_NOT_NULL
+			+ Column.RG_CREATION_DATE.mInString + TEXT_NOT_NULL
+			+ Column.RG_DESCRIPTION.mInString + TEXT
+			// + Column.RG_GROUP.getSqlName + " TEXT," //TODO #rgGroup
+			+ Column.RG_MASTER_RID.mInString + ","
+			+ Column.RG_AVATAR.mInString + TEXT
+			+ Column.RG_END_DATE.mInString + TEXT
+			+ Column.RG_DELETED_AT.mInString + TEXT + "PRIMARY KEY ("
+			+ Column.RID.mInString + "));";
+
+	// private final String[] mNames = new String[Column.values().length];
+	// //TODO possibility to make it look like a
+	// lazy val?
 
 	/**
 	 * @return array of all columns names as {@link String}, thus an array of
@@ -56,11 +62,10 @@ public final class RadinGroupTableHelper implements TableHelper {
 		final int enumSize = values.length;
 		final String[] names = new String[enumSize];
 		for (int i = 0; i < enumSize; i++) {
-			names[i] = values[i].getSqlName;
+			names[i] = values[i].mInString;
 		}
 		return names;
 	}
-
 
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE_RADIN_GROUP);
