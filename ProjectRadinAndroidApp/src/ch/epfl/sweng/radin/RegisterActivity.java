@@ -1,9 +1,17 @@
 package ch.epfl.sweng.radin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import ch.epfl.sweng.radin.R.id;
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.JSONParser;
+import ch.epfl.sweng.radin.storage.RequestType;
+import ch.epfl.sweng.radin.storage.StorageManager;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.UserStorageManager;
 import android.app.Activity;
@@ -46,9 +54,19 @@ public class RegisterActivity extends Activity {
 	private OnClickListener signUpButtonListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			retrieveNewUserData();
+			try {
+				retrieveNewUserData();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (newUserDataUsable) {
-				submitUserToServer();
+				try {
+					submitUserToServer();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				Intent displayHomeActivityIntent = new Intent(v.getContext(),
 						HomeActivity.class);
 				// TODO destroy this activity when communication with server
@@ -62,11 +80,35 @@ public class RegisterActivity extends Activity {
 
 	/**
 	 * Sends the new user's data to the server
+	 * @throws JSONException 
 	 */
-	private void submitUserToServer() {
+	private void submitUserToServer() throws JSONException {
 		
-		//UserStorageManager usrStManager = new UserStorageManager();
+		
+		UserStorageManager userStorageManager = 
+				UserStorageManager.getStorageManager();
+		
+		List<UserModel> newUserList = new ArrayList<UserModel>();
+		newUserList.add(mNewUser);
+		
+		JSONParser<UserModel> newUserParser = 
+				userStorageManager.getJSONParser();
+		//The JSON I want to send to the server
+		JSONObject JSONNewUser = newUserParser.getJsonFromModels(newUserList);
+		
+		
+		userStorageManager.sendNewUser(JSONNewUser, 
+				new RadinListener<UserModel>() {
 
+			@Override
+			public void callback(List<UserModel> items,
+					StorageManagerRequestStatus status) {
+				// TODO Auto-generated method stub
+				// Does it have to do something?
+			}
+			
+		});
+		
 
 	}
 
@@ -76,8 +118,10 @@ public class RegisterActivity extends Activity {
 	 * formatted input resets the field of the {@code TextView} and sets
 	 * {@code newUserDataUsable} to false sets {@code newUserDataUsable} to true
 	 * if input is in good format
+	 * @throws JSONException 
 	 */
-	private void retrieveNewUserData() {
+	private void retrieveNewUserData() throws JSONException {
+		
 		final CharSequence newUserFirstName = ((TextView) findViewById(id.first_name_new_user))
 				.getText();	      
 		final CharSequence newUserLastName = ((TextView) findViewById(id.last_name_new_user))
