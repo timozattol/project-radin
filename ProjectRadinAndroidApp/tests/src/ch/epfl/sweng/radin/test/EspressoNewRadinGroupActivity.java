@@ -31,9 +31,9 @@ public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCa
 	
 	
 	public void testNewRadinGroup() {	
-		//TODO maybe add restriction on special characters
-		Espresso.onView(ViewMatchers.withId(R.id.edit_name)).perform(ViewActions.typeText("Ma super liste! %�''"))
-		.check(ViewAssertions.matches(ViewMatchers.withText("Ma super liste! %�''")));
+		//TODO add restriction on special characters
+		Espresso.onView(ViewMatchers.withId(R.id.edit_name)).perform(ViewActions.typeText("Ma super liste!"))
+		.check(ViewAssertions.matches(ViewMatchers.withText("Ma super liste!")));
 		
 		Espresso.onView(ViewMatchers.withId(R.id.people)).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText("julie")).perform(ViewActions.click());
