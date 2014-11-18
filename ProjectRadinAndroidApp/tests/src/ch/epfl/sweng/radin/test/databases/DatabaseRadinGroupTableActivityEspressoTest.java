@@ -5,8 +5,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.pressBack;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isEnabled;
+
+import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.Visibility;
 
 import ch.epfl.sweng.radin.DatabaseRadinGroupTableActivity;
+import ch.epfl.sweng.radin.R;
 import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import android.test.ActivityInstrumentationTestCase2;
@@ -103,4 +118,31 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 			//good
 		}
 	}
+	
+	private void typeTextInField(int rId, String text) {
+		onView(withId(rId)).perform(scrollTo(), typeText(text));
+	}
+
+	public void testDBAfterInsert() throws Exception {
+		typeTextInField(R.id.RID, "0");
+		typeTextInField(R.id.RGCreatedAt, "today");
+		typeTextInField(R.id.RGDeletedAt, "after-tomorrow");
+		typeTextInField(R.id.RGEndedAt, "tomorrow");
+		typeTextInField(R.id.RGName, "test group");
+		typeTextInField(R.id.RGAvatar, "img/avatar1.png");
+		typeTextInField(R.id.RGMasterID, "10");
+		typeTextInField(R.id.RGDescription, "A cool group");
+		closeSoftKeyboard();
+
+		Log.v(TAG, "performing click on submitRadinGroupToDB");
+		ViewInteraction submitButton = onView(withId(R.id.submitRadinGroupToDB)); //buttons sends all to DB
+		submitButton.perform(scrollTo(), click()); 
+
+		List<Map<String, String>> rows = getActivity()
+				.getEverythingFromRadinGroupTable();
+		assertEquals(rows.size(), 1);
+		Map<String, String> uniqueRow = rows.get(0);
+		assertEquals("0", uniqueRow.get(RadinGroupTableHelper.Column.RID.toString()));
+		assertEquals("img/avatar1.png", uniqueRow.get(RadinGroupTableHelper.Column.RG_AVATAR.toString()));
+	} //TODO change to something that picks last rows modified for testing not first rows since DB is persistent
 }
