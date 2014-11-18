@@ -32,6 +32,7 @@ public class UserJSONParser implements JSONParser<UserModel> {
 					jsonData.getString("U_email"),
 					jsonData.getString("U_address"),
 					jsonData.getString("U_iban"),
+					jsonData.getString("U_bicSwift"),
 					jsonData.getString("U_picture"),
 					jsonData.getInt("U_ID")));
 

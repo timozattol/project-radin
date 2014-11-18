@@ -11,19 +11,42 @@ public class UserModel extends Model{
 
 	private String mFirstName;
 	private String mLastName;
+	private String mPassword;
 	private String mEmail;
 	private String mAddress;
 	private String mIban;
+	private String mBicSwift;
 	private String mPicture;
 	private int mId;
-
+	
+	/*
+	 * Public constructors of UserModel
+	 */
+	public UserModel(){}
+	
+		// A Constructor used for the registration
+	public UserModel(String firstName, String lastName, String password, String email, 
+			String address, String iban, String bicSwift, String picture, int id) {
+		mFirstName = firstName;
+		mLastName = lastName;
+		mPassword = password;
+		mEmail = email;
+		mAddress = address;
+		mIban = iban;
+		mBicSwift = bicSwift;
+		mPicture = picture;
+		mId = id;
+	}
+	
+		//A constructor used for representong a User in all other situations 
 	public UserModel(String firstName, String lastName, String email, 
-			String address, String iban, String picture, int id) {
+			String address, String iban, String bicSwift, String picture, int id) {
 		mFirstName = firstName;
 		mLastName = lastName;
 		mEmail = email;
 		mAddress = address;
 		mIban = iban;
+		mBicSwift = bicSwift;
 		mPicture = picture;
 		mId = id;
 	}
@@ -34,6 +57,10 @@ public class UserModel extends Model{
 
 	public String getLastName() {
 		return mLastName;
+	}
+	
+	public String getPassword() {
+		return mPassword;
 	}
 
 	public String getEmail() {
@@ -48,6 +75,10 @@ public class UserModel extends Model{
 		return mIban;
 	}
 
+	public String getBicSwift() {
+		return mBicSwift;
+	}
+	
 	public String getPicture() {
 		return mPicture;
 	}
@@ -62,6 +93,10 @@ public class UserModel extends Model{
 	public void setLastName(String lastName) {
 		mLastName = lastName;
 	}
+	
+	public void setPassword(String password) {
+		mPassword = password;
+	}
 	public void setEmail(String email) {
 		mEmail = email;
 	}
@@ -71,8 +106,14 @@ public class UserModel extends Model{
 	public void setIban(String iban) {
 		mIban = iban;
 	}
+	public void setBicSwift(String bicSwift) {
+		mBicSwift = bicSwift;
+	}
 	public void setPicture(String picture) {
 		mPicture = picture;
+	}
+	public void setId(int id) {
+		mId = id;
 	}
 
 	/* (non-Javadoc)
