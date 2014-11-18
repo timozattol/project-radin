@@ -1,4 +1,4 @@
-package ch.epfl.sweng.radin.storage;
+package ch.epfl.sweng.radin.storage.managers;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -19,6 +19,9 @@ import android.os.AsyncTask;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.JSONParser;
+import ch.epfl.sweng.radin.storage.Model;
+import ch.epfl.sweng.radin.storage.RequestType;
 
 /**
  * @author CedricCook

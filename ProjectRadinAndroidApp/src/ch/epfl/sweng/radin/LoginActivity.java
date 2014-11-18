@@ -1,5 +1,5 @@
 package ch.epfl.sweng.radin;
-import ch.epfl.sweng.radin.storage.StorageManager;
+import ch.epfl.sweng.radin.storage.managers.StorageManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
