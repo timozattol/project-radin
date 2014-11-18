@@ -27,6 +27,11 @@ public final class Database {
 
 	private Database() {
 	}
+	
+	
+	public static boolean initialized() {
+		return dbInstance != null && mOpenHelper != null;
+	}
 
 	/**
 	 * @param cxt
@@ -49,7 +54,7 @@ public final class Database {
 	 * used in every public method
 	 */
 	private static void instanceNotNullCheck() {
-		if (dbInstance == null || mOpenHelper == null) {
+		if (!initialized()) {
 			throw new IllegalStateException(Database.class.getName()
 					+ " is not initialized, " + "call initialize(..) first");
 		}
