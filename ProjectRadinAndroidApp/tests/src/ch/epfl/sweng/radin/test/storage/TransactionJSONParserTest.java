@@ -14,7 +14,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import android.test.AndroidTestCase;
 import ch.epfl.sweng.radin.storage.Currency;
-import ch.epfl.sweng.radin.storage.TransactionJSONParser;
+import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
 import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.TransactionType;
 

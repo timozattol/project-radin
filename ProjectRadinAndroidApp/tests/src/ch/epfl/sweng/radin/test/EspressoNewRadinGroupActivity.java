@@ -10,8 +10,13 @@ import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
-public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCase2<NewRadinGroupActivity>{
-	public EspressoNewRadinGroupActivity(){
+/**
+ * A class for testing everything that concerns RadinGroups
+ * @author CedricCook
+ *
+ */
+public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCase2<NewRadinGroupActivity> {
+	public EspressoNewRadinGroupActivity() {
 		super(NewRadinGroupActivity.class);
 	}
 	
@@ -27,7 +32,8 @@ public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCa
 	
 	public void testNewRadinGroup() {	
 		//TODO maybe add restriction on special characters
-		Espresso.onView(ViewMatchers.withId(R.id.edit_name)).perform(ViewActions.typeText("Ma super liste! %ç''")).check(ViewAssertions.matches(ViewMatchers.withText("Ma super liste! %ç''")));
+		Espresso.onView(ViewMatchers.withId(R.id.edit_name)).perform(ViewActions.typeText("Ma super liste! %ï¿½''"))
+		.check(ViewAssertions.matches(ViewMatchers.withText("Ma super liste! %ï¿½''")));
 		
 		Espresso.onView(ViewMatchers.withId(R.id.people)).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText("julie")).perform(ViewActions.click());

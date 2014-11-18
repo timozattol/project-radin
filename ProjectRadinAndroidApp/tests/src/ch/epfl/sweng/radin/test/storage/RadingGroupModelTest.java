@@ -119,7 +119,7 @@ public class RadingGroupModelTest extends AndroidTestCase {
 
     public void testModifyingValuesWithSettersWithMasterID() {
         radinGroupWithMaster.setAvatar(NEW_AVATAR);
-        assertEquals(radinGroupWithMaster.getAvatar(),NEW_AVATAR);
+        assertEquals(radinGroupWithMaster.getAvatar(), NEW_AVATAR);
 
         radinGroupWithMaster.setGroupDescription(NEW_DESCRIPTION);
         assertEquals(radinGroupWithMaster.getGroupDescription(),
