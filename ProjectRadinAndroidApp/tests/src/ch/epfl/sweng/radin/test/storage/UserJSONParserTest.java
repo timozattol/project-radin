@@ -27,7 +27,7 @@ public class UserJSONParserTest extends AndroidTestCase{
 	private static final String EMAIL = "julie.djeffal@epfl.ch";
 	private static final String ADDRESS = "quelquepart";
 	private static final String IBAN = "CH246465 6464 6564";
-	private static final String BICSWIFT = "CH801";
+	private static final String BICSWIFT = "CH802";
 	private static final String PICTURE = "img/haha.png";
 	private static final int ID = 2;
 

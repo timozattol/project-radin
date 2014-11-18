@@ -58,6 +58,7 @@ public class UserJSONParser implements JSONParser<UserModel> {
 			jsonData.put("U_email", userModel.getEmail());
 			jsonData.put("U_address", userModel.getAddress());
 			jsonData.put("U_iban", userModel.getIban());
+			jsonData.put("U_bicSwift", userModel.getBicSwift());
 			jsonData.put("U_picture", userModel.getPicture());
 			jsonData.put("U_ID", userModel.getId());
 
