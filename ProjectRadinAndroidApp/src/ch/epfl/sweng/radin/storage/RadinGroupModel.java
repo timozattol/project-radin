@@ -144,34 +144,34 @@ public class RadinGroupModel extends Model {
 	// TODO add getContentValues to Model interface
 	public ContentValues getContentValues() {
 		ContentValues values = new ContentValues();
-		values.put(RadinGroupTableHelper.Column.RID.getSqlName(), mRID);
-		values.put(RadinGroupTableHelper.Column.RG_NAME.getSqlName(), mName);
-		values.put(RadinGroupTableHelper.Column.RG_CREATION_DATE.getSqlName(),
+		values.put(RadinGroupTableHelper.Column.RID.toString(), mRID);
+		values.put(RadinGroupTableHelper.Column.RG_NAME.toString(), mName);
+		values.put(RadinGroupTableHelper.Column.RG_CREATION_DATE.toString(),
 				mCreationDateTime.toString()); // TODO discuss format of dates
 		// in db!
 		if (mAvatar != null) {
-			values.put(RadinGroupTableHelper.Column.RG_AVATAR.getSqlName(),
+			values.put(RadinGroupTableHelper.Column.RG_AVATAR.toString(),
 					mAvatar);
 		}
 		if (mDeletionDateTime != null) {
-			values.put(RadinGroupTableHelper.Column.RG_DELETED_AT.getSqlName(),
+			values.put(RadinGroupTableHelper.Column.RG_DELETED_AT.toString(),
 					mDeletionDateTime.toString()); // TODO discuss format of
 			// dates in db!
 		}
 		if (mEndDateTime != null) {
-			values.put(RadinGroupTableHelper.Column.RG_END_DATE.getSqlName(),
+			values.put(RadinGroupTableHelper.Column.RG_END_DATE.toString(),
 					mEndDateTime.toString());
 		}
 		if (mDescription != null) {
 			values.put(
-					RadinGroupTableHelper.Column.RG_DESCRIPTION.getSqlName(),
+					RadinGroupTableHelper.Column.RG_DESCRIPTION.toString(),
 					mDescription);
 		}
 		// values.put(RadinGroupTableHelper.Column.RG_GROUP.getSqlName(),
 		// mRgGroup); // TODO #rgGroup
 
 		if (hasMasterID()) {
-			values.put(RadinGroupTableHelper.Column.RG_MASTER_RID.getSqlName(),
+			values.put(RadinGroupTableHelper.Column.RG_MASTER_RID.toString(),
 					mMasterID);
 		}
 		return values;
