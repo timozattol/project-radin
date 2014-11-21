@@ -1,11 +1,15 @@
 package ch.epfl.sweng.radin.test;
 
 
+import org.joda.time.DateTime;
+
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import ch.epfl.sweng.radin.R;
 import ch.epfl.sweng.radin.RadinGroupAddExpenseActivity;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import ch.epfl.sweng.radin.ActionBar;
 
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
@@ -35,8 +39,12 @@ public class EspressoRadinGroupAddExpenseActivity extends
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		
+		RadinGroupModel rgModel = new RadinGroupModel(
+		        0, DateTime.now(), "My example list", "A simple example list", null);
+		
 		Intent myIntent = new Intent();
-		myIntent.putExtra("key", "My example list");
+		myIntent.putExtra("key", ActionBar.makeModelToBundle(rgModel));
 		setActivityIntent(myIntent);
 		getActivity();
 	}
