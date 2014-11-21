@@ -46,9 +46,9 @@ public class TransactionModelTest extends AndroidTestCase{
         transaction.setCreatorID(1);
         assertTrue(transaction.getCreatorID() == 1);
         
-        assertTrue(transaction.getDebitorID() == 0);
-        transaction.setDebitorID(1);
-        assertTrue(transaction.getDebitorID() == 1);
+        assertTrue(transaction.getCreditorID() == 0);
+        transaction.setCreditorID(1);
+        assertTrue(transaction.getCreditorID() == 1);
         
         assertTrue(transaction.getAmount() == DEFAULT_AMOUNT);
         transaction.setAmount(DEFAULT_AMOUNT + 1);
