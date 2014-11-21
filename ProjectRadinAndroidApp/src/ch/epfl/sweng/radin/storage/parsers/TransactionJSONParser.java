@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.epfl.sweng.radin.storage;
+package ch.epfl.sweng.radin.storage.parsers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,10 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import ch.epfl.sweng.radin.storage.Currency;
+import ch.epfl.sweng.radin.storage.TransactionModel;
+import ch.epfl.sweng.radin.storage.TransactionType;
 
 /**
  * @author topali2

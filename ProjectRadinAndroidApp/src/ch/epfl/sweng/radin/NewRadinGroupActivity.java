@@ -139,7 +139,7 @@ public class NewRadinGroupActivity extends Activity {
 	
 	public void createRadinGroup(View view) {
 		String listName = mNameEdit.getText().toString();
-    	if (listName.equals("") || (listName == null)) {
+    	if ((listName == null) || listName.equals("")) {
     		Toast.makeText(getBaseContext(), R.string.invalid_name, Toast.LENGTH_SHORT).show();
         } else if (mParticipants == null || mParticipants.isEmpty()) {
     		Toast.makeText(getBaseContext(), R.string.invalid_participants, Toast.LENGTH_SHORT).show();
