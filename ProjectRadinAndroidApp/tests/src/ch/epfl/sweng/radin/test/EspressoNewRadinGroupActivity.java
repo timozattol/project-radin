@@ -1,9 +1,13 @@
 package ch.epfl.sweng.radin.test;
 
+import org.joda.time.DateTime;
+
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import ch.epfl.sweng.radin.ActionBar;
 import ch.epfl.sweng.radin.NewRadinGroupActivity;
 import ch.epfl.sweng.radin.R;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
@@ -23,8 +27,13 @@ public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCa
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		
+		RadinGroupModel rgModel = new RadinGroupModel(
+                0, DateTime.now(), "My example list", "A simple example list", 
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+		
 		Intent myIntent = new Intent();
-		myIntent.putExtra("key", "My example list");
+		myIntent.putExtras(ActionBar.makeModelToBundle(rgModel));
 		setActivityIntent(myIntent);
 		getActivity();
 	}

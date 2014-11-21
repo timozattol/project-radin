@@ -41,10 +41,11 @@ public class EspressoRadinGroupAddExpenseActivity extends
 		super.setUp();
 		
 		RadinGroupModel rgModel = new RadinGroupModel(
-		        0, DateTime.now(), "My example list", "A simple example list", null);
+		        0, DateTime.now(), "My example list", "A simple example list", 
+		        "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 		
 		Intent myIntent = new Intent();
-		myIntent.putExtra("key", ActionBar.makeModelToBundle(rgModel));
+		myIntent.putExtras(ActionBar.makeModelToBundle(rgModel));
 		setActivityIntent(myIntent);
 		getActivity();
 	}
