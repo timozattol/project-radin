@@ -31,21 +31,7 @@ class Tables {
   }
   lazy val transactions = TableQuery[Transaction]
 
-  class User(tag: Tag) extends Table[(Int, String, String, String, String, String, Int, String, String)](tag, "USER") {
-
-    def uid: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
-    def Uname: Column[String] = column[String]("U_NAME", O.NotNull)
-    def Upassword: Column[String] = column[String]("U_PASSWORD", O.NotNull)
-    def Uiban: Column[String] = column[String]("U_IBAN")
-    def Ulanguage: Column[String] = column[String]("U_LANGUAGE", O.NotNull)
-    def Uaddress: Column[String] = column[String]("U_ADDRESS")
-    def Uoptions: Column[Int] = column[Int]("U_OPTIONS", O.NotNull)
-    def Uavatar: Column[String] = column[String]("U_AVATAR")
-    def UdeletedAt: Column[String] = column[String]("U_DELETED_AT")
-
-    def * = (uid, Uname, Upassword, Uiban, Ulanguage, Uaddress, Uoptions, Uavatar, UdeletedAt)
-  }
-  lazy val users = TableQuery[User]
+  lazy val users = TableQuery[Users]
 
   class UserRelationship(tag: Tag) extends Table[(Int, Int, Int)](tag, "USER_RELATIONSHIP") {
 
@@ -151,4 +137,21 @@ class RadinGroups(tag: Tag) extends Table[RadinGroup](tag, "RADINGROUP") {
   def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
 
   def * = (RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, RGendDate, RGdeletedAt, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
+}
+
+case class User(Uname: String, Upassword: String, Uiban: String, Ulanguage: String, Uaddress: String, Uoptions: Int, Uavatar: String, UdeletedAt: String, U_ID: Option[Int] = None)
+
+class Users(tag: Tag) extends Table[User](tag, "USER") {
+
+  def Uname: Column[String] = column[String]("U_NAME", O.NotNull)
+  def Upassword: Column[String] = column[String]("U_PASSWORD", O.NotNull)
+  def Uiban: Column[String] = column[String]("U_IBAN")
+  def Ulanguage: Column[String] = column[String]("U_LANGUAGE", O.NotNull)
+  def Uaddress: Column[String] = column[String]("U_ADDRESS")
+  def Uoptions: Column[Int] = column[Int]("U_OPTIONS", O.NotNull)
+  def Uavatar: Column[String] = column[String]("U_AVATAR")
+  def UdeletedAt: Column[String] = column[String]("U_DELETED_AT")
+  def uid: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
+
+  def * = (Uname, Upassword, Uiban, Ulanguage, Uaddress, Uoptions, Uavatar, UdeletedAt, uid.?) <> (User.tupled, User.unapply)
 }
