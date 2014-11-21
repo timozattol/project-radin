@@ -49,6 +49,20 @@ public class TransactionWithParticipantsModel extends Model {
             Map<UserModel, Integer> usersWithCoefficients) {
         this.mUsersWithCoefficients = new HashMap<UserModel, Integer>(usersWithCoefficients);
     }
+
+    /**
+     * @return the transactionModel
+     */
+    public TransactionModel getTransaction() {
+        return mDecoratedTransactionModel;
+    }
+    
+    /**
+     * @return the Map of users
+     */
+    public Map<UserModel, Integer> getMap() {
+        return mUsersWithCoefficients;
+    }
     
     /**
      * @return the transactionID
