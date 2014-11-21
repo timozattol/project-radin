@@ -1,5 +1,6 @@
 package ch.epfl.sweng.radin;
 
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.TextView;
  *
  */
 public class RadinGroupViewActivity extends Activity {
+	private RadinGroupModel mCurrentRadinGroupModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +29,14 @@ public class RadinGroupViewActivity extends Activity {
 
 
 		Bundle extras = getIntent().getExtras();
-		String radinGroupTitle = extras.getString("key");
+		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
+		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
 
 		TextView textView = (TextView) findViewById(R.id.radinGroupViewTitle);
 		textView.setText(radinGroupTitle);
 
 		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.radinGroupViewLayout);
-		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
+		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		Button notificationsBtn = (Button) findViewById(R.id.notificationButton);
 		notificationsBtn.setOnClickListener(notificationsButtonListener);
