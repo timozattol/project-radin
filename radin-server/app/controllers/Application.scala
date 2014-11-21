@@ -18,14 +18,39 @@ import database._
 
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
 
-  def newUser = TODO
-  //return an id for a new user
+  def firstAction = DBAction { implicit rs =>
+    users.ddl.create
+    radinGroups.ddl.create
+    Ok("done")
+  }
 
-  def receiveUser = TODO
+  lazy val users = TableQuery[Users]
+  implicit val userFormat = Json.format[User]
 
+  def newUser = DBAction(BodyParsers.parse.json) { implicit rs =>
+    val nuser = rs.request.body.validate[User]
+    nuser.fold(
+      errors => {
+        BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toFlatJson(errors)))
+      },
+      user => {
+        users.insert(user)
+        
+        val lastid = users.map(_.uid).max.run
+        val userlist = users.list
+        val lastuser = userlist.filter(_.U_ID == lastid)
+        
+        Ok(toJson(lastuser))
+      })
+  }
   
-  def index = DBAction { implicit rs =>
-    radinGroups.insert(RadinGroup("Sweng", "today", "The coolest group", 1, "", "", ""))
+  def userList = DBAction { implicit rs =>
+    Ok(toJson(users.list))
+  }
+  //return list of all users
+
+  def insertUser = DBAction { implicit rs =>
+    users.insert(User("username", "myPassword", "no iban", "ch-fr", "EPFL", 0, "", ""))
     Ok("Done!")
   }
 
@@ -101,7 +126,6 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   lazy val radinGroups = TableQuery[RadinGroups]
-
   implicit val radinGroupFormat = Json.format[RadinGroup]
 
   def jsonFindAll = DBAction { implicit rs =>
