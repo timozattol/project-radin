@@ -6,8 +6,10 @@ import java.util.List;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.Currency;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.TransactionModel;
+import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
@@ -35,20 +37,23 @@ import android.widget.Toast;
 public class RadinGroupAddExpenseActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
-	private ArrayList<String> mSelectedDebtors = new ArrayList<String>();
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
-	private String mSelectedCreditor;
+
+	
+	private UserModel mClientModel; // should be received from previous activity
 	private double mAmount;
-	private String[] mFriends;
 	private boolean[] checkedItems;
 	private String  mPurpose;
+	private UserModel mSelectedCreditor;
+	private ArrayList<UserModel> mPeopleWhoHaveToPay = new ArrayList<UserModel>();
 	private ArrayList<UserModel> mParticipants;
+	private HashMap<String, UserModel> mNamesAndModel;
+	private String[] mParticipantsNames;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_radingroup_add_expense);
-		mSelectedCreditor = this.getResources().getString(R.string.creditor_selected);
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
@@ -91,8 +96,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * Shows a toast if data not ready
 	 */
 	public void showDebDialog(View view) {
-		if (mFriends != null) {
-			debtorDialog(serverGetFriendsInGroup()).show();
+		if (mParticipantsNames != null) {
+			peopleWhoHaveToPayDialog().show();
 		} else {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
 		}
@@ -104,8 +109,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * Shows a toast if data not ready
 	 */
 	public void showCredDialog(View view) {
-		if (mParticipantsAndClient != null) {
-			creditorDialog(mParticipantsAndClient).show();
+		if (mParticipantsNames != null) {
+			creditorDialog().show();
 		} else {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
 		}
@@ -116,7 +121,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 */
 	private void retrieveParticipants() {
 		RadinGroupStorageManager radinGroupStorageManager = RadinGroupStorageManager.getStorageManager();
-		radinGroupStorageManager.getParticipantsByGroupId(mCurrentRadinGroupModel.getRadinGroupID(), new RadinListener<UserModel>() {
+		radinGroupStorageManager.getParticipantsByGroupId(mCurrentRadinGroupModel.getRadinGroupID(),
+				new RadinListener<UserModel>() {
 			@Override
 			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
@@ -134,10 +140,15 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 */
 	private void useDataRetrieved(List<UserModel> items) {
 		mParticipants = new ArrayList<UserModel>(items);
-		HashMap<String, UserModel> mNamesAndModel = new HashMap<String, UserModel>();
+		mNamesAndModel = new HashMap<String, UserModel>();
+		mParticipantsNames = new String[mParticipants.size()];
+		
 		for (int i = 0; i < mParticipants.size(); i++) {
 			UserModel currentUser = mParticipants.get(i);
-			mNamesAndModel.put(currentUser.getFirstName() + " " + currentUser.getLastName(), currentUser);
+			String fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
+			
+			mNamesAndModel.put(fullName, currentUser);
+			mParticipantsNames[i] = fullName;
 		}
 		//initially false (default value)
 		checkedItems = new boolean[mParticipants.size()];
@@ -151,13 +162,13 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * @param names The names that can be selected
 	 * @return an AlertDialog that is ready to be shown
 	 */
-	private AlertDialog debtorDialog() {
+	private AlertDialog peopleWhoHaveToPayDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.debtorsList);
 		
 		final ListView listView = new ListView(this);
 		StableArrayAdapter<String> adapter = 
-				new StableArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice, names);
+				new StableArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice, mParticipantsNames);
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		for (int i = 0; i < checkedItems.length; i++) {
@@ -165,22 +176,21 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		}
 		builder.setView(listView);
 		
-		
 		// Set OK button
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				//remember choices
 				long[] checkedIds = listView.getCheckedItemIds();
-				checkedItems = new boolean[names.length];
+				checkedItems = new boolean[mParticipantsNames.length];
 				for (int i = 0; i < checkedIds.length; i++) {
 					checkedItems[(int) checkedIds[i]] = true;
 				}				
 				//add to list & set textView
 				String strNames = "";
 				for (int i = 0; i < checkedIds.length; i++) {
-					strNames = strNames + " " + names[(int) checkedIds[i]];
-					mSelectedDebtors.add(names[(int) checkedIds[i]]);
+					strNames = strNames + " " + mParticipantsNames[(int) checkedIds[i]];
+					mPeopleWhoHaveToPay.add(mNamesAndModel.get(mParticipantsNames[(int) checkedIds[i]]));
 				}
 				TextView debitorSelected = (TextView) findViewById(R.id.debtors_selected);
 				debitorSelected.setText(strNames);
@@ -203,11 +213,13 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * @param names The names that can be selected
 	 * @return an AlertDialog that is ready to be shown
 	 */
-	private AlertDialog creditorDialog(final String[] names) {
+	private AlertDialog creditorDialog() {
 		mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.creditorList);
-		builder.setSingleChoiceItems(names, DEFAULT_CREDITOR_SELECTION, new DialogInterface.OnClickListener() {
+		builder.setSingleChoiceItems(mParticipantsNames,
+				DEFAULT_CREDITOR_SELECTION,
+				new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				mSelectedIndex = which;
@@ -220,8 +232,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 			public void onClick(DialogInterface dialog, int id) {
 				//set textView
 				TextView creditorSelected = (TextView) findViewById(R.id.creditor_selected);
-				mSelectedCreditor = names[mSelectedIndex];
-				creditorSelected.setText(mSelectedCreditor);
+				mSelectedCreditor = mNamesAndModel.get(mParticipantsNames[mSelectedIndex]);
+				creditorSelected.setText(mParticipantsNames[mSelectedIndex]);
 			}
 		});
 		// Set CANCEL button
@@ -248,18 +260,31 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		}
 		if (mPurpose == null || mPurpose.isEmpty()) {
 			Toast.makeText(this, R.string.invalid_purpose, Toast.LENGTH_SHORT).show();
-		} else if (mSelectedDebtors.isEmpty()) {
+		} else if (mPeopleWhoHaveToPay.isEmpty()) {
 			Toast.makeText(this, R.string.invalid_debtors, Toast.LENGTH_SHORT).show();
 		} else if (mAmount == 0) {
 			Toast.makeText(this, R.string.invalid_amount, Toast.LENGTH_SHORT).show();
 		} else {
 			//Data OK
-			TransactionModel newTransaction = new TransactionModel(-1, mCurrentRadinGroupModel.getRadinGroupID(), creditorID, creatorID, amount, currency, dateTime, purpose, type);
-			TransactionWithParticipantsModel transactionToSend = new TransactionWithParticipantsModel(newTransaction, usersWithCoefficients);
+			if (mSelectedCreditor == null) {
+				mSelectedCreditor = mClientModel;
+			}
+			TransactionModel newTransaction = new TransactionModel(-1,
+																   mCurrentRadinGroupModel.getRadinGroupID(),
+																   mSelectedCreditor.getId(),
+																   mClientModel.getId(),
+																   mAmount,
+																   Currency.CHF,
+																   dateTime,
+																   mPurpose,
+																   TransactionType.PAYMENT);
+			TransactionWithParticipantsModel transactionToSend = 
+					new TransactionWithParticipantsModel(newTransaction, setAndgetParticipantsWithCoeff());
 			RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
-			radinGroupStorageManager.create((new ArrayList<TransactionWithParticipantsModel>()).add(transactionToSend), new RadinListener<TransactionModel>() {
+			radinGroupStorageManager.create((new ArrayList<TransactionWithParticipantsModel>()).add(transactionToSend),
+											 new RadinListener<TransactionModel>() {
 				@Override
-				void callback(List<TransactionModel> items, StorageManagerRequestStatus status){
+				void callback(List<TransactionModel> items, StorageManagerRequestStatus status) {
 					if (status == StorageManagerRequestStatus.SUCCESS) {
 						((Activity) getApplicationContext()).finish();
 						Toast.makeText(getApplicationContext(), R.string.expense_added, Toast.LENGTH_SHORT).show();
@@ -272,22 +297,21 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		}
 	}
 	
-
-	
-	
-	
-	//to be deleted ---------------------------------------------------------------------------
 	/**
-	 * This will be a method that retrieve Client's friends in the radinGeoupe from server
-	 * (Currently not implemented)
-	 * @return an array of the client's friends's names
+	 * Add coefficient to transaction's participants. 
+	 * For the moment only coeff 1 and 0 availabale (in transaction and not in transaction)
+	 * @return participants with coeff contained in a map
 	 */
-	public String[] serverGetFriendsInGroup() {
-		String[] names = {"julie", "francois", "xavier", "Igor", "JT",
-			"Thierry", "Ismail", "Tanja", "Hibou", "Cailloux", "Poux" };
-		//TODO add proper methods
-		return names;
-	}
-	
+	private  HashMap<UserModel, Integer> setAndgetParticipantsWithCoeff() {
+		HashMap<UserModel, Integer> participantsWithCoeff = new HashMap<UserModel, Integer>();
+		for (UserModel usr : mParticipants) {
+			if (mPeopleWhoHaveToPay.contains(usr)) {
+				participantsWithCoeff.put(usr, 1);
+			} else {
+				participantsWithCoeff.put(usr, 0);
+			}
+		}
+		return participantsWithCoeff;
+	}	
 }
 
