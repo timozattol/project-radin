@@ -87,9 +87,12 @@
     <string name="invalid_amount">The amount is not valid</string>
     <string name="invalid_debtors">Please select debitors first</string>
     <string name="expense_added">Expense added!</string>
-    <string name="not_ready">Please wait for the data to be retrieved</string>
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
     
+    
+    <!-- Server Toasts -->
+    <string name="server_error">There was an error, please try again</string>
+    <string name="not_ready">Please wait for the data to be retrieved</string>
     
 </resources>

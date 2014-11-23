@@ -1,8 +1,16 @@
 package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import ch.epfl.sweng.radin.storage.TransactionModel;
+import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
+import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,16 +34,15 @@ import android.widget.Toast;
  */
 public class RadinGroupAddExpenseActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
-	//private static final int CLIENT_ID = 1234; //will be propagated from LoginActivity?
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
 	private ArrayList<String> mSelectedDebtors = new ArrayList<String>();
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
 	private String mSelectedCreditor;
 	private double mAmount;
 	private String[] mFriends;
-	private String[] mFriendsAndClient;
 	private boolean[] checkedItems;
 	private String  mPurpose;
+	private ArrayList<UserModel> mParticipants;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +52,6 @@ public class RadinGroupAddExpenseActivity extends Activity {
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
-
 		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
 		
 		TextView addExpenseText = (TextView) findViewById(R.id.title_add_expense);
@@ -54,7 +60,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
-		setDialogData();
+		retrieveParticipants();
 	}
 
 	@Override
@@ -98,8 +104,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * Shows a toast if data not ready
 	 */
 	public void showCredDialog(View view) {
-		if (mFriendsAndClient != null) {
-			creditorDialog(mFriendsAndClient).show();
+		if (mParticipantsAndClient != null) {
+			creditorDialog(mParticipantsAndClient).show();
 		} else {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
 		}
@@ -108,33 +114,33 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	/**
 	 * Retrieve friends and sets the arrays for the dialogs
 	 */
-	private void setDialogData() {
-// =========================== Not yet possible=========================
-//		StorageManagerListener listener = new StorageManagerListener();
-//		UserStorageManager usrStManager = new UserStorageManager();
-//		usrStManager.getFriendsById(CLIENT_ID, listener);
-// =====================================================================
-		mFriends = serverGetFriendsInGroup();
-		
-		mFriendsAndClient = new String[mFriends.length + 1];
-		mFriendsAndClient[0] = this.getResources().getString(R.string.creditor_selected);
-		for (int i = 1; i < mFriendsAndClient.length; i++) {
-			mFriendsAndClient[i] = mFriends[i-1];
-		}
-		//initially false (default value)
-		checkedItems = new boolean[mFriends.length];
+	private void retrieveParticipants() {
+		RadinGroupStorageManager radinGroupStorageManager = RadinGroupStorageManager.getStorageManager();
+		radinGroupStorageManager.getParticipantsByGroupId(mCurrentRadinGroupModel.getRadinGroupID(), new RadinListener<UserModel>() {
+			@Override
+			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					useDataRetrieved(items);
+				} else {
+					Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 	}
 	
 	/**
-	 * This will be a method that retrieve Client's friends in the radinGeoupe from server
-	 * (Currently not implemented)
-	 * @return an array of the client's friends's names
+	 * Instantiates participants' lists from server's retrieved data 
+	 * @param items UserModels retrieved from server
 	 */
-	public String[] serverGetFriendsInGroup() {
-		String[] names = {"julie", "francois", "xavier", "Igor", "JT",
-			"Thierry", "Ismail", "Tanja", "Hibou", "Cailloux", "Poux" };
-		//TODO add proper methods
-		return names;
+	private void useDataRetrieved(List<UserModel> items) {
+		mParticipants = new ArrayList<UserModel>(items);
+		HashMap<String, UserModel> mNamesAndModel = new HashMap<String, UserModel>();
+		for (int i = 0; i < mParticipants.size(); i++) {
+			UserModel currentUser = mParticipants.get(i);
+			mNamesAndModel.put(currentUser.getFirstName() + " " + currentUser.getLastName(), currentUser);
+		}
+		//initially false (default value)
+		checkedItems = new boolean[mParticipants.size()];
 	}
 
 	/**
@@ -145,7 +151,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * @param names The names that can be selected
 	 * @return an AlertDialog that is ready to be shown
 	 */
-	private AlertDialog debtorDialog(final String[] names) {
+	private AlertDialog debtorDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.debtorsList);
 		
@@ -240,7 +246,6 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		} else {
 			mAmount = Double.parseDouble(tmpAmount);
 		}
-
 		if (mPurpose == null || mPurpose.isEmpty()) {
 			Toast.makeText(this, R.string.invalid_purpose, Toast.LENGTH_SHORT).show();
 		} else if (mSelectedDebtors.isEmpty()) {
@@ -248,11 +253,41 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		} else if (mAmount == 0) {
 			Toast.makeText(this, R.string.invalid_amount, Toast.LENGTH_SHORT).show();
 		} else {
-			//Fields OK (creditor is always assigned)
-			// Create and send Model
-			this.finish();
-			Toast.makeText(this, R.string.expense_added, Toast.LENGTH_SHORT).show();
+			//Data OK
+			TransactionModel newTransaction = new TransactionModel(-1, mCurrentRadinGroupModel.getRadinGroupID(), creditorID, creatorID, amount, currency, dateTime, purpose, type);
+			TransactionWithParticipantsModel transactionToSend = new TransactionWithParticipantsModel(newTransaction, usersWithCoefficients);
+			RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
+			radinGroupStorageManager.create((new ArrayList<TransactionWithParticipantsModel>()).add(transactionToSend), new RadinListener<TransactionModel>() {
+				@Override
+				void callback(List<TransactionModel> items, StorageManagerRequestStatus status){
+					if (status == StorageManagerRequestStatus.SUCCESS) {
+						((Activity) getApplicationContext()).finish();
+						Toast.makeText(getApplicationContext(), R.string.expense_added, Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+					}
+				}
+			});
+			// WaitingDialog until callback is called	
 		}
 	}
+	
+
+	
+	
+	
+	//to be deleted ---------------------------------------------------------------------------
+	/**
+	 * This will be a method that retrieve Client's friends in the radinGeoupe from server
+	 * (Currently not implemented)
+	 * @return an array of the client's friends's names
+	 */
+	public String[] serverGetFriendsInGroup() {
+		String[] names = {"julie", "francois", "xavier", "Igor", "JT",
+			"Thierry", "Ismail", "Tanja", "Hibou", "Cailloux", "Poux" };
+		//TODO add proper methods
+		return names;
+	}
+	
 }
 
