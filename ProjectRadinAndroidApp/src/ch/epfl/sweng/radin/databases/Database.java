@@ -44,7 +44,7 @@ public final class Database {
 					+ " cannot be null");
 		}
 		mCxt = cxt;
-		if (dbInstance == null) {
+		if (!initialized()) {
 			dbInstance = new Database();
 			mOpenHelper = new DatabaseOpenHelper(mCxt);
 		}
