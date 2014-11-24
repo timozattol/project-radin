@@ -1,13 +1,25 @@
 package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.joda.time.DateTime;
+
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
+import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
+import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+//import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,8 +37,10 @@ public class NewRadinGroupActivity extends Activity {
 	private final int mClientID = 1234; //will be propagated from LoginActivity?
 	private EditText mNameEdit;
 	private boolean[] checkedItems;
+	private ArrayList<UserModel> mFriendsModel;
+	private  HashMap<String, UserModel> mNamesAndModel;
 	private String[] mFriends;
-	private ArrayList<String> mParticipants;
+	private ArrayList<UserModel> mParticipants;
 	
 
     @Override
@@ -74,22 +88,49 @@ public class NewRadinGroupActivity extends Activity {
 	 * Retrieves the data () from StorageManager
 	 */
 	public void retrieveData() {
-		mFriends = serverGetFriendsInGroup();
+		UserStorageManager usrStorageManager = UserStorageManager
+				.getStorageManager();
+		usrStorageManager.getAllFriendsById(mClientID, new RadinListener<UserModel>() {
+
+			@Override
+			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					affectDataRetrieved(items);
+				} else {
+					Toast.makeText(getApplicationContext(),
+							R.string.server_error, Toast.LENGTH_SHORT).show();
+				}
+			}
+			
+		});
+	}
+	
+	private void affectDataRetrieved(List<UserModel> items) {
+		mFriendsModel = new ArrayList<UserModel>(items);
+		mNamesAndModel = new HashMap<String, UserModel>();
+		mFriends = new String[mFriendsModel.size()];
+		
+		for (int i = 0; i < mFriendsModel.size(); i++) {
+			UserModel currentUser = mFriendsModel.get(i);
+			String fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
+			mNamesAndModel.put(fullName, currentUser);
+			mFriends[i] = fullName;
+		}
 		//initially false (default value)
 		checkedItems = new boolean[mFriends.length];
 	}
 	
-	/**
-	 * This will be a method that retrieve Client's friends in the radinGeoupe from server
-	 * (Currently not implemented)
-	 * @return an array of the client's friends's names
-	 */
-	public String[] serverGetFriendsInGroup() {
-		String[] names = { "julie", "francois", "xavier", "Igor", "JT",
-				"Thierry", "Ismail", "Tanja", "Hibou", "Cailloux", "Poux" };
-		//TODO add proper methods
-		return names;
-	}
+//	/**
+//	 * This will be a method that retrieve Client's friends in the radinGeoupe from server
+//	 * (Currently not implemented)
+//	 * @return an array of the client's friends's names
+//	 */
+//	public String[] serverGetFriendsInGroup() {
+//		String[] names = { "julie", "francois", "xavier", "Igor", "JT",
+//				"Thierry", "Ismail", "Tanja", "Hibou", "Cailloux", "Poux" };
+//		//TODO add proper methods
+//		return names;
+//	}
 	
 	/**
 	 * Create a dialog that display friends to check to add to the new RadiGroup
@@ -116,12 +157,12 @@ public class NewRadinGroupActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				long[] checkedIds = listView.getCheckedItemIds();
-				mParticipants = new ArrayList<String>();
+				mParticipants = new ArrayList<UserModel>();
 		
 				checkedItems = new boolean[mFriends.length];
 				for (int i = 0; i < checkedIds.length; i++) {
 					checkedItems[(int) checkedIds[i]] = true;
-					mParticipants.add(mFriends[(int) checkedIds[i]]);
+					mParticipants.add(mNamesAndModel.get(mFriends[(int) checkedIds[i]]));
 					//Log.i("participant" + i, mFriends[(int) checkedIds[i]]);
 				}
 				//TODO show participants in a TextView
@@ -138,16 +179,34 @@ public class NewRadinGroupActivity extends Activity {
 	}
 	
 	public void createRadinGroup(View view) {
-		String listName = mNameEdit.getText().toString();
-    	if ((listName == null) || listName.equals("")) {
+		String rdGrpName = mNameEdit.getText().toString();
+    	if ((rdGrpName == null) || rdGrpName.equals("")) {
     		Toast.makeText(getBaseContext(), R.string.invalid_name, Toast.LENGTH_SHORT).show();
         } else if (mParticipants == null || mParticipants.isEmpty()) {
     		Toast.makeText(getBaseContext(), R.string.invalid_participants, Toast.LENGTH_SHORT).show();
         } else {
         	//valid data
-        	//TODO USE STORAGEMANAGER + LISTENER TO SEND TO SERV
-        	Toast.makeText(getBaseContext(), "Radin Group created", Toast.LENGTH_LONG).show();
-        	this.finish();
+        	RadinGroupModel rdinGrpModel = new RadinGroupModel(-1, 
+        													   new DateTime().now(), 
+        													   rdGrpName, 
+        													   "", 
+        													   "");
+        	RadinGroupStorageManager rdGrpStorageManager = RadinGroupStorageManager.getStorageManager();
+        	ArrayList<RadinGroupModel> rdGroupToCreate = new ArrayList<RadinGroupModel>();
+        	rdGroupToCreate.add(rdinGrpModel);
+        	rdGrpStorageManager.create(rdGroupToCreate, new RadinListener<RadinGroupModel>() {
+				@Override
+				public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
+					if (status == StorageManagerRequestStatus.SUCCESS) {
+						((Activity) getApplicationContext()).finish();
+						Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+					}
+				}
+        		
+        	});
+        	// WaitingDialog until callback is called	
         }
     }
 }

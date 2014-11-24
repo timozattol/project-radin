@@ -52,7 +52,7 @@
     <string name="sign_up_button_text">Sign up</string>
     
 
-    <!-- NewListActivity -->
+    <!-- NewRadinGroupeActivity -->
     <string name="radin_name">Name</string>
     <string name="friends_names">Add people</string>
     <string name="hint_name">Type the list\'s name</string>
@@ -61,6 +61,7 @@
     <string name="create_radin_group">Create</string>
     <string name="invalid_name">Please add a group name</string>
     <string name="invalid_participants">Please select at least one person to create a groupe</string>
+    <string name="rd_group_created">Radin Group created!</string>
     
     <!-- ProfileActivity -->
     <string name="profile_last_name">Last Name</string>

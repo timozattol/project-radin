@@ -285,7 +285,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 																   CLIENT_ID, //will be changed
 																   mAmount,
 																   Currency.CHF,
-																   new DateTime(),
+																   new DateTime().now(),
 																   mPurpose,
 																   TransactionType.PAYMENT);
 			TransactionWithParticipantsModel transactionToSend = 
