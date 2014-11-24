@@ -100,6 +100,10 @@
             android:label="@string/title_activity_notification_settings"
             android:parentActivityName=".MyListsActivity" >
         </activity>
+        <activity
+            android:name=".DatabaseRadinGroupTableActivity"
+            android:label="@string/title_activity_database_radin_group_table" >
+        </activity>
     </application>
 
 </manifest>
