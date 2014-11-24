@@ -203,4 +203,52 @@ public class TransactionWithParticipantsModel extends Model {
     public void setType(TransactionType type) {
         mDecoratedTransactionModel.setType(type);
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+
+		return getTransactionID();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			
+			return true;
+		}
+		if (obj == null) {
+			
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			
+			return false;
+		}
+		TransactionWithParticipantsModel other = (TransactionWithParticipantsModel) obj;
+		if (mDecoratedTransactionModel == null) {
+			if (other.mDecoratedTransactionModel != null) {
+				
+				return false;
+			}
+		} else if (!mDecoratedTransactionModel.equals(other.mDecoratedTransactionModel)) {
+			
+			return false;
+		}
+		if (mUsersWithCoefficients == null) {
+			if (other.mUsersWithCoefficients != null) {
+				
+				return false;
+			}
+		} else if (!mUsersWithCoefficients.equals(other.mUsersWithCoefficients)) {
+			
+			return false;
+		}
+		return true;
+	}
 }
