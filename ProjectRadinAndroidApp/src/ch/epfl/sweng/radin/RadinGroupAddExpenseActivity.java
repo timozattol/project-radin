@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.Currency;
@@ -13,6 +15,8 @@ import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
+import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
+import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,15 +40,17 @@ import android.widget.Toast;
  */
 public class RadinGroupAddExpenseActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
+	
+	private UserModel mClientModel; // should be received from previous activity or clientId
+	private static final int CLIENT_ID = 0; // should be received from previous activity or userModel
+	
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
-
 	
-	private UserModel mClientModel; // should be received from previous activity
 	private double mAmount;
 	private boolean[] checkedItems;
 	private String  mPurpose;
-	private UserModel mSelectedCreditor;
+	private int mSelectedCreditorId;
 	private ArrayList<UserModel> mPeopleWhoHaveToPay = new ArrayList<UserModel>();
 	private ArrayList<UserModel> mParticipants;
 	private HashMap<String, UserModel> mNamesAndModel;
@@ -120,18 +126,22 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * Retrieve friends and sets the arrays for the dialogs
 	 */
 	private void retrieveParticipants() {
-		RadinGroupStorageManager radinGroupStorageManager = RadinGroupStorageManager.getStorageManager();
-		radinGroupStorageManager.getParticipantsByGroupId(mCurrentRadinGroupModel.getRadinGroupID(),
+		UserStorageManager usrStorageManager = UserStorageManager
+				.getStorageManager();
+		usrStorageManager.getParticipantsByGroupId(
+				mCurrentRadinGroupModel.getRadinGroupID(),
 				new RadinListener<UserModel>() {
-			@Override
-			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
-				if (status == StorageManagerRequestStatus.SUCCESS) {
-					useDataRetrieved(items);
-				} else {
-					Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
+					@Override
+					public void callback(List<UserModel> items,
+							StorageManagerRequestStatus status) {
+						if (status == StorageManagerRequestStatus.SUCCESS) {
+							useDataRetrieved(items);
+						} else {
+							Toast.makeText(getApplicationContext(),
+									R.string.server_error, Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
 	}
 	
 	/**
@@ -220,11 +230,11 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		builder.setSingleChoiceItems(mParticipantsNames,
 				DEFAULT_CREDITOR_SELECTION,
 				new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				mSelectedIndex = which;
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						mSelectedIndex = which;
+					}
+				});
 
 		// Set OK button
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -232,7 +242,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 			public void onClick(DialogInterface dialog, int id) {
 				//set textView
 				TextView creditorSelected = (TextView) findViewById(R.id.creditor_selected);
-				mSelectedCreditor = mNamesAndModel.get(mParticipantsNames[mSelectedIndex]);
+				mSelectedCreditorId = mNamesAndModel.get(mParticipantsNames[mSelectedIndex]).getId();
 				creditorSelected.setText(mParticipantsNames[mSelectedIndex]);
 			}
 		});
@@ -266,25 +276,27 @@ public class RadinGroupAddExpenseActivity extends Activity {
 			Toast.makeText(this, R.string.invalid_amount, Toast.LENGTH_SHORT).show();
 		} else {
 			//Data OK
-			if (mSelectedCreditor == null) {
-				mSelectedCreditor = mClientModel;
+			if (mSelectedCreditorId == 0) {
+				mSelectedCreditorId = CLIENT_ID;
 			}
 			TransactionModel newTransaction = new TransactionModel(-1,
 																   mCurrentRadinGroupModel.getRadinGroupID(),
-																   mSelectedCreditor.getId(),
-																   mClientModel.getId(),
+																   mSelectedCreditorId,
+																   CLIENT_ID, //will be changed
 																   mAmount,
 																   Currency.CHF,
-																   dateTime,
+																   new DateTime(),
 																   mPurpose,
 																   TransactionType.PAYMENT);
 			TransactionWithParticipantsModel transactionToSend = 
 					new TransactionWithParticipantsModel(newTransaction, setAndgetParticipantsWithCoeff());
-			RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
-			radinGroupStorageManager.create((new ArrayList<TransactionWithParticipantsModel>()).add(transactionToSend),
-											 new RadinListener<TransactionModel>() {
+			TransactionWithParticipantsStorageManager trWPartStorageManager =  
+					TransactionWithParticipantsStorageManager.getStorageManager();
+			ArrayList<TransactionWithParticipantsModel> myTransList = new ArrayList<TransactionWithParticipantsModel>();
+			myTransList.add(transactionToSend);
+			trWPartStorageManager.create(myTransList, new RadinListener<TransactionWithParticipantsModel>() {
 				@Override
-				void callback(List<TransactionModel> items, StorageManagerRequestStatus status) {
+				public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
 					if (status == StorageManagerRequestStatus.SUCCESS) {
 						((Activity) getApplicationContext()).finish();
 						Toast.makeText(getApplicationContext(), R.string.expense_added, Toast.LENGTH_SHORT).show();
