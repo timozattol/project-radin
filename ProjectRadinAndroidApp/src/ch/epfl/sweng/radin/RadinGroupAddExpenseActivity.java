@@ -30,9 +30,9 @@ import android.widget.Toast;
 
 /**
  * This activity allows the user to add an expense to a radinGroup by providing the creditor, 
- * debitors and the amount payed.
+ * people who have to pay and the amount payed.
  * 
- * TODO class too big, split, refactor (both dialog creations are almost the same)
+ *TODO Add reimbursement feature (if reimbursement selected amount turns to be opposite amount) 
  */
 public class RadinGroupAddExpenseActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
