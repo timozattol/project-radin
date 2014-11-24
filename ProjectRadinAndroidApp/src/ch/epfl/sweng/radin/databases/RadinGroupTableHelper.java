@@ -1,5 +1,11 @@
 package ch.epfl.sweng.radin.databases;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -66,7 +72,34 @@ public final class RadinGroupTableHelper implements TableHelper {
 		}
 		return names;
 	}
+	
+	/**
+	 * @return size of the table for Radin Group
+	 */
+	protected static int getRadinGroupTableSize() {
+		Cursor cursor = Database.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
+				null, null, null, null, null);
+		return cursor.getCount();
+	}
+	
+	/**
+	 * used as auxiliary method of {@link Database.getEverythingFromRadinGroupTable} 
+	 * @return {@code rowsColumnToValue} that associates to each row a map from column name to value 
+	 */
+	public static List<Map<String, String>> getEverythingFromRadinGroupTable() {
+		Cursor cursor = Database.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
+				null, null, null, null, null);
+		List<Map<String, String>> rowsColumnToValue = new ArrayList<Map<String, String>>();
+		
+		cursor.moveToFirst();
+		do {
+			rowsColumnToValue.add(CursorHelper.rowPointedBy(cursor));
+		} while (cursor.moveToNext());
+		cursor.close();
+		return rowsColumnToValue;
+	}
 
+	
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE_RADIN_GROUP);
 	}

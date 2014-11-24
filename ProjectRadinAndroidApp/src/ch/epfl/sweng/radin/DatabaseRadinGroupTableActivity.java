@@ -76,34 +76,6 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		return textView.getText().toString();
 	}
 
-	/**
-	 * @return {@code rowsColumnToValue} that associates to each row a map from column name to value 
-	 */
-	public List<Map<String, String>> getEverythingFromRadinGroupTable() {
-		Database.initialize(this); //TODO Only do something if database initialized
-		Cursor cursor = Database.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
-				null, null, null, null, null);
-		List<Map<String, String>> rowsColumnToValue = new ArrayList<Map<String, String>>();
-		cursor.moveToFirst();
-		do {
-			rowsColumnToValue.add(rowPointedBy(cursor));
-		} while (cursor.moveToNext());
-		cursor.close();
-		return rowsColumnToValue;
-	}
-
-	/**
-	 * @param cursor that is currently pointing to a row
-	 * @return a map associated with the row pointed by cursor, it's a mapping from column name to its value
-	 */
-	private Map<String, String> rowPointedBy(Cursor cursor) {
-		Map<String, String> columnNameToValue = new HashMap<String, String>();
-		for (String column : cursor.getColumnNames()) {
-			columnNameToValue.put(column,
-					cursor.getString(cursor.getColumnIndex(column)));
-		}
-		return columnNameToValue;
-	}
 	
 	/**
 	 * Used since using the button doesn't work but is meant to be 

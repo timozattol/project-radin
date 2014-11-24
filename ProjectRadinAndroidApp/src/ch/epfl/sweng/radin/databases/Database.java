@@ -86,6 +86,7 @@ public final class Database {
 	}
 	
 	private static long insertSingleRadinGroupInDB(RadinGroupModel rg, SQLiteDatabase sqlDb) {
+		instanceNotNullCheck();
 		if (rg == null) {
 			throw new IllegalArgumentException(
 					"RadinGroup to insert cannot be null");
@@ -95,7 +96,29 @@ public final class Database {
 				rg.getContentValues());
 		return rowID;
 	}
-
+	
+	public static List<Map<String,String>> getEverythingFromRadinGroupTable() {
+		instanceNotNullCheck();
+		return RadinGroupTableHelper.getEverythingFromRadinGroupTable();
+	}
+	
+	/**
+	 * @return size of the RadinGroup table
+	 */
+	public static int getRadinGroupTableSize() {
+		instanceNotNullCheck();
+		return RadinGroupTableHelper.getRadinGroupTableSize();
+	}
+	/**
+	 * @param table
+	 * @param columns
+	 * @param whereClause
+	 * @param selectionArgs
+	 * @param groupBy
+	 * @param having
+	 * @param sortOrder
+	 * @return a Cursor object that can explore each rows of the table asked
+	 */
 	public static Cursor query(String table, String[] columns,
 			String whereClause, String[] selectionArgs, String groupBy,
 			String having, String sortOrder) {
