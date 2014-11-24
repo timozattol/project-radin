@@ -49,4 +49,8 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     public void getParticipantsByGroupId(int radinGroupId, RadinListener<UserModel> callback) {
     	//TODO implement method
     }
+    
+    public void getAllFriendsById(int UserId, RadinListener<UserModel> callback) {
+    	//TODO implement method
+    }
 }
