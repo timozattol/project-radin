@@ -1,8 +1,10 @@
 package ch.epfl.sweng.radin.test.databases;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.joda.time.DateTime;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
@@ -22,6 +24,7 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.V
 
 import ch.epfl.sweng.radin.DatabaseRadinGroupTableActivity;
 import ch.epfl.sweng.radin.R;
+import ch.epfl.sweng.radin.databases.Database;
 import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import android.test.ActivityInstrumentationTestCase2;
@@ -49,9 +52,8 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 	private static final String DEFAULT_DESCRIPTION = "Throw your debts away";
 	private static final String NEW_GROUP_NAME = "VeryRadins";
 	private static final String NEW_DESCRIPTION = "Throw the debters away";
-	
 	private static final String TAG = "DatabaseRadinGroupTableActivityEspressoTest";
-	// private DatabaseRadinGroupTableActivity mRadinGroupActivity;
+	private static DatabaseRadinGroupTableActivity mActivity;
 	private RadinGroupModel defaultRadinGroup;
 	
 	public DatabaseRadinGroupTableActivityEspressoTest() {
@@ -63,7 +65,8 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "SETUP");
-		getActivity();
+		mActivity = getActivity();
+		Database.initialize(mActivity);
 		defaultRadinGroup = new RadinGroupModel(DEFAULT_RADIN_GROUP_ID, TODAY_CLOCK,
 				DEFAULT_GROUP_NAME, DEFAULT_DESCRIPTION, DEFAULT_AVATAR,
 				DEFAULT_MASTER_ID);
@@ -78,9 +81,8 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		List<RadinGroupModel> radinGroups = new ArrayList<RadinGroupModel>();
 		radinGroups.add(defaultRadinGroup);
 		getActivity().sendRadinGroupModelToDB(radinGroups);
-		List<Map<String, String>> rowsColumnToValue = getActivity()
+		List<Map<String, String>> rowsColumnToValue = Database
 				.getEverythingFromRadinGroupTable();
-		assertEquals(1, rowsColumnToValue.size());
 		Map<String, String> defaultRadinGroupAsMap = rowsColumnToValue.get(0);
 		assertEquals(DEFAULT_RADIN_GROUP_ID,
 				Integer.parseInt(defaultRadinGroupAsMap.get(RadinGroupTableHelper.Column.RID
@@ -124,12 +126,14 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 	}
 
 	public void testDBAfterInsert() throws Exception {
-		typeTextInField(R.id.RID, "0");
+		Log.v(TAG, "Beginning testDBAterInsert");
+		final String nextRID = String.valueOf(Database.getRadinGroupTableSize());
+		typeTextInField(R.id.RID, nextRID);
 		typeTextInField(R.id.RGCreatedAt, "today");
 		typeTextInField(R.id.RGDeletedAt, "after-tomorrow");
 		typeTextInField(R.id.RGEndedAt, "tomorrow");
 		typeTextInField(R.id.RGName, "test group");
-		typeTextInField(R.id.RGAvatar, "img/avatar1.png");
+		typeTextInField(R.id.RGAvatar, "img/avatar2.png");
 		typeTextInField(R.id.RGMasterID, "10");
 		typeTextInField(R.id.RGDescription, "A cool group");
 		closeSoftKeyboard();
@@ -138,11 +142,16 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		ViewInteraction submitButton = onView(withId(R.id.submitRadinGroupToDB)); //buttons sends all to DB
 		submitButton.perform(scrollTo(), click()); 
 
-		List<Map<String, String>> rows = getActivity()
+		Log.v(TAG, "after");
+		List<Map<String, String>> rows = Database
 				.getEverythingFromRadinGroupTable();
-		assertEquals(rows.size(), 1);
-		Map<String, String> uniqueRow = rows.get(0);
-		assertEquals("0", uniqueRow.get(RadinGroupTableHelper.Column.RID.toString()));
+		for (Map<String, String> map : rows) {
+			for (String key : map.keySet()) {
+				Log.v(TAG, key + " -> " + map.get(key));
+			}
+		}
+		Map<String, String> uniqueRow = rows.get(rows.size() - 1);
+		assertEquals(nextRID, uniqueRow.get(RadinGroupTableHelper.Column.RID.toString()));
 		assertEquals("img/avatar1.png", uniqueRow.get(RadinGroupTableHelper.Column.RG_AVATAR.toString()));
-	} //TODO change to something that picks last rows modified for testing not first rows since DB is persistent
+	} 
 }
