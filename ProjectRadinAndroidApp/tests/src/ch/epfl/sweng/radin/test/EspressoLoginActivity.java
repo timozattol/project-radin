@@ -16,7 +16,8 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
  */
 public class EspressoLoginActivity extends ActivityInstrumentationTestCase2<LoginActivity> {
 
-	private static final int SLEEPTIME = 100;
+	private final int mSleepTime = 100;
+	
 	public EspressoLoginActivity() {
 
 		super(LoginActivity.class);
@@ -36,7 +37,7 @@ public class EspressoLoginActivity extends ActivityInstrumentationTestCase2<Logi
 		Espresso.closeSoftKeyboard();
 
 		try {
-			Thread.sleep(SLEEPTIME);
+			Thread.sleep(mSleepTime);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

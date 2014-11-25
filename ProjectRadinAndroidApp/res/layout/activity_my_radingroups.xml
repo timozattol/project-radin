@@ -15,14 +15,25 @@
         android:text="@string/my_radingroups"
         android:textSize="64sp" />
 
-    <TextView
-        android:id="@+id/aRadinGroupExemple"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/myRadinGroupTitle"
-        android:text="Exemple radin group"
-        android:textColor="#0000FF"
-        android:textSize="12sp" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/myRadinGroupTitle">
+
+        <LinearLayout
+            android:id="@+id/myRadinGroupsLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ProgressBar
+                android:id="@+id/myRadinGroupsProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/addBtn"

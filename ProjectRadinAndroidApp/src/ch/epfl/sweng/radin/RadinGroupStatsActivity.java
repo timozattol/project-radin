@@ -1,5 +1,6 @@
 package ch.epfl.sweng.radin;
 
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +9,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
+/**
+ * 
+ * @author Fabien Zellweger
+ *
+ */
 public class RadinGroupStatsActivity extends Activity {
+	private RadinGroupModel mCurrentRadinGroupModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,10 +23,10 @@ public class RadinGroupStatsActivity extends Activity {
 		setContentView(R.layout.activity_radingroup_stats);
 		
 		Bundle extras = getIntent().getExtras();
-		String radinGroupTitle = extras.getString("key");
+		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		
 		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.statRadinGroupLayout);
-		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
+		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {

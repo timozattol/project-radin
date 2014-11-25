@@ -1,8 +1,14 @@
 package ch.epfl.sweng.radin;
 
+import java.util.ArrayList;
+
+import org.joda.time.DateTime;
+
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -19,7 +25,7 @@ import android.widget.Toast;
  */
 public class ActionBar {
 
-	private static String mRadinGroupName;
+	private static RadinGroupModel mRadinGroupModel;
 	final static int ACTION_BAR_COUNT = 5;
 
 	/**
@@ -28,7 +34,7 @@ public class ActionBar {
 	 * Enum to supress magic number in code
 	 *
 	 */
-	public static enum ListButton {
+	private static enum ListButton {
 		SETTINGS (0),
 		MY_RADIN_GROUP (1),
 		ADD_EXPENSE (2),
@@ -38,17 +44,44 @@ public class ActionBar {
 		private int mValue;
 
 		ListButton(int value) {
-			this.mValue=value;
+			this.mValue = value;
 		}
 
 		public int getValue() {
 			return mValue;
 		}
 	}
+	
+	/**
+	 * 
+	 * @author Fabien Zellweger
+	 * Enum to supress magic number in code
+	 *
+	 */
+	private static enum RadinGroupIndex {
+		RADINGROUPID (0),
+		RADINGROUPCREATIONDATETIME (1),
+		RADINGROUPENAME (2),
+		RADINGROUPDESCRIPTION (3),
+		RADINGROUPAVATAR (4),
+		RADINGROUPMASTERID (5);
+		
+		private int mRgValue;
+		
+		RadinGroupIndex(int value) {
+			this.mRgValue = value;
+		}
+		
+		public int getValue() {
+			return mRgValue;
+		}
+	}
+	
+	private final static String NOMASTERIDDETECTOR = "noArg";
 
-	public static void addActionBar(Context context, RelativeLayout currentLayout, String radinGroupName) {
+	public static void addActionBar(Context context, RelativeLayout currentLayout, RadinGroupModel radinGroupName) {
 
-		mRadinGroupName = radinGroupName;
+		mRadinGroupModel = radinGroupName;
 
 		Button[] actionBarContent = new Button[ACTION_BAR_COUNT];
 
@@ -95,6 +128,40 @@ public class ActionBar {
 		}
 	}
 
+	public static Bundle makeModelToBundle(RadinGroupModel rgm) {
+		Bundle bundle = new Bundle();
+		
+		ArrayList<String> modelList = new ArrayList<String>();
+		modelList.add(Integer.toString(rgm.getRadinGroupID()));
+		modelList.add(rgm.getGroupCreationDateTime().toString());
+		modelList.add(rgm.getRadinGroupName());
+		modelList.add(rgm.getGroupDescription());
+		modelList.add(rgm.getAvatar());
+		modelList.add(rgm.hasMasterID() ? Integer.toString(rgm.getMasterID()) : "noArg");
+		
+		bundle.putStringArrayList("ModelKey", modelList);
+		
+		return bundle;
+	}
+	
+	public static RadinGroupModel getRadinGroupModelFromBundle(Bundle bundle) {
+		ArrayList<String> modelList = bundle.getStringArrayList("ModelKey");
+		if (modelList.get(RadinGroupIndex.RADINGROUPMASTERID.getValue()).equals(NOMASTERIDDETECTOR)) {
+			return new RadinGroupModel(Integer.parseInt(modelList.get(RadinGroupIndex.RADINGROUPID.getValue())),
+					new DateTime(modelList.get(RadinGroupIndex.RADINGROUPCREATIONDATETIME.getValue())),
+					modelList.get(RadinGroupIndex.RADINGROUPENAME.getValue()),
+					modelList.get(RadinGroupIndex.RADINGROUPDESCRIPTION.getValue()),
+					modelList.get(RadinGroupIndex.RADINGROUPAVATAR.getValue()));
+		} else {
+		
+			return new RadinGroupModel(Integer.parseInt(modelList.get(RadinGroupIndex.RADINGROUPID.getValue())),
+					new DateTime(modelList.get(RadinGroupIndex.RADINGROUPCREATIONDATETIME.getValue())),
+					modelList.get(RadinGroupIndex.RADINGROUPENAME.getValue()),
+					modelList.get(RadinGroupIndex.RADINGROUPDESCRIPTION.getValue()),
+					modelList.get(RadinGroupIndex.RADINGROUPAVATAR.getValue()),
+					Integer.parseInt(modelList.get(RadinGroupIndex.RADINGROUPMASTERID.getValue())));
+		}
+	}
 
 
 	private static OnClickListener actionBarButtonListener = new View.OnClickListener() {		
@@ -130,7 +197,8 @@ public class ActionBar {
 						Toast.LENGTH_SHORT).show();
 			}
 			if (!(displayActivityIntent == null)) {
-				displayActivityIntent.putExtra("key", mRadinGroupName);
+				Bundle bundle = makeModelToBundle(mRadinGroupModel);
+				displayActivityIntent.putExtras(bundle);
 				/*
 				 * set flag to correct the behaviors of creating new activity
 				 * FLAG_ACTIVITY_REORDER_TO_FRONT check if the activity already exist and reorder it to front

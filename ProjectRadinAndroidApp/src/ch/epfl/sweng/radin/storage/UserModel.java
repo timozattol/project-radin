@@ -74,4 +74,94 @@ public class UserModel extends Model{
 	public void setPicture(String picture) {
 		mPicture = picture;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+
+		return mId;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			
+			return true;
+		}
+		if (obj == null) {
+			
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			
+			return false;
+		}
+		UserModel other = (UserModel) obj;
+		if (mAddress == null) {
+			if (other.mAddress != null) {
+				
+				return false;
+			}
+		} else if (!mAddress.equals(other.mAddress)) {
+			
+			return false;
+		}
+		if (mEmail == null) {
+			if (other.mEmail != null) {
+				
+				return false;
+			}
+		} else if (!mEmail.equals(other.mEmail)) {
+			
+			return false;
+		}
+		if (mFirstName == null) {
+			if (other.mFirstName != null) {
+				
+				return false;
+			}
+		} else if (!mFirstName.equals(other.mFirstName)) {
+			
+			return false;
+		}
+		if (mIban == null) {
+			if (other.mIban != null) {
+				
+				return false;
+			}
+		} else if (!mIban.equals(other.mIban)) {
+			
+			return false;
+		}
+		if (mId != other.mId) {
+			
+			return false;
+		}
+		if (mLastName == null) {
+			if (other.mLastName != null) {
+				
+				return false;
+			}
+		} else if (!mLastName.equals(other.mLastName)) {
+			
+			return false;
+		}
+		if (mPicture == null) {
+			if (other.mPicture != null) {
+				
+				return false;
+			}
+		} else if (!mPicture.equals(other.mPicture)) {
+			
+			return false;
+		}
+		return true;
+	}
+
+
 }

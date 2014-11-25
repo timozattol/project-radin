@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
  * @author timozattol
  * A model representing a transaction
  */
-public final class TransactionModel extends Model {
+public class TransactionModel extends Model {
     private int mTransactionID;
 
     // The id of the RadinGroup containing this Transaction
@@ -16,7 +16,7 @@ public final class TransactionModel extends Model {
     private int mCreatorID;
 
     // The id of the User who paid for this Transaction
-    private int mDebitorID;
+    private int mCreditorID;
 
     private double mAmount;
     private Currency mCurrency;
@@ -31,15 +31,15 @@ public final class TransactionModel extends Model {
     /**
      * Public constructor for TransactionModel
      */
-    public TransactionModel(int transactionID, int parentRadinGroupID, int debitorID, 
-            int creatorID, double amount, Currency currency, DateTime dateTime, String purpose, 
-            String justificativePath, TransactionType type) {
+    public TransactionModel(int transactionID, int parentRadinGroupID, int creditorID, 
+            int creatorID, double amount, Currency currency, DateTime dateTime, String purpose,
+            TransactionType type) {
         
         // Sanity checks
         checkArgumentPositive("Transaction ID", transactionID);
         checkArgumentPositive("RadinGroup ID", parentRadinGroupID);
         checkArgumentPositive("Transaction creator ID", creatorID);
-        checkArgumentPositive("Transaction debitor ID", debitorID);
+        checkArgumentPositive("Transaction creditor ID", creditorID);
         
         checkArgumentPositive("Transaction amount", amount);
         if (amount == 0) {
@@ -54,7 +54,7 @@ public final class TransactionModel extends Model {
         mTransactionID = transactionID;
         mParentRadinGroupID = parentRadinGroupID;
         mCreatorID = creatorID;
-        mDebitorID = debitorID;
+        mCreditorID = creditorID;
         mAmount = amount;
         mCurrency = currency;
         
@@ -62,8 +62,27 @@ public final class TransactionModel extends Model {
         mDateTime = dateTime;
         
         mPurpose = purpose;
-        mJustificativePath = justificativePath;
         mType = type;
+    }
+    
+    /**
+     * Copy constructor for TransactionModel
+     * @param original the original TransactionModel to be copied
+     */
+    public TransactionModel(TransactionModel original) {
+        if (original == null) {
+            throw new IllegalArgumentException(
+                    "The TransactionModel to copy should not be null");
+        }
+        mTransactionID = original.getTransactionID();
+        mParentRadinGroupID = original.getParentRadinGroupID();
+        mCreditorID = original.getCreditorID();
+        mCreatorID = original.getCreatorID();
+        mAmount = original.getAmount();
+        mCurrency = original.getCurrency(); 
+        mDateTime = original.getDateTime(); 
+        mPurpose = original.getPurpose();
+        mType = original.getType();
     }
 
     /**
@@ -112,18 +131,18 @@ public final class TransactionModel extends Model {
     }
 
     /**
-     * @return the debitorID
+     * @return the creditorID
      */
-    public int getDebitorID() {
-        return mDebitorID;
+    public int getCreditorID() {
+        return mCreditorID;
     }
 
     /**
-     * @param debitorID the debitorID to set
+     * @param creditorID the creditorID to set
      */
-    public void setDebitorID(int debitorID) {
-        checkArgumentPositive("Transaction debitor ID", debitorID);
-        this.mDebitorID = debitorID;
+    public void setCreditorID(int creditorID) {
+        checkArgumentPositive("Transaction creditor ID", creditorID);
+        this.mCreditorID = creditorID;
     }
 
     /**
@@ -238,5 +257,89 @@ public final class TransactionModel extends Model {
             throw new IllegalArgumentException(argName + " cannot be the empty String");
         }
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return mTransactionID;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			
+			return true;
+		}
+		if (obj == null) {
+			
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			
+			return false;
+		}
+		TransactionModel other = (TransactionModel) obj;
+		if (Double.doubleToLongBits(mAmount) != Double.doubleToLongBits(other.mAmount)) {
+			
+			return false;
+		}
+		if (mCreatorID != other.mCreatorID) {
+			
+			return false;
+		}
+		if (mCurrency != other.mCurrency) {
+			
+			return false;
+		}
+		if (mDateTime == null) {
+			if (other.mDateTime != null) {
+				
+				return false;
+			}
+		} else if (!mDateTime.equals(other.mDateTime)) {
+			
+			return false;
+		}
+		if (mCreditorID != other.mCreditorID) {
+			
+			return false;
+		}
+		if (mJustificativePath == null) {
+			if (other.mJustificativePath != null) {
+				
+				return false;
+			}
+		} else if (!mJustificativePath.equals(other.mJustificativePath)) {
+			
+			return false;
+		}
+		if (mParentRadinGroupID != other.mParentRadinGroupID) {
+			
+			return false;
+		}
+		if (mPurpose == null) {
+			if (other.mPurpose != null) {
+				
+				return false;
+			}
+		} else if (!mPurpose.equals(other.mPurpose)) {
+			
+			return false;
+		}
+		if (mTransactionID != other.mTransactionID) {
+			
+			return false;
+		}
+		if (mType != other.mType) {
+			
+			return false;
+		}
+		return true;
+	}
     
 }

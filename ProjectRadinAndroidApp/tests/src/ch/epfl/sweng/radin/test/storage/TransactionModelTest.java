@@ -27,7 +27,7 @@ public class TransactionModelTest extends AndroidTestCase{
         rightNow = DateTime.now();
         tommorrow = rightNow.plusDays(1);
         transaction = new TransactionModel(0, 0, 0, 0, DEFAULT_AMOUNT, 
-                Currency.CHF, rightNow, "Buying stuff", null, TransactionType.PAYMENT);
+                Currency.CHF, rightNow, "Buying stuff", TransactionType.PAYMENT);
     }
     
     /**
@@ -46,9 +46,9 @@ public class TransactionModelTest extends AndroidTestCase{
         transaction.setCreatorID(1);
         assertTrue(transaction.getCreatorID() == 1);
         
-        assertTrue(transaction.getDebitorID() == 0);
-        transaction.setDebitorID(1);
-        assertTrue(transaction.getDebitorID() == 1);
+        assertTrue(transaction.getCreditorID() == 0);
+        transaction.setCreditorID(1);
+        assertTrue(transaction.getCreditorID() == 1);
         
         assertTrue(transaction.getAmount() == DEFAULT_AMOUNT);
         transaction.setAmount(DEFAULT_AMOUNT + 1);
@@ -80,7 +80,7 @@ public class TransactionModelTest extends AndroidTestCase{
      */
     public void testConstructorSuccess() {
         new TransactionModel(0, 0, 0, 0, DEFAULT_AMOUNT, Currency.CHF, rightNow, 
-                "Buying stuff", null, TransactionType.PAYMENT);
+                "Buying stuff", TransactionType.PAYMENT);
     }
     
     /**
@@ -89,7 +89,7 @@ public class TransactionModelTest extends AndroidTestCase{
     public void testConstructorIDFailure() {
         try {
             new TransactionModel(-1, 0, 0, 0, DEFAULT_AMOUNT, Currency.CHF, rightNow, 
-                    "Buying stuff", null, TransactionType.PAYMENT);
+                    "Buying stuff", TransactionType.PAYMENT);
             fail("Negative id should throw an IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok
@@ -97,7 +97,7 @@ public class TransactionModelTest extends AndroidTestCase{
         
         try {
             new TransactionModel(0, -1, 0, 0, DEFAULT_AMOUNT, Currency.CHF, rightNow, 
-                    "Buying stuff", null, TransactionType.PAYMENT);
+                    "Buying stuff", TransactionType.PAYMENT);
             fail("Negative id should throw an IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok
@@ -105,7 +105,7 @@ public class TransactionModelTest extends AndroidTestCase{
         
         try {
             new TransactionModel(0, 0, -1, 0, DEFAULT_AMOUNT, Currency.CHF, rightNow, 
-                    "Buying stuff", null, TransactionType.PAYMENT);
+                    "Buying stuff", TransactionType.PAYMENT);
             fail("Negative id should throw an IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok
@@ -113,7 +113,7 @@ public class TransactionModelTest extends AndroidTestCase{
         
         try {
             new TransactionModel(0, 0, 0, -1, DEFAULT_AMOUNT, Currency.CHF, rightNow, 
-                    "Buying stuff", null, TransactionType.PAYMENT);
+                    "Buying stuff", TransactionType.PAYMENT);
             fail("Negative id should throw an IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok
@@ -126,7 +126,7 @@ public class TransactionModelTest extends AndroidTestCase{
     public void testConstructorAmountFailure() {
         try {
             new TransactionModel(0, 0, 0, 0, 0, Currency.CHF, rightNow, 
-                    "Buying stuff", null, TransactionType.PAYMENT);
+                    "Buying stuff", TransactionType.PAYMENT);
             fail("Zero-amount throw an IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok
@@ -134,7 +134,7 @@ public class TransactionModelTest extends AndroidTestCase{
         
         try {
             new TransactionModel(0, 0, 0, 0, -1, Currency.CHF, rightNow, 
-                    "Buying stuff", null, TransactionType.PAYMENT);
+                    "Buying stuff", TransactionType.PAYMENT);
             fail("Negative amount should throw an IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok
@@ -144,7 +144,7 @@ public class TransactionModelTest extends AndroidTestCase{
     public void testConstructorNullFailure() {
         try {
             new TransactionModel(0, 0, 0, 0, DEFAULT_AMOUNT, Currency.CHF, null, 
-                    "Buying stuff", null, TransactionType.PAYMENT);
+                    "Buying stuff", TransactionType.PAYMENT);
             fail("Null DateTime should throw an IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok
@@ -152,7 +152,7 @@ public class TransactionModelTest extends AndroidTestCase{
         
         try {
             new TransactionModel(0, 0, 0, 0, DEFAULT_AMOUNT, Currency.CHF, rightNow, 
-                    null, null, TransactionType.PAYMENT);
+                    null, TransactionType.PAYMENT);
             fail("Null purpose should throw an IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // ok
