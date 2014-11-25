@@ -6,14 +6,11 @@ import java.util.Map;
 
 import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import android.animation.AnimatorSet.Builder;
-import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.os.Build;
 
 /**
  * @author Simonchelbc Singleton Database object that can be used accross
