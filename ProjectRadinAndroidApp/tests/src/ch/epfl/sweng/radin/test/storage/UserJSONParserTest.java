@@ -20,7 +20,6 @@ import ch.epfl.sweng.radin.storage.UserModel;
  *
  */
 public class UserJSONParserTest extends AndroidTestCase{
-	//TODO add some tests :) When the parser will be a real parser of course
 
 	private static final String FIRSTNAME = "Julie";
 	private static final String LASTNAME = "Djeffal";
@@ -41,6 +40,17 @@ public class UserJSONParserTest extends AndroidTestCase{
 	private static final String BICSWIFT2 = "CH801";
 	private static final String PICTURE2 = "img/hihi.gif";
 	private static final int ID2 = 3;
+	
+	private static final String FIRSTNAME3 = "Timothé";
+	private static final String LASTNAME3 = "Lottaz";
+	private static final String USERNAME3 = "Tim";
+	private static final String PASSWORD3 = "nicetry";
+	private static final String EMAIL3 = "timothe.lottaz@agepoly.ch";
+	private static final String ADDRESS3 = "ici";
+	private static final String IBAN3 = "CH34 A";
+	private static final String BICSWIFT3 = "CH803";
+	private static final String PICTURE3 = "img/hoho.gif";
+	private static final int ID3 = 4;
 
 	private static JSONObject json;
 	private static String jsonString;
@@ -73,14 +83,30 @@ public class UserJSONParserTest extends AndroidTestCase{
 				+ "                \"U_bicSwift\" : \""+BICSWIFT2+"\","
 				+ "                \"U_picture\" : \""+PICTURE2+"\","            
 				+ "                \"U_ID\": "+ID2+"" 
-				+ "    }" 
+				+ "    },"
+				+ "     {" 
+				+ "                \"U_firstName\": \""+FIRSTNAME3+"\","
+				+ "                \"U_lastName\": \""+LASTNAME3+"\","
+				+ "                \"U_username\": \""+USERNAME3+"\","
+				+ "                \"U_password\": \""+PASSWORD3+"\","
+				+ "                \"U_email\": \""+EMAIL3+"\","
+				+ "                \"U_address\" : \""+ADDRESS3+"\"," 
+				+ "                \"U_iban\" : \""+IBAN3+"\","
+			    + "                \"U_bicSwift\" : \""+BICSWIFT3+"\","
+				+ "                \"U_picture\" : \""+PICTURE3+"\","            
+				+ "                \"U_ID\": "+ID3+"" 
+				+ "    }"  
 				+ "  ]" 
 				+ "}"; 
 
 		json = new JSONObject(jsonString);
 		modelList = new ArrayList<UserModel>();
-		modelList.add(new UserModel(FIRSTNAME, LASTNAME, USERNAME, EMAIL, ADDRESS, IBAN, BICSWIFT, PICTURE, ID));
-		modelList.add(new UserModel(FIRSTNAME2, LASTNAME2, USERNAME2, EMAIL2, ADDRESS2, IBAN2, BICSWIFT2, PICTURE2, ID2));
+		modelList.add(new UserModel(FIRSTNAME, LASTNAME, USERNAME, EMAIL, 
+				ADDRESS, IBAN, BICSWIFT, PICTURE, ID));
+		modelList.add(new UserModel(FIRSTNAME2, LASTNAME2, USERNAME2, EMAIL2, 
+				ADDRESS2, IBAN2, BICSWIFT2, PICTURE2, ID2));
+		modelList.add(new UserModel(FIRSTNAME3, LASTNAME3, USERNAME3, PASSWORD3,
+				EMAIL3, ADDRESS3, IBAN3, BICSWIFT3, PICTURE3, ID3));
 
 	}
 
