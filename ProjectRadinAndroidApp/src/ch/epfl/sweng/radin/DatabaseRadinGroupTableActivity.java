@@ -1,7 +1,5 @@
 package ch.epfl.sweng.radin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +7,10 @@ import java.util.Map;
 import org.joda.time.DateTime;
 
 import ch.epfl.sweng.radin.databases.Database;
-import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
 import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
