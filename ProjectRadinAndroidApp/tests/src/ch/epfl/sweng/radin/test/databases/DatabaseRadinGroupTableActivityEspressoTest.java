@@ -83,7 +83,13 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		
 		List<Map<String, String>> rowsColumnToValue = Database
 				.getEverythingFromRadinGroupTable();
-		Map<String, String> defaultRadinGroupAsMap = rowsColumnToValue.get(rowsColumnToValue.size() - 1);
+		Log.v(TAG, "testInsertOneRadinGroupInDB");
+		for (Map<String, String> map : rowsColumnToValue) {
+			for (String key : map.keySet()) {
+				Log.v(TAG, key + " -> " + map.get(key));
+			}
+		}
+		Map<String, String> defaultRadinGroupAsMap = rowsColumnToValue.get(rowsColumnToValue.size() - 1); 
 		assertEquals(rg1RID,
 				Integer.parseInt(defaultRadinGroupAsMap.get(RadinGroupTableHelper.Column.RID
 						.toString())));
@@ -131,7 +137,6 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 	 */
 	public void testDBAfterInsert() throws Exception {
 		Log.v(TAG, "Beginning testDBAterInsert");
-		Database.initialize(mActivity);
 		final String nextRID = String.valueOf(Database.getRadinGroupTableSize());
 		typeTextInField(R.id.RID, nextRID);
 		typeTextInField(R.id.RGCreatedAt, "today");
