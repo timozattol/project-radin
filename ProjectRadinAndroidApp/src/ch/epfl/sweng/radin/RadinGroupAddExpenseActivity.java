@@ -1,6 +1,8 @@
 package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
+
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,7 +25,8 @@ import android.widget.Toast;
  * TODO class too big, split, refactor (both dialog creations are almost the same)
  */
 public class RadinGroupAddExpenseActivity extends Activity {
-	private static final int CLIENT_ID = 1234; //will be propagated from LoginActivity?
+	private RadinGroupModel mCurrentRadinGroupModel;
+	//private static final int CLIENT_ID = 1234; //will be propagated from LoginActivity?
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
 	private ArrayList<String> mSelectedDebtors = new ArrayList<String>();
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
@@ -41,14 +44,15 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		mSelectedCreditor = this.getResources().getString(R.string.creditor_selected);
 
 		Bundle extras = getIntent().getExtras();
+		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 
-		String radinGroupTitle = extras.getString("key");
+		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
 		
 		TextView addExpenseText = (TextView) findViewById(R.id.title_add_expense);
 		addExpenseText.setText(addExpenseText.getText().toString() + radinGroupTitle);
 		
 		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseRadinGroupLayout);
-		ActionBar.addActionBar(this, thisLayout, radinGroupTitle);
+		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		setDialogData();
 	}
@@ -127,8 +131,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * @return an array of the client's friends's names
 	 */
 	public String[] serverGetFriendsInGroup() {
-		String[] names = { "julie", "francois", "xavier", "Igor", "JT",
-				"Thierry", "Ismail", "Tanja", "Hibou", "Cailloux", "Poux" };
+		String[] names = {"julie", "francois", "xavier", "Igor", "JT",
+			"Thierry", "Ismail", "Tanja", "Hibou", "Cailloux", "Poux" };
 		//TODO add proper methods
 		return names;
 	}

@@ -1,11 +1,12 @@
 package ch.epfl.sweng.radin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.RadinGroupStorageManager;
+import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,12 +25,13 @@ import android.widget.Toast;
 /**
  * 
  * @author Fabien Zellweger
- * Thic activity get all the radin group from the connected user and list them
+ * This activity get all the radin group from the connected user and list them
  * to give access.
  *
  */
 public class MyRadinGroupsActivity extends Activity {
 	private final static int TEXT_SIZE = 30;
+	private List<RadinGroupModel> mListRadinGroupsModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class MyRadinGroupsActivity extends Activity {
 
 
 		Button addBtn = (Button) findViewById(R.id.addBtn);
-		addBtn.setOnClickListener(addButtonListener);
+		addBtn.setOnClickListener(myRadinGroupsClickListener);
 
 		//This is a fake userId used to test the app
 		int userId = 0;
@@ -49,8 +51,9 @@ public class MyRadinGroupsActivity extends Activity {
 
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
-			    if(status == StorageManagerRequestStatus.SUCCESS) {
+			    if (status == StorageManagerRequestStatus.SUCCESS) {
 			        displayList(items);
+			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
 			    } else {
 			        displayErrorToast("There was an error, please try again");
 			    }
@@ -85,6 +88,11 @@ public class MyRadinGroupsActivity extends Activity {
 	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 	
+	/**
+	 * Call by the callback when he reach the radingroups belong to this user.
+	 * Then diplay them with a OnclickListener
+	 * @param myRadinGroupsList
+	 */
 	private void displayList(List<RadinGroupModel> myRadinGroupsList) {
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
 		myRadinGroupsLinearLayout.setGravity(Gravity.LEFT);
@@ -96,36 +104,34 @@ public class MyRadinGroupsActivity extends Activity {
 			String radinGroupsName = ((RadinGroupModel) myRadinGroupsList.get(i)).getRadinGroupName();
 			radinGroupsTextView.setText(radinGroupsName);
 			radinGroupsTextView.setTextSize(TEXT_SIZE);
-			radinGroupsTextView.setOnClickListener(selectListListener);
+			radinGroupsTextView.setTag(i);
+			radinGroupsTextView.setOnClickListener(myRadinGroupsClickListener);
 
 			myRadinGroupsLinearLayout.addView(radinGroupsTextView);
 		}
 
 	}
 
-	private OnClickListener addButtonListener = new View.OnClickListener() {
+	/**
+	 * Choose the behaviours between the addRadinGroup button or the listed radinGroups
+	 */
+	private OnClickListener myRadinGroupsClickListener = new View.OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), NewRadinGroupActivity.class);
-			startActivity(displayActivityIntent);	
-
+			int id = v.getId();
+			Intent displayActivityIntent;
+			switch(id) {
+				case R.id.addBtn:
+					displayActivityIntent = new Intent(v.getContext(), NewRadinGroupActivity.class);
+					startActivity(displayActivityIntent);
+					break;
+				default:
+					displayActivityIntent = new Intent(v.getContext(), RadinGroupViewActivity.class);
+					Bundle bundle = ActionBar.makeModelToBundle(mListRadinGroupsModel.get((Integer) v.getTag()));
+					displayActivityIntent.putExtras(bundle);
+					startActivity(displayActivityIntent);
+			}
 		}
 	};
-
-	private OnClickListener selectListListener = new View.OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), RadinGroupViewActivity.class);
-
-			//			TextView selectedList = (TextView) v;
-			String radinGroupTitle = ((TextView) v).getText().toString();
-
-			displayActivityIntent.putExtra("key", radinGroupTitle);
-			startActivity(displayActivityIntent);
-
-		}
-	};
-
 }

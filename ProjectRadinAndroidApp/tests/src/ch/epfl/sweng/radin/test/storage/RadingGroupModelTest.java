@@ -2,7 +2,9 @@ package ch.epfl.sweng.radin.test.storage;
 
 import org.joda.time.DateTime;
 
+import ch.epfl.sweng.radin.databases.RadinGroupTableHelper;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import android.content.ContentValues;
 import android.test.AndroidTestCase;
 
 /**
@@ -48,6 +50,12 @@ public class RadingGroupModelTest extends AndroidTestCase {
         radinGroupWithMaster = new RadinGroupModel(DEFAULT_RADIN_GROUP_ID,
                 RIGHT_NOW, DEFAULT_GROUP_NAME, DEFAULT_DESCRIPTION,
                 DEFAULT_AVATAR, DEFAULT_MASTER_ID);
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+    	// TODO Auto-generated method stub
+    	super.tearDown();
     }
 
     public void testMasterID() throws Exception {
@@ -116,10 +124,20 @@ public class RadingGroupModelTest extends AndroidTestCase {
             assertNotNull(e);
         }
     }
+    public void testGetContentValuesWithGoodParameters() throws Exception {
+    	ContentValues values = radinGroupWithMaster.getContentValues();
+    	assertEquals(DEFAULT_AVATAR, values.get(RadinGroupTableHelper.Column.RG_AVATAR.toString()));
+    	assertEquals(DEFAULT_DESCRIPTION, values.get(RadinGroupTableHelper.Column.RG_DESCRIPTION.toString()));
+//    	assertEquals(DEFAULT_GROUP_GROUP, values.get(RadinGroupTableHelper.Column.RG_GROUP.getSqlName())); 
+    	//TODO #rgGroup
+    	assertEquals(DEFAULT_GROUP_NAME, values.get(RadinGroupTableHelper.Column.RG_NAME.toString()));
+    	assertEquals(DEFAULT_MASTER_ID, values.get(RadinGroupTableHelper.Column.RG_MASTER_RID.toString()));
+    	assertEquals(DEFAULT_RADIN_GROUP_ID, values.get(RadinGroupTableHelper.Column.RID.toString()));
+	}
 
     public void testModifyingValuesWithSettersWithMasterID() {
         radinGroupWithMaster.setAvatar(NEW_AVATAR);
-        assertEquals(radinGroupWithMaster.getAvatar(),NEW_AVATAR);
+        assertEquals(radinGroupWithMaster.getAvatar(), NEW_AVATAR);
 
         radinGroupWithMaster.setGroupDescription(NEW_DESCRIPTION);
         assertEquals(radinGroupWithMaster.getGroupDescription(),
@@ -157,6 +175,8 @@ public class RadingGroupModelTest extends AndroidTestCase {
             assertNotNull(e);
         }
     }
+    
+
 
     public void testSetGroupEndDateTimeHappeningBeforeCreationTime() {
         try {
@@ -166,4 +186,6 @@ public class RadingGroupModelTest extends AndroidTestCase {
             assertNotNull(e);
         }
     }
+    
+    //TODO add test for ContentValues
 }

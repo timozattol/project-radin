@@ -4,7 +4,7 @@
 package ch.epfl.sweng.radin.test.storage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -175,8 +175,8 @@ public class TransactionWithParticipantsJSONParserTest extends AndroidTestCase{
 
 		json = new JSONObject(jsonString);
 		
-		map1 = new HashMap<>();
-		map2 = new HashMap<>();
+		map1 = new LinkedHashMap<UserModel, Integer>();
+		map2 = new LinkedHashMap<UserModel, Integer>();
 		
 		map1.put(new UserModel(FIRSTNAME, LASTNAME, EMAIL, ADDRESS, IBAN, PICTURE, USERID), COEFFICIENT);
 		map1.put(new UserModel(FIRSTNAME2, LASTNAME2, EMAIL2, ADDRESS2, IBAN2, PICTURE2, USERID2), COEFFICIENT2);

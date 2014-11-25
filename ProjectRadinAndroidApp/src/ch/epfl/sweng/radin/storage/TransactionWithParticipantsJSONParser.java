@@ -4,13 +4,17 @@
 package ch.epfl.sweng.radin.storage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import ch.epfl.sweng.radin.storage.parsers.JSONParser;
+import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
+import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
 /**
  * @author topali2
@@ -56,7 +60,7 @@ public class TransactionWithParticipantsJSONParser implements JSONParser<Transac
 		
 		for (int i = 0; i < usersList.size(); i++) {
 			
-			mapList.add(new HashMap<UserModel, Integer>());
+			mapList.add(new LinkedHashMap<UserModel, Integer>());
 			
 			for (int j = 0; j < usersList.get(i).size(); j++) {
 				mapList.get(i).put(usersList.get(i).get(j), usersID.get(i).get(j));
@@ -87,9 +91,11 @@ public class TransactionWithParticipantsJSONParser implements JSONParser<Transac
 
 		for (TransactionWithParticipantsModel transactionWithParticipantsModel : transactionList) {
 			
-			transModelList.add(transactionWithParticipantsModel.getTransaction());
-			userModelList.add(new ArrayList<UserModel>(transactionWithParticipantsModel.getMap().keySet()));
-			userIDList.add(new ArrayList<Integer>(transactionWithParticipantsModel.getMap().values()));
+			transModelList.add(transactionWithParticipantsModel);
+			userModelList.add(new ArrayList<UserModel>(
+					transactionWithParticipantsModel.getUsersWithCoefficients().keySet()));
+			userIDList.add(new ArrayList<Integer>(
+					transactionWithParticipantsModel.getUsersWithCoefficients().values()));
 		}
 
 		JSONObject transactionWithParticipantsObject = new JSONObject();

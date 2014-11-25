@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
  * @author timozattol
  * A model representing a transaction
  */
-public final class TransactionModel extends Model {
+public class TransactionModel extends Model {
     private int mTransactionID;
 
     // The id of the RadinGroup containing this Transaction
@@ -70,6 +70,10 @@ public final class TransactionModel extends Model {
      * @param original the original TransactionModel to be copied
      */
     public TransactionModel(TransactionModel original) {
+        if (original == null) {
+            throw new IllegalArgumentException(
+                    "The TransactionModel to copy should not be null");
+        }
         mTransactionID = original.getTransactionID();
         mParentRadinGroupID = original.getParentRadinGroupID();
         mCreditorID = original.getCreditorID();
