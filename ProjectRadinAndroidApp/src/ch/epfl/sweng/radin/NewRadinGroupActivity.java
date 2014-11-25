@@ -191,7 +191,7 @@ public class NewRadinGroupActivity extends Activity {
         } else {
         	//valid data
         	RadinGroupModel rdinGrpModel = new RadinGroupModel(-1, 
-        													   new DateTime().now(), 
+        													   DateTime.now(), 
         													   rdGrpName, 
         													   "", 
         													   "");
