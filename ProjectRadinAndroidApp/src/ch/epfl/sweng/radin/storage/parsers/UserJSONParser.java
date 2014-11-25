@@ -32,6 +32,7 @@ public class UserJSONParser implements JSONParser<UserModel> {
 				userModels.add(new UserModel(
 						jsonData.getString("U_firstName"),
 						jsonData.getString("U_lastName"),
+						jsonData.getString("U_username"),
 						jsonData.getString("U_password"),
 						jsonData.getString("U_email"),
 						jsonData.getString("U_address"),
@@ -43,6 +44,7 @@ public class UserJSONParser implements JSONParser<UserModel> {
 				userModels.add(new UserModel(
 						jsonData.getString("U_firstName"),
 						jsonData.getString("U_lastName"),
+						jsonData.getString("U_username"),
 						jsonData.getString("U_email"),
 						jsonData.getString("U_address"),
 						jsonData.getString("U_iban"),
@@ -69,6 +71,7 @@ public class UserJSONParser implements JSONParser<UserModel> {
 
 			jsonData.put("U_firstName", userModel.getFirstName());
 			jsonData.put("U_lastName", userModel.getLastName());
+			jsonData.put("U_username", userModel.getUsername());
 			if(userModel.getPassword() != null) {
 				jsonData.put("U_password", userModel.getPassword());
 			}

@@ -11,6 +11,7 @@ public class UserModel extends Model{
 
 	private String mFirstName;
 	private String mLastName;
+	private String mUsername;
 	private String mPassword;
 	private String mEmail;
 	private String mAddress;
@@ -25,10 +26,11 @@ public class UserModel extends Model{
 	public UserModel(){}
 	
 		// A Constructor used for the registration
-	public UserModel(String firstName, String lastName, String password, String email, 
+	public UserModel(String firstName, String lastName,String username, String password, String email, 
 			String address, String iban, String bicSwift, String picture, int id) {
 		mFirstName = firstName;
 		mLastName = lastName;
+		mUsername = username;
 		mPassword = password;
 		mEmail = email;
 		mAddress = address;
@@ -38,11 +40,12 @@ public class UserModel extends Model{
 		mId = id;
 	}
 	
-		//A constructor used for representong a User in all other situations 
-	public UserModel(String firstName, String lastName, String email, 
+		//A constructor used for representing a User in all other situations 
+	public UserModel(String firstName, String lastName, String username, String email, 
 			String address, String iban, String bicSwift, String picture, int id) {
 		mFirstName = firstName;
 		mLastName = lastName;
+		mUsername = username;
 		mEmail = email;
 		mAddress = address;
 		mIban = iban;
@@ -57,6 +60,10 @@ public class UserModel extends Model{
 
 	public String getLastName() {
 		return mLastName;
+	}
+	
+	public String getUsername() {
+		return mUsername;
 	}
 	
 	public String getPassword() {
@@ -92,6 +99,10 @@ public class UserModel extends Model{
 	}
 	public void setLastName(String lastName) {
 		mLastName = lastName;
+	}
+	
+	public void setUsername(String username) {
+		mUsername = username;
 	}
 	
 	public void setPassword(String password) {

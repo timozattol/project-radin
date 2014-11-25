@@ -9,11 +9,11 @@ import org.json.JSONObject;
 import ch.epfl.sweng.radin.R.id;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.JSONParser;
+import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.RequestType;
-import ch.epfl.sweng.radin.storage.StorageManager;
+import ch.epfl.sweng.radin.storage.managers.StorageManager;
 import ch.epfl.sweng.radin.storage.UserModel;
-import ch.epfl.sweng.radin.storage.UserStorageManager;
+import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -108,8 +108,6 @@ public class RegisterActivity extends Activity {
 					Toast.makeText(getApplicationContext(),
 							R.string.server_error, Toast.LENGTH_SHORT).show();
 				}
-				// TODO Auto-generated method stub
-				// Does it have to do something?
 			}
 			
 		});
@@ -131,6 +129,8 @@ public class RegisterActivity extends Activity {
 				.getText();	      
 		final CharSequence newUserLastName = ((TextView) findViewById(id.last_name_new_user))
 				.getText();
+		final CharSequence newUserUsername = ((TextView) findViewById(id.username_new_user))
+				.getText();
 		final CharSequence newUserEmail = ((TextView) findViewById(id.email_new_user))
 				.getText();
 		final CharSequence newUserPassword = ((TextView) findViewById(id.password_new_user))
@@ -144,6 +144,7 @@ public class RegisterActivity extends Activity {
 		
 		mNewUser.setFirstName(newUserFirstName.toString());
 		mNewUser.setLastName(newUserLastName.toString());
+		mNewUser.setUsername(newUserUsername.toString());
 		mNewUser.setPassword(newUserPassword.toString()); 
 		mNewUser.setEmail(newUserEmail.toString()); 
 		mNewUser.setAddress(newUserAddress.toString()); 

@@ -101,6 +101,7 @@
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
     
-    
+    <!-- Server Toasts -->
+    <string name="server_error">There was an error, please try again</string>
 
 </resources>

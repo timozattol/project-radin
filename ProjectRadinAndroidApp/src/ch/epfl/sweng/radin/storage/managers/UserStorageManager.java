@@ -3,6 +3,7 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
@@ -59,7 +60,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     		if(!isHashMatchServer()) {
     			ServerConnectionTask connTask = 
     					new ServerConnectionTask(callback, RequestType.POST, 
-    							SERVER_BASE_URL + "receiveUser");
+    							SERVER_BASE_URL + "newuser");
     			connTask.execute(json.toString());
     			return;
     		}

@@ -23,8 +23,17 @@
         android:id="@+id/last_name_new_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/email_new_user"
+        android:layout_alignLeft="@+id/username_new_user"
         android:layout_below="@+id/first_name_new_user"
+        android:hint="@string/last_name"
+        android:inputType="textPersonName" />
+    
+    <EditText
+        android:id="@+id/username_new_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/email_new_user"
+        android:layout_below="@+id/last_name_new_user"
         android:hint="@string/last_name"
         android:inputType="textPersonName" />
 
@@ -33,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/password_new_user"
-        android:layout_below="@+id/last_name_new_user"
+        android:layout_below="@+id/username_new_user"
         android:hint="@string/email"
         android:inputType="textEmailAddress" />
 

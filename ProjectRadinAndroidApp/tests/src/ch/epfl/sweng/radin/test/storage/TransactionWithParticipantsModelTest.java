@@ -34,8 +34,8 @@ public class TransactionWithParticipantsModelTest extends AndroidTestCase {
         rightNow = DateTime.now();
         tommorrow = rightNow.plusDays(1);
         coefficients = new HashMap<UserModel, Integer>();
-        UserModel julie = new UserModel("julie", "djeffal", "julie.djeffal@epfl.ch", "Chez julie", "CH00", null, 0);
-        UserModel winny = new UserModel("winny", "thepoo", "winnie.thepoo@honey.com", "Chez winnie", "CH01", null, 1);
+        UserModel julie = new UserModel("julie", "djeffal", "julied20", "julie.djeffal@epfl.ch", "Chez julie", "CH00", "Bic01", null, 0);
+        UserModel winny = new UserModel("winny", "thepoo", "wiwi", "winnie.thepoo@honey.com", "Chez winnie", "CH01", "Bic02", null, 1);
         coefficients.put(julie, 1);
         coefficients.put(winny, 2);
 

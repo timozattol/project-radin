@@ -24,6 +24,7 @@ public class UserJSONParserTest extends AndroidTestCase{
 
 	private static final String FIRSTNAME = "Julie";
 	private static final String LASTNAME = "Djeffal";
+	private static final String USERNAME = "julied20";
 	private static final String EMAIL = "julie.djeffal@epfl.ch";
 	private static final String ADDRESS = "quelquepart";
 	private static final String IBAN = "CH246465 6464 6564";
@@ -33,6 +34,7 @@ public class UserJSONParserTest extends AndroidTestCase{
 
 	private static final String FIRSTNAME2 = "Cedric";
 	private static final String LASTNAME2 = "Cook";
+	private static final String USERNAME2 = "Cookie";
 	private static final String EMAIL2 = "cedrik.cook@agepoly.ch";
 	private static final String ADDRESS2 = "chez lui";
 	private static final String IBAN2 = "CH34 0026 5265 6399 1140 A";
@@ -53,6 +55,7 @@ public class UserJSONParserTest extends AndroidTestCase{
 				+ "    {" 
 				+ "                \"U_firstName\": \""+FIRSTNAME+"\","
 				+ "                \"U_lastName\": \""+LASTNAME+"\","
+				+ "                \"U_username\": \""+USERNAME+"\","
 				+ "                \"U_email\": \""+EMAIL+"\","
 				+ "                \"U_address\" : \""+ADDRESS+"\"," 
 				+ "                \"U_iban\" : \""+IBAN+"\"," 
@@ -63,6 +66,7 @@ public class UserJSONParserTest extends AndroidTestCase{
 				+ "    {" 
 				+ "                \"U_firstName\": \""+FIRSTNAME2+"\","
 				+ "                \"U_lastName\": \""+LASTNAME2+"\","
+				+ "                \"U_username\": \""+USERNAME2+"\","
 				+ "                \"U_email\": \""+EMAIL2+"\","
 				+ "                \"U_address\" : \""+ADDRESS2+"\"," 
 				+ "                \"U_iban\" : \""+IBAN2+"\","
@@ -75,8 +79,8 @@ public class UserJSONParserTest extends AndroidTestCase{
 
 		json = new JSONObject(jsonString);
 		modelList = new ArrayList<UserModel>();
-		modelList.add(new UserModel(FIRSTNAME, LASTNAME, EMAIL, ADDRESS, IBAN, BICSWIFT, PICTURE, ID));
-		modelList.add(new UserModel(FIRSTNAME2, LASTNAME2, EMAIL2, ADDRESS2, IBAN2, BICSWIFT2, PICTURE2, ID2));
+		modelList.add(new UserModel(FIRSTNAME, LASTNAME, USERNAME, EMAIL, ADDRESS, IBAN, BICSWIFT, PICTURE, ID));
+		modelList.add(new UserModel(FIRSTNAME2, LASTNAME2, USERNAME2, EMAIL2, ADDRESS2, IBAN2, BICSWIFT2, PICTURE2, ID2));
 
 	}
 
