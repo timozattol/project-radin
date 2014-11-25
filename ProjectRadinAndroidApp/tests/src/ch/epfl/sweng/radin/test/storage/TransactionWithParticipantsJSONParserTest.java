@@ -20,7 +20,6 @@ import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsJSONParser;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
-import ch.epfl.sweng.radin.storage.UserModel;
 
 /**
  * @author topali2
@@ -48,48 +47,24 @@ public class TransactionWithParticipantsJSONParserTest extends AndroidTestCase{
 	private static final String PURPOSE2 = "due";
 	private static final String TYPE2 = "PAYMENT";
 	
-	private static final String FIRSTNAME = "martin";
-	private static final String LASTNAME = "blabla";
-	private static final String EMAIL = "martin.blabla@epfl.ch";
-	private static final String ADDRESS = "nullepart";
-	private static final String IBAN = "CH243545 6464 6564";
-	private static final String PICTURE = "img/hoho.png";
-	private static final int USERID = 1;
-	private static final Integer COEFFICIENT = 1;
-
-	private static final String FIRSTNAME2 = "aloha";
-	private static final String LASTNAME2 = "klu";
-	private static final String EMAIL2 = "aloha.klu@agepoly.ch";
-	private static final String ADDRESS2 = "pas chez lui";
-	private static final String IBAN2 = "CH34 0026 5987 6399 1140 A";
-	private static final String PICTURE2 = "img/houhou.gif";
-	private static final int USERID2 = 5;
-	private static final Integer COEFFICIENT2 = 2;
+	private static final Integer USERID = 1;
+	private static final Integer USERID2 = 5;
+	private static final Integer USERID3 = 2;
+	private static final Integer USERID4 = 3;
 	
-	private static final String FIRSTNAME3 = "Julie";
-	private static final String LASTNAME3 = "Djeffal";
-	private static final String EMAIL3 = "julie.djeffal@epfl.ch";
-	private static final String ADDRESS3 = "quelquepart";
-	private static final String IBAN3 = "CH246465 6464 6564";
-	private static final String PICTURE3 = "img/haha.png";
-	private static final int USERID3 = 2;
+	private static final Integer COEFFICIENT = 3;
+	private static final Integer COEFFICIENT2 = 4;
 	private static final Integer COEFFICIENT3 = 2;
+	private static final Integer COEFFICIENT4 = 1;
+	
 
-	private static final String FIRSTNAME4 = "Cedric";
-	private static final String LASTNAME4 = "Cook";
-	private static final String EMAIL4 = "cedrik.cook@agepoly.ch";
-	private static final String ADDRESS4 = "chez lui";
-	private static final String IBAN4 = "CH34 0026 5265 6399 1140 A";
-	private static final String PICTURE4 = "img/hihi.gif";
-	private static final int USERID4 = 3;
-	private static final Integer COEFFICIENT4 = 3;
 
 	private static JSONObject json;
 	private static String jsonString;
 	private static List<TransactionWithParticipantsModel> modelList; 
 	private static DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy/MM/dd HH/mm");
-	private static Map<UserModel, Integer> map1;
-	private static Map<UserModel, Integer> map2;
+	private static Map<Integer, Integer> map1;
+	private static Map<Integer, Integer> map2;
 
 
 	@Override
@@ -98,8 +73,8 @@ public class TransactionWithParticipantsJSONParserTest extends AndroidTestCase{
 
 
 		jsonString = "{"
-				+ "		\"transactionWithParticipants\": ["
-				+ "		{"
+				+ "		\"transactionWithParticipants\": "
+				+ "     {"
 				+ "     			\"transaction\": ["
 				+ "    			    {" 
 				+ "             			    \"T_ID\": "+ID+","
@@ -111,28 +86,15 @@ public class TransactionWithParticipantsJSONParserTest extends AndroidTestCase{
 				+ "            			        \"T_dateTime\" : \""+DATETIME+"\"," 
 				+ "            			        \"T_purpose\" : \""+PURPOSE+"\"," 
 				+ "            			        \"T_type\" : \""+TYPE+"\"," 
-				+ "								\"user\": ["
-				+ "    							{" 
-				+ "             							   \"U_firstName\": \""+FIRSTNAME+"\","
-				+ "        								       \"U_lastName\": \""+LASTNAME+"\","
-				+ "         							       \"U_email\": \""+EMAIL+"\","
-				+ "             							   \"U_address\" : \""+ADDRESS+"\"," 
-				+ "           								   \"U_iban\" : \""+IBAN+"\"," 
-				+ "           								   \"U_picture\" : \""+PICTURE+"\","            
-				+ "            								   \"U_ID\": "+USERID+"," 
-				+ "           								   \"U_coefficient\" : "+COEFFICIENT+"" 
+				+ "								\"T_user_coefficients\": ["
+				+ "                             {"          
+				+ "            								   \"id\": "+USERID+","
+				+ "            								   \"coefficient\": "+COEFFICIENT+""
 				+ "    							}," 
-				+ "    							{" 
-				+ "   								           \"U_firstName\": \""+FIRSTNAME2+"\","
-				+ "    								           \"U_lastName\": \""+LASTNAME2+"\","
-				+ "   								           \"U_email\": \""+EMAIL2+"\","
-				+ "     								       \"U_address\" : \""+ADDRESS2+"\"," 
-				+ "      								       \"U_iban\" : \""+IBAN2+"\"," 
-				+ "      								       \"U_picture\" : \""+PICTURE2+"\","            
-				+ "   								           \"U_ID\": "+USERID2+","
-				+ "           								   \"U_coefficient\" : "+COEFFICIENT2+""
-				+ "   							}" 
-				+ "							 ]"
+				+ "    							{"             
+				+ "   								           \"id\": "+USERID2+","
+				+ "           								   \"coefficient\" : "+COEFFICIENT2+""
+				+ "   							}]" 
 				+ "    				}," 
 				+ "   				{" 
 				+ "                				\"T_ID\": "+ID2+","
@@ -144,44 +106,30 @@ public class TransactionWithParticipantsJSONParserTest extends AndroidTestCase{
 				+ "                				\"T_dateTime\" : \""+DATETIME2+"\"," 
 				+ "               				\"T_purpose\" : \""+PURPOSE2+"\"," 
 				+ "                				\"T_type\" : \""+TYPE2+"\","
-				+ "								\"user\": ["
-				+ "    							{" 
-				+ "             							   \"U_firstName\": \""+FIRSTNAME3+"\","
-				+ "        								       \"U_lastName\": \""+LASTNAME3+"\","
-				+ "         							       \"U_email\": \""+EMAIL3+"\","
-				+ "             							   \"U_address\" : \""+ADDRESS3+"\"," 
-				+ "           								   \"U_iban\" : \""+IBAN3+"\"," 
-				+ "           								   \"U_picture\" : \""+PICTURE3+"\","            
-				+ "            								   \"U_ID\": "+USERID3+"," 
-				+ "           								   \"U_coefficient\" : "+COEFFICIENT3+"" 
+				+ "								\"T_user_coefficients\": ["
+				+ "                             {"          
+				+ "            								   \"id\": "+USERID3+","
+				+ "            								   \"coefficient\": "+COEFFICIENT3+""
 				+ "    							}," 
-				+ "    							{" 
-				+ "   								           \"U_firstName\": \""+FIRSTNAME4+"\","
-				+ "    								           \"U_lastName\": \""+LASTNAME4+"\","
-				+ "   								           \"U_email\": \""+EMAIL4+"\","
-				+ "     								       \"U_address\" : \""+ADDRESS4+"\"," 
-				+ "      								       \"U_iban\" : \""+IBAN4+"\"," 
-				+ "      								       \"U_picture\" : \""+PICTURE4+"\","            
-				+ "   								           \"U_ID\": "+USERID4+","
-				+ "           								   \"U_coefficient\" : "+COEFFICIENT4+""
-				+ "   							}" 
-				+ "							 ]"
-				+ "    					}" 
-				+ "  				]" 
-				+ "				}"	
-				+ "			]"
+				+ "    							{"             
+				+ "   								           \"id\": "+USERID4+","
+				+ "           								   \"coefficient\" : "+COEFFICIENT4+""
+				+ "   							}]" 
+				+ "							 }"
+				+ "    			]" 
+				+ "  	}" 
 				+ "}"; 
 
 
 		json = new JSONObject(jsonString);
 		
-		map1 = new LinkedHashMap<UserModel, Integer>();
-		map2 = new LinkedHashMap<UserModel, Integer>();
+		map1 = new LinkedHashMap<Integer, Integer>();
+		map2 = new LinkedHashMap<Integer, Integer>();
 		
-		map1.put(new UserModel(FIRSTNAME, LASTNAME, EMAIL, ADDRESS, IBAN, PICTURE, USERID), COEFFICIENT);
-		map1.put(new UserModel(FIRSTNAME2, LASTNAME2, EMAIL2, ADDRESS2, IBAN2, PICTURE2, USERID2), COEFFICIENT2);
-		map2.put(new UserModel(FIRSTNAME3, LASTNAME3, EMAIL3, ADDRESS3, IBAN3, PICTURE3, USERID3), COEFFICIENT3);
-		map2.put(new UserModel(FIRSTNAME4, LASTNAME4, EMAIL4, ADDRESS4, IBAN4, PICTURE4, USERID4), COEFFICIENT4);
+		map1.put(USERID, COEFFICIENT);
+		map1.put(USERID2, COEFFICIENT2);
+		map2.put(USERID3, COEFFICIENT3);
+		map2.put(USERID4, COEFFICIENT4);
 		
 		modelList = new ArrayList<TransactionWithParticipantsModel>();
 		modelList.add(new TransactionWithParticipantsModel(new TransactionModel(

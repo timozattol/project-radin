@@ -14,7 +14,6 @@ import org.json.JSONObject;
 
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
-import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
 /**
  * @author topali2
@@ -29,47 +28,30 @@ public class TransactionWithParticipantsJSONParser implements JSONParser<Transac
 	public List<TransactionWithParticipantsModel> getModelsFromJson(JSONObject json) throws JSONException {
 
 		TransactionJSONParser transParser = new TransactionJSONParser();
-		UserJSONParser userParser = new UserJSONParser();
 		
-		JSONArray transWithPartObject = json.getJSONArray("transactionWithParticipants");
-		JSONObject transObject = transWithPartObject.getJSONObject(0); 
-		JSONArray transArray = transObject.getJSONArray("transaction");
+		JSONObject transWithPartObject = json.getJSONObject("transactionWithParticipants");
+		JSONArray transArray = transWithPartObject.getJSONArray("transaction");
 		
-		List<TransactionModel> transactionlist = transParser.getModelsFromJson(transObject);
-		List<List<UserModel>> usersList = new ArrayList<List<UserModel>>();
-		List<List<Integer>> usersID = new ArrayList<List<Integer>>();
-		List<Map<UserModel, Integer>> mapList = new ArrayList<Map<UserModel, Integer>>();
 		List<TransactionWithParticipantsModel> transWithPartList = new ArrayList<TransactionWithParticipantsModel>();
+		List<TransactionModel> transactionList = transParser.getModelsFromJson(transWithPartObject);
+		List<Map<Integer, Integer>> mapList = new ArrayList<Map<Integer, Integer>>();
 		
 		for (int i = 0; i < transArray.length(); i++) {
 			
-			JSONObject jsonData = transArray.getJSONObject(i);
-			JSONArray usersArray = jsonData.getJSONArray("user");
+			mapList.add(new LinkedHashMap<Integer, Integer>());
+			JSONArray userIds = transArray.getJSONObject(i).getJSONArray("T_user_coefficients");
 			
-			usersID.add(new ArrayList<Integer>());
-
-			for (int j = 0; j < usersArray.length(); j++) {
+			for (int j = 0; j < userIds.length(); j++) {
+				JSONObject userData = userIds.getJSONObject(j);
+				mapList.get(i).put(userData.getInt("id"), userData.getInt("coefficient"));
 				
-				usersID.get(i).add((Integer) usersArray.getJSONObject(j).get("U_coefficient"));
 			}
 			
-			usersList.add(userParser.getModelsFromJson(jsonData));
-			
 		}
-		
-		
-		for (int i = 0; i < usersList.size(); i++) {
+				
+		for (int i = 0; i < transactionList.size(); i++) {
 			
-			mapList.add(new LinkedHashMap<UserModel, Integer>());
-			
-			for (int j = 0; j < usersList.get(i).size(); j++) {
-				mapList.get(i).put(usersList.get(i).get(j), usersID.get(i).get(j));
-			}
-		}
-		
-		for (int i = 0; i < transactionlist.size(); i++) {
-			
-			transWithPartList.add(new TransactionWithParticipantsModel(transactionlist.get(i), mapList.get(i)));
+			transWithPartList.add(new TransactionWithParticipantsModel(transactionList.get(i), mapList.get(i)));
 			
 		}
 		
@@ -83,41 +65,42 @@ public class TransactionWithParticipantsJSONParser implements JSONParser<Transac
 	public JSONObject getJsonFromModels(List<TransactionWithParticipantsModel> transactionList) throws JSONException {
 
 		TransactionJSONParser transJsonParser = new TransactionJSONParser();
-		UserJSONParser userJsonParser = new UserJSONParser();
 
-		List<TransactionModel> transModelList = new ArrayList<TransactionModel>();
-		List<List<UserModel>> userModelList = new ArrayList<List<UserModel>>();
+		List<TransactionModel> transactionListModel = new ArrayList<TransactionModel>();
 		List<List<Integer>> userIDList = new ArrayList<List<Integer>>();
+		List<List<Integer>> userCoefficientsList = new ArrayList<List<Integer>>();
 
 		for (TransactionWithParticipantsModel transactionWithParticipantsModel : transactionList) {
 			
-			transModelList.add(transactionWithParticipantsModel);
-			userModelList.add(new ArrayList<UserModel>(
-					transactionWithParticipantsModel.getUsersWithCoefficients().keySet()));
+			transactionListModel.add(transactionWithParticipantsModel);
 			userIDList.add(new ArrayList<Integer>(
+					transactionWithParticipantsModel.getUsersWithCoefficients().keySet()));
+			userCoefficientsList.add(new ArrayList<Integer>(
 					transactionWithParticipantsModel.getUsersWithCoefficients().values()));
 		}
 
 		JSONObject transactionWithParticipantsObject = new JSONObject();
-		JSONArray transactionWithParticipantsArray = new JSONArray();
-		JSONObject transObject = transJsonParser.getJsonFromModels(transModelList);
+		JSONObject transObject = transJsonParser.getJsonFromModels(transactionListModel);
 		JSONArray transArray = transObject.getJSONArray("transaction");
 		
 		for (int i = 0; i < transArray.length(); i++) {
 			
-			JSONArray userArray = userJsonParser.getJsonFromModels(userModelList.get(i)).getJSONArray("user");
+			JSONArray userArray = new JSONArray();
 			
-			for (int j = 0; j < userArray.length(); j++) {
+			for (int j = 0; j < userCoefficientsList.size(); j++) {
 			
-				userArray.getJSONObject(j).put("U_coefficient", userIDList.get(i).get(j));
+				JSONObject userIdCoeff = new JSONObject();
+				userIdCoeff.put("id", userIDList.get(i).get(j));
+				userIdCoeff.put("coefficient", userCoefficientsList.get(i).get(j));
+				userArray.put(userIdCoeff);
 				
 			}
 			
-			transObject.getJSONArray("transaction").getJSONObject(i).put("user", userArray);
+			transObject.getJSONArray("transaction").getJSONObject(i).put("T_user_coefficients", userArray);
 		}
 		
-		transactionWithParticipantsArray.put(transObject);
-		transactionWithParticipantsObject.put("transactionWithParticipants", transactionWithParticipantsArray);
+		
+		transactionWithParticipantsObject.put("transactionWithParticipants", transObject);
 		
 		return transactionWithParticipantsObject;
 	}
