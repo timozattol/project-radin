@@ -1,30 +1,23 @@
 package ch.epfl.sweng.radin.test;
 
 
-import org.joda.time.DateTime;
-
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import ch.epfl.sweng.radin.R;
-import ch.epfl.sweng.radin.RadinGroupAddExpenseActivity;
 import ch.epfl.sweng.radin.RegisterActivity;
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.UserModel;
-import ch.epfl.sweng.radin.ActionBar;
 
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
-import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 /**
- * GUI tests on RadinGroupAddExpenseActivity
+ * GUI tests on RegisterActivity
  * 
  * @author julied20
  */
 public class EspressoRegisterActivity extends
 	ActivityInstrumentationTestCase2<RegisterActivity> {
+	
+	private final int mSleepTime = 100;
 
 	public EspressoRegisterActivity() {
 		super(RegisterActivity.class);
@@ -33,19 +26,81 @@ public class EspressoRegisterActivity extends
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		
-		/*UserModel rgModel = new UserModel("Cedric", "Cook", "Agepoly", 
-				"cedric.cook@epfl.ch", "EPFL", "CH01", "bic01", null, 2);
-		
-		Intent myIntent = new Intent();
-		setActivityIntent(myIntent);
-		getActivity();*/
+		getActivity();
 	}
 	
-	private void scrollTo(int rId) {
-		Espresso.onView(ViewMatchers.withId(rId)).perform(ViewActions.scrollTo());
+	public void testEspresso() {
+
+		Espresso.onView(ViewMatchers.withId(R.id.first_name_new_user))
+		.perform(ViewActions.typeText("Fabien"));
+
+		Espresso.closeSoftKeyboard();
+
+		try {
+			Thread.sleep(mSleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		Espresso.onView(ViewMatchers.withId(R.id.username_new_user))
+		.perform(ViewActions.typeText("Walono"));
+
+		Espresso.closeSoftKeyboard();
+
+		try {
+			Thread.sleep(mSleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		Espresso.onView(ViewMatchers.withId(R.id.email_new_user))
+		.perform(ViewActions.typeText("fabien.zellweger@epfl.ch"));
+
+		
+		Espresso.closeSoftKeyboard();
+
+		try {
+			Thread.sleep(mSleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		Espresso.onView(ViewMatchers.withId(R.id.password_new_user))
+		.perform(ViewActions.typeText("Sushi"));
+
+		Espresso.closeSoftKeyboard();
+
+		try {
+			Thread.sleep(mSleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Espresso.onView(ViewMatchers.withId(R.id.address_new_user))
+		.perform(ViewActions.typeText("Trop loin d'ici"));
+		
+		Espresso.closeSoftKeyboard();
+
+		try {
+			Thread.sleep(mSleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Espresso.onView(ViewMatchers.withId(R.id.iban_new_user))
+		.perform(ViewActions.typeText("CH01"));
+
+		Espresso.closeSoftKeyboard();
+
+		try {
+			Thread.sleep(mSleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Espresso.onView(ViewMatchers.withId(R.id.bic_swift_address_new_user))
+		.perform(ViewActions.typeText("Bic01"));
+		
+		Espresso.onView(ViewMatchers.withId(R.id.createAcountButton))
+		.perform(ViewActions.click());
 	}
-	
 	
 	
 }

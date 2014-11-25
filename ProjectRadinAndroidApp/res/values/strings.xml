@@ -103,5 +103,6 @@
     
     <!-- Server Toasts -->
     <string name="server_error">There was an error, please try again</string>
+    <string name="user_created">Yeah! You registered to ProjectRadin!</string>
 
 </resources>

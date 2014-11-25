@@ -10,8 +10,6 @@ import ch.epfl.sweng.radin.R.id;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
-import ch.epfl.sweng.radin.storage.RequestType;
-import ch.epfl.sweng.radin.storage.managers.StorageManager;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.app.Activity;
@@ -107,6 +105,9 @@ public class RegisterActivity extends Activity {
 				if (status == StorageManagerRequestStatus.FAILURE) {
 					Toast.makeText(getApplicationContext(),
 							R.string.server_error, Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getApplicationContext(),
+							R.string.user_created, Toast.LENGTH_SHORT).show();
 				}
 			}
 			
