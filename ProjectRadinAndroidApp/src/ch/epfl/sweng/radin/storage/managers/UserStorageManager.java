@@ -1,7 +1,11 @@
 /**
  * 
  */
-package ch.epfl.sweng.radin.storage;
+package ch.epfl.sweng.radin.storage.managers;
+
+import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.parsers.JSONParser;
+import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
 import org.json.JSONObject;
 

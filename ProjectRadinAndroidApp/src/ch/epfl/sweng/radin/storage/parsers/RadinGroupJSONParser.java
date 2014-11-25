@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.epfl.sweng.radin.storage;
+package ch.epfl.sweng.radin.storage.parsers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 /**
  * @author topali2

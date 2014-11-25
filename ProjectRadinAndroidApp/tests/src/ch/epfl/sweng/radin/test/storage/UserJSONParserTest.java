@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import android.test.AndroidTestCase;
-import ch.epfl.sweng.radin.storage.UserJSONParser;
+import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 import ch.epfl.sweng.radin.storage.UserModel;
 
 /**

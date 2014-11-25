@@ -2,5 +2,10 @@
 <resources>
 
     <string name="app_name">ProjectRadinAndroidAppTestTest</string>
+    <string name="title_activity_database_test">DatabaseTestActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_test_table_radin_group">TestTableRadinGroupActivity</string>
+    <string name="title_activity_test_database_radin_group_table">TestDatabaseRadinGroupTable</string>
 
 </resources>
