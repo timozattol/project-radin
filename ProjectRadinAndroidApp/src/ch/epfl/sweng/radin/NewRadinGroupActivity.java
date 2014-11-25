@@ -9,7 +9,6 @@ import org.joda.time.DateTime;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
@@ -49,7 +48,6 @@ public class NewRadinGroupActivity extends Activity {
         setContentView(R.layout.activity_new_radingroup);
         
         retrieveData();
-        createDialog();
 		
         mNameEdit = (EditText) findViewById(R.id.edit_name);
     }
@@ -81,13 +79,17 @@ public class NewRadinGroupActivity extends Activity {
 	 *
 	 */
 	public void showDialog(View view) {
-		createDialog().show();
+		if (mFriends != null) {
+			createDialog().show();
+		} else {
+			Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	/**
 	 * Retrieves the data () from StorageManager
 	 */
-	public void retrieveData() {
+	private void retrieveData() {
 		UserStorageManager usrStorageManager = UserStorageManager
 				.getStorageManager();
 		usrStorageManager.getAllFriendsById(mClientID, new RadinListener<UserModel>() {
@@ -141,38 +143,40 @@ public class NewRadinGroupActivity extends Activity {
 	private AlertDialog createDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.multi_friend);
-		
+
 		final ListView listView = new ListView(this);
-		StableArrayAdapter<String> adapter =
-				new StableArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice, mFriends);
+		StableArrayAdapter<String> adapter = new StableArrayAdapter<String>(
+				this, android.R.layout.select_dialog_multichoice, mFriends);
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		for (int i = 0; i < checkedItems.length; i++) {
 			listView.setItemChecked(i, checkedItems[i]);
 		}
 		builder.setView(listView);
-		
+
 		// Set OK button
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				long[] checkedIds = listView.getCheckedItemIds();
 				mParticipants = new ArrayList<UserModel>();
-		
+
 				checkedItems = new boolean[mFriends.length];
 				for (int i = 0; i < checkedIds.length; i++) {
 					checkedItems[(int) checkedIds[i]] = true;
-					mParticipants.add(mNamesAndModel.get(mFriends[(int) checkedIds[i]]));
-					//Log.i("participant" + i, mFriends[(int) checkedIds[i]]);
+					mParticipants.add(mNamesAndModel
+							.get(mFriends[(int) checkedIds[i]]));
+					// Log.i("participant" + i, mFriends[(int)
+					// checkedIds[i]]);
 				}
-				//TODO show participants in a TextView
+				// TODO show participants in a TextView
 			}
 		});
-		//Set CANCEL button
+		// Set CANCEL button
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				//nothing to do
+				// nothing to do
 			}
 		});
 		return builder.create();
