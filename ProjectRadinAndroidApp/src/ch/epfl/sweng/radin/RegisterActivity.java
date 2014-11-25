@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Simonchelbc
@@ -103,6 +104,10 @@ public class RegisterActivity extends Activity {
 			@Override
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.FAILURE) {
+					Toast.makeText(getApplicationContext(),
+							R.string.server_error, Toast.LENGTH_SHORT).show();
+				}
 				// TODO Auto-generated method stub
 				// Does it have to do something?
 			}
