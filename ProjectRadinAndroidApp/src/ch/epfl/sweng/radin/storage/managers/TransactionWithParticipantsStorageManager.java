@@ -12,6 +12,7 @@ import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
 
 /**
  * @author CedricCook
+ * A StorageManager that handles storage of the Decorator for Transaction
  *
  */
 public class TransactionWithParticipantsStorageManager extends
@@ -47,7 +48,7 @@ public class TransactionWithParticipantsStorageManager extends
 	}
 	
 	public void getAllForGroupId(int groupId, RadinListener<TransactionWithParticipantsModel> callback) {
-		String ACCESS_URL = "withParticipantsForGroup";
+		final String ACCESS_URL = "withParticipantsForGroup";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
