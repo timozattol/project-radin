@@ -17,6 +17,7 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 public class EspressoLoginActivity extends ActivityInstrumentationTestCase2<LoginActivity> {
 
 	private final int mSleepTime = 100;
+	
 	public EspressoLoginActivity() {
 
 		super(LoginActivity.class);
