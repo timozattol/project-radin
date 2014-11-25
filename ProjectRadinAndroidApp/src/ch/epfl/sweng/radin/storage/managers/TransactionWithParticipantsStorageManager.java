@@ -48,7 +48,7 @@ public class TransactionWithParticipantsStorageManager extends
 	}
 	
 	public void getAllForGroupId(int groupId, RadinListener<TransactionWithParticipantsModel> callback) {
-		final String ACCESS_URL = "withParticipantsForGroup";
+		final String ACCESS_URL = "withcoeffs";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
