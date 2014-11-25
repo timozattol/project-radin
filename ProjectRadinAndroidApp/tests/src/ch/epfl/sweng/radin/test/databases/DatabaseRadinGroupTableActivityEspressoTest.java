@@ -39,8 +39,6 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 	private static final DateTime TODAY_CLOCK = DateTime.now();
 	private static final String NOW = TODAY_CLOCK.toString();
 	private static final DateTime TOMORROW_CLOCK = TODAY_CLOCK.plusDays(1);
-	private static final DateTime AFTER_TOMORROW_CLOCK = TOMORROW_CLOCK.plusDays(1);
-	private static final int DEFAULT_RADIN_GROUP_ID = 0;
 	private static final int DEFAULT_MASTER_ID = 10;
 	private static final String DEFAULT_AVATAR = "<path-to-default-avatar>"; // TODO
 	// change
@@ -50,11 +48,8 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 	// avatars
 	private static final String DEFAULT_GROUP_NAME = "SuperRadins";
 	private static final String DEFAULT_DESCRIPTION = "Throw your debts away";
-	private static final String NEW_GROUP_NAME = "VeryRadins";
-	private static final String NEW_DESCRIPTION = "Throw the debters away";
 	private static final String TAG = "DatabaseRadinGroupTableActivityEspressoTest";
 	private static DatabaseRadinGroupTableActivity mActivity;
-	private RadinGroupModel defaultRadinGroup;
 	
 	public DatabaseRadinGroupTableActivityEspressoTest() {
 		super(DatabaseRadinGroupTableActivity.class);
@@ -67,9 +62,6 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		Log.d(TAG, "SETUP");
 		mActivity = getActivity();
 		Database.initialize(mActivity);
-		defaultRadinGroup = new RadinGroupModel(DEFAULT_RADIN_GROUP_ID, TODAY_CLOCK,
-				DEFAULT_GROUP_NAME, DEFAULT_DESCRIPTION, DEFAULT_AVATAR,
-				DEFAULT_MASTER_ID);
 		Log.d(TAG, "SETUP_DONE");
 	}
 
@@ -77,14 +69,22 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		assertNotNull(getActivity());
 	}
 	
+	/**
+	 * Insert a RadinGroupModel at last row of Database and query Database to test if it has been inserted
+	 */
 	public void testInsertOneRadinGroupInDB() {
 		List<RadinGroupModel> radinGroups = new ArrayList<RadinGroupModel>();
-		radinGroups.add(defaultRadinGroup);
-		getActivity().sendRadinGroupModelToDB(radinGroups);
+		final int rg1RID = Database.getRadinGroupTableSize();
+		RadinGroupModel rg1 = new RadinGroupModel(rg1RID, TODAY_CLOCK,
+				DEFAULT_GROUP_NAME, DEFAULT_DESCRIPTION, DEFAULT_AVATAR,
+				DEFAULT_MASTER_ID);
+		radinGroups.add(rg1);
+		mActivity.sendRadinGroupModelToDB(radinGroups);
+		
 		List<Map<String, String>> rowsColumnToValue = Database
 				.getEverythingFromRadinGroupTable();
-		Map<String, String> defaultRadinGroupAsMap = rowsColumnToValue.get(0);
-		assertEquals(DEFAULT_RADIN_GROUP_ID,
+		Map<String, String> defaultRadinGroupAsMap = rowsColumnToValue.get(rowsColumnToValue.size() - 1);
+		assertEquals(rg1RID,
 				Integer.parseInt(defaultRadinGroupAsMap.get(RadinGroupTableHelper.Column.RID
 						.toString())));
 		assertEquals(DEFAULT_AVATAR, 
@@ -125,15 +125,20 @@ public class DatabaseRadinGroupTableActivityEspressoTest extends
 		onView(withId(rId)).perform(scrollTo(), typeText(text));
 	}
 
+	/**
+	 * Using DatabaseRadinGroupTableActivity fields insert one RadinGroupModel into DB and test if it has been inserted
+	 * @throws Exception
+	 */
 	public void testDBAfterInsert() throws Exception {
 		Log.v(TAG, "Beginning testDBAterInsert");
+		Database.initialize(mActivity);
 		final String nextRID = String.valueOf(Database.getRadinGroupTableSize());
 		typeTextInField(R.id.RID, nextRID);
 		typeTextInField(R.id.RGCreatedAt, "today");
 		typeTextInField(R.id.RGDeletedAt, "after-tomorrow");
 		typeTextInField(R.id.RGEndedAt, "tomorrow");
 		typeTextInField(R.id.RGName, "test group");
-		typeTextInField(R.id.RGAvatar, "img/avatar2.png");
+		typeTextInField(R.id.RGAvatar, "img/avatar1.png");
 		typeTextInField(R.id.RGMasterID, "10");
 		typeTextInField(R.id.RGDescription, "A cool group");
 		closeSoftKeyboard();
