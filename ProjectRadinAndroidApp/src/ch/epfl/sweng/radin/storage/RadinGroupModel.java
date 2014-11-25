@@ -1,6 +1,5 @@
 package ch.epfl.sweng.radin.storage;
 
-import java.sql.Types;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -296,7 +295,7 @@ public class RadinGroupModel extends Model {
 	@Override
 	public int hashCode() {
 
-		return mRadinGroupID;
+		return mRID;
 	}
 
 	/* (non-Javadoc)
@@ -326,25 +325,25 @@ public class RadinGroupModel extends Model {
 			
 			return false;
 		}
-		if (mGroupCreationDateTime == null) {
-			if (other.mGroupCreationDateTime != null) {
+		if (mCreationDateTime == null) {
+			if (other.mCreationDateTime != null) {
 				
 				return false;
 			}
-		} else if (!mGroupCreationDateTime.equals(other.mGroupCreationDateTime)) {
+		} else if (!mCreationDateTime.equals(other.mCreationDateTime)) {
 			
 			return false;
 		}
-		if (mGroupDescription == null) {
-			if (other.mGroupDescription != null) {
+		if (mDescription == null) {
+			if (other.mDescription != null) {
 				
 				return false;
 			}
-		} else if (!mGroupDescription.equals(other.mGroupDescription)) {
+		} else if (!mDescription.equals(other.mDescription)) {
 			
 			return false;
 		}
-		if (mHasMasterID != other.mHasMasterID) {
+		if (hasMasterID() != other.hasMasterID()) {
 			
 			return false;
 		}
@@ -352,16 +351,16 @@ public class RadinGroupModel extends Model {
 			
 			return false;
 		}
-		if (mRadinGroupID != other.mRadinGroupID) {
+		if (mRID != other.mRID) {
 			
 			return false;
 		}
-		if (mRadinGroupName == null) {
-			if (other.mRadinGroupName != null) {
+		if (mName == null) {
+			if (other.mName != null) {
 				
 				return false;
 			}
-		} else if (!mRadinGroupName.equals(other.mRadinGroupName)) {
+		} else if (!mName.equals(other.mName)) {
 			
 			return false;
 		}
