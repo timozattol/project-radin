@@ -78,7 +78,14 @@ public final class RadinGroupTableHelper implements TableHelper {
 	protected static int getRadinGroupTableSize() {
 		Cursor cursor = Database.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
 				null, null, null, null, null);
-		return cursor.getCount();
+		int numberOfRows;
+		if (cursor != null) {
+			numberOfRows = cursor.getCount();
+			cursor.close();
+		} else {
+			numberOfRows = 0;
+		}
+		return numberOfRows;
 	}
 	
 	/**
