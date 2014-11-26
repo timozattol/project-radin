@@ -98,7 +98,7 @@ public class EspressoRegisterActivity extends
 		Espresso.onView(ViewMatchers.withId(R.id.bic_swift_address_new_user))
 		.perform(ViewActions.typeText("Bic01"));
 		
-		Espresso.onView(ViewMatchers.withId(R.id.createAcountButton))
+		Espresso.onView(ViewMatchers.withId(R.id.sign_up_button))
 		.perform(ViewActions.click());
 	}
 	

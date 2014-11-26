@@ -126,21 +126,22 @@ public class RegisterActivity extends Activity {
 	 */
 	private void retrieveNewUserData() throws JSONException {
 		
-		final CharSequence newUserFirstName = ((TextView) findViewById(id.first_name_new_user))
-				.getText();	      
-		final CharSequence newUserLastName = ((TextView) findViewById(id.last_name_new_user))
-				.getText();
-		final CharSequence newUserUsername = ((TextView) findViewById(id.username_new_user))
-				.getText();
-		final CharSequence newUserEmail = ((TextView) findViewById(id.email_new_user))
-				.getText();
-		final CharSequence newUserPassword = ((TextView) findViewById(id.password_new_user))
-				.getText();
-		final CharSequence newUserAddress = ((TextView) findViewById(id.address_new_user))
-				.getText();
-		final CharSequence newUserIban = ((TextView) findViewById(id.iban_new_user))
-				.getText();
-		final CharSequence newUserBicSwift = ((TextView) findViewById(id.bic_swift_address_new_user))
+		final CharSequence newUserFirstName = 
+				((TextView) findViewById(id.first_name_new_user)).getText();	      
+		final CharSequence newUserLastName = 
+				((TextView) findViewById(id.last_name_new_user)).getText();
+		final CharSequence newUserUsername = 
+				((TextView) findViewById(id.username_new_user)).getText();
+		final CharSequence newUserEmail = 
+				((TextView) findViewById(id.email_new_user)).getText();
+		final CharSequence newUserPassword = 
+				((TextView) findViewById(id.password_new_user)).getText();
+		final CharSequence newUserAddress = 
+				((TextView) findViewById(id.address_new_user)).getText();
+		final CharSequence newUserIban = 
+				((TextView) findViewById(id.iban_new_user)).getText();
+		final CharSequence newUserBicSwift = 
+				((TextView) findViewById(id.bic_swift_address_new_user))
 				.getText();
 		
 		mNewUser.setFirstName(newUserFirstName.toString());
