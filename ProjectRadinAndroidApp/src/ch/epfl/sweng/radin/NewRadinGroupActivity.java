@@ -145,8 +145,9 @@ public class NewRadinGroupActivity extends Activity {
 		builder.setTitle(R.string.multi_friend);
 
 		final ListView listView = new ListView(this);
-		StableArrayAdapter<String> adapter = new StableArrayAdapter<String>(
-				this, android.R.layout.select_dialog_multichoice, mFriends);
+		StableArrayAdapter<String> adapter = new StableArrayAdapter<String>(this, 
+																			android.R.layout.select_dialog_multichoice,
+																			mFriends);
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		for (int i = 0; i < checkedItems.length; i++) {
