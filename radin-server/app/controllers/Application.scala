@@ -30,7 +30,54 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok("done")
   }
 
-  def getTransactionsForGroup(rgid: String) = TODO
+  val jsonTransactions = """
+    {"transaction":[
+     {"T_ID": 1,
+      "T_parentRadinGroupID": 0,
+      "T_debitorID": 0,
+      "T_creatorID": 0,
+      "T_amount": 100,
+      "T_currency": "CHF",
+      "T_dateTime": "2014/01/01 00/00",
+      "T_purpose": "Buy more jewelleries",
+      "T_type": "PAYMENT"
+     },
+    {"T_ID": 2,
+      "T_parentRadinGroupID": 0,
+      "T_debitorID": 0,
+      "T_creatorID": 0,
+      "T_amount": 100,
+      "T_currency": "CHF",
+      "T_dateTime": "2013/02/01 00/00",
+      "T_purpose": "Whatever",
+      "T_type": "PAYMENT"
+     },
+    {"T_ID": 3,
+      "T_parentRadinGroupID": 0,
+      "T_debitorID": 0,
+      "T_creatorID": 0,
+      "T_amount": 100,
+      "T_currency": "CHF",
+      "T_dateTime": "2014/02/01 00/00",
+      "T_purpose": "anything",
+      "T_type": "PAYMENT"
+     },
+    {"T_ID": 4,
+      "T_parentRadinGroupID": 0,
+      "T_debitorID": 0,
+      "T_creatorID": 0,
+      "T_amount": 100,
+      "T_currency": "CHF",
+      "T_dateTime": "2014/01/02 00/00",
+      "T_purpose": "next",
+      "T_type": "PAYMENT"
+     }]
+}
+    """
+  
+  def getTransactionsForGroup(rgid: String) = DBAction { implicit rs =>
+    Ok(jsonTransactions)
+  }
 
   def getTransactionsWithCoeffsForGroup(rgid: String) = TODO
 
