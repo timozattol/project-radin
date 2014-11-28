@@ -4,7 +4,9 @@
 package ch.epfl.sweng.radin.storage.managers;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.StorageManager.ServerConnectionTask;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
@@ -46,8 +48,17 @@ public final class UserStorageManager extends StorageManager<UserModel> {
         return "users";
     }
     
-    public void getParticipantsByGroupId(int radinGroupId, RadinListener<UserModel> callback) {
-    	//TODO implement method
+    public void getAllForGroupId(int radinGroupId, RadinListener<UserModel> callback) {
+		final String ACCESS_URL = "inradingroup";
+		if (isConnected()) {
+			if (!isHashMatchServer()) {
+				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
+				        SERVER_BASE_URL + getTypeUrl() + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId));
+				//Example url: http://radin.epfl.ch/users/inradingroup/1
+				connTask.execute();
+				return;
+			}
+		}
     }
     
     public void getAllFriendsById(int UserId, RadinListener<UserModel> callback) {

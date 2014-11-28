@@ -128,7 +128,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	private void retrieveParticipants() {
 		UserStorageManager usrStorageManager = UserStorageManager
 				.getStorageManager();
-		usrStorageManager.getParticipantsByGroupId(
+		usrStorageManager.getAllForGroupId(
 				mCurrentRadinGroupModel.getRadinGroupID(),
 				new RadinListener<UserModel>() {
 					@Override
@@ -314,13 +314,13 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * For the moment only coeff 1 and 0 availabale (in transaction and not in transaction)
 	 * @return participants with coeff contained in a map
 	 */
-	private  HashMap<UserModel, Integer> setAndgetParticipantsWithCoeff() {
-		HashMap<UserModel, Integer> participantsWithCoeff = new HashMap<UserModel, Integer>();
+	private  HashMap<Integer, Integer> setAndgetParticipantsWithCoeff() {
+		HashMap<Integer, Integer> participantsWithCoeff = new HashMap<Integer, Integer>();
 		for (UserModel usr : mParticipants) {
 			if (mPeopleWhoHaveToPay.contains(usr)) {
-				participantsWithCoeff.put(usr, 1);
+				participantsWithCoeff.put(usr.getId(), 1);
 			} else {
-				participantsWithCoeff.put(usr, 0);
+				participantsWithCoeff.put(usr.getId(), 0);
 			}
 		}
 		return participantsWithCoeff;
