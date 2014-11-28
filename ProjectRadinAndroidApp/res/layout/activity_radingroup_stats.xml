@@ -10,8 +10,32 @@
     tools:context="ch.epfl.sweng.radin.RadinGroupStatsActivity" >
 
     <TextView
+        android:id="@+id/totalAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stats"
-        android:textSize="100sp" />
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/statSelectGraphText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalAmount"
+        android:paddingTop="5sp"
+        android:text="@string/choose_graph"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/statsSelectGraphSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalAmount"
+        android:layout_toRightOf="@id/statSelectGraphText"
+        android:entries="@array/spinner_graph_arrays" />
+    
+    <LinearLayout 
+        android:id="@+id/statsGraphLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
 </RelativeLayout>
