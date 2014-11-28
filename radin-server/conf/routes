@@ -14,11 +14,11 @@ GET        /current-user        @controllers.Application.currentUser
 GET        /custom/login        @controllers.CustomLoginController.login
 GET        /custom/logout       @controllers.CustomLoginController.logout
 
-GET		   /mygroups			@controllers.Application.myGroups
-GET		   /myauthgroups		@controllers.Application.authGroups
-
 GET		   /radingroups			@controllers.Application.jsonFindAll
 POST	   /radingroups			@controllers.Application.jsonInsert
+
+GET		   /transactions/:rgid	@controllers.Application.getTransactionsForGroup(rgid)
+GET		   /transactions/withcoeffs/:rgid	@controllers.Application.getTransactionsWithCoeffsForGroup(rgid)
 
 GET		   /users				@controllers.Application.userList
 POST	   /newuser				@controllers.Application.newUser
