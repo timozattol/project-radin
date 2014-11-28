@@ -4,7 +4,6 @@
 
 # Framework home page
 
-GET		   /insertuser			@controllers.Application.insertUser
 GET		   /startup				@controllers.Application.firstAction
 
 GET        /only-facebook       @controllers.Application.onlyFacebook

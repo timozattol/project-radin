@@ -19,13 +19,19 @@ import database._
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
 
   def firstAction = DBAction { implicit rs =>
-    users.ddl.create
-    radinGroups.ddl.create
+    try {
+      users.ddl.create
+      radinGroups.ddl.create
+    } finally {
+      users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
+      radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
+    }
+
     Ok("done")
   }
-  
+
   def getTransactionsForGroup(rgid: String) = TODO
-  
+
   def getTransactionsWithCoeffsForGroup(rgid: String) = TODO
 
   lazy val users = TableQuery[Users]
@@ -38,26 +44,21 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
         BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toFlatJson(errors)))
       },
       user => {
-    	val newuser = User(user.Uname, user.Upassword, user.Uiban, user.Ulanguage, user.Uaddress, user.Uoptions, user.Uavatar, user.UdeletedAt)
+        val newuser = User(user.U_firstName, user.U_lastName, user.U_username, user.U_password, user.U_email, user.U_address, user.U_iban, user.U_bicSwift, user.U_avatar, user.U_deletedAt)
         users.insert(newuser)
-        
-        val lastid = users.map(_.uid).max.run
+
+        val lastid = users.map(_.U_ID).max.run
         lazy val userlist = users.list
         lazy val lastuser = userlist.filter(_.U_ID == lastid)
-        
+
         Ok(toJson(lastid))
       })
   }
-  
+
   def userList = DBAction { implicit rs =>
     Ok(toJson(users.list))
   }
   //return list of all users
-
-  def insertUser = DBAction { implicit rs =>
-    users.insert(User("username", "myPassword", "no iban", "ch-fr", "EPFL", 0, "", ""))
-    Ok("Done!")
-  }
 
   // a sample action using an authorization implementation
   def onlyFacebook = SecuredAction(WithProvider("facebook")) { implicit request =>
@@ -87,7 +88,9 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   implicit val radinGroupFormat = Json.format[RadinGroup]
 
   def jsonFindAll = DBAction { implicit rs =>
-    Ok(toJson(radinGroups.list))
+    val jsonValue: Seq[(String, JsValue)] = List(("radinGroup", toJson(radinGroups.list)))
+    val jsonResponse: JsObject = JsObject(jsonValue)
+    Ok(jsonResponse)
   }
 
   def jsonInsert = DBAction(parse.json) { implicit rs =>
@@ -96,7 +99,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       Ok(toJson(rg))
     }.getOrElse(BadRequest("invalid json"))
   }
-  
+
 }
 
 // An Authorization implementation that only authorizes uses that logged in using twitter
