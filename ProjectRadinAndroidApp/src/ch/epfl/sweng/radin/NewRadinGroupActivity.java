@@ -33,7 +33,7 @@ import android.widget.Toast;
  *
  */
 public class NewRadinGroupActivity extends Activity {
-	private final int mClientID = 1234; //will be propagated from LoginActivity?
+	private final int mClientID = 1; //will be propagated from LoginActivity?
 	private EditText mNameEdit;
 	private boolean[] checkedItems;
 	private ArrayList<UserModel> mFriendsModel;
