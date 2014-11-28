@@ -8,11 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
  * 
  */
 public class DatabaseFactory {
-	private static final String CREATE_TABLE_USER_RELATIONSHIP = "CREATE TABLE USER_RELATIONSHIP(_UID_SOURCE INT NOT NULL,"
-			+ "_UID_TARGET INT NOT NULL,"
-			+ "RELATION INT NOT NULL,"
-			+ "FOREIGN KEY (_UID_SOURCE, _UID_TARGET), REFERENCES USER(_UID, _UID),"
-			+ "PRIMARY KEY (_UID_SOURCE, _UID_TARGET));";
+	
 	private static final String CREATE_TABLE_MEMBER_IN_RADIN = "CREATE TABLE MEMBER_IN_RADIN("
 			+ "_UID INT NOT NULL,"
 			+ "_RID INT NOT NULL,"
@@ -70,9 +66,6 @@ public class DatabaseFactory {
 			+ "FOREIGN KEY (_RID) REFERENCES RADIN_GROUP(_RID),"
 			+ "PRIMARY KEY(_UID, _RID)" + ");";
 
-	public static void createUsersDatabase(SQLiteDatabase db) {
-		db.execSQL(CREATE_TABLE_USER_RELATIONSHIP);
-	}
 
 	public static void createMembersTable(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE_MEMBER_IN_RADIN);

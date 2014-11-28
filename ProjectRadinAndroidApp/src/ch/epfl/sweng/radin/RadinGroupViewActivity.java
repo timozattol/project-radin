@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 
@@ -39,7 +40,7 @@ public class RadinGroupViewActivity extends Activity {
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		Button notificationsBtn = (Button) findViewById(R.id.notificationButton);
-		notificationsBtn.setOnClickListener(notificationsButtonListener);
+		notificationsBtn.setOnClickListener(radinGrupViewButtonListener);
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,11 +66,23 @@ public class RadinGroupViewActivity extends Activity {
 	    }
 	}
     
-	private OnClickListener notificationsButtonListener = new View.OnClickListener() {		
+	private OnClickListener radinGrupViewButtonListener = new View.OnClickListener() {		
 		@Override
 		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);
-	        startActivity(displayActivityIntent);			
+			int selectedId = v.getId();
+			Intent displayActivityIntent = null;
+			
+			switch (selectedId) {
+				case R.id.notificationButton:
+					displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);
+					break;
+				default:
+					Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+						Toast.LENGTH_SHORT).show();				
+			}
+			if (!(displayActivityIntent == null)) {
+				startActivity(displayActivityIntent);	
+			}			
 		}
 	};
 

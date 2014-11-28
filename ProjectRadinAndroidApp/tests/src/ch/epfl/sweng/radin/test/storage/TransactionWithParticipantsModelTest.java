@@ -3,17 +3,17 @@
  */
 package ch.epfl.sweng.radin.test.storage;
 
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.joda.time.DateTime;
 
+import android.test.AndroidTestCase;
 import ch.epfl.sweng.radin.storage.Currency;
 import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
-import ch.epfl.sweng.radin.storage.UserModel;
-import android.test.AndroidTestCase;
 
 /**
  * @author timozattol
@@ -24,7 +24,7 @@ public class TransactionWithParticipantsModelTest extends AndroidTestCase {
     private DateTime rightNow;
     private DateTime tommorrow;
     private TransactionWithParticipantsModel transactionWithParticipants;
-    private Map<UserModel, Integer> coefficients;
+    private Map<Integer, Integer> coefficients;
     private TransactionModel transaction;
     /* (non-Javadoc)
      * @see android.test.AndroidTestCase#setUp()
@@ -33,11 +33,11 @@ public class TransactionWithParticipantsModelTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         rightNow = DateTime.now();
         tommorrow = rightNow.plusDays(1);
-        coefficients = new HashMap<UserModel, Integer>();
-        UserModel julie = new UserModel("julie", "djeffal", "julie.djeffal@epfl.ch", "Chez julie", "CH00", null, 0);
-        UserModel winny = new UserModel("winny", "thepoo", "winnie.thepoo@honey.com", "Chez winnie", "CH01", null, 1);
-        coefficients.put(julie, 1);
-        coefficients.put(winny, 2);
+        coefficients = new LinkedHashMap<Integer, Integer>();
+        Integer julieID = 0;
+        Integer winnyID = 1;
+        coefficients.put(julieID, 1);
+        coefficients.put(winnyID, 2);
 
         transaction = new TransactionModel(0, 0, 0, 0, DEFAULT_AMOUNT, 
                 Currency.CHF, rightNow, "Julie buys stuff for her and winny", TransactionType.PAYMENT);

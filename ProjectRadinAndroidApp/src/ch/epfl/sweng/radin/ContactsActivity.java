@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+/**
+ * @author Fabien Zellweger
+ * This activity show you you're contacts
+ */
 public class ContactsActivity extends Activity {
 
 	@Override

@@ -16,7 +16,7 @@
         android:textSize="100sp" />
 
     <Button
-        android:id="@+id/myListBtn"
+        android:id="@+id/myRadinGroupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/homeTitle"
@@ -27,21 +27,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/homeTitle"
-        android:layout_toRightOf="@id/myListBtn"
+        android:layout_toRightOf="@id/myRadinGroupBtn"
         android:text="@string/profile" />
 
     <Button
         android:id="@+id/notificationBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/myListBtn"
+        android:layout_below="@id/myRadinGroupBtn"
         android:text="@string/notifications" />
 
     <Button
         android:id="@+id/contactsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/myListBtn"
+        android:layout_below="@id/myRadinGroupBtn"
         android:layout_toRightOf="@id/notificationBtn"
         android:text="@string/contacts" />
 

@@ -21,7 +21,6 @@
     <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
-    
     <string name="home_title">Home</string>
     <string name="my_radingroups">My Radin Groups</string>
     <string name="profile">Profile</string>
@@ -38,6 +37,17 @@
     <string name="stats">Stats</string>
     <string name="create_account">Create new account</string>
     
+    <!-- for DatabaseRadinGroupTableActivity -->
+	<string name="radin_group_table_activity_title">RadinGroup DB Table test</string>
+	<string name="rid">_RID</string>
+	<string name="rg_creation_date_hint">Group creation date[now or tomorrow]</string>
+	<string name="rg_deletion_date_hint">Group deletion date[tomorrow]</string>
+	<string name="rg_end_date_hint">Group end date[tomorrow]</string>
+	<string name="rg_name_hint">Group name</string>
+	<string name="rg_avatar_hint">Avatar location</string>
+	<string name="rg_master_id_hint">RG MasterID</string>
+	<string name="rg_description_hint">RG Description</string>
+	<string name="title_activity_database_radin_group_table">DatabaseRadinGroupTableActivity</string>
     <!-- Linked to register and login activity -->
     <string name="login">Login</string>
     <string name="password">Password</string>
@@ -50,7 +60,6 @@
     <string name="address">Home address</string>
     <string name="bic_swift_address">BIC/SWIFT address</string>
     <string name="sign_up_button_text">Sign up</string>
-    
 
     <!-- NewRadinGroupeActivity -->
     <string name="radin_name">Name</string>
@@ -59,6 +68,7 @@
     <string name="multi_friend">Add friends to list</string>
     <string name="add_info"></string>
     <string name="create_radin_group">Create</string>
+
     <string name="invalid_name">Please add a group name</string>
     <string name="invalid_participants">Please select at least one person to create a groupe</string>
     <string name="rd_group_created">Radin Group created!</string>
@@ -68,7 +78,7 @@
     <string name="profile_first_name">First Name</string>
     <string name="profile_address">Address</string>
     <string name="profile_iban">Iban</string>
-    
+
     <!-- AddExpenseActivity -->
     <string name="creditor">Creditor :</string>
     <string name="debtors">Add debtor(s)</string>
@@ -90,7 +100,6 @@
     <string name="expense_added">Expense added!</string>
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
-    
     
     <!-- Server Toasts -->
     <string name="server_error">There was an error, please try again</string>
