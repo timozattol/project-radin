@@ -21,7 +21,7 @@ GET		   /transactions/withcoeffs/:rgid	@controllers.Application.getTransactionsW
 
 GET		   /users				@controllers.Application.userList
 GET		   /users/inradingroup/:rgid			@controllers.Application.getUsersInRG(rgid)
-# GET		   /login/:username		TODO
+# POST		   /login/:username		TODO
 POST	   /users				@controllers.Application.newUser
 
 # Map static resources from the /public folder to the /assets URL path

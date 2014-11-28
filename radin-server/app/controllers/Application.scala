@@ -146,6 +146,9 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       Ok(toJson(rg))
     }.getOrElse(BadRequest("invalid json"))
   }
+  
+  def getUsersInRG(rgid: String) = TODO
+  
 
 }
 
