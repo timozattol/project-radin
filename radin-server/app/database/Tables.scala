@@ -33,7 +33,7 @@ class Tables {
 
   lazy val users = TableQuery[Users]
 
-  class UserRelationship(tag: Tag) extends Table[(Int, Int, Int)](tag, "USER_RELATIONSHIP") {
+  class UserRelationships(tag: Tag) extends Table[(Int, Int, Int)](tag, "USER_RELATIONSHIP") {
 
     def uidSource: Column[Int] = column[Int]("UID_SOURCE", O.NotNull)
     def uidTarget: Column[Int] = column[Int]("UID_TARGET", O.NotNull)
