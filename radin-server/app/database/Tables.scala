@@ -39,8 +39,8 @@ class Tables {
     def uidTarget: Column[Int] = column[Int]("UID_TARGET", O.NotNull)
     def URrelation: Column[Int] = column[Int]("UR_RELATION", O.NotNull)
 
-    def sourceUser = foreignKey("SOURCE_USER", uidSource, users)(_.uid)
-    def targetUser = foreignKey("TARGET_USER", uidTarget, users)(_.uid)
+    def sourceUser = foreignKey("SOURCE_USER", uidSource, users)(_.U_ID)
+    def targetUser = foreignKey("TARGET_USER", uidTarget, users)(_.U_ID)
     def URpk = primaryKey("URpk", (uidSource, uidTarget))
 
     def * = (uidSource, uidTarget, URrelation)
@@ -55,7 +55,7 @@ class Tables {
     def MRpermission: Column[Int] = column[Int]("MR_PERMISSION", O.NotNull)
     def MRdeletedAt: Column[String] = column[String]("MR_DELETED_AT")
 
-    def memberUser = foreignKey("MEMBER_USER", MRuid, users)(_.uid)
+    def memberUser = foreignKey("MEMBER_USER", MRuid, users)(_.U_ID)
     def memberRadinGroup = foreignKey("MEMBER_RG", MRrid, radinGroups)(_.rid)
     def MRpk = primaryKey("MRpk", (MRuid, MRrid))
 
@@ -83,7 +83,7 @@ class Tables {
     def MGdeletedAt: Column[String] = column[String]("MB_DELETED_AT")
 
     def groupPreset = foreignKey("GROUP_GP", MGgid, groupPresets)(_.GPgid)
-    def groupUser = foreignKey("GROUP_U", MGuid, users)(_.uid)
+    def groupUser = foreignKey("GROUP_U", MGuid, users)(_.U_ID)
     def MGpk = primaryKey("MGpk", (MGgid, MGuid))
 
     def * = (MGgid, MGuid, MGdeletedAt)
@@ -99,9 +99,9 @@ class Tables {
     def Itargetuid: Column[Int] = column[Int]("I_TARGET_UID", O.NotNull)
     def IdeletedAt: Column[String] = column[String]("I_DELETED_AT")
 
-    def invitationUser = foreignKey("INVITATION_U", Iuid, users)(_.uid)
+    def invitationUser = foreignKey("INVITATION_U", Iuid, users)(_.U_ID)
     def invitationRadinGroup = foreignKey("INVITATION_RG", Irid, radinGroups)(_.rid)
-    def invitationTarget = foreignKey("INTIVATION_TU", Itargetuid, users)(_.uid)
+    def invitationTarget = foreignKey("INTIVATION_TU", Itargetuid, users)(_.U_ID)
     def Ipk = primaryKey("Ipk", (Iuid, Irid))
 
     def * = (Iuid, Irid, IstartDate, IacceptedDate, Itargetuid, IdeletedAt)
@@ -115,7 +115,7 @@ class Tables {
     def UCcoefficient: Column[Int] = column[Int]("UC_COEFFICIENT", O.NotNull)
 
     def concernsTransaction = foreignKey("CONCERNED_TID", UCtid, transactions)(_.tid)
-    def concernsUser = foreignKey("CONCERNED_UID", UCuid, users)(_.uid)
+    def concernsUser = foreignKey("CONCERNED_UID", UCuid, users)(_.U_ID)
     def UCpk = primaryKey("UCpk", (UCtid, UCuid))
 
     def * = (UCtid, UCuid, UCcoefficient)
@@ -124,7 +124,7 @@ class Tables {
 
 }
 
-case class RadinGroup(RGname: String, RGstartDate: String, RGdescription: String, RGmasterID: Int, RGavatar: String, RGendDate: String, RGdeletedAt: String, id: Option[Int] = None)
+case class RadinGroup(RG_name: String, RG_creationDate: String, RG_description: String, RG_masterID: Int, RG_avatar: String, RG_deletedAt: String, RG_ID: Option[Int] = None)
 
 class RadinGroups(tag: Tag) extends Table[RadinGroup](tag, "RADINGROUP") {
   def rid: Column[Int] = column[Int]("RID", O.PrimaryKey, O.AutoInc)
@@ -133,25 +133,26 @@ class RadinGroups(tag: Tag) extends Table[RadinGroup](tag, "RADINGROUP") {
   def RGdescription: Column[String] = column[String]("RG_DESCRIPTION")
   def RGmasterRID: Column[Int] = column[Int]("RG_MASTERRID")
   def RGavatar: Column[String] = column[String]("RG_AVATAR")
-  def RGendDate: Column[String] = column[String]("RG_ENDDATE")
   def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
 
-  def * = (RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, RGendDate, RGdeletedAt, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
+  def * = (RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, RGdeletedAt, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
 }
 
-case class User(Uname: String, Upassword: String, Uiban: String, Ulanguage: String, Uaddress: String, Uoptions: Int, Uavatar: String, UdeletedAt: String, U_ID: Option[Int] = None)
+case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String, U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_avatar: String, U_deletedAt: String, U_ID: Option[Int] = None)
 
 class Users(tag: Tag) extends Table[User](tag, "USER") {
 
-  def Uname: Column[String] = column[String]("U_NAME", O.NotNull)
-  def Upassword: Column[String] = column[String]("U_PASSWORD", O.NotNull)
-  def Uiban: Column[String] = column[String]("U_IBAN")
-  def Ulanguage: Column[String] = column[String]("U_LANGUAGE", O.NotNull)
-  def Uaddress: Column[String] = column[String]("U_ADDRESS")
-  def Uoptions: Column[Int] = column[Int]("U_OPTIONS", O.NotNull)
-  def Uavatar: Column[String] = column[String]("U_AVATAR")
-  def UdeletedAt: Column[String] = column[String]("U_DELETED_AT")
-  def uid: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
+  def U_firstName: Column[String] = column[String]("U_NAME", O.NotNull)
+  def U_lastName: Column[String] = column[String]("U_LAST", O.NotNull)
+  def U_username: Column[String] = column[String]("U_USERNAME", O.NotNull)
+  def U_password: Column[String] = column[String]("U_PASSWORD", O.NotNull)
+  def U_email: Column[String] = column[String]("U_IBAN")
+  def U_address: Column[String] = column[String]("U_LANGUAGE", O.NotNull)
+  def U_iban: Column[String] = column[String]("U_ADDRESS")
+  def U_bicSwift: Column[String] = column[String]("U_OPTIONS", O.NotNull)
+  def U_avatar: Column[String] = column[String]("U_AVATAR")
+  def U_deletedAt: Column[String] = column[String]("U_DELETED_AT")
+  def U_ID: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
 
-  def * = (Uname, Upassword, Uiban, Ulanguage, Uaddress, Uoptions, Uavatar, UdeletedAt, uid.?) <> (User.tupled, User.unapply)
+  def * = (U_firstName, U_lastName, U_username, U_password, U_email, U_address, U_iban, U_bicSwift, U_avatar, U_deletedAt, U_ID.?) <> (User.tupled, User.unapply)
 }
