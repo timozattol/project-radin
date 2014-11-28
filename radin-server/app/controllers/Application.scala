@@ -23,6 +23,10 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     radinGroups.ddl.create
     Ok("done")
   }
+  
+  def getTransactionsForGroup(rgid: String) = TODO
+  
+  def getTransactionsWithCoeffsForGroup(rgid: String) = TODO
 
   lazy val users = TableQuery[Users]
   implicit val userFormat = Json.format[User]
@@ -34,13 +38,14 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
         BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toFlatJson(errors)))
       },
       user => {
-        users.insert(user)
+    	val newuser = User(user.Uname, user.Upassword, user.Uiban, user.Ulanguage, user.Uaddress, user.Uoptions, user.Uavatar, user.UdeletedAt)
+        users.insert(newuser)
         
         val lastid = users.map(_.uid).max.run
-        val userlist = users.list
-        val lastuser = userlist.filter(_.U_ID == lastid)
+        lazy val userlist = users.list
+        lazy val lastuser = userlist.filter(_.U_ID == lastid)
         
-        Ok(toJson(lastuser))
+        Ok(toJson(lastid))
       })
   }
   
@@ -67,53 +72,6 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(views.html.linkResult(request.user))
   }
 
-  // example Json value
-  val json: JsValue = Json.parse("""
-      {"radinGroup":[
-   {"RG_ID": "0",
-    "RG_name": "Scrum expenses",
-    "RG_creationDate": "2014/01/01 00/00",
-    "RG_description": "A cool group",
-    "RG_avatar": "img/avatar1.png",
-    "RG_deletedAt": "2014/01/01 00/00"
-    },
-    {"RG_ID": "0",
-    "RG_name": "Coloc",
-    "RG_creationDate": "2014/01/01 00/00",
-    "RG_description": "The coolest group",
-    "RG_avatar": "img/avatar1.png",
-    "RG_deletedAt": "2014/01/01 00/00"
-    },
-    {"RG_ID": "0",
-    "RG_name": "Sweng-Swag",
-    "RG_creationDate": "2014/01/01 00/00",
-    "RG_description": "A cooler group",
-    "RG_avatar": "img/avatar1.png",
-    "RG_deletedAt": "2014/01/01 00/00"
-    }]
-   }
-      """)
-
-  val authJson: JsValue = Json.parse("""
-       {"radinGroup":[
-   {"RG_ID": "1",
-    "RG_name": "Auth Group 1",
-    "RG_creationDate": "2014/01/01 00/00",
-    "RG_description": "A cooler group",
-    "RG_avatar": "img/avatar1.png",
-    "RG_deletedAt": "2014/01/01 00/00"
-    }]
-   }
-       """)
-
-  def myGroups = Action {
-    Ok(json)
-  }
-
-  def authGroups = SecuredAction { implicit request =>
-    Ok(authJson)
-  }
-
   /**
    * Sample use of SecureSocial.currentUser. Access the /current-user to test it
    */
@@ -138,7 +96,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       Ok(toJson(rg))
     }.getOrElse(BadRequest("invalid json"))
   }
-
+  
 }
 
 // An Authorization implementation that only authorizes uses that logged in using twitter
