@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    >
+    
+    <TableRow>
+    	<TextView 
+		    android:id="@+id/transaction_amount"
+		    android:layout_width="0dp"
+		    android:layout_weight=".3"
+		    android:layout_height="wrap_content" 
+		    android:textStyle="bold" >
+		</TextView>
+		<TextView 
+		    android:id="@+id/transaction_purpose"
+	        android:layout_width="0dp"
+	   		android:layout_weight=".7"
+		    android:layout_height="wrap_content" >
+		
+		</TextView>
+    </TableRow>
+    <TableRow>
+        <TextView 
+		    android:id="@+id/transaction_creditor"
+		    android:layout_width="0dp"
+		    android:layout_weight=".3"
+		    android:layout_height="wrap_content" 
+		    android:textStyle="italic" >
+		</TextView>
+
+		<TextView 
+		    android:id="@+id/transaction_users_concerned"
+		    android:layout_width="0dp"
+		    android:layout_weight=".7"
+		    android:layout_height="wrap_content" 
+		    android:textStyle="italic" 
+		    android:textColor="#cccccc">
+		</TextView>
+		
+    </TableRow>
+	
+    
+</TableLayout>
