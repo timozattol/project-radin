@@ -3,6 +3,8 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
@@ -42,5 +44,17 @@ public final class TransactionStorageManager extends StorageManager<TransactionM
     @Override
     protected String getTypeUrl() {
         return "transactions";
+    }
+    
+    public void getAllByRadinGroupId(int radinGroupId, RadinListener<TransactionModel> callback) {
+        if (isConnected()) {
+            if (!isHashMatchServer()) {
+                ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
+                        SERVER_BASE_URL + "transactions/" + radinGroupId);
+                connTask.execute();
+                return;
+            }
+        }
+        //TODO take the data from the local DB
     }
 }
