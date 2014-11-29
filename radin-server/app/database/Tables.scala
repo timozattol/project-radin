@@ -3,33 +3,16 @@ package database
 //import scala.slick.driver.H2Driver.simple._
 import scala.slick.lifted.{ ProvenShape, ForeignKeyQuery }
 import scala.slick.driver.SQLiteDriver.simple._
-
 import play.api.mvc.BodyParsers._
 import play.api.libs.json.Json
 import play.api.libs.json.Json._
+import controllers.Application
 
-class Tables {
+object Tables {
 
   lazy val radinGroups = TableQuery[RadinGroups]
 
-  class Transaction(tag: Tag) extends Table[(Int, Int, Int, Int, Int, String, Int, String, Int, String, Int, String)](tag, "TRANSACTION") {
-
-    def tid: Column[Int] = column[Int]("TID", O.PrimaryKey, O.AutoInc, O.NotNull)
-    def rid: Column[Int] = column[Int]("RID", O.NotNull)
-    def TaddedBy: Column[Int] = column[Int]("T_ADDEDBY", O.NotNull)
-    def Tdebitor: Column[Int] = column[Int]("T_DEBITOR", O.NotNull)
-    def Tamount: Column[Int] = column[Int]("T_AMOUNT", O.NotNull)
-    def Tpurpose: Column[String] = column[String]("T_PURPOSE", O.NotNull)
-    def Tcurrency: Column[Int] = column[Int]("T_CURRENCY", O.NotNull)
-    def Tdate: Column[String] = column[String]("T_DATE", O.NotNull)
-    def Ttype: Column[Int] = column[Int]("T_TRANSACTIONTYPE", O.NotNull)
-    def Tjustificative: Column[String] = column[String]("T_JUSTIFICATIVE")
-    def TmasterTID: Column[Int] = column[Int]("T_MASTERTID")
-    def TdeletedAt: Column[String] = column[String]("T_DELETEDAT")
-
-    def * = (tid, rid, TaddedBy, Tdebitor, Tamount, Tpurpose, Tcurrency, Tdate, Ttype, Tjustificative, TmasterTID, TdeletedAt)
-  }
-  lazy val transactions = TableQuery[Transaction]
+  lazy val transactions = TableQuery[Transactions]
 
   lazy val users = TableQuery[Users]
 
@@ -122,37 +105,58 @@ class Tables {
   }
   lazy val userConcernedByTransactions = TableQuery[UserConcernedByTransaction]
 
-}
+  case class RadinGroup(RG_name: String, RG_creationDate: String, RG_description: String, RG_masterID: Int, RG_avatar: String, RG_deletedAt: String, RG_ID: Option[Int] = None)
 
-case class RadinGroup(RG_name: String, RG_creationDate: String, RG_description: String, RG_masterID: Int, RG_avatar: String, RG_deletedAt: String, RG_ID: Option[Int] = None)
+  class RadinGroups(tag: Tag) extends Table[RadinGroup](tag, "RADINGROUP") {
+    def rid: Column[Int] = column[Int]("RID", O.PrimaryKey, O.AutoInc)
+    def RGname: Column[String] = column[String]("RG_NAME", O.NotNull)
+    def RGstartDate: Column[String] = column[String]("RG_STARTDATE", O.NotNull)
+    def RGdescription: Column[String] = column[String]("RG_DESCRIPTION")
+    def RGmasterRID: Column[Int] = column[Int]("RG_MASTERRID")
+    def RGavatar: Column[String] = column[String]("RG_AVATAR")
+    def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
 
-class RadinGroups(tag: Tag) extends Table[RadinGroup](tag, "RADINGROUP") {
-  def rid: Column[Int] = column[Int]("RID", O.PrimaryKey, O.AutoInc)
-  def RGname: Column[String] = column[String]("RG_NAME", O.NotNull)
-  def RGstartDate: Column[String] = column[String]("RG_STARTDATE", O.NotNull)
-  def RGdescription: Column[String] = column[String]("RG_DESCRIPTION")
-  def RGmasterRID: Column[Int] = column[Int]("RG_MASTERRID")
-  def RGavatar: Column[String] = column[String]("RG_AVATAR")
-  def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
+    def * = (RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, RGdeletedAt, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
+  }
 
-  def * = (RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, RGdeletedAt, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
-}
+  case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String, U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_avatar: String, U_deletedAt: String, U_ID: Option[Int] = None)
 
-case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String, U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_avatar: String, U_deletedAt: String, U_ID: Option[Int] = None)
+  class Users(tag: Tag) extends Table[User](tag, "USER") {
 
-class Users(tag: Tag) extends Table[User](tag, "USER") {
+    def U_firstName: Column[String] = column[String]("U_NAME", O.NotNull)
+    def U_lastName: Column[String] = column[String]("U_LAST", O.NotNull)
+    def U_username: Column[String] = column[String]("U_USERNAME", O.NotNull)
+    def U_password: Column[String] = column[String]("U_PASSWORD", O.NotNull)
+    def U_email: Column[String] = column[String]("U_IBAN")
+    def U_address: Column[String] = column[String]("U_LANGUAGE", O.NotNull)
+    def U_iban: Column[String] = column[String]("U_ADDRESS")
+    def U_bicSwift: Column[String] = column[String]("U_OPTIONS", O.NotNull)
+    def U_avatar: Column[String] = column[String]("U_AVATAR")
+    def U_deletedAt: Column[String] = column[String]("U_DELETED_AT")
+    def U_ID: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
 
-  def U_firstName: Column[String] = column[String]("U_NAME", O.NotNull)
-  def U_lastName: Column[String] = column[String]("U_LAST", O.NotNull)
-  def U_username: Column[String] = column[String]("U_USERNAME", O.NotNull)
-  def U_password: Column[String] = column[String]("U_PASSWORD", O.NotNull)
-  def U_email: Column[String] = column[String]("U_IBAN")
-  def U_address: Column[String] = column[String]("U_LANGUAGE", O.NotNull)
-  def U_iban: Column[String] = column[String]("U_ADDRESS")
-  def U_bicSwift: Column[String] = column[String]("U_OPTIONS", O.NotNull)
-  def U_avatar: Column[String] = column[String]("U_AVATAR")
-  def U_deletedAt: Column[String] = column[String]("U_DELETED_AT")
-  def U_ID: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
+    def * = (U_firstName, U_lastName, U_username, U_password, U_email, U_address, U_iban, U_bicSwift, U_avatar, U_deletedAt, U_ID.?) <> (User.tupled, User.unapply)
+  }
 
-  def * = (U_firstName, U_lastName, U_username, U_password, U_email, U_address, U_iban, U_bicSwift, U_avatar, U_deletedAt, U_ID.?) <> (User.tupled, User.unapply)
+  case class Transaction(T_parentRadinGroupID: Int, T_creatorID: Int, T_debitorID: Int, T_amount: Int, T_currency: String, T_dateTime: String, T_purpose: String, T_type: String, T_ID: Option[Int] = None)
+
+  class Transactions(tag: Tag) extends Table[Transaction](tag, "TRANSACTION") {
+
+    def tid: Column[Int] = column[Int]("_TID", O.PrimaryKey, O.AutoInc, O.NotNull)
+    def rid: Column[Int] = column[Int]("_RID", O.PrimaryKey, O.NotNull)
+    def Tdebitor: Column[Int] = column[Int]("T_DEBITOR", O.NotNull)
+    def TaddedBy: Column[Int] = column[Int]("T_ADDEDBY", O.NotNull)
+    def Tamount: Column[Int] = column[Int]("T_AMOUNT", O.NotNull)
+    def Tpurpose: Column[String] = column[String]("T_PURPOSE", O.NotNull)
+    def Tcurrency: Column[String] = column[String]("T_CURRENCY", O.NotNull)
+    def Tdate: Column[String] = column[String]("T_DATE", O.NotNull)
+    def Ttype: Column[String] = column[String]("T_TRANSACTIONTYPE", O.NotNull)
+
+    def concernsRadinGroup = foreignKey("CONCERNED_RID", rid, radinGroups)(_.rid)
+    def concernsCreatorUser = foreignKey("CONCERNED_TCREATOR", TaddedBy, users)(_.U_ID)
+    def concernsDebitorUser = foreignKey("CONCERNEC_TDEBITOR", Tdebitor, users)(_.U_ID)
+
+    def * = (rid, TaddedBy, Tdebitor, Tamount, Tcurrency, Tdate, Tpurpose, Ttype, tid.?) <> (Transaction.tupled, Transaction.unapply)
+  }
+
 }
