@@ -15,6 +15,7 @@ import play.api.mvc.BodyParsers._
 import play.api.libs.json._
 import play.api.libs.json.Json._
 import database._
+import database.Tables._
 
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
 
@@ -22,9 +23,13 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     try {
       users.ddl.create
       radinGroups.ddl.create
+      transactions.ddl.create
     } finally {
       users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
+      toJson(jsonTransactions).validate[Transaction].map { t =>
+        transactions += t
+      }
     }
 
     Ok("done")
@@ -46,7 +51,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       "T_parentRadinGroupID": 0,
       "T_debitorID": 0,
       "T_creatorID": 0,
-      "T_amount": 100,
+      "T_amount": 101,
       "T_currency": "CHF",
       "T_dateTime": "2013/02/01 00/00",
       "T_purpose": "Whatever",
@@ -56,7 +61,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       "T_parentRadinGroupID": 0,
       "T_debitorID": 0,
       "T_creatorID": 0,
-      "T_amount": 100,
+      "T_amount": 102,
       "T_currency": "CHF",
       "T_dateTime": "2014/02/01 00/00",
       "T_purpose": "anything",
@@ -66,7 +71,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       "T_parentRadinGroupID": 0,
       "T_debitorID": 0,
       "T_creatorID": 0,
-      "T_amount": 100,
+      "T_amount": 103,
       "T_currency": "CHF",
       "T_dateTime": "2014/01/02 00/00",
       "T_purpose": "next",
@@ -74,14 +79,19 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
      }]
 }
     """
-  
-  def getTransactionsForGroup(rgid: String) = DBAction { implicit rs =>
-    Ok(jsonTransactions)
+
+  implicit val transactionFormat = Json.format[Transaction]
+
+  def getTransactionsForGroup(rgid: Int) = DBAction { implicit rs =>
+    val transactionList = toJson(transactions.list.filter(_.T_parentRadinGroupID == rgid))
+    val jsonValue: Seq[(String, JsValue)] = List(("transaction", transactionList))
+    val jsonResponse: JsObject = JsObject(jsonValue)
+    Ok(jsonResponse)
   }
 
-  def getTransactionsWithCoeffsForGroup(rgid: String) = TODO
+  def getTransactionsWithCoeffsForGroup(rgid: Int) = TODO
 
-  lazy val users = TableQuery[Users]
+  //  lazy val users = TableQuery[Users]
   implicit val userFormat = Json.format[User]
 
   def newUser = DBAction(BodyParsers.parse.json) { implicit rs =>
@@ -131,7 +141,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }
   }
 
-  lazy val radinGroups = TableQuery[RadinGroups]
+  //  lazy val radinGroups = TableQuery[RadinGroups]
   implicit val radinGroupFormat = Json.format[RadinGroup]
 
   def jsonFindAll = DBAction { implicit rs =>
@@ -146,9 +156,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       Ok(toJson(rg))
     }.getOrElse(BadRequest("invalid json"))
   }
-  
+
   def getUsersInRG(rgid: String) = TODO
-  
 
 }
 

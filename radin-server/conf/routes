@@ -16,11 +16,11 @@ GET        /custom/logout       @controllers.CustomLoginController.logout
 GET		   /radingroups			@controllers.Application.jsonFindAll
 POST	   /radingroups			@controllers.Application.jsonInsert
 
-GET		   /transactions/:rgid	@controllers.Application.getTransactionsForGroup(rgid)
+GET		   /transactions/:rgid	@controllers.Application.getTransactionsForGroup(rgid: Int)
 GET		   /transactions/withcoeffs/:rgid	@controllers.Application.getTransactionsWithCoeffsForGroup(rgid)
 
 GET		   /users				@controllers.Application.userList
-GET		   /users/inradingroup/:rgid			@controllers.Application.getUsersInRG(rgid)
+GET		   /users/inradingroup/:rgid			@controllers.Application.getUsersInRG(rgid: Int)
 # POST		   /login/:username		TODO
 POST	   /users				@controllers.Application.newUser
 
