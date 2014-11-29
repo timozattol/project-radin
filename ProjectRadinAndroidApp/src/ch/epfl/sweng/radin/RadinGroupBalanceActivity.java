@@ -16,10 +16,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -32,6 +36,7 @@ import android.widget.Toast;
 	private List<UserModel> mParticipants;
 	private List<TransactionWithParticipantsModel> mTransactions;
 	private final int TIME_OUT = 5000;
+	private final static int TEXT_SIZE = 30;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -151,10 +156,22 @@ import android.widget.Toast;
 	}
 	
 	private void drawBalances(HashMap<Integer, Double> userBalances) {
-		//TODO get textfields and insert values
+		LinearLayout radinGroupBalanceLinearLayout = (LinearLayout) findViewById(R.id.radinGroupBalanceLinearLayout);
+		radinGroupBalanceLinearLayout.setGravity(Gravity.LEFT);
 		
+		ProgressBar progressBar = (ProgressBar) findViewById(R.id.radinGroupBalanceProgressBar);
+		radinGroupBalanceLinearLayout.removeView(progressBar);
+		
+		int i = 0;
 		for(UserModel participant : mParticipants) {
-			print(userBalances.get(participant.getId()));
+			TextView userBalanceTextView = new TextView(this);
+			String userName = participant.getFirstName();
+			userBalanceTextView.setText(userName + " owes: " + userBalances.get(participant.getId()));
+			userBalanceTextView.setTextSize(TEXT_SIZE);
+			userBalanceTextView.setTag(i);
+			i++;
+			
+			radinGroupBalanceLinearLayout.addView(userBalanceTextView);
 		}
 	}
 	
