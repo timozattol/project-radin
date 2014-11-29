@@ -14,7 +14,6 @@ import play.api.Play.current
 import play.api.mvc.BodyParsers._
 import play.api.libs.json._
 import play.api.libs.json.Json._
-import database._
 import database.Tables._
 
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
@@ -26,59 +25,16 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       transactions.ddl.create
     } finally {
       users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
+      users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", "", ""))
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
-      toJson(jsonTransactions).validate[Transaction].map { t =>
-        transactions += t
-      }
+      transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
+      transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
+      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
+      transactions.insert(Transaction(1, 2, 2, 150, "CHF", "2014/01/02 00/00", "Cooler expense", "PAYMENT"))
     }
 
     Ok("done")
   }
-
-  val jsonTransactions = """
-    {"transaction":[
-     {"T_ID": 1,
-      "T_parentRadinGroupID": 0,
-      "T_debitorID": 0,
-      "T_creatorID": 0,
-      "T_amount": 100,
-      "T_currency": "CHF",
-      "T_dateTime": "2014/01/01 00/00",
-      "T_purpose": "Buy more jewelleries",
-      "T_type": "PAYMENT"
-     },
-    {"T_ID": 2,
-      "T_parentRadinGroupID": 0,
-      "T_debitorID": 0,
-      "T_creatorID": 0,
-      "T_amount": 101,
-      "T_currency": "CHF",
-      "T_dateTime": "2013/02/01 00/00",
-      "T_purpose": "Whatever",
-      "T_type": "PAYMENT"
-     },
-    {"T_ID": 3,
-      "T_parentRadinGroupID": 0,
-      "T_debitorID": 0,
-      "T_creatorID": 0,
-      "T_amount": 102,
-      "T_currency": "CHF",
-      "T_dateTime": "2014/02/01 00/00",
-      "T_purpose": "anything",
-      "T_type": "PAYMENT"
-     },
-    {"T_ID": 4,
-      "T_parentRadinGroupID": 0,
-      "T_debitorID": 0,
-      "T_creatorID": 0,
-      "T_amount": 103,
-      "T_currency": "CHF",
-      "T_dateTime": "2014/01/02 00/00",
-      "T_purpose": "next",
-      "T_type": "PAYMENT"
-     }]
-}
-    """
 
   implicit val transactionFormat = Json.format[Transaction]
 
@@ -90,6 +46,10 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   def getTransactionsWithCoeffsForGroup(rgid: Int) = TODO
+  
+  def getAllTransactions = DBAction { implicit rs =>
+    Ok(toJson(transactions.list))
+  }
 
   //  lazy val users = TableQuery[Users]
   implicit val userFormat = Json.format[User]
@@ -157,7 +117,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }.getOrElse(BadRequest("invalid json"))
   }
 
-  def getUsersInRG(rgid: String) = TODO
+  def getUsersInRG(rgid: Int) = TODO
 
 }
 
