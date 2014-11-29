@@ -1,6 +1,18 @@
 package ch.epfl.sweng.radin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
+import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
+import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,14 +20,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 /**
  * 
  * @author Fabien Zellweger
  *
  */
-public class RadinGroupBalanceActivity extends Activity {
+@SuppressLint("UseSparseArrays") public class RadinGroupBalanceActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
+	private List<UserModel> mParticipants;
+	private List<TransactionWithParticipantsModel> mTransactions;
+	private final int TIME_OUT = 5000;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +43,40 @@ public class RadinGroupBalanceActivity extends Activity {
 		
 		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.balanceRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
+		
+		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
+		userStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(),
+				new RadinListener<UserModel>() {
+			
+					@Override
+					public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+						if(status == StorageManagerRequestStatus.SUCCESS) {
+							mParticipants = items;
+							mParticipants.notify();
+						} else {
+							displayErrorToast("Failed to get users for this group");
+						}
+					}
+		});
+		
+		TransactionWithParticipantsStorageManager storageManager = 
+				TransactionWithParticipantsStorageManager.getStorageManager();
+		storageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(), 
+				new RadinListener<TransactionWithParticipantsModel>() {
+
+			@Override
+			public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
+				if(status == StorageManagerRequestStatus.SUCCESS) {
+					mTransactions = items;
+					mTransactions.notify();
+				} else {
+					displayErrorToast("Failed to get Transactions for this group");
+				}
+			}
+		});
+
+		
+		drawBalances(calculateBalances());
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,5 +100,66 @@ public class RadinGroupBalanceActivity extends Activity {
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	private HashMap<Integer, Double> calculateBalances() {		
+		HashMap<Integer, Double> userBalances = new HashMap<Integer, Double>();		
+		
+		if(mParticipants == null) {
+			try {
+				mParticipants.wait(TIME_OUT);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for(UserModel participant : mParticipants) {
+			userBalances.put(participant.getId(), 0.0);
+		}
+		
+		if(mTransactions == null) {
+			try {
+				mTransactions.wait(TIME_OUT);
+			} catch (InterruptedException e){
+				// TODO fix
+				e.printStackTrace();
+			}
+		}
+		
+		for(TransactionWithParticipantsModel transaction : mTransactions) {
+			double transactionAmount = transaction.getAmount();
+			Map<Integer, Integer> usersAndCoefficients = transaction.getUsersWithCoefficients();
+			int sumCoefficients = 0;
+			
+			for(Integer coefficient : usersAndCoefficients.values()) {
+				sumCoefficients += coefficient;
+			}
+			
+			for(Integer participant : userBalances.keySet()) {
+				Double oldBalance = userBalances.get(participant);
+				Double newBalance = transactionAmount * (usersAndCoefficients.get(participant) / sumCoefficients);
+				
+				if(transaction.getCreatorID() == participant) {
+					newBalance += transactionAmount;
+				}
+				
+				userBalances.put(participant, oldBalance + newBalance);
+			}
+		}
+		return userBalances;
+	}
+	
+	private void drawBalances(HashMap<Integer, Double> userBalances) {
+		//TODO get textfields and insert values
+		
+		for(UserModel participant : mParticipants) {
+			print(userBalances.get(participant.getId()));
+		}
+	}
+	
+	
+	private void displayErrorToast(String message) {
+	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 }
