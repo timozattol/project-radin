@@ -33,6 +33,8 @@ class Tables {
 
   lazy val users = TableQuery[Users]
 
+  case class UserRelationship(uidSource: Int, uidTarget: Int, URrelation: Int)
+  
   class UserRelationships(tag: Tag) extends Table[(Int, Int, Int)](tag, "USER_RELATIONSHIP") {
 
     def uidSource: Column[Int] = column[Int]("UID_SOURCE", O.NotNull)
@@ -43,8 +45,9 @@ class Tables {
     def targetUser = foreignKey("TARGET_USER", uidTarget, users)(_.U_ID)
     def URpk = primaryKey("URpk", (uidSource, uidTarget))
 
-    def * = (uidSource, uidTarget, URrelation)
+    def * = (uidSource, uidTarget, URrelation) <> (UserRelationship.tupled, UserRelationship.unapply)
   }
+  
   lazy val userRelationships = TableQuery[UserRelationship]
 
   class MemberInRadin(tag: Tag) extends Table[(Int, Int, String, Int, String)](tag, "MEMBER_IN_RADIN") {
