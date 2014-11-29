@@ -1,24 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/addExpenseRadinGroupLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ch.epfl.sweng.radin.RadinGroupAddExpenseActivity" >
+    tools:context="ch.epfl.sweng.radin.RadinGroupAddExpenseActivity"
+    android:orientation="vertical">
     
-	<!-- Relative layout wrapping all layouts needed for the actionBar -->
-      <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp" >
+    <!-- Relative layout wrapping all layouts needed for the actionBar -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-            
+
             <TextView
                 android:id="@+id/title_add_expense"
                 android:layout_width="wrap_content"
@@ -27,7 +28,7 @@
                 android:layout_alignParentTop="true"
                 android:text="@string/add_expense_string"
                 android:textSize="27sp" />
-            
+
             <EditText
                 android:id="@+id/purpose_title"
                 android:layout_width="wrap_content"
@@ -38,6 +39,7 @@
                 android:layout_marginTop="12dp"
                 android:hint="@string/purpose_hint"
                 android:maxLength="100" >
+
                 <requestFocus />
             </EditText>
 
@@ -119,7 +121,7 @@
                 android:layout_marginTop="15sp"
                 android:onClick="sendExpense"
                 android:text="@string/add_this_expense" />
-           
+
             <TextView
                 android:id="@+id/creditor_text"
                 android:layout_width="wrap_content"
@@ -129,7 +131,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/creditor"
                 android:textSize="20sp" />
-            
+
             <TextView
                 android:id="@+id/creditor_selected"
                 android:layout_width="wrap_content"
@@ -139,9 +141,15 @@
                 android:layout_marginLeft="5sp"
                 android:layout_toRightOf="@id/creditor_text"
                 android:text="@string/creditor_selected" />
-
-
-
         </RelativeLayout>
-	</ScrollView>
-</RelativeLayout>
+    </ScrollView>
+    
+        <!-- Relative for the ActionBar, do not add code in this -->
+
+    <RelativeLayout
+        android:id="@+id/addExpenseRadinGroupLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="9" />
+
+</LinearLayout>
