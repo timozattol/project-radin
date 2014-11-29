@@ -46,11 +46,11 @@ public final class TransactionStorageManager extends StorageManager<TransactionM
         return "transactions";
     }
     
-    public void getAllTransactionFromGroup(int groupId, RadinListener<TransactionModel> callback) {
+    public void getAllForGroupId(int groupId, RadinListener<TransactionModel> callback) {
     	if (isConnected()) {
     		if (!isHashMatchServer()) {
     			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-						SERVER_BASE_URL + groupId);
+						SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(groupId));
 				connTask.execute();
 				return;
     		}
