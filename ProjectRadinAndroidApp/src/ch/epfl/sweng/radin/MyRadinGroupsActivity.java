@@ -3,6 +3,8 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
@@ -51,10 +53,16 @@ public class MyRadinGroupsActivity extends Activity {
 
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
-			    if (status == StorageManagerRequestStatus.SUCCESS) {
+
+			    if (status == StorageManagerRequestStatus.SUCCESS) {      
 			        displayList(items);
 			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
 			    } else {
+			        //TOREMOVE Hack to always have a RadinGroupModel to display
+			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>();
+			        mListRadinGroupsModel.add(new RadinGroupModel(0, DateTime.now(), "Radin group par défaut", 
+			                "C'est le groupe par défaut !", "avatar"));
+			        displayList(mListRadinGroupsModel);
 			        displayErrorToast("There was an error, please try again");
 			    }
 			}
@@ -113,7 +121,7 @@ public class MyRadinGroupsActivity extends Activity {
 	}
 
 	/**
-	 * Choose the behaviours between the addRadinGroup button or the listed radinGroups
+	 * Choose the behaviors between the addRadinGroup button or the listed radinGroups
 	 */
 	private OnClickListener myRadinGroupsClickListener = new View.OnClickListener() {
 
