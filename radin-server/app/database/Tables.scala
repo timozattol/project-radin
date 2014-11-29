@@ -143,7 +143,7 @@ object Tables {
   class Transactions(tag: Tag) extends Table[Transaction](tag, "TRANSACTION") {
 
     def tid: Column[Int] = column[Int]("_TID", O.PrimaryKey, O.AutoInc, O.NotNull)
-    def rid: Column[Int] = column[Int]("_RID", O.PrimaryKey, O.NotNull)
+    def rid: Column[Int] = column[Int]("_RID", O.NotNull)
     def Tdebitor: Column[Int] = column[Int]("T_DEBITOR", O.NotNull)
     def TaddedBy: Column[Int] = column[Int]("T_ADDEDBY", O.NotNull)
     def Tamount: Column[Int] = column[Int]("T_AMOUNT", O.NotNull)

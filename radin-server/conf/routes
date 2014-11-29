@@ -16,8 +16,9 @@ GET        /custom/logout       @controllers.CustomLoginController.logout
 GET		   /radingroups			@controllers.Application.jsonFindAll
 POST	   /radingroups			@controllers.Application.jsonInsert
 
+GET		   /transactions		@controllers.Application.getAllTransactions
 GET		   /transactions/:rgid	@controllers.Application.getTransactionsForGroup(rgid: Int)
-GET		   /transactions/withcoeffs/:rgid	@controllers.Application.getTransactionsWithCoeffsForGroup(rgid)
+GET		   /transactions/withcoeffs/:rgid	@controllers.Application.getTransactionsWithCoeffsForGroup(rgid: Int)
 
 GET		   /users				@controllers.Application.userList
 GET		   /users/inradingroup/:rgid			@controllers.Application.getUsersInRG(rgid: Int)
