@@ -10,9 +10,30 @@
     tools:context="ch.epfl.sweng.radin.RadinGroupBalanceActivity" >
 
     <TextView
+        android:id="@+id/radinGroupBalanceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/balance"
         android:textSize="64sp" />
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/radinGroupBalanceTitle">
+
+        <LinearLayout
+            android:id="@+id/radinGroupBalanceLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ProgressBar
+                android:id="@+id/radinGroupBalanceProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </LinearLayout>
+    </ScrollView>
+    
 </RelativeLayout>
