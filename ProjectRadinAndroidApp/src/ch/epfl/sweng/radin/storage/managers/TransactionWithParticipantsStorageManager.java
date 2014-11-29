@@ -5,17 +5,16 @@ package ch.epfl.sweng.radin.storage.managers;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RequestType;
+import ch.epfl.sweng.radin.storage.TransactionWithParticipantsJSONParser;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
-import ch.epfl.sweng.radin.storage.managers.StorageManager.ServerConnectionTask;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
-import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
 
 /**
  * @author CedricCook
  * A StorageManager that handles storage of the Decorator for Transaction
  *
  */
-public class TransactionWithParticipantsStorageManager extends
+public final class TransactionWithParticipantsStorageManager extends
 		StorageManager<TransactionWithParticipantsModel> {
 
 	private static TransactionWithParticipantsStorageManager transWithParticipantsStorageManager = null;
