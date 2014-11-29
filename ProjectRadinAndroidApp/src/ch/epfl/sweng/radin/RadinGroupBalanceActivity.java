@@ -1,6 +1,5 @@
 package ch.epfl.sweng.radin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,7 @@ import android.widget.Toast;
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private List<UserModel> mParticipants;
 	private List<TransactionWithParticipantsModel> mTransactions;
-	private final int TIME_OUT = 5000;
+	private final static int TIME_OUT = 5000;
 	private final static int TEXT_SIZE = 30;
 
 	@Override
@@ -52,16 +51,16 @@ import android.widget.Toast;
 		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
 		userStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(),
 				new RadinListener<UserModel>() {
-			
-					@Override
-					public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
-						if(status == StorageManagerRequestStatus.SUCCESS) {
-							mParticipants = items;
-							mParticipants.notify();
-						} else {
-							displayErrorToast("Failed to get users for this group");
-						}
-					}
+
+			@Override
+			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					mParticipants = items;
+					mParticipants.notify();
+				} else {
+					displayErrorToast("Failed to get users for this group");
+				}
+			}
 		});
 		
 		TransactionWithParticipantsStorageManager storageManager = 
@@ -71,7 +70,7 @@ import android.widget.Toast;
 
 			@Override
 			public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
-				if(status == StorageManagerRequestStatus.SUCCESS) {
+				if (status == StorageManagerRequestStatus.SUCCESS) {
 					mTransactions = items;
 					mTransactions.notify();
 				} else {
@@ -110,7 +109,7 @@ import android.widget.Toast;
 	private HashMap<Integer, Double> calculateBalances() {		
 		HashMap<Integer, Double> userBalances = new HashMap<Integer, Double>();		
 		
-		if(mParticipants == null) {
+		if (mParticipants == null) {
 			try {
 				mParticipants.wait(TIME_OUT);
 			} catch (InterruptedException e) {
@@ -119,33 +118,33 @@ import android.widget.Toast;
 			}
 		}
 		
-		for(UserModel participant : mParticipants) {
+		for (UserModel participant : mParticipants) {
 			userBalances.put(participant.getId(), 0.0);
 		}
 		
-		if(mTransactions == null) {
+		if (mTransactions == null) {
 			try {
 				mTransactions.wait(TIME_OUT);
-			} catch (InterruptedException e){
+			} catch (InterruptedException e) {
 				// TODO fix
 				e.printStackTrace();
 			}
 		}
 		
-		for(TransactionWithParticipantsModel transaction : mTransactions) {
+		for (TransactionWithParticipantsModel transaction : mTransactions) {
 			double transactionAmount = transaction.getAmount();
 			Map<Integer, Integer> usersAndCoefficients = transaction.getUsersWithCoefficients();
 			int sumCoefficients = 0;
 			
-			for(Integer coefficient : usersAndCoefficients.values()) {
+			for (Integer coefficient : usersAndCoefficients.values()) {
 				sumCoefficients += coefficient;
 			}
 			
-			for(Integer participant : userBalances.keySet()) {
+			for (Integer participant : userBalances.keySet()) {
 				Double oldBalance = userBalances.get(participant);
 				Double newBalance = transactionAmount * (usersAndCoefficients.get(participant) / sumCoefficients);
 				
-				if(transaction.getCreatorID() == participant) {
+				if (transaction.getCreatorID() == participant) {
 					newBalance += transactionAmount;
 				}
 				
@@ -163,7 +162,7 @@ import android.widget.Toast;
 		radinGroupBalanceLinearLayout.removeView(progressBar);
 		
 		int i = 0;
-		for(UserModel participant : mParticipants) {
+		for (UserModel participant : mParticipants) {
 			TextView userBalanceTextView = new TextView(this);
 			String userName = participant.getFirstName();
 			userBalanceTextView.setText(userName + " owes: " + userBalances.get(participant.getId()));
