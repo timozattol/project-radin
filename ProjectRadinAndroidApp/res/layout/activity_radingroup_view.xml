@@ -1,26 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/radinGroupViewLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ch.epfl.sweng.radin.RadinGroupViewActivity" >
+    tools:context="ch.epfl.sweng.radin.RadinGroupViewActivity"
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/radinGroupViewTitle"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/radingroup_view"
-        android:textSize="60sp" />
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/radinGroupViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radingroup_view"
+            android:textSize="60sp" />
+
+        <Button
+            android:id="@+id/notificationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/radinGroupViewTitle"
+            android:text="@string/notifications" />
+    </RelativeLayout>
     
-    <Button 
-        android:id="@+id/notificationButton"
-       android:layout_width="wrap_content"
+        <!-- Relative for the ActionBar, do not add code in this -->
+    <RelativeLayout
+        android:id="@+id/radinGroupViewLayout"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/radinGroupViewTitle"
-        android:text="@string/notifications"/>
-
-</RelativeLayout>
+        android:layout_weight="9" />
+</LinearLayout>
