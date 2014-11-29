@@ -1,5 +1,6 @@
 package ch.epfl.sweng.radin;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,9 +26,48 @@ import android.widget.Toast;
  */
 public class RadinGroupStatsActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
-	private final static int DAYAYEAR = 366;
-	private final static int DAYAMONTH = 31;
-	private final static int MONTHAYEAR = 12;
+	private final static int DAYS_PER_YEAR = 366;
+	private final static int DAYS_PER_MONTH = 31;
+	private final static int MONTHS_PER_YEAR = 12;
+	
+	/**
+	 * All the month a year
+	 */
+	private static enum Month {
+		JANUARY,
+		FEBRUARY,
+		MARCH,
+		APRIL,
+		MAY,
+		JUNE,
+		JULY,
+		AUGUST,
+		SEPTEMBER,
+		OCTOBER,
+		NOVEMBER,
+		DECEMBER;
+
+		public int getValue() {
+			return ordinal();
+		}
+	}
+	
+	/**
+	 * All the day a week
+	 */
+	private static enum Day {
+		MONDAY,
+		TUESDAY,
+		WEDNESDAY,
+		THURSDAY,
+		FREIDAY,
+		SATURDAY,
+		SUNDAY;
+
+		public int getValue() {
+			return ordinal();
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +82,7 @@ public class RadinGroupStatsActivity extends Activity {
 		
 		TransactionStorageManager transactionStorageManager = TransactionStorageManager.getStorageManager();
 		
-		transactionStorageManager.getAllTransactionFromGroup(
+		transactionStorageManager.getAllForGroupId(
 				mCurrentRadinGroupModel.getRadinGroupID(),	new RadinListener<TransactionModel>() {
 					@Override
 					public void callback(List<TransactionModel> items, StorageManagerRequestStatus status) {
@@ -80,15 +120,16 @@ public class RadinGroupStatsActivity extends Activity {
 	
 	private void displayItems(List<TransactionModel> items) {
 		double totalAmount = 0.0;
-		HashMap<Integer, Double> sortedByWeek = null;
-		HashMap<Integer, Double> sortedByMonth = null;
-		HashMap<Integer, Double> sortedByYear = null;
+		Collections.sort(items, new Comparator );
+		HashMap<Integer, Double> sortedByWeek = new HashMap<Integer, Double>();
+		HashMap<Integer, Double> sortedByMonth = new HashMap<Integer, Double>();
+		HashMap<Integer, Double> sortedByYear = new HashMap<Integer, Double>();
 		
 		for (int i = 0; i < items.size(); i++) {
-			int weekKey = items.get(i).getDateTime().year().get() * DAYAYEAR
-					+ items.get(i).getDateTime().monthOfYear().get() * DAYAMONTH
+			int weekKey = items.get(i).getDateTime().year().get() * DAYS_PER_YEAR
+					+ items.get(i).getDateTime().monthOfYear().get() * DAYS_PER_MONTH
 					+ items.get(i).getDateTime().dayOfYear().get();
-			int monthKey = items.get(i).getDateTime().year().get() * MONTHAYEAR
+			int monthKey = items.get(i).getDateTime().year().get() * MONTHS_PER_YEAR
 					+ items.get(i).getDateTime().monthOfYear().get();
 			int yearKey = items.get(i).getDateTime().year().get();
 			totalAmount += items.get(i).getAmount();
@@ -101,9 +142,9 @@ public class RadinGroupStatsActivity extends Activity {
 					+ items.get(i).getAmount() : items.get(i).getAmount());			
 		}
 		
-		TextView totalAmountView = (TextView) findViewById(R.id.totalAmount);
-		totalAmountView.setText("The total amount of groups " + mCurrentRadinGroupModel.getRadinGroupName() 
-				+ " is: " + totalAmount);
+		TextView totalAmountView = (TextView) findViewById(R.id.totalAmountValue);
+		totalAmountView.setText("For " + mCurrentRadinGroupModel.getRadinGroupName() 
+				+ ": " + totalAmount);
 		
 		//TODO display the graph with the button
 		

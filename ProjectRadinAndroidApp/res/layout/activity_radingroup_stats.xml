@@ -10,32 +10,41 @@
     tools:context="ch.epfl.sweng.radin.RadinGroupStatsActivity" >
 
     <TextView
-        android:id="@+id/totalAmount"
+        android:id="@+id/totalAmountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp" />
+        android:text="@string/total_amount"
+        android:textSize="12sp" />
+    
+    <TextView 
+        android:id="@+id/totalAmountValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalAmountText"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/statSelectGraphText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/totalAmount"
+        android:layout_below="@id/totalAmountValue"
         android:paddingTop="5sp"
         android:text="@string/choose_graph"
-        android:textSize="20sp" />
+        android:textSize="12sp" />
 
     <Spinner
         android:id="@+id/statsSelectGraphSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/totalAmount"
-        android:layout_toRightOf="@id/statSelectGraphText"
-        android:entries="@array/spinner_graph_arrays" />
+        android:layout_below="@id/statSelectGraphText"
+        android:entries="@array/spinner_graph_arrays"
+        android:background="@android:drawable/btn_dropdown" />
     
     <LinearLayout 
         android:id="@+id/statsGraphLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/statsSelectGraphSpinner"
         android:orientation="vertical"/>
 
 </RelativeLayout>

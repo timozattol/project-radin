@@ -101,7 +101,8 @@
     <string name="invalid_purpose">No expense purpose</string>
     
     <!-- RadinGroupStatsActivity -->
-    <string name="choose_graph">Select the period of your graph</string>
+    <string name="choose_graph">Select the period of your graph: </string>
+    <string name="total_amount">The total amount is:</string>
     <string-array name="spinner_graph_arrays">
         <item>spending a day</item>
         <item>spending a month</item>
