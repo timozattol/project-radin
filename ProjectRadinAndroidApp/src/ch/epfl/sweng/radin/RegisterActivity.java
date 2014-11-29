@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import ch.epfl.sweng.radin.R.id;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.app.Activity;
@@ -53,27 +51,15 @@ public class RegisterActivity extends Activity {
 	private OnClickListener signUpButtonListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			try {
 				retrieveNewUserData();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			if (newUserDataUsable) {
-				try {
 					submitUserToServer();
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				Intent displayHomeActivityIntent = new Intent(v.getContext(),
 						HomeActivity.class);
 				// TODO destroy this activity when communication with server
 				// done
 				startActivity(displayHomeActivityIntent);
-
 			}
-
 		}
 	};
 
@@ -81,7 +67,7 @@ public class RegisterActivity extends Activity {
 	 * Sends the new user's data to the server
 	 * @throws JSONException 
 	 */
-	private void submitUserToServer() throws JSONException {
+	private void submitUserToServer() {
 		
 		
 		UserStorageManager userStorageManager = 
@@ -89,14 +75,8 @@ public class RegisterActivity extends Activity {
 		
 		List<UserModel> newUserList = new ArrayList<UserModel>();
 		newUserList.add(mNewUser);
-		
-		JSONParser<UserModel> newUserParser = 
-				userStorageManager.getJSONParser();
-		//The JSON I want to send to the server
-		JSONObject JSONNewUser = newUserParser.getJsonFromModels(newUserList);
-		
-		
-		userStorageManager.sendNewUser(JSONNewUser, 
+				
+		userStorageManager.create(newUserList, 
 				new RadinListener<UserModel>() {
 
 			@Override
@@ -124,7 +104,7 @@ public class RegisterActivity extends Activity {
 	 * if input is in good format
 	 * @throws JSONException 
 	 */
-	private void retrieveNewUserData() throws JSONException {
+	private void retrieveNewUserData() {
 		
 		final CharSequence newUserFirstName = 
 				((TextView) findViewById(id.first_name_new_user)).getText();	      

@@ -3,8 +3,12 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.StorageManager.ServerConnectionTask;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
@@ -50,21 +54,21 @@ public final class UserStorageManager extends StorageManager<UserModel> {
         return "users";
     }
     
-    
-    /**
-     * To be modified once we discussed how to deal with new users
-     * @param callback
-     */
-    public void sendNewUser(JSONObject json, RadinListener<UserModel> callback) {
-    	if(isConnected()) {
-    		if(!isHashMatchServer()) {
-    			ServerConnectionTask connTask = 
-    					new ServerConnectionTask(callback, RequestType.POST, 
-    							SERVER_BASE_URL + "newuser");
-    			connTask.execute(json.toString());
-    			return;
-    		}
-    	}
-    	
+        
+    public void verifyLogin(String username, String password, 
+    		RadinListener<UserModel> callback) {
+    	if (isConnected()) {
+    		//UserModel loginUser = new UserModel(null, null, username, password,
+    			//	null, null, null, null, null, 0);
+    		//List<UserModel> users = new ArrayList<UserModel>();
+    		
+			if (!isHashMatchServer()) {
+				ServerConnectionTask connTask = 
+						new ServerConnectionTask(callback, RequestType.POST,
+						SERVER_BASE_URL + "login/" + username);
+				connTask.execute(password);
+				return;
+			}
+		}
     }
 }

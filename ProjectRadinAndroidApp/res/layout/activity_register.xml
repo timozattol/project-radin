@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/email_new_user"
         android:layout_below="@+id/last_name_new_user"
-        android:hint="@string/last_name"
+        android:hint="@string/username"
         android:inputType="textPersonName" />
 
     <EditText

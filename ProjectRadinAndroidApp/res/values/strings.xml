@@ -55,6 +55,7 @@
     <string name="register">Register</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
+    <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="iban">Iban</string>
     <string name="address">Home address</string>
@@ -104,5 +105,7 @@
     <!-- Server Toasts -->
     <string name="server_error">There was an error, please try again</string>
     <string name="user_created">Yeah! You registered to ProjectRadin!</string>
-
+    <string name="login_error">Sorry this username does not exist</string>
+    <string name="success_login">Welcome back!</string>
+    
 </resources>
