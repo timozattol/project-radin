@@ -36,10 +36,15 @@ import android.widget.Toast;
  *
  */
 public class RadinGroupViewActivity extends Activity {
+    private final static int SIXTY_SECS = 60000;
+    private final static int TEN_SECS = 10000;
+
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private List<TransactionModel> mTransactionModelList = new ArrayList<TransactionModel>();
 	private TransactionArrayAdapter mTransactionsModelAdapter;
 	private ListView mTransactionListView;
+	private CountDownTimer mAutoRefreshTimer;
+    
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,31 +69,8 @@ public class RadinGroupViewActivity extends Activity {
 		mTransactionListView = (ListView) findViewById(R.id.transactionListView);
 		mTransactionListView.setAdapter(mTransactionsModelAdapter);
 		
-		
-		//TEST
-		final List<TransactionModel> models = new ArrayList<TransactionModel>();
-		models.add(new TransactionModel(0, 0, 0, 0, 100, Currency.CHF, 
-		        DateTime.now(), "Buy stuff", TransactionType.PAYMENT));
-		models.add(new TransactionModel(0, 0, 0, 0, 200, Currency.CHF, 
-                DateTime.now(), "Buy more stuff man lilkekkekekeke so muuuchh ahahahaha", TransactionType.PAYMENT));
-		refreshViewWithData(models);
-		
-		new CountDownTimer(5000, 100) {
-		    private int i = 0;
-            
-            @Override
-            public void onTick(long millisUntilFinished) {
-                i++;
-                models.add(new TransactionModel(0, 0, 0, 0, i*100, Currency.CHF, 
-                        DateTime.now(), "Awesome description", TransactionType.PAYMENT));
-                refreshViewWithData(models);
-            }
-            
-            @Override
-            public void onFinish() {
-                
-            }
-        }.start();
+		refreshList();
+		setAutoRefresh();
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,11 +116,61 @@ public class RadinGroupViewActivity extends Activity {
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
                             displayErrorToast("Error while retrieving transactions, please try again");
+                            fillWithTestData();
                         } else {
                             refreshViewWithData(items);
                         }
                     }
                 });
+	}
+	
+	private void fillWithTestData() {
+	    //TEST
+        final List<TransactionModel> models = new ArrayList<TransactionModel>();
+        models.add(new TransactionModel(0, 0, 0, 0, 100, Currency.CHF, 
+                DateTime.now(), "Buy stuff", TransactionType.PAYMENT));
+        models.add(new TransactionModel(0, 0, 0, 0, 200, Currency.CHF, 
+                DateTime.now(), "Buy more stuff man lilkekkekekeke so muuuchh ahahahaha", TransactionType.PAYMENT));
+        refreshViewWithData(models);
+        
+        new CountDownTimer(5000, 100) {
+            private int i = 0;
+            
+            @Override
+            public void onTick(long millisUntilFinished) {
+                i++;
+                models.add(new TransactionModel(0, 0, 0, 0, i*100, Currency.CHF, 
+                        DateTime.now(), "Awesome description", TransactionType.PAYMENT));
+                refreshViewWithData(models);
+            }
+            
+            @Override
+            public void onFinish() {
+                
+            }
+        }.start();
+	}
+	
+	/**
+	 * Sets a timer to refresh the list every 10 seconds, forever.
+	 */
+	private void setAutoRefresh() {
+	    if (mAutoRefreshTimer == null) {
+	        mAutoRefreshTimer = new CountDownTimer(SIXTY_SECS, TEN_SECS) {
+                
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    refreshList();
+                }
+                
+                @Override
+                public void onFinish() {
+                    // Restarts itself for infinite timer.
+                    start();
+                }
+            };
+	    }
+	    mAutoRefreshTimer.start();
 	}
 	
 	/**
