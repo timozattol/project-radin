@@ -2,16 +2,21 @@ package ch.epfl.sweng.radin;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class SettingsActivity extends Activity {
+	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
+		prefs = getSharedPreferences(getString(R.string.preference_file_key), 
+				MODE_PRIVATE);
+		displayId();
 	}
 
 	@Override
@@ -35,5 +40,11 @@ public class SettingsActivity extends Activity {
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	private void displayId() {
+		
+		
+		
 	}
 }

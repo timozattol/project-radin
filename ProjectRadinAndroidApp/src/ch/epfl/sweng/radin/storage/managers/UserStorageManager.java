@@ -58,10 +58,6 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     public void verifyLogin(String username, String password, 
     		RadinListener<UserModel> callback) {
     	if (isConnected()) {
-    		//UserModel loginUser = new UserModel(null, null, username, password,
-    			//	null, null, null, null, null, 0);
-    		//List<UserModel> users = new ArrayList<UserModel>();
-    		
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = 
 						new ServerConnectionTask(callback, RequestType.POST,

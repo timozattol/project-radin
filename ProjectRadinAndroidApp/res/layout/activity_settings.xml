@@ -9,9 +9,29 @@
     tools:context="ch.epfl.sweng.radin.SettingsActivity" >
 
     <TextView
+        android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings"
-        android:textSize="100sp" />
+        android:textSize="70sp" />
+    
+    <TextView
+        android:id="@+id/my_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings"
+        android:text="@string/my_id"
+        android:textSize="14sp" />
+    
+    <TextView
+      android:id="@+id/value_id"
+      android:editable="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_toRightOf="@+id/my_id"
+      android:layout_below="@+id/settings"
+      android:layout_marginTop="22dp"
+      android:text="@string/value_id"
+      android:textSize="14sp"/>
     
 </RelativeLayout>

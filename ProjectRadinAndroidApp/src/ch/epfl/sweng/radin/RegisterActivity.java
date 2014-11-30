@@ -10,6 +10,7 @@ import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
+import android.content.SharedPreferences; 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -68,7 +69,6 @@ public class RegisterActivity extends Activity {
 	 * @throws JSONException 
 	 */
 	private void submitUserToServer() {
-		
 		
 		UserStorageManager userStorageManager = 
 				UserStorageManager.getStorageManager();

@@ -7,6 +7,7 @@ import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.StorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
+import android.content.SharedPreferences; 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 	private String mUsername = null;
 	private String mPassword = null;
+	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,13 @@ public class LoginActivity extends Activity {
 		newAccountBtn.setOnClickListener(loginActivityButtonListener);
 
 		StorageManager.init(this);
+		
+		prefs = getSharedPreferences(getString(R.string.preference_file_key), 
+				MODE_PRIVATE);
+
 	}
-	private OnClickListener loginActivityButtonListener = new View.OnClickListener() {
+	private OnClickListener loginActivityButtonListener = 
+			new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			int selectedId = v.getId();
@@ -47,13 +54,16 @@ public class LoginActivity extends Activity {
 			case R.id.loginButton:
 				retrieveRegisterUser();
 				verifyUser();
-				displayActivityIntent = new Intent(v.getContext(), HomeActivity.class);
+				displayActivityIntent = 
+						new Intent(v.getContext(), HomeActivity.class);
 				break;
 			case R.id.createAcountButton:
-				displayActivityIntent = new Intent(v.getContext(), RegisterActivity.class);
+				displayActivityIntent = 
+				new Intent(v.getContext(), RegisterActivity.class);
 				break;
 			default:
-				Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+				Toast.makeText(v.getContext(), 
+						"Error, this button shouldn't exist!",
 						Toast.LENGTH_SHORT).show();				
 			}
 			if (!(displayActivityIntent == null)) {
@@ -66,7 +76,8 @@ public class LoginActivity extends Activity {
 		UserStorageManager userStorageManager =
 				UserStorageManager.getStorageManager();
 
-		userStorageManager.verifyLogin(mUsername, mPassword, new RadinListener<UserModel>() {
+		userStorageManager.verifyLogin(mUsername, mPassword, 
+				new RadinListener<UserModel>() {
 
 			@Override
 			public void callback(List<UserModel> items,
@@ -75,12 +86,17 @@ public class LoginActivity extends Activity {
 					Toast.makeText(getApplicationContext(),
 							R.string.login_error, Toast.LENGTH_SHORT).show();
 				} else {
+					
+					UserModel mUser = items.get(0);
+					int mId = mUser.getId();
+					
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putInt(getString(R.string.username), mId);
+					editor.commit();
 					Toast.makeText(getApplicationContext(),
 							R.string.success_login, Toast.LENGTH_SHORT).show();
 				}
-
 			}
-
 		});
 	}
 

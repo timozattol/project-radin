@@ -102,10 +102,17 @@
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
     
+    <!-- Settings Activity -->
+    <string name="my_id">User ID</string>
+    <string name="value_id">value</string>
+    
     <!-- Server Toasts -->
     <string name="server_error">There was an error, please try again</string>
     <string name="user_created">Yeah! You registered to ProjectRadin!</string>
     <string name="login_error">Sorry this username does not exist</string>
     <string name="success_login">Welcome back!</string>
+    
+    <!-- Share Preference File -->
+    <string name="preference_file_key">Preferences</string>
     
 </resources>
