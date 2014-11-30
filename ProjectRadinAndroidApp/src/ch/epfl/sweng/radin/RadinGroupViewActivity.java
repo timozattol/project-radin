@@ -1,9 +1,12 @@
 package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
@@ -101,9 +104,14 @@ public class RadinGroupViewActivity extends Activity {
 	}
 	
 	private void refreshViewWithData(List<TransactionModel> transactions) {
+	    sortByDateTime(transactions);
 	    mTransactionsModelAdapter.setTransactionModels(transactions);
 	}
 	
+	/**
+	 * Asynchronously gets the data from the server, 
+	 * and refresh the view with data when available.
+	 */
 	private void refreshList() {
 	    TransactionStorageManager transactionStorageManager = 
 	            TransactionStorageManager.getStorageManager();
@@ -115,7 +123,7 @@ public class RadinGroupViewActivity extends Activity {
                     public void callback(List<TransactionModel> items,
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
-                            displayErrorToast("Error while retrieving transactions, please try again");
+                            displayErrorToast("Error while retrieving transactions");
                             fillWithTestData();
                         } else {
                             refreshViewWithData(items);
@@ -124,6 +132,21 @@ public class RadinGroupViewActivity extends Activity {
                 });
 	}
 	
+	private void sortByDateTime(List<TransactionModel> transactions) {
+	    Collections.sort(transactions, new Comparator<TransactionModel>() {
+
+            @Override
+            public int compare(TransactionModel lhs, TransactionModel rhs) {
+                if (lhs.getDateTime().isBefore(rhs.getDateTime())) {
+                    return -1;
+                } else {
+                    return +1;
+                }
+            }
+
+        });
+	}
+
 	private void fillWithTestData() {
 	    //TEST
         final List<TransactionModel> models = new ArrayList<TransactionModel>();
@@ -133,7 +156,7 @@ public class RadinGroupViewActivity extends Activity {
                 DateTime.now(), "Buy more stuff man lilkekkekekeke so muuuchh ahahahaha", TransactionType.PAYMENT));
         refreshViewWithData(models);
         
-        new CountDownTimer(5000, 100) {
+        new CountDownTimer(2000, 100) {
             private int i = 0;
             
             @Override
@@ -179,8 +202,8 @@ public class RadinGroupViewActivity extends Activity {
 	 *
 	 */
 	private class TransactionArrayAdapter extends ArrayAdapter<TransactionModel> {
-	    private List<TransactionModel> transactionModels;
-	    private final Context context;
+	    private List<TransactionModel> mTransactionModels;
+	    private final Context mContext;
 	    
         /**
          * @param context the context
@@ -190,8 +213,8 @@ public class RadinGroupViewActivity extends Activity {
         public TransactionArrayAdapter(Context context, int resource,
                 List<TransactionModel> objects) {
             super(context, resource, objects);
-            transactionModels = objects;
-            this.context = context;
+            mTransactionModels = objects;
+            this.mContext = context;
         }
 	    
         /* (non-Javadoc)
@@ -199,29 +222,41 @@ public class RadinGroupViewActivity extends Activity {
          */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = LayoutInflater.from(context);
+            LayoutInflater inflater = LayoutInflater.from(mContext);
             View rowView = inflater.inflate(R.layout.transaction_list_row, parent, false);
             TextView textViewAmount = (TextView) rowView.findViewById(R.id.transaction_amount);
             TextView textViewPurpose = (TextView) rowView.findViewById(R.id.transaction_purpose);
             TextView textViewCreditor = (TextView) rowView.findViewById(R.id.transaction_creditor);
             TextView textViewUsersConcerned = 
                     (TextView) rowView.findViewById(R.id.transaction_users_concerned);
+            TextView textViewDateTime = 
+                    (TextView) rowView.findViewById(R.id.transaction_datetime);
+            
 
-            TransactionModel transaction = transactionModels.get(position);
+            TransactionModel transaction = mTransactionModels.get(position);
             textViewPurpose.setText(transaction.getPurpose());
             textViewAmount.setText(transaction.getAmount() + " " + transaction.getCurrency());
             
             //TODO get username for id
-            textViewCreditor.setText("Paid by: " + transaction.getCreditorID());
+            if (transaction.getType() == TransactionType.PAYMENT) {
+                textViewCreditor.setText("Paid by: " + transaction.getCreditorID());
+            } else if (transaction.getType() == TransactionType.REIMBURSEMENT) {
+                textViewCreditor.setText("Reimbursed by: " + transaction.getCreditorID());
+            }
+            
             
             //TODO get real user concerned
             textViewUsersConcerned.setText("For: Roger, Michelle and Bob");
+
+            textViewDateTime.setText(transaction.getDateTime().toString(
+                    DateTimeFormat.forPattern("d/M/Y")));
+
             return rowView;
         }
         
         public void setTransactionModels(List<TransactionModel> newData) {
-            transactionModels.clear();
-            transactionModels.addAll(newData);
+            mTransactionModels.clear();
+            mTransactionModels.addAll(newData);
             notifyDataSetChanged();
         }
 	}
