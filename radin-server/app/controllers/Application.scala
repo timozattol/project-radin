@@ -46,9 +46,16 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   def getTransactionsWithCoeffsForGroup(rgid: Int) = TODO
-  
+
   def getAllTransactions = DBAction { implicit rs =>
     Ok(toJson(transactions.list))
+  }
+
+  def newTransaction = DBAction(parse.json) { implicit rs =>
+    rs.request.body.validate[Transaction].map { ta =>
+      transactions.insert(ta)
+      Ok("Ok")
+    }.getOrElse(BadRequest("invalid json"))
   }
 
   //  lazy val users = TableQuery[Users]
@@ -70,6 +77,16 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
         Ok(toJson(lastid))
       })
+  }
+  
+  def login(username: String)  = DBAction { implicit rs =>
+    val user = toJson(users.list.filter(_.U_username == username)).as[User]
+    val password = rs.request.body
+    if (user.U_password == password) {
+      Ok("OK")
+    } else {
+      Ok("KO")
+    }
   }
 
   def userList = DBAction { implicit rs =>

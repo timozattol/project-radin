@@ -19,10 +19,11 @@ POST	   /radingroups			@controllers.Application.jsonInsert
 GET		   /transactions		@controllers.Application.getAllTransactions
 GET		   /transactions/:rgid	@controllers.Application.getTransactionsForGroup(rgid: Int)
 GET		   /transactions/withcoeffs/:rgid	@controllers.Application.getTransactionsWithCoeffsForGroup(rgid: Int)
+POST	   /transactions		@controllers.Application.newTransaction
 
 GET		   /users				@controllers.Application.userList
 GET		   /users/inradingroup/:rgid			@controllers.Application.getUsersInRG(rgid: Int)
-# POST		   /login/:username		TODO
+POST	   /login/:username		@controllers.Application.login(username: String)
 POST	   /users				@controllers.Application.newUser
 
 # Map static resources from the /public folder to the /assets URL path
