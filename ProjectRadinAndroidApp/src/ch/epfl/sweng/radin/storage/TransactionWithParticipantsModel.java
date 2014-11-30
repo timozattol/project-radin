@@ -3,7 +3,8 @@
  */
 package ch.epfl.sweng.radin.storage;
 
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,34 +14,35 @@ import java.util.Map;
  * Uses the decorated transaction model getters and setters.
  */
 public class TransactionWithParticipantsModel extends TransactionModel {
-    private Map<UserModel, Integer> mUsersWithCoefficients;
+    private Map<Integer, Integer> mUsersWithCoefficients;
 
     /**
      * TransactionWithParticipantsModel Constructor.
      */
     public TransactionWithParticipantsModel(TransactionModel transactionModel, 
-            Map<UserModel, Integer> usersWithCoefficients) {
+            Map<Integer, Integer> usersWithCoefficients) {
         super(transactionModel);
         
         if (usersWithCoefficients == null) {
             throw new IllegalArgumentException("usersWithCoefficients should not be null");
         }
 
-        mUsersWithCoefficients = new HashMap<UserModel, Integer>(usersWithCoefficients);
+        mUsersWithCoefficients = new LinkedHashMap<Integer, Integer>(usersWithCoefficients);
     }
     
     /**
      * @return the usersWithCoefficients
      */
-    public Map<UserModel, Integer> getUsersWithCoefficients() {
-        return new HashMap<UserModel, Integer>(mUsersWithCoefficients);
+    public Map<Integer, Integer> getUsersWithCoefficients() {
+        return new LinkedHashMap<Integer, Integer>(mUsersWithCoefficients);
     }
     
     /**
      * @param usersWithCoefficients the mUsersWithCoefficients to set
      */
     public void setUsersWithCoefficients(
-            Map<UserModel, Integer> usersWithCoefficients) {
-        this.mUsersWithCoefficients = new HashMap<UserModel, Integer>(usersWithCoefficients);
+            Map<Integer, Integer> usersWithCoefficients) {
+        this.mUsersWithCoefficients = new LinkedHashMap<Integer, Integer>(usersWithCoefficients);
     }
+
 }
