@@ -78,11 +78,11 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
         Ok(toJson(lastid))
       })
   }
-  
-  def login(username: String)  = DBAction { implicit rs =>
-    val user = toJson(users.list.filter(_.U_username == username)).as[User]
-    val password = rs.request.body
-    if (user.U_password == password) {
+
+  def login(username: String) = DBAction { implicit rs =>
+    val user = toJson(users.list.filter(_.U_username == username))
+    val password = rs.request.body.asText.get
+    if (user.\\("U_password").length == 1 && user.\\("U_password").head.as[String].equals(password)) {
       Ok("OK")
     } else {
       Ok("KO")
