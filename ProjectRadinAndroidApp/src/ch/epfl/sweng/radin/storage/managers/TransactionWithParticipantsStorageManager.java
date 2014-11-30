@@ -9,12 +9,13 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.TransactionWithParticipantsJSONParser;
 
+
 /**
  * @author CedricCook
  * A StorageManager that handles storage of the Decorator for Transaction
  *
  */
-public class TransactionWithParticipantsStorageManager extends
+public final class TransactionWithParticipantsStorageManager extends
 		StorageManager<TransactionWithParticipantsModel> {
 
 	private static TransactionWithParticipantsStorageManager transWithParticipantsStorageManager = null;
