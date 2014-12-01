@@ -28,6 +28,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       radinGroups.ddl.create
       userRelationships.ddl.create
       transactions.ddl.create
+      memberInRadins.ddl.create
     } finally {
       users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
       users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", "", ""))
@@ -41,13 +42,11 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       userRelationships.insert(UserRelationship(1, 2, 10))
       userRelationships.insert(UserRelationship(3, 2 , 11))
       userRelationships.insert(UserRelationship(1, 3 , 12))
+      memberInRadins ++= Seq((1, 1, "", 0, ""), (2, 1, "", 0, ""))
     }
 
     Ok("done")
   }
-
-  
-  
 
   implicit val transactionFormat = Json.format[Transaction]
 
@@ -142,7 +141,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   def getRadinGroupsForUser(uid: Int) = TODO
 
-  def getUsersInRG(rgid: Int) = TODO
+  def getUsersInRG(rgid: Int) = DBAction { implicit rs =>
+    val x = memberInRadins.list.filter(_._2 == rgid)
+    val y = for {
+      a <- x
+    } yield toJson(users.list.filter(_.U_ID.get == a._1))
+    val jsonValue = List(("user", toJson(y)))
+    val jsonResponse = JsObject(jsonValue)
+    Ok(jsonResponse)
+  }
 
   implicit val userRelationShipFormat = Json.format[UserRelationship]
   
