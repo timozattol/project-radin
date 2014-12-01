@@ -61,22 +61,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   //  lazy val users = TableQuery[Users]
   implicit val userFormat = Json.format[User]
 
-  def newUser = DBAction(BodyParsers.parse.json) { implicit rs =>
-    val nuser = rs.request.body.validate[User]
-    nuser.fold(
-      errors => {
-        BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toFlatJson(errors)))
-      },
-      user => {
-        val newuser = User(user.U_firstName, user.U_lastName, user.U_username, user.U_password, user.U_email, user.U_address, user.U_iban, user.U_bicSwift, user.U_avatar, user.U_deletedAt)
-        users.insert(newuser)
-
-        val lastid = users.map(_.U_ID).max.run
-        lazy val userlist = users.list
-        lazy val lastuser = userlist.filter(_.U_ID == lastid)
-
-        Ok(toJson(lastid))
-      })
+  def newUser = DBAction(parse.json) { implicit rs =>
+    rs.request.body.\("user")(0).validate[User].map { user =>
+      users.insert(user)
+    }
+    val lastid = users.map(_.U_ID).max.run
+    val lastuser = users.list.filter(_.U_ID == lastid)
+    val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(lastuser)))
+    val jsonResponse: JsObject = JsObject(jsonValue)
+    Ok(jsonResponse)
   }
 
   def login(username: String) = DBAction { implicit rs =>
@@ -85,7 +78,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     if (user.\\("U_password").length == 1 && user.\\("U_password").head.as[String].equals(password)) {
       Ok("OK")
     } else {
-      Ok("KO")
+      Ok("KO     " + password + "    " + user.\\("U_password").head.as[String])
     }
   }
 
@@ -133,7 +126,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       Ok(toJson(rg))
     }.getOrElse(BadRequest("invalid json"))
   }
-  
+
   def getRadinGroupsForUser(uid: Int) = TODO
 
   def getUsersInRG(rgid: Int) = TODO
