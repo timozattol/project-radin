@@ -148,22 +148,28 @@ public class RadinGroupViewActivity extends Activity {
 	}
 
 	private void fillWithTestData() {
+	    final int hundredFrancs = 100;
+	    final int twoHundredFrancs = 100;
+	    final int fiveSecs = 5000;
+	    final int halfASec = 500;
+        
+	    
 	    //TEST
         final List<TransactionModel> models = new ArrayList<TransactionModel>();
-        models.add(new TransactionModel(0, 0, 0, 0, 100, Currency.CHF, 
+        models.add(new TransactionModel(0, 0, 0, 0, hundredFrancs, Currency.CHF, 
                 DateTime.now(), "Buy stuff", TransactionType.PAYMENT));
-        models.add(new TransactionModel(0, 0, 0, 0, 200, Currency.CHF, 
-                DateTime.now(), "Buy more stuff man lilkekkekekeke so muuuchh ahahahaha", TransactionType.PAYMENT));
+        models.add(new TransactionModel(0, 0, 0, 0, twoHundredFrancs, Currency.CHF, 
+                DateTime.now(), "Buy more stuff", TransactionType.PAYMENT));
         refreshViewWithData(models);
         
-        new CountDownTimer(2000, 100) {
+        new CountDownTimer(fiveSecs, halfASec) {
             private int i = 0;
             
             @Override
             public void onTick(long millisUntilFinished) {
                 i++;
-                models.add(new TransactionModel(0, 0, 0, 0, i*100, Currency.CHF, 
-                        DateTime.now(), "Awesome description", TransactionType.PAYMENT));
+                models.add(new TransactionModel(0, 0, 0, 0, i*hundredFrancs, Currency.CHF, 
+                        DateTime.now().minusDays(i), "Buy buy buy", TransactionType.PAYMENT));
                 refreshViewWithData(models);
             }
             
@@ -245,7 +251,7 @@ public class RadinGroupViewActivity extends Activity {
             }
             
             
-            //TODO get real user concerned
+            //TODO get real user for transaction
             textViewUsersConcerned.setText("For: Roger, Michelle and Bob");
 
             textViewDateTime.setText(transaction.getDateTime().toString(
