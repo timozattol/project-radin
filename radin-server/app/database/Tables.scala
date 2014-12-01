@@ -18,7 +18,6 @@ object Tables {
 
   lazy val users = TableQuery[Users]
 
-
   class MemberInRadin(tag: Tag) extends Table[(Int, Int, String, Int, String)](tag, "MEMBER_IN_RADIN") {
 
     def MRuid: Column[Int] = column[Int]("UID", O.NotNull)
@@ -123,9 +122,6 @@ object Tables {
 		def * = (uidSource, uidTarget, URrelation) <> (UserRelationship.tupled, UserRelationship.unapply)
   }
   
-  		
- 
-
   case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String, U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_avatar: String, U_deletedAt: String, U_ID: Option[Int] = None)
 
   class Users(tag: Tag) extends Table[User](tag, "USER") {
