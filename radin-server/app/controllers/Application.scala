@@ -27,23 +27,47 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       users.ddl.create
       radinGroups.ddl.create
       userRelationships.ddl.create
-      
+      transactions.ddl.create
     } finally {
       users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
-      users.insert(User("name2", "lastname2", "username2", "password2", "email2", "address2", "iban2", "bicSwift2", "", ""))
+      users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", "", ""))
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
+      transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
+      transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
+      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
+      transactions.insert(Transaction(1, 2, 2, 150, "CHF", "2014/01/02 00/00", "Cooler expense", "PAYMENT"))
       userRelationships.insert((UserRelationship(10, 7, 0)))
     }
 
     Ok("done")
   }
 
-  lazy val userRelationships = TableQuery[UserRelationships]
-  lazy val users = TableQuery[Users]
   
-  def getTransactionsForGroup(rgid: String) = TODO
+  
 
-  def getTransactionsWithCoeffsForGroup(rgid: String) = TODO
+  implicit val transactionFormat = Json.format[Transaction]
+
+  def getTransactionsForGroup(rgid: Int) = DBAction { implicit rs =>
+    val transactionList = toJson(transactions.list.filter(_.T_parentRadinGroupID == rgid))
+    val jsonValue: Seq[(String, JsValue)] = List(("transaction", transactionList))
+    val jsonResponse: JsObject = JsObject(jsonValue)
+    Ok(jsonResponse)
+  }
+
+  def getTransactionsWithCoeffsForGroup(rgid: Int) = TODO
+
+  def getAllTransactions = DBAction { implicit rs =>
+    Ok(toJson(transactions.list))
+  }
+
+  def newTransaction = DBAction(parse.json) { implicit rs =>
+    rs.request.body.validate[Transaction].map { ta =>
+      transactions.insert(ta)
+      Ok("Ok")
+    }.getOrElse(BadRequest("invalid json"))
+  }
+
+  //  lazy val users = TableQuery[Users]
   implicit val userFormat = Json.format[User]
 
   def newUser = DBAction(BodyParsers.parse.json) { implicit rs =>
@@ -62,6 +86,16 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
         Ok(toJson(lastid))
       })
+  }
+
+  def login(username: String) = DBAction { implicit rs =>
+    val user = toJson(users.list.filter(_.U_username == username))
+    val password = rs.request.body.asText.get
+    if (user.\\("U_password").length == 1 && user.\\("U_password").head.as[String].equals(password)) {
+      Ok("OK")
+    } else {
+      Ok("KO")
+    }
   }
 
   def userList = DBAction { implicit rs =>
@@ -93,7 +127,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }
   }
 
-  lazy val radinGroups = TableQuery[RadinGroups]
+  //  lazy val radinGroups = TableQuery[RadinGroups]
   implicit val radinGroupFormat = Json.format[RadinGroup]
 
   def jsonFindAll = DBAction { implicit rs =>
@@ -108,6 +142,10 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       Ok(toJson(rg))
     }.getOrElse(BadRequest("invalid json"))
   }
+  
+  def getRadinGroupsForUser(uid: Int) = TODO
+
+  def getUsersInRG(rgid: Int) = TODO
 
   implicit val userRelationShipFormat = Json.format[UserRelationship]
   def newUserRelationship = DBAction(BodyParsers.parse.json) { implicit rs => 
@@ -117,7 +155,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   	}.getOrElse(BadRequest("invalid json"))
   }
   
-  //get all friends of a user with UID sID, and returns the result in JSON
+  //get all friends of a user with UID sID, and returns those friends as a list of Users 
   def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs => 
     val friendsOfSID = userRelationships.filter { _.uidSource === sID }
     val jsonValue: Seq[(String, JsValue)] = List(("userRelationship", toJson(friendsOfSID.list)))
