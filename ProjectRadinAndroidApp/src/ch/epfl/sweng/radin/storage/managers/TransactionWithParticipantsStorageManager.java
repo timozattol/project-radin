@@ -5,7 +5,6 @@ package ch.epfl.sweng.radin.storage.managers;
 
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RequestType;
-import ch.epfl.sweng.radin.storage.TransactionWithParticipantsJSONParser;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.TransactionWithParticipantsJSONParser;

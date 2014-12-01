@@ -44,20 +44,21 @@ public final class RadinGroupStorageManager extends StorageManager<RadinGroupMod
  	*/
     @Override
 	protected String getTypeUrl() {
-    	return "groups";
+    	return "radingroups";
     }
     
-    public void getAllByUserId(int userId, RadinListener<RadinGroupModel> callback) {
-    	if (isConnected()) {
+	public void getAllByUserId(int userId, RadinListener<RadinGroupModel> callback) {
+		//TODO use base class method
+		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-						SERVER_BASE_URL + "radingroups");
+				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET, 
+								SERVER_BASE_URL	+ "radingroups");
 				connTask.execute();
 				return;
 			}
 		}
-		//TODO take the data from the local DB
-    }
+		// TODO take the data from the local DB
+	}
 }
 
 

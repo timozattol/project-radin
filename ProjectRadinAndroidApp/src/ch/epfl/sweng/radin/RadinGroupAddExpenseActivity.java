@@ -298,7 +298,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 				@Override
 				public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
 					if (status == StorageManagerRequestStatus.SUCCESS) {
-						((Activity) getApplicationContext()).finish();
+						//((Activity) getApplicationContext()).finish();
 						Toast.makeText(getApplicationContext(), R.string.expense_added, Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();

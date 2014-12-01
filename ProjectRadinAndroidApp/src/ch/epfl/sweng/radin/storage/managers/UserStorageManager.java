@@ -3,6 +3,8 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import java.util.List;
+
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
@@ -61,7 +63,9 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		}
     }
     
-    public void getAllFriendsById(int UserId, RadinListener<UserModel> callback) {
-    	//TODO implement method
+
+    public void putMembersInRadinGroup(int radinGroupID, List<UserModel> members, RadinListener<UserModel> callback) {
+    	createWithID(radinGroupID, members, callback);
+    	//Example url: http://radin.epfl.ch/users/1
     }
 }
