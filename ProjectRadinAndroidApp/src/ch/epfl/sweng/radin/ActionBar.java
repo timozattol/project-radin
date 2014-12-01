@@ -35,20 +35,14 @@ public class ActionBar {
 	 *
 	 */
 	private static enum ListButton {
-		SETTINGS (0),
-		MY_RADIN_GROUP (1),
-		ADD_EXPENSE (2),
-		STATS (3),
-		BALANCE (4);
-
-		private int mValue;
-
-		ListButton(int value) {
-			this.mValue = value;
-		}
+		SETTINGS,
+		MY_RADIN_GROUP,
+		ADD_EXPENSE,
+		STATS,
+		BALANCE;
 
 		public int getValue() {
-			return mValue;
+			return ordinal();
 		}
 	}
 	
@@ -59,21 +53,15 @@ public class ActionBar {
 	 *
 	 */
 	private static enum RadinGroupIndex {
-		RADINGROUPID (0),
-		RADINGROUPCREATIONDATETIME (1),
-		RADINGROUPENAME (2),
-		RADINGROUPDESCRIPTION (3),
-		RADINGROUPAVATAR (4),
-		RADINGROUPMASTERID (5);
-		
-		private int mRgValue;
-		
-		RadinGroupIndex(int value) {
-			this.mRgValue = value;
-		}
+		RADINGROUPID,
+		RADINGROUPCREATIONDATETIME,
+		RADINGROUPENAME,
+		RADINGROUPDESCRIPTION,
+		RADINGROUPAVATAR,
+		RADINGROUPMASTERID;
 		
 		public int getValue() {
-			return mRgValue;
+			return ordinal();
 		}
 	}
 	
@@ -209,5 +197,4 @@ public class ActionBar {
 			}
 		}
 	};
-
 }
