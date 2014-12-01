@@ -103,7 +103,9 @@
     <!-- RadinGroupStatsActivity -->
     <string name="choose_graph">Select the period of your graph: </string>
     <string name="total_amount">The total amount is:</string>
+    <string name="spinner_graph_prompt">Choose which graph to display</string>
     <string-array name="spinner_graph_arrays">
+        <item>choose your graph</item>
         <item>spending a day</item>
         <item>spending a month</item>
         <item>spending a year</item>
