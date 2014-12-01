@@ -14,7 +14,11 @@ import play.api.Play.current
 import play.api.mvc.BodyParsers._
 import play.api.libs.json._
 import play.api.libs.json.Json._
-import database._
+import play.api.db.slick.DBAction
+import play.api.mvc.BodyParsers
+import play.api.db.slick.DBAction
+import play.api.db.slick.DBAction
+import database.Tables._
 
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
 
@@ -22,19 +26,24 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     try {
       users.ddl.create
       radinGroups.ddl.create
+      userRelationships.ddl.create
+      
     } finally {
       users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
+      users.insert(User("name2", "lastname2", "username2", "password2", "email2", "address2", "iban2", "bicSwift2", "", ""))
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
+      userRelationships.insert((UserRelationship(10, 7, 0)))
     }
 
     Ok("done")
   }
 
+  lazy val userRelationships = TableQuery[UserRelationships]
+  lazy val users = TableQuery[Users]
+  
   def getTransactionsForGroup(rgid: String) = TODO
 
   def getTransactionsWithCoeffsForGroup(rgid: String) = TODO
-
-  lazy val users = TableQuery[Users]
   implicit val userFormat = Json.format[User]
 
   def newUser = DBAction(BodyParsers.parse.json) { implicit rs =>
@@ -100,7 +109,22 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }.getOrElse(BadRequest("invalid json"))
   }
 
+  implicit val userRelationShipFormat = Json.format[UserRelationship]
+  def newUserRelationship = DBAction(BodyParsers.parse.json) { implicit rs => 
+  	  rs.request.body.validate[UserRelationship].map { rg => 
+  	    userRelationships.insert(rg)
+  	    Ok(toJson(rg))
+  	}.getOrElse(BadRequest("invalid json"))
+  }
+  
+  //get all friends of a user with UID sID, and returns the result in JSON
+  def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs => 
+    val friendsOfSID = userRelationships.filter { _.uidSource === sID }
+    val jsonValue: Seq[(String, JsValue)] = List(("userRelationship", toJson(friendsOfSID.list)))
+    Ok(JsObject(jsonValue))
+  }
 }
+
 
 // An Authorization implementation that only authorizes uses that logged in using twitter
 case class WithProvider(provider: String) extends Authorization[DemoUser] {
