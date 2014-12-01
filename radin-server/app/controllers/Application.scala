@@ -31,12 +31,16 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     } finally {
       users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
       users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", "", ""))
+      users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", "", ""))
+      users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", "", ""))
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
       transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
       transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
       transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
       transactions.insert(Transaction(1, 2, 2, 150, "CHF", "2014/01/02 00/00", "Cooler expense", "PAYMENT"))
-      userRelationships.insert((UserRelationship(10, 7, 0)))
+      userRelationships.insert(UserRelationship(1, 2, 10))
+      userRelationships.insert(UserRelationship(3, 2 , 11))
+      userRelationships.insert(UserRelationship(1, 3 , 12))
     }
 
     Ok("done")
@@ -148,6 +152,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   def getUsersInRG(rgid: Int) = TODO
 
   implicit val userRelationShipFormat = Json.format[UserRelationship]
+  
   def newUserRelationship = DBAction(BodyParsers.parse.json) { implicit rs => 
   	  rs.request.body.validate[UserRelationship].map { rg => 
   	    userRelationships.insert(rg)
@@ -157,8 +162,16 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   
   //get all friends of a user with UID sID, and returns those friends as a list of Users 
   def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs => 
-    val friendsOfSID = userRelationships.filter { _.uidSource === sID }
+    val friendsOfSID = for {
+      relation <- userRelationships.filter { _.uidSource === sID }
+      user <- users.filter { _.U_ID === relation.uidTarget }
+      } yield user
     val jsonValue: Seq[(String, JsValue)] = List(("userRelationship", toJson(friendsOfSID.list)))
+    Ok(JsObject(jsonValue))
+  }
+  
+  def getUserRelationships = DBAction { implicit rs => 
+    val jsonValue: Seq[(String, JsValue)] = List(("userRelationship", toJson(userRelationships.list)))
     Ok(JsObject(jsonValue))
   }
 }
