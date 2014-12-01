@@ -48,8 +48,8 @@
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/login"
-        android:layout_toRightOf="@id/password"
+        android:layout_below="@id/password"
+         android:layout_centerHorizontal="true"
         android:text="@string/login" />
 
     <Button

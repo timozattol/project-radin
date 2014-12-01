@@ -34,7 +34,6 @@
     <string name="new_radingroup">New Radin Group</string>
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
-    <string name="stats">Stats</string>
     <string name="create_account">Create new account</string>
     
     <!-- for DatabaseRadinGroupTableActivity -->
@@ -101,6 +100,16 @@
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
     
+    <!-- RadinGroupStatsActivity -->
+    <string name="choose_graph">Select the period of your graph: </string>
+    <string name="total_amount">The total amount is:</string>
+    <string name="spinner_graph_prompt">Choose which graph to display</string>
+    <string-array name="spinner_graph_arrays">
+        <item>choose your graph</item>
+        <item>spending a day</item>
+        <item>spending a month</item>
+        <item>spending a year</item>
+    </string-array>
     
 
 </resources>
