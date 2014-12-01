@@ -1,0 +1,155 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="ch.epfl.sweng.radin.RadinGroupAddExpenseActivity"
+    android:orientation="vertical">
+    
+    <!-- Relative layout wrapping all layouts needed for the actionBar -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/title_add_expense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/add_expense_string"
+                android:textSize="27sp" />
+
+            <EditText
+                android:id="@+id/purpose_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/title_add_expense"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/title_add_expense"
+                android:layout_marginTop="12dp"
+                android:hint="@string/purpose_hint"
+                android:maxLength="100" >
+
+                <requestFocus />
+            </EditText>
+
+            <Button
+                android:id="@+id/add_creditor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/creditor_selected"
+                android:layout_marginTop="10sp"
+                android:onClick="showCredDialog"
+                android:text="@string/creditor_select" />
+
+            <TextView
+                android:id="@+id/debtor_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/add_creditor"
+                android:layout_marginTop="10sp"
+                android:text="@string/debtor_text"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/debtors_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/debtor_text"
+                android:layout_alignBottom="@id/debtor_text"
+                android:layout_marginLeft="5sp"
+                android:layout_toRightOf="@id/debtor_text"
+                android:text="@string/debtors_selected" />
+
+            <Button
+                android:id="@+id/add_debtors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/debtors_selected"
+                android:layout_marginTop="10dp"
+                android:onClick="showDebDialog"
+                android:text="@string/debtors" />
+
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/add_debtors"
+                android:layout_marginTop="5sp"
+                android:text="@string/amount"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/amount_Field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/add_debtors"
+                android:layout_below="@id/amount"
+                android:layout_marginTop="5sp"
+                android:ems="10"
+                android:hint="@string/amount_hint"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/amount_Field"
+                android:layout_marginLeft="5sp"
+                android:layout_toRightOf="@id/amount_Field"
+                android:text="@string/currency" />
+
+            <Button
+                android:id="@+id/add_expense_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/amount_Field"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15sp"
+                android:onClick="sendExpense"
+                android:text="@string/add_this_expense" />
+
+            <TextView
+                android:id="@+id/creditor_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/purpose_title"
+                android:layout_below="@id/purpose_title"
+                android:layout_marginTop="10dp"
+                android:text="@string/creditor"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/creditor_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/creditor_text"
+                android:layout_alignBottom="@id/creditor_text"
+                android:layout_marginLeft="5sp"
+                android:layout_toRightOf="@id/creditor_text"
+                android:text="@string/creditor_selected" />
+        </RelativeLayout>
+    </ScrollView>
+    
+        <!-- Relative for the ActionBar, do not add code in this -->
+
+    <RelativeLayout
+        android:id="@+id/addExpenseRadinGroupLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="9" />
+
+</LinearLayout>

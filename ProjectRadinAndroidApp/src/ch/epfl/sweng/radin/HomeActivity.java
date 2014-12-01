@@ -3,78 +3,68 @@ package ch.epfl.sweng.radin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
+/**
+ * @author Fabien Zellweger
+ * The home activity to choose which fonctionality you want to try
+ */
 public class HomeActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-		
-		Button listBtn = (Button) findViewById(R.id.myListBtn);
-		listBtn.setOnClickListener(myListsButtonListener);
+
+		Button listBtn = (Button) findViewById(R.id.myRadinGroupBtn);
+		listBtn.setOnClickListener(homeButtonListener);
 		Button profileBtn = (Button) findViewById(R.id.profileBtn);
-		profileBtn.setOnClickListener(profileButtonListener);
+		profileBtn.setOnClickListener(homeButtonListener);
 		Button notificationBtn = (Button) findViewById(R.id.notificationBtn);
-		notificationBtn.setOnClickListener(notificationButtonListener);
+		notificationBtn.setOnClickListener(homeButtonListener);
 		Button contactsBtn = (Button) findViewById(R.id.contactsBtn);
-		contactsBtn.setOnClickListener(contactsButtonListener);
+		contactsBtn.setOnClickListener(homeButtonListener);
 		Button settingsBtn = (Button) findViewById(R.id.settingsBtn);
-		settingsBtn.setOnClickListener(settingsButtonListener);
+		settingsBtn.setOnClickListener(homeButtonListener);
 		Button owerview = (Button) findViewById(R.id.overviewBtn);
-		owerview.setOnClickListener(overviewButtonListener);
+		owerview.setOnClickListener(homeButtonListener);
 	}
-	private OnClickListener myListsButtonListener = new View.OnClickListener() {
-		
+	private OnClickListener homeButtonListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), MyListsActivity.class);
-	        startActivity(displayActivityIntent);
-			
+			int selectedId = v.getId();
+			Intent displayActivityIntent = null;
+
+			switch (selectedId) {
+				case R.id.myRadinGroupBtn:
+					displayActivityIntent = new Intent(v.getContext(), MyRadinGroupsActivity.class);
+					break;
+				case R.id.profileBtn:
+					displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
+					break;
+				case R.id.notificationBtn:
+					displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);
+					break;
+				case R.id.contactsBtn:
+					displayActivityIntent = new Intent(v.getContext(), ContactsActivity.class);
+					break;
+				case R.id.settingsBtn:
+					displayActivityIntent = new Intent(v.getContext(), SettingsActivity.class);
+					break;
+				case R.id.overviewBtn:
+					displayActivityIntent = new Intent(v.getContext(), OverviewActivity.class);
+					break;
+				default:
+					Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+						Toast.LENGTH_SHORT).show();				
+			}
+			if (!(displayActivityIntent == null)) {
+				startActivity(displayActivityIntent);	
+			}
 		}
 	};
-	
-	private OnClickListener profileButtonListener = new View.OnClickListener() {		
-		@Override
-		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
-	        startActivity(displayActivityIntent);			
-		}
-	};
-	
-	private OnClickListener notificationButtonListener = new View.OnClickListener() {		
-		@Override
-		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);
-	        startActivity(displayActivityIntent);			
-		}
-	};
-	
-	private OnClickListener contactsButtonListener = new View.OnClickListener() {		
-		@Override
-		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), ContactsActivity.class);
-	        startActivity(displayActivityIntent);			
-		}
-	};
-	
-	private OnClickListener settingsButtonListener = new View.OnClickListener() {		
-		@Override
-		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), SettingsActivity.class);
-	        startActivity(displayActivityIntent);			
-		}
-	};
-	private OnClickListener overviewButtonListener = new View.OnClickListener() {		
-		@Override
-		public void onClick(View v) {
-			Intent displayActivityIntent = new Intent(v.getContext(), OverviewActivity.class);
-	        startActivity(displayActivityIntent);			
-		}
-	};
+
 }
