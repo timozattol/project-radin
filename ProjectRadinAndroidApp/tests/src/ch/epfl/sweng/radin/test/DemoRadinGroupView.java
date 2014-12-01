@@ -3,32 +3,20 @@ package ch.epfl.sweng.radin.test;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.annotation.meta.When;
+import org.mockito.Mockito;
 
-import org.json.JSONObject;
-//import org.mockito.Mockito;
-
-import android.os.storage.StorageManager;
 import android.test.ActivityInstrumentationTestCase2;
 import ch.epfl.sweng.radin.LoginActivity;
 import ch.epfl.sweng.radin.R;
-import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.RequestType;
-import ch.epfl.sweng.radin.storage.managers.*;
-import ch.epfl.sweng.radin.storage.parsers.RadinGroupJSONParser;
 
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.action.Tapper.Status;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
+import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 /**
- * A class for testing everything that concerns RadinGroups
+ * Test & Demo: Log in and retrieve RadinGroups
  * @author Jokau
  *
  */
@@ -57,17 +45,11 @@ public class DemoRadinGroupView extends ActivityInstrumentationTestCase2<LoginAc
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-//		connection = Mockito.mock(HttpURLConnection.class);
-		 InputStream dataStream = new ByteArrayInputStream(JSON_RESPONSE.getBytes());
-//		 Mockito.doReturn(200).when(connection).getResponseCode();
-//		 Mockito.doReturn(dataStream).when(connection).getInputStream();
-//		 
-		 getActivity();
-	}
-	
-	
-	private void scrollTo(int rId) {
-		Espresso.onView(ViewMatchers.withId(rId)).perform(ViewActions.scrollTo());
+		InputStream dataStream = new ByteArrayInputStream(JSON_RESPONSE.getBytes());
+		connection = Mockito.mock(HttpURLConnection.class);
+		Mockito.doReturn(200).when(connection).getResponseCode();
+		Mockito.doReturn(dataStream).when(connection).getInputStream();
+		getActivity();
 	}
 	
 	public void testAll() {
@@ -77,6 +59,9 @@ public class DemoRadinGroupView extends ActivityInstrumentationTestCase2<LoginAc
 		Espresso.onView(ViewMatchers.withId(R.id.loginButton)).perform(ViewActions.click());
 
 		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupBtn)).perform(ViewActions.click());
-//		Espresso.onView(viewMatcher)
+		
+		//Are radinGroups present?
+		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupsLinearLayout)).check(ViewAssertions.matches(ViewMatchers.withText("radinGroup")));
+		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupsLinearLayout)).check(ViewAssertions.matches(ViewMatchers.withText("radinGroup2")));
 	}
 }
