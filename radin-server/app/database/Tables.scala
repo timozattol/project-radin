@@ -108,7 +108,7 @@ object Tables {
     def * = (RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, RGdeletedAt, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
   }
   
-  case class UserRelationship(source: Int, target: Int, URrelation: Int)
+  case class UserRelationship(source: Int, target: Int, URrel: Int)
   
   class UserRelationships(tag: Tag) extends Table[UserRelationship](tag, "USER_RELATIONSHIP") {
   	
