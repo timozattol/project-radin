@@ -133,6 +133,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       Ok(toJson(rg))
     }.getOrElse(BadRequest("invalid json"))
   }
+  
+  def getRadinGroupsForUser(uid: Int) = TODO
 
   def getUsersInRG(rgid: Int) = TODO
 
