@@ -22,21 +22,22 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
  */
 public class DemoRadinGroupView extends ActivityInstrumentationTestCase2<LoginActivity> {
 	private HttpURLConnection connection;
-	private static final String JSON_RESPONSE = "{\"radinGroup\":[" +
-			"{\"RG_name\":\"radinGroup\"," +
-			"\"RG_creationDate\":\"2014/11/28 10/11\"," +
-			"\"RG_description\":\"description bidon\"," +
-			"\"RG_masterID\":1," +
-			"\"RG_avatar\":\"\"," +
-			"\"RG_deletedAt\":\"\"," +
-			"\"RG_ID\":1}," +
-			"{\"RG_name\":\"radinGroup2\"," +
-			"\"RG_creationDate\":\"2014/11/29 10/11\"," +
-			"\"RG_description\":\"description balo\"," +
-			"\"RG_masterID\":2," +
-			"\"RG_avatar\":\"\"," +
-			"\"RG_deletedAt\":\"\"," +
-			"\"RG_ID\":2}]}";
+	private static final int SUCCESS_CODE = 200;
+	private static final String JSON_RESPONSE = "{\"radinGroup\":[" 
+			+ "{\"RG_name\":\"radinGroup\","
+			+ "\"RG_creationDate\":\"2014/11/28 10/11\","
+			+ "\"RG_description\":\"description bidon\","
+			+ "\"RG_masterID\":1,"
+			+ "\"RG_avatar\":\"\","
+			+ "\"RG_deletedAt\":\"\"," 
+			+ "\"RG_ID\":1},"
+			+ "{\"RG_name\":\"radinGroup2\","
+			+ "\"RG_creationDate\":\"2014/11/29 10/11\","
+			+ "\"RG_description\":\"description balo\","
+			+ "\"RG_masterID\":2,"
+			+ "\"RG_avatar\":\"\","
+			+ "\"RG_deletedAt\":\"\","
+			+ "\"RG_ID\":2}]}";
 
 	public DemoRadinGroupView() {
 		super(LoginActivity.class);
@@ -47,7 +48,7 @@ public class DemoRadinGroupView extends ActivityInstrumentationTestCase2<LoginAc
 		super.setUp();
 		InputStream dataStream = new ByteArrayInputStream(JSON_RESPONSE.getBytes());
 		connection = Mockito.mock(HttpURLConnection.class);
-		Mockito.doReturn(200).when(connection).getResponseCode();
+		Mockito.doReturn(SUCCESS_CODE).when(connection).getResponseCode();
 		Mockito.doReturn(dataStream).when(connection).getInputStream();
 		getActivity();
 	}
@@ -61,7 +62,9 @@ public class DemoRadinGroupView extends ActivityInstrumentationTestCase2<LoginAc
 		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupBtn)).perform(ViewActions.click());
 		
 		//Are radinGroups present?
-		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupsLinearLayout)).check(ViewAssertions.matches(ViewMatchers.withText("radinGroup")));
-		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupsLinearLayout)).check(ViewAssertions.matches(ViewMatchers.withText("radinGroup2")));
+		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupsLinearLayout))
+			.check(ViewAssertions.matches(ViewMatchers.withText("radinGroup")));
+		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupsLinearLayout))
+			.check(ViewAssertions.matches(ViewMatchers.withText("radinGroup2")));
 	}
 }
