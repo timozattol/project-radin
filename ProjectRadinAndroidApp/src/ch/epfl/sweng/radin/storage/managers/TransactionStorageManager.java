@@ -46,15 +46,15 @@ public final class TransactionStorageManager extends StorageManager<TransactionM
         return "transactions";
     }
     
-    public void getAllByRadinGroupId(int radinGroupId, RadinListener<TransactionModel> callback) {
-        if (isConnected()) {
-            if (!isHashMatchServer()) {
-                ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-                        SERVER_BASE_URL + "transactions/" + radinGroupId);
-                connTask.execute();
-                return;
-            }
-        }
-        //TODO take the data from the local DB
+    public void getAllForGroupId(int groupId, RadinListener<TransactionModel> callback) {
+    	if (isConnected()) {
+    		if (!isHashMatchServer()) {
+    			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
+						SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(groupId));
+				connTask.execute();
+				return;
+    		}
+    	}
+    	//TODO take the data from the local DB
     }
 }

@@ -116,7 +116,7 @@ public class RadinGroupViewActivity extends Activity {
 	    TransactionStorageManager transactionStorageManager = 
 	            TransactionStorageManager.getStorageManager();
 	    
-	    transactionStorageManager.getAllByRadinGroupId(
+	    transactionStorageManager.getAllForGroupId(
 	            mCurrentRadinGroupModel.getRadinGroupID(), new RadinListener<TransactionModel>() {
                     
                     @Override

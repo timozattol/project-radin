@@ -42,7 +42,7 @@ public class MyRadinGroupsActivity extends Activity {
 		Button addBtn = (Button) findViewById(R.id.addBtn);
 		addBtn.setOnClickListener(myRadinGroupsClickListener);
 
-		//This is a fake userId used to test the app
+		//TODO This is a fake userId used to test the app, need to remplace this when we got one.
 		int userId = 0;
 
 		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
