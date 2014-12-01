@@ -55,10 +55,18 @@
 	       android:layout_alignParentLeft="true"
 	       android:layout_alignParentRight="true"
 	       android:layout_below="@id/people"
-	       android:layout_marginTop="10dp"
+	       android:layout_marginTop="20dp"
 	       android:onClick="createRadinGroup"
 	       android:text="@string/create_radin_group"
 	       android:textSize="15sp" />
+
+	   <TextView
+	       android:id="@+id/participants_in_radin_group"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignParentLeft="true"
+	       android:layout_below="@id/people"
+	       android:text="@string/participants" />
 
 	</RelativeLayout>
 </ScrollView>

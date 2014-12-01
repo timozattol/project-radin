@@ -11,7 +11,7 @@ import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
-import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
+import ch.epfl.sweng.radin.storage.managers.UserRelationshipStorageManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -46,7 +47,6 @@ public class NewRadinGroupActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_radingroup);
-        
         retrieveData();
 		
         mNameEdit = (EditText) findViewById(R.id.edit_name);
@@ -90,17 +90,15 @@ public class NewRadinGroupActivity extends Activity {
 	 * Retrieves the data () from StorageManager
 	 */
 	private void retrieveData() {
-		UserStorageManager usrStorageManager = UserStorageManager
-				.getStorageManager();
-		usrStorageManager.getAllFriendsById(mClientID, new RadinListener<UserModel>() {
+		UserRelationshipStorageManager usrRelStorageManager = UserRelationshipStorageManager.getStorageManager();
+		usrRelStorageManager.getFriendsOfUserWithID(mClientID, new RadinListener<UserModel>() {
 
 			@Override
 			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					affectDataRetrieved(items);
 				} else {
-					Toast.makeText(getApplicationContext(),
-							R.string.server_error, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(),	R.string.server_error, Toast.LENGTH_SHORT).show();
 				}
 			}
 			
@@ -136,7 +134,6 @@ public class NewRadinGroupActivity extends Activity {
 	
 	/**
 	 * Create a dialog that display friends to check to add to the new RadiGroup
-	 * !!!similar to other dialog from RadinGRoupAddExpense!!!
 	 * @param friendNames Client's Friends
 	 * @return AlertDialog ready to be shown
 	 */
@@ -165,12 +162,15 @@ public class NewRadinGroupActivity extends Activity {
 				checkedItems = new boolean[mFriends.length];
 				for (int i = 0; i < checkedIds.length; i++) {
 					checkedItems[(int) checkedIds[i]] = true;
-					mParticipants.add(mNamesAndModel
-							.get(mFriends[(int) checkedIds[i]]));
-					// Log.i("participant" + i, mFriends[(int)
-					// checkedIds[i]]);
+					mParticipants.add(mNamesAndModel.get(mFriends[(int) checkedIds[i]]));
+					// Log.i("participant" + i, mFriends[(int) checkedIds[i]]);
 				}
-				// TODO show participants in a TextView
+				String participants = getResources().getString(R.string.participants);
+				for (UserModel usr : mParticipants) {
+					participants += usr.getFirstName() +" ";
+				}
+				TextView participantsTextView = (TextView) findViewById(R.id.participants_in_radin_group);
+				participantsTextView.setText(participants);
 			}
 		});
 		// Set CANCEL button
@@ -191,11 +191,7 @@ public class NewRadinGroupActivity extends Activity {
     		Toast.makeText(getBaseContext(), R.string.invalid_participants, Toast.LENGTH_SHORT).show();
         } else {
         	//valid data
-        	RadinGroupModel rdinGrpModel = new RadinGroupModel(-1, 
-        													   DateTime.now(), 
-        													   rdGrpName, 
-        													   "", 
-        													   "");
+        	RadinGroupModel rdinGrpModel = new RadinGroupModel(-1, DateTime.now(), rdGrpName, "", "");
         	RadinGroupStorageManager rdGrpStorageManager = RadinGroupStorageManager.getStorageManager();
         	ArrayList<RadinGroupModel> rdGroupToCreate = new ArrayList<RadinGroupModel>();
         	rdGroupToCreate.add(rdinGrpModel);
@@ -203,15 +199,14 @@ public class NewRadinGroupActivity extends Activity {
 				@Override
 				public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 					if (status == StorageManagerRequestStatus.SUCCESS) {
-						((Activity) getApplicationContext()).finish();
+						//((Activity) getApplicationContext()).finish();
 						Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
 					}
 				}
-        		
         	});
-        	// WaitingDialog until callback is called	
+        	//TODO WaitingDialog until callback is called	
         }
     }
 }
