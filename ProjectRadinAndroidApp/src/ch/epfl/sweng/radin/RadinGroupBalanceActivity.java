@@ -61,7 +61,7 @@ import android.widget.Toast;
 					displayErrorToast("Failed to get users for this group");
 				}
 			}
-		});
+		});		
 
 		TransactionWithParticipantsStorageManager storageManager = 
 				TransactionWithParticipantsStorageManager.getStorageManager();
@@ -78,7 +78,6 @@ import android.widget.Toast;
 				}
 			}
 		});
-
 
 		drawBalances(calculateBalances());
 	}
@@ -144,8 +143,8 @@ import android.widget.Toast;
 				Double oldBalance = userBalances.get(participant);
 				Double newBalance = transactionAmount * (usersAndCoefficients.get(participant) / sumCoefficients);
 
-				if (transaction.getCreatorID() == participant) {
-					newBalance += transactionAmount;
+				if (transaction.getCreditorID() == participant) {
+					newBalance -= transactionAmount;
 				}
 
 				userBalances.put(participant, oldBalance + newBalance);
