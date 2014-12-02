@@ -12,12 +12,16 @@ import android.widget.Toast;
  * @author Fabien Zellweger
  * The home activity to choose which fonctionality you want to try
  */
+
+
 public class HomeActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+
 
 		Button listBtn = (Button) findViewById(R.id.myRadinGroupBtn);
 		listBtn.setOnClickListener(homeButtonListener);
@@ -39,32 +43,73 @@ public class HomeActivity extends Activity {
 			Intent displayActivityIntent = null;
 
 			switch (selectedId) {
-				case R.id.myRadinGroupBtn:
-					displayActivityIntent = new Intent(v.getContext(), MyRadinGroupsActivity.class);
-					break;
-				case R.id.profileBtn:
-					displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
-					break;
-				case R.id.notificationBtn:
-					displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);
-					break;
-				case R.id.contactsBtn:
-					displayActivityIntent = new Intent(v.getContext(), ContactsActivity.class);
-					break;
-				case R.id.settingsBtn:
-					displayActivityIntent = new Intent(v.getContext(), SettingsActivity.class);
-					break;
-				case R.id.overviewBtn:
-					displayActivityIntent = new Intent(v.getContext(), OverviewActivity.class);
-					break;
-				default:
-					Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+			case R.id.myRadinGroupBtn:
+				displayActivityIntent = new Intent(v.getContext(), MyRadinGroupsActivity.class);
+				break;
+			case R.id.profileBtn:
+				displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
+				break;
+			case R.id.notificationBtn:
+				displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);
+				break;
+			case R.id.contactsBtn:
+				displayActivityIntent = new Intent(v.getContext(), ContactsActivity.class);
+				break;
+			case R.id.settingsBtn:
+				displayActivityIntent = new Intent(v.getContext(), SettingsActivity.class);
+				break;
+			case R.id.overviewBtn:
+				displayActivityIntent = new Intent(v.getContext(), OverviewActivity.class);
+				break;
+			default:
+				Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
 						Toast.LENGTH_SHORT).show();				
 			}
 			if (!(displayActivityIntent == null)) {
 				startActivity(displayActivityIntent);	
 			}
 		}
+		//private OnClickListener homeButtonListener = new View.OnClickListener() {
+		// public void onButtonClicker(View v) {
+		//	@Override
+		/*public void onClick(View v) {
+			Intent intent;
+
+	    	switch (v.getId()) {
+			case R.id.profileBtn:
+				intent = new Intent(this, ProfileActivity.class);
+				startActivity(intent);
+				break;
+
+			case R.id.myRadinGroupBtn:
+				intent = new Intent(this, MyRadinGroupsActivity.class);
+				startActivity(intent);
+				break;
+
+			case R.id.notificationBtn:
+				intent = new Intent(this, NotificationsActivity.class);
+				startActivity(intent);
+				break;
+
+			case R.id.contactsBtn:
+				intent = new Intent(this, ContactsActivity.class);
+				startActivity(intent);
+				break;
+
+			case R.id.settingsBtn:
+				intent = new Intent(this, SettingsActivity.class);
+				startActivity(intent);
+				break;
+
+			case R.id.overviewBtn:
+				intent = new Intent(this, OverviewActivity.class);
+				startActivity(intent);
+				break;	
+			default:
+				break;
+			}*/
+		// }
+
 	};
 
 }
