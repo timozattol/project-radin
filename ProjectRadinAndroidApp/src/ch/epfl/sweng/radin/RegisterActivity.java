@@ -28,6 +28,7 @@ public class RegisterActivity extends Activity {
 	private boolean newUserDataUsable = false;
 	private UserModel mNewUser = null;
 	private SharedPreferences prefs;
+	private boolean statusCreationUser = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +53,20 @@ public class RegisterActivity extends Activity {
 	private OnClickListener signUpButtonListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-				retrieveNewUserData();
+			retrieveNewUserData();
 			if (newUserDataUsable) {
-						submitUserToServer();
-				Intent displayHomeActivityIntent = new Intent(v.getContext(),
-						HomeActivity.class);
-				// TODO destroy this activity when communication with server
-				// done
-				startActivity(displayHomeActivityIntent);
+				submitUserToServer();
+				if (statusCreationUser == true) {
+					Intent displayHomeActivityIntent = new Intent(v.getContext(),
+							HomeActivity.class);
+					// TODO destroy this activity when communication with server
+					// done
+					startActivity(displayHomeActivityIntent);
+				} else {
+					Intent displayLoginActivityIntent = new Intent(v.getContext(),
+							LoginActivity.class);
+					startActivity(displayLoginActivityIntent);	
+				}
 			}
 		}
 	};
@@ -67,13 +74,13 @@ public class RegisterActivity extends Activity {
 	 * Sends the new user's data to the server
 	 */
 	private void submitUserToServer() {
-		
+
 		UserStorageManager userStorageManager = 
 				UserStorageManager.getStorageManager();
-		
+
 		List<UserModel> newUserList = new ArrayList<UserModel>();
 		newUserList.add(mNewUser);
-				
+
 		userStorageManager.create(newUserList, 
 				new RadinListener<UserModel>() {
 
@@ -81,27 +88,24 @@ public class RegisterActivity extends Activity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
-					// to be removed when we can access real data
-					//SharedPreferences.Editor editor = prefs.edit();
-					//editor.putString(getString(R.string.username), "-3");
-					//editor.commit();
 					Toast.makeText(getApplicationContext(),
 							R.string.server_error, Toast.LENGTH_SHORT).show();
 				} else {
 					UserModel mUser = items.get(0);
 					int mId = mUser.getId();
-					
+
 					SharedPreferences.Editor editor = prefs.edit();
 					editor.putString(getString(R.string.username), 
 							String.valueOf(mId));
 					editor.commit();
+					statusCreationUser = true;
 					Toast.makeText(getApplicationContext(),
 							R.string.user_created, Toast.LENGTH_SHORT).show();
 				}
 			}
-			
+
 		});
-		
+
 
 	}
 
@@ -113,7 +117,7 @@ public class RegisterActivity extends Activity {
 	 * if input is in good format
 	 */
 	private void retrieveNewUserData() {
-		
+
 		final CharSequence newUserFirstName = 
 				((TextView) findViewById(id.first_name_new_user)).getText();	      
 		final CharSequence newUserLastName = 
@@ -131,7 +135,7 @@ public class RegisterActivity extends Activity {
 		final CharSequence newUserBicSwift = 
 				((TextView) findViewById(id.bic_swift_address_new_user))
 				.getText();
-		
+
 		mNewUser.setFirstName(newUserFirstName.toString());
 		mNewUser.setLastName(newUserLastName.toString());
 		mNewUser.setUsername(newUserUsername.toString());
@@ -144,7 +148,7 @@ public class RegisterActivity extends Activity {
 		mNewUser.setId(-1);
 
 		newUserDataUsable = true;
-		
+
 	}
 
 	@Override

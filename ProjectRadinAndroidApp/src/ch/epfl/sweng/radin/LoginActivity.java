@@ -26,7 +26,9 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 	private String mUsername = null;
 	private String mPassword = null;
+	public static final String PREFS = "PREFS";
 	private SharedPreferences prefs;
+	private boolean validateLogin = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,7 @@ public class LoginActivity extends Activity {
 
 		StorageManager.init(this);
 		
-		prefs = getSharedPreferences(getString(R.string.preference_file_key), 
-				MODE_PRIVATE);
+		prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
 
 	}
 	private OnClickListener loginActivityButtonListener = 
@@ -54,8 +55,13 @@ public class LoginActivity extends Activity {
 			case R.id.loginButton:
 				retrieveRegisterUser();
 				verifyUser();
+				if (validateLogin == true) {
 				displayActivityIntent = 
 						new Intent(v.getContext(), HomeActivity.class);
+				} else {
+					displayActivityIntent = 
+							new Intent(v.getContext(), LoginActivity.class);	
+				}
 				break;
 			case R.id.createAcountButton:
 				displayActivityIntent = 
@@ -83,16 +89,23 @@ public class LoginActivity extends Activity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
+					// to be removed when we can access real data
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putString(getString(R.string.username), "-1");
+					editor.commit();
 					Toast.makeText(getApplicationContext(),
 							R.string.login_error, Toast.LENGTH_SHORT).show();
+					
 				} else {
 					
 					UserModel mUser = items.get(0);
 					int mId = mUser.getId();
 					
 					SharedPreferences.Editor editor = prefs.edit();
-					editor.putInt(getString(R.string.username), mId);
+					editor.putString(getString(R.string.username), 
+							String.valueOf(mId));
 					editor.commit();
+					validateLogin = true;
 					Toast.makeText(getApplicationContext(),
 							R.string.success_login, Toast.LENGTH_SHORT).show();
 				}
