@@ -16,8 +16,7 @@
 		<ListView 
 	        android:id="@+id/transactionListView"
 	        android:layout_width="fill_parent"
-	    	android:layout_height="fill_parent"
-	        android:layout_marginBottom="50dp" >
+	    	android:layout_height="fill_parent" >
 	    </ListView>
         
     </RelativeLayout>
