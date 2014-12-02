@@ -57,7 +57,10 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(jsonResponse)
   }
 
-  def getTransactionsWithCoeffsForGroup(rgid: Int) = TODO
+  def getTransactionsWithCoeffsForGroup(rgid: Int) = DBAction { implicit rs =>
+    
+    Ok
+  }
 
   def getAllTransactions = DBAction { implicit rs =>
     Ok(toJson(transactions.list))
@@ -89,12 +92,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(jsonResponse)
   }
 
-  def login(username: String) = DBAction { implicit rs =>
+  def login(username: String) = DBAction(parse.json) { implicit rs =>
+    Logger.info("Login request : " + rs.request.toString + " " + rs.request.body.toString)
     val user = toJson(users.list.filter(_.U_username == username))
-    val password = rs.request.body.asText.get
-    if (user.\\("U_password").length == 1 && user.\\("U_password").head.as[String].equals(password)) {
+    val password = rs.request.body.\("password")
+    if (user.\\("U_password").length == 1 && (user.\\("U_password").head.as[String]).equals(password)) {
+      Logger.info("Logged in !")
       Ok("OK")
     } else {
+      Logger.info("KO     " + password + "    " + user.\\("U_password").head.as[String])
       Ok("KO     " + password + "    " + user.\\("U_password").head.as[String])
     }
   }
@@ -103,6 +109,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(toJson(users.list))
   }
   //return list of all users
+  
+  def getUserById(uid: Int) = TODO
 
   // a sample action using an authorization implementation
   def onlyFacebook = SecuredAction(WithProvider("facebook")) { implicit request =>
@@ -150,8 +158,11 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     val x = memberInRadins.list.filter(_._2 == rgid)
     val y = for {
       a <- x
-    } yield toJson(users.list.filter(_.U_ID.get == a._1))
+      b <- users.list.filter(_.U_ID.get == a._1)
+    } yield (b)
+    Logger.info("Get users in RG json of users : " + y.toString)
     val jsonFirst = toJson(y).as[JsArray]
+    Logger.info("Get users in RG jsonArray : " + jsonFirst.toString)
     val jsonValue = List(("user", jsonFirst))
     val jsonResponse = JsObject(jsonValue)
     Ok(jsonResponse)
