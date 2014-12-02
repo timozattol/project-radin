@@ -3,6 +3,7 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
@@ -43,5 +44,9 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     @Override
     protected String getTypeUrl() {
         return "users";
+    }
+    
+    public void getAllForGroupId(int groupId, RadinListener<UserModel> callback) {
+    	//TODO: implement
     }
 }
