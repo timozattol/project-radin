@@ -51,12 +51,12 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     }
     
     public void getAllForGroupId(int radinGroupId, RadinListener<UserModel> callback) {
-		final String ACCESS_URL = "inradingroup";
+		final String ACCESS_URL = "radingroups";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + getTypeUrl() + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId));
-				//Example url: http://radin.epfl.ch/users/inradingroup/1
+				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + getTypeUrl());
+				//Example url: http://radin.epfl.ch/radingroups/1/users
 				connTask.execute();
 				return;
 			}

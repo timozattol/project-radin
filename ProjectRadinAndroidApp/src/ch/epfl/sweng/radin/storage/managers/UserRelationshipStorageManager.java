@@ -46,6 +46,7 @@ public final class UserRelationshipStorageManager extends StorageManager<UserMod
 	 */
     public void getFriendsOfUserWithID(int userId, RadinListener<UserModel> callback) {
     	getById(userId, callback);
+    	//url : http://radin.epfl.ch/userRelationships/1
     }
     
     public void createRelationshipWithId(int userId, List<UserModel> users, RadinListener<UserModel> callback) {
