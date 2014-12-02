@@ -2,9 +2,7 @@ package ch.epfl.sweng.radin;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.NavigableSet;
 import java.util.TreeMap;
 
 import com.jjoe64.graphview.BarGraphView;
@@ -18,10 +16,7 @@ import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,9 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * 
  * @author Fabien Zellweger
- *
  */
 public class RadinGroupStatsActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
@@ -61,18 +54,17 @@ public class RadinGroupStatsActivity extends Activity {
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		TransactionStorageManager transactionStorageManager = TransactionStorageManager.getStorageManager();
-		
-		transactionStorageManager.getAllForGroupId(
-				mCurrentRadinGroupModel.getRadinGroupID(),	new RadinListener<TransactionModel>() {
-					@Override
-					public void callback(List<TransactionModel> items, StorageManagerRequestStatus status) {
-						if (status == StorageManagerRequestStatus.SUCCESS) {
-							displayItems(items);
-						} else {
-							displayErrorToast("There was an error, please try again");
-						}
-					}
-				});
+		int rGMId = mCurrentRadinGroupModel.getRadinGroupID();
+		transactionStorageManager.getAllForGroupId(rGMId, new RadinListener<TransactionModel>() {
+			@Override
+			public void callback(List<TransactionModel> items, StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					displayItems(items);
+				} else {
+					displayErrorToast("There was an error, please try again");
+				}
+			}
+		});
 		
 		Spinner graphSpinner = (Spinner) findViewById(R.id.statsSelectGraphSpinner);
 		graphSpinner.setOnItemSelectedListener(spinnerSelectionListener);
@@ -196,7 +188,6 @@ public class RadinGroupStatsActivity extends Activity {
 		mDayGraphView.addSeries(dayGraph);
 		mDayGraphView.setHorizontalLabels(dayKeys);
 		mDayGraphView.setManualYAxisBounds(totalAmount/2, 0);
-		
 		
 		//Place the graphs on the right positions and set them invisible
 		RelativeLayout statRelativeLayout = (RelativeLayout) findViewById(R.id.statRadinGroupLayout);
