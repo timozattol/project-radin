@@ -3,8 +3,6 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-
 import ch.epfl.sweng.radin.R.id;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
@@ -29,6 +27,7 @@ import android.widget.Toast;
 public class RegisterActivity extends Activity {
 	private boolean newUserDataUsable = false;
 	private UserModel mNewUser = null;
+	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,7 @@ public class RegisterActivity extends Activity {
 		Button signUpButton = (Button) findViewById(id.sign_up_button);
 		signUpButton.setOnClickListener(signUpButtonListener);
 		mNewUser = new UserModel();
+		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class RegisterActivity extends Activity {
 		public void onClick(View v) {
 				retrieveNewUserData();
 			if (newUserDataUsable) {
-					submitUserToServer();
+						submitUserToServer();
 				Intent displayHomeActivityIntent = new Intent(v.getContext(),
 						HomeActivity.class);
 				// TODO destroy this activity when communication with server
@@ -63,10 +63,8 @@ public class RegisterActivity extends Activity {
 			}
 		}
 	};
-
 	/**
 	 * Sends the new user's data to the server
-	 * @throws JSONException 
 	 */
 	private void submitUserToServer() {
 		
@@ -83,9 +81,20 @@ public class RegisterActivity extends Activity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
+					// to be removed when we can access real data
+					//SharedPreferences.Editor editor = prefs.edit();
+					//editor.putString(getString(R.string.username), "-3");
+					//editor.commit();
 					Toast.makeText(getApplicationContext(),
 							R.string.server_error, Toast.LENGTH_SHORT).show();
 				} else {
+					UserModel mUser = items.get(0);
+					int mId = mUser.getId();
+					
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putString(getString(R.string.username), 
+							String.valueOf(mId));
+					editor.commit();
 					Toast.makeText(getApplicationContext(),
 							R.string.user_created, Toast.LENGTH_SHORT).show();
 				}
@@ -102,7 +111,6 @@ public class RegisterActivity extends Activity {
 	 * formatted input resets the field of the {@code TextView} and sets
 	 * {@code newUserDataUsable} to false sets {@code newUserDataUsable} to true
 	 * if input is in good format
-	 * @throws JSONException 
 	 */
 	private void retrieveNewUserData() {
 		
