@@ -124,7 +124,6 @@ public class RadinGroupViewActivity extends Activity {
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
                             displayErrorToast("Error while retrieving transactions");
-                            fillWithTestData();
                         } else {
                             refreshViewWithData(items);
                         }
