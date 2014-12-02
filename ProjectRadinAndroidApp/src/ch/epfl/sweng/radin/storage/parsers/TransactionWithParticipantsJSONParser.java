@@ -1,7 +1,7 @@
 /**
  * @author topali2
  */
-package ch.epfl.sweng.radin.storage;
+package ch.epfl.sweng.radin.storage.parsers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,8 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ch.epfl.sweng.radin.storage.parsers.JSONParser;
-import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
+import ch.epfl.sweng.radin.storage.TransactionModel;
+import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 
 /**
  * @author topali2

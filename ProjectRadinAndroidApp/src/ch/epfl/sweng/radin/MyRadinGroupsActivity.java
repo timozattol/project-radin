@@ -42,7 +42,7 @@ public class MyRadinGroupsActivity extends Activity {
 		Button addBtn = (Button) findViewById(R.id.addBtn);
 		addBtn.setOnClickListener(myRadinGroupsClickListener);
 
-		//This is a fake userId used to test the app
+		//TODO This is a fake userId used to test the app, need to remplace this when we got one.
 		int userId = 0;
 
 		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
@@ -51,7 +51,8 @@ public class MyRadinGroupsActivity extends Activity {
 
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
-			    if (status == StorageManagerRequestStatus.SUCCESS) {
+
+			    if (status == StorageManagerRequestStatus.SUCCESS) {      
 			        displayList(items);
 			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
 			    } else {
@@ -113,7 +114,7 @@ public class MyRadinGroupsActivity extends Activity {
 	}
 
 	/**
-	 * Choose the behaviours between the addRadinGroup button or the listed radinGroups
+	 * Choose the behaviors between the addRadinGroup button or the listed radinGroups
 	 */
 	private OnClickListener myRadinGroupsClickListener = new View.OnClickListener() {
 

@@ -44,6 +44,12 @@ public class EspressoLoginActivity extends ActivityInstrumentationTestCase2<Logi
 
 		Espresso.onView(ViewMatchers.withId(R.id.password)).perform(ViewActions.typeText("youwish..."));
 
+		Espresso.closeSoftKeyboard();
+		try {
+			Thread.sleep(mSleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		Espresso.onView(ViewMatchers.withId(R.id.loginButton)).perform(ViewActions.click());
 	}
 
