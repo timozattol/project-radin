@@ -106,11 +106,13 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   def userList = DBAction { implicit rs =>
-    Ok(toJson(users.list))
+    Ok(JsObject(List(("user",toJson(users.list)))))
   }
   //return list of all users
   
-  def getUserById(uid: Int) = TODO
+  def getUserById(uid: Int) = DBAction{ implicit rs =>
+    Ok(JsObject(List(("user",toJson(users.filter { _.U_ID === uid }.list)))))
+  }
 
   // a sample action using an authorization implementation
   def onlyFacebook = SecuredAction(WithProvider("facebook")) { implicit request =>
