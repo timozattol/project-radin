@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class SettingsActivity extends Activity {
 	private SharedPreferences prefs;
@@ -14,8 +15,7 @@ public class SettingsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
-		prefs = getSharedPreferences(getString(R.string.preference_file_key), 
-				MODE_PRIVATE);
+		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 		displayId();
 	}
 
@@ -44,6 +44,8 @@ public class SettingsActivity extends Activity {
 	
 	private void displayId() {
 		
+		TextView userID = (TextView) findViewById(R.id.value_id);
+		userID.setText(prefs.getString(getString(R.string.username), "NA"));
 		
 		
 	}
