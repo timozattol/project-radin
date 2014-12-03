@@ -29,14 +29,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       userRelationships.ddl.create
       transactions.ddl.create
     } finally {
-      users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
-      users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", "", ""))
-      users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", "", ""))
-      users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", "", ""))
+
+      users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", ""))
+      users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", ""))
+      users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", ""))
+      users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", ""))
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
       transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
       transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
-      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
+      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYU_username: StringIMENT"))
       transactions.insert(Transaction(1, 2, 2, 150, "CHF", "2014/01/02 00/00", "Cooler expense", "PAYMENT"))
       userRelationships.insert(UserRelationship(1, 2, 10))
       userRelationships.insert(UserRelationship(3, 2 , 11))
@@ -75,13 +76,18 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   implicit val userFormat = Json.format[User]
 
   def newUser = DBAction(parse.json) { implicit rs =>
+    Logger.info("New user request : " + rs.request.toString + " " + rs.request.body.toString)
     rs.request.body.\("user")(0).validate[User].map { user =>
-      users.insert(user)
+      val newuser = User(user.U_firstName, user.U_lastName, user.U_username, user.U_password, user.U_email, user.U_address, user.U_iban, user.U_bicSwift, user.U_avatar, None)
+      Logger.info("New user sent : " + user.toString())
+      users.insert(newuser)
     }
     val lastid = users.map(_.U_ID).max.run
+    Logger.info("New user ID : " + lastid)
     val lastuser = users.list.filter(_.U_ID == lastid)
     val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(lastuser)))
     val jsonResponse: JsObject = JsObject(jsonValue)
+    Logger.info("New user response : " + jsonResponse.toString)
     Ok(jsonResponse)
   }
 
@@ -159,7 +165,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       relation <- userRelationships.filter { _.uidSource === sID }
       user <- users.filter { _.U_ID === relation.uidTarget }
       } yield user
-    val jsonValue: Seq[(String, JsValue)] = List(("userRelationship", toJson(friendsOfSID.list)))
+    val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(friendsOfSID.list)))
     Ok(JsObject(jsonValue))
   }
   
