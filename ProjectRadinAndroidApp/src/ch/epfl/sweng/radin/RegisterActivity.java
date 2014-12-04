@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,15 +16,17 @@ import android.widget.TextView;
  * @author Simonchelbc
  * 
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends DashBoardActivity {
 	private boolean newUserDataUsable = false;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_register);
 		Button signUpButton = (Button) findViewById(id.sign_up_button);
 		signUpButton.setOnClickListener(signUpButtonListener);
+		setHeader(getString(R.string.title_project_radin), false, false);
 	}
 
 	@Override

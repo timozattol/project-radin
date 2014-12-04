@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -14,29 +15,32 @@ import android.widget.Toast;
  */
 
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends DashBoardActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//setContentView(R.layout.activity_home);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_home);
+		setHeader(getString(R.string.title_project_radin), false, false);
 
 
 
-		Button listBtn = (Button) findViewById(R.id.myRadinGroupBtn);
-		listBtn.setOnClickListener(homeButtonListener);
+		/*Button listBtn = (Button) findViewById(R.id.myRadinGroupBtn);
+		//listBtn.setOnClickListener(homeButtonListener);
 		Button profileBtn = (Button) findViewById(R.id.profileBtn);
-		profileBtn.setOnClickListener(homeButtonListener);
+		//profileBtn.setOnClickListener(homeButtonListener);
 		Button notificationBtn = (Button) findViewById(R.id.notificationBtn);
-		notificationBtn.setOnClickListener(homeButtonListener);
+		//notificationBtn.setOnClickListener(homeButtonListener);
 		Button contactsBtn = (Button) findViewById(R.id.contactsBtn);
-		contactsBtn.setOnClickListener(homeButtonListener);
+		//contactsBtn.setOnClickListener(homeButtonListener);
 		Button settingsBtn = (Button) findViewById(R.id.settingsBtn);
-		settingsBtn.setOnClickListener(homeButtonListener);
+		//settingsBtn.setOnClickListener(homeButtonListener);
 		Button owerview = (Button) findViewById(R.id.overviewBtn);
-		owerview.setOnClickListener(homeButtonListener);
+		//owerview.setOnClickListener(homeButtonListener);*/
 	}
-	private OnClickListener homeButtonListener = new View.OnClickListener() {
+	/*private OnClickListener homeButtonListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			int selectedId = v.getId();
@@ -68,48 +72,49 @@ public class HomeActivity extends Activity {
 			if (!(displayActivityIntent == null)) {
 				startActivity(displayActivityIntent);	
 			}
+		}*/
+	/**
+     * Button click handler on Main activity
+     * @param v
+     */
+    public void onButtonClicker(View v)
+    {
+    	Intent intent;
+    	
+    	switch (v.getId()) {
+		case R.id.myRadinGroupBtn:
+			intent = new Intent(this, MyRadinGroupsActivity.class);
+			startActivity(intent);
+			break;
+
+		case R.id.profileBtn:
+			intent = new Intent(this, ProfileActivity.class);
+			startActivity(intent);
+			break;
+			
+		case R.id.notificationBtn:
+			intent = new Intent(this,  NotificationsActivity.class);
+			startActivity(intent);
+			break;
+			
+		case R.id.contactsBtn:
+			intent = new Intent(this, ContactsActivity.class);
+			startActivity(intent);
+			break;
+			
+		case R.id.settingsBtn:
+			intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			break;
+			
+		case R.id.overviewBtn:
+			intent = new Intent(this, OverviewActivity.class);
+			startActivity(intent);
+			break;	
+		default:
+			break;
 		}
-		//private OnClickListener homeButtonListener = new View.OnClickListener() {
-		// public void onButtonClicker(View v) {
-		//	@Override
-		/*public void onClick(View v) {
-			Intent intent;
-
-	    	switch (v.getId()) {
-			case R.id.profileBtn:
-				intent = new Intent(this, ProfileActivity.class);
-				startActivity(intent);
-				break;
-
-			case R.id.myRadinGroupBtn:
-				intent = new Intent(this, MyRadinGroupsActivity.class);
-				startActivity(intent);
-				break;
-
-			case R.id.notificationBtn:
-				intent = new Intent(this, NotificationsActivity.class);
-				startActivity(intent);
-				break;
-
-			case R.id.contactsBtn:
-				intent = new Intent(this, ContactsActivity.class);
-				startActivity(intent);
-				break;
-
-			case R.id.settingsBtn:
-				intent = new Intent(this, SettingsActivity.class);
-				startActivity(intent);
-				break;
-
-			case R.id.overviewBtn:
-				intent = new Intent(this, OverviewActivity.class);
-				startActivity(intent);
-				break;	
-			default:
-				break;
-			}*/
-		// }
-
-	};
+    }
+	//};
 
 }

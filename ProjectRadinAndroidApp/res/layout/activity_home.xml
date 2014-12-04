@@ -72,8 +72,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@color/background">
 
+    <!-- Included header.xml here -->
+	<ViewStub android:id="@+id/vsHeader" 
+	    android:inflatedId="@+id/header" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:layout="@layout/header" />
+	
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -97,7 +105,7 @@
             <Button
                 android:id="@+id/profileBtn"
                 style="@style/HomeButton"
-                android:drawableTop="@drawable/profile_icon"
+                android:drawableTop="@drawable/ic_profile"
                 android:onClick="onButtonClicker"
                 android:text="@string/profile" />
         </LinearLayout>
@@ -111,14 +119,14 @@
             <Button
                 android:id="@+id/notificationBtn"
                 style="@style/HomeButton"
-                android:drawableTop="@drawable/notifications_icon"
+                android:drawableTop="@drawable/ic_notifications"
                 android:onClick="onButtonClicker"
                 android:text="@string/notifications" />
 
             <Button
                 android:id="@+id/contactsBtn"
                 style="@style/HomeButton"
-                android:drawableTop="@drawable/contact_icon"
+                android:drawableTop="@drawable/ic_contact"
                 android:onClick="onButtonClicker"
                 android:text="@string/contacts" />
         </LinearLayout>
@@ -132,14 +140,14 @@
             <Button
                 android:id="@+id/overviewBtn"
                 style="@style/HomeButton"
-                android:drawableTop="@drawable/overview_icon"
+                android:drawableTop="@drawable/ic_overview"
                 android:onClick="onButtonClicker"
                 android:text="@string/overview" />
 
             <Button
                 android:id="@+id/settingsBtn"
                 style="@style/HomeButton"
-                android:drawableTop="@drawable/settings_icon"
+                android:drawableTop="@drawable/ic_settings"
                 android:onClick="onButtonClicker"
                 android:text="@string/settings" />
         </LinearLayout>

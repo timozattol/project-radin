@@ -29,28 +29,32 @@ public class EspressoHomeActivity extends ActivityInstrumentationTestCase2<HomeA
 		getActivity();
 	}
 
-	public void testContactBtn() {
-
-		Espresso.onView(ViewMatchers.withId(R.id.contactsBtn)).perform(ViewActions.click());
-		Espresso.pressBack();
-	//}
-	//public void testGroupBtn() {
-		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupBtn)).perform(ViewActions.click());
-		Espresso.pressBack();
-	//}
-	//public void testNotificationBtn() {
+	public void testNotificationBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.notificationBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
-	//}
-	//public void testOverviewBtn() {
+	}
+	public void testContactBtn() {
+		
+		Espresso.onView(ViewMatchers.withId(R.id.contactsBtn)).perform(ViewActions.click());
+		Espresso.pressBack();
+		
+		//
+	}
+	public void testGroupBtn() {
+		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupBtn)).perform(ViewActions.click());
+		Espresso.pressBack();
+	}
+	
+	public void testOverviewBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.overviewBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
-	//}
-	//public void testProfileBtn() {
+	}
+	public void testProfileBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.profileBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
-	//}
-	//public void testSettingsBtn() {
+	}
+	
+	public void testSettingsBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.settingsBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
 
