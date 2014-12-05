@@ -94,7 +94,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   def login(username: String) = DBAction(parse.json) { implicit rs =>
-    Logger.info("Login request : " + rs.request.toString + " " + rs.request.body.toString)
+    Logger.info("Login request : " + rs.request.toString + " " + rs.request.body.toString + " " + rs.request.rawQueryString)
     val user = toJson(users.list.filter(_.U_username == username))
     val password = rs.request.body.\("password")
     val userPass = user.\\("U_password").head
@@ -103,7 +103,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       Ok(toJson(user))
     } else {
       Logger.info("KO     " + password + "    " + user.\\("U_password").head.as[String])
-      Ok("KO")
+      BadRequest("KO")
     }
   }
 
@@ -111,6 +111,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(toJson(users.list))
   }
   //return list of all users
+  
+  def addUsertoRadinGroup(rgid: Int) = TODO
   
   def getUserById(uid: Int) = TODO
 
