@@ -14,4 +14,9 @@
         android:text="@string/contacts"
         android:textSize="100sp" />
 
+    <ListView
+        android:id="@+id/fullContactListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
 </RelativeLayout>
