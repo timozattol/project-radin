@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -99,6 +100,7 @@ public class RegisterActivity extends Activity {
 							String.valueOf(mId));
 					editor.commit();
 					statusCreationUser = true;
+					Log.d("StatutCreationUser", String.valueOf(statusCreationUser));
 					Toast.makeText(getApplicationContext(),
 							R.string.user_created, Toast.LENGTH_SHORT).show();
 				}

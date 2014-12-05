@@ -93,6 +93,7 @@ public class LoginActivity extends Activity {
 					SharedPreferences.Editor editor = prefs.edit();
 					editor.putString(getString(R.string.username), "-1");
 					editor.commit();
+					validateLogin = true;
 					Toast.makeText(getApplicationContext(),
 							R.string.login_error, Toast.LENGTH_SHORT).show();
 					
