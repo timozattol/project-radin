@@ -27,4 +27,5 @@ if [ ! -z "$result" ] || [ ! "$status" -eq 0 ]; then
   echo "Errors occured while testing android app"
   exit 1
 fi
+echo "Mooooooooh"
 exit 0
