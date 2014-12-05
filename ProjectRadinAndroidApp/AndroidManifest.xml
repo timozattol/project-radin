@@ -7,9 +7,9 @@
     <uses-sdk
         android:minSdkVersion="18"
         android:targetSdkVersion="19" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -106,6 +106,11 @@
         <activity
             android:name=".DatabaseRadinGroupTableActivity"
             android:label="@string/title_activity_database_radin_group_table" >
+        </activity>
+        <activity
+            android:name=".ProfileChange"
+            android:label="@string/title_activity_profile_change"
+            android:parentActivityName=".ProfileActivity" >
         </activity>
     </application>
 
