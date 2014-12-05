@@ -30,10 +30,10 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       transactions.ddl.create
     } finally {
 
-      users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", ""))
-      users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", ""))
-      users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", ""))
-      users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", ""))
+      users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", "", ""))
+      users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", "", ""))
+      users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", "", ""))
+      users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", "", ""))
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
       transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
       transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
@@ -78,7 +78,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   def newUser = DBAction(parse.json) { implicit rs =>
     Logger.info("New user request : " + rs.request.toString + " " + rs.request.body.toString)
     rs.request.body.\("user")(0).validate[User].map { user =>
-      val newuser = User(user.U_firstName, user.U_lastName, user.U_username, user.U_password, user.U_email, user.U_address, user.U_iban, user.U_bicSwift, user.U_avatar, None)
+      val newuser = User(user.U_firstName, user.U_lastName, user.U_username, user.U_password, user.U_email, user.U_address, user.U_iban, user.U_bicSwift, user.U_avatar, user.U_deletedAt)
       Logger.info("New user sent : " + user.toString())
       users.insert(newuser)
     }

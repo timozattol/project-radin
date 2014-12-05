@@ -127,7 +127,7 @@ object Tables {
   		
  
 
-  case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String, U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_avatar: String, U_deletedAt: Option[String] = None, U_ID: Option[Int] = None)
+  case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String, U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_avatar: String, U_deletedAt: String, U_ID: Option[Int] = None)
 
 
   class Users(tag: Tag) extends Table[User](tag, "USER") {
@@ -136,15 +136,15 @@ object Tables {
     def U_lastName: Column[String] = column[String]("U_LAST", O.NotNull)
     def U_username: Column[String] = column[String]("U_USERNAME", O.NotNull)
     def U_password: Column[String] = column[String]("U_PASSWORD", O.NotNull)
-    def U_email: Column[String] = column[String]("U_IBAN")
-    def U_address: Column[String] = column[String]("U_LANGUAGE", O.NotNull)
-    def U_iban: Column[String] = column[String]("U_ADDRESS")
-    def U_bicSwift: Column[String] = column[String]("U_OPTIONS", O.NotNull)
+    def U_email: Column[String] = column[String]("U_EMAIL")
+    def U_address: Column[String] = column[String]("U_ADDRESS", O.NotNull)
+    def U_iban: Column[String] = column[String]("U_IBAN")
+    def U_bicSwift: Column[String] = column[String]("U_BIC_SWIFT", O.NotNull)
     def U_avatar: Column[String] = column[String]("U_AVATAR")
     def U_deletedAt: Column[String] = column[String]("U_DELETED_AT")
     def U_ID: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
 
-    def * = (U_firstName, U_lastName, U_username, U_password, U_email, U_address, U_iban, U_bicSwift, U_avatar, U_deletedAt.?, U_ID.?) <> (User.tupled, User.unapply)
+    def * = (U_firstName, U_lastName, U_username, U_password, U_email, U_address, U_iban, U_bicSwift, U_avatar, U_deletedAt, U_ID.?) <> (User.tupled, User.unapply)
   }
 
   case class Transaction(T_parentRadinGroupID: Int, T_creatorID: Int, T_debitorID: Int, T_amount: Int, T_currency: String, T_dateTime: String, T_purpose: String, T_type: String, T_ID: Option[Int] = None)
