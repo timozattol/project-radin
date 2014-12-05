@@ -34,7 +34,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", ""))
       users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", ""))
       users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", ""))
-      radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", ""))
+      radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", Some("")))
       transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
       transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
       transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
@@ -58,7 +58,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   def getTransactionsWithCoeffsForGroup(rgid: Int) = DBAction { implicit rs =>
-    
+    val transactionList = toJson(transactions.list.filter(_.T_parentRadinGroupID == rgid))
+    val transactionsWithCoeffsList = transactionList
     Ok
   }
 
@@ -145,11 +146,20 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(jsonResponse)
   }
 
-  def jsonInsert = DBAction(parse.json) { implicit rs =>
-    rs.request.body.validate[RadinGroup].map { rg =>
-      radinGroups.insert(rg)
-      Ok(toJson(rg))
-    }.getOrElse(BadRequest("invalid json"))
+  def newRadinGroup = DBAction(parse.json) { implicit rs =>
+    Logger.info("New RadinGroup request : " + rs.request.toString + " " + rs.request.body.toString)
+    rs.request.body.\("radinGroup")(0).validate[RadinGroup].map { rg =>
+      val newRG = RadinGroup(rg.RG_name, rg.RG_creationDate, rg.RG_description, rg.RG_masterID, rg.RG_avatar)
+      Logger.info("New RadinGroup sent : " + newRG.toString())
+      radinGroups.insert(newRG)
+    }
+    val lastid = radinGroups.map(_.rid).max.run
+    Logger.info("New RadinGroup ID : " + lastid)
+    val lastRG = radinGroups.list.filter(_.RG_ID  == lastid)
+    val jsonValue: Seq[(String, JsValue)] = List(("radinGroup", toJson(lastRG)))
+    val jsonResponse: JsObject = JsObject(jsonValue)
+    Logger.info("New RadinGroup response : " + jsonResponse.toString)
+    Ok(jsonResponse)
   }
 
   def getRadinGroupsForUser(uid: Int) = TODO
