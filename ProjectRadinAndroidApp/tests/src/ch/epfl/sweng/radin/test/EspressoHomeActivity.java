@@ -38,17 +38,13 @@ public class EspressoHomeActivity extends ActivityInstrumentationTestCase2<HomeA
 		Espresso.onView(ViewMatchers.withId(R.id.contactsBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
 		
-		//
-	}
-	public void testGroupBtn() {
-		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupBtn)).perform(ViewActions.click());
-		Espresso.pressBack();
 	}
 	
 	public void testOverviewBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.overviewBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
 	}
+	
 	public void testProfileBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.profileBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
@@ -59,6 +55,11 @@ public class EspressoHomeActivity extends ActivityInstrumentationTestCase2<HomeA
 		Espresso.pressBack();
 
 	}
+	
+	/*public void testGroupBtn() {
+		Espresso.onView(ViewMatchers.withId(R.id.myRadinGroupBtn)).perform(ViewActions.click());
+		Espresso.pressBack();
+	}*/
 
 }
 

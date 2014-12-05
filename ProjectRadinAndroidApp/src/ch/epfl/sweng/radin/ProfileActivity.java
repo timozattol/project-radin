@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 /**
  * @author Fabien Zellweger
  */
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends DashBoardActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_profile);
+		setHeader(getString(R.string.profile), true, true);
 	}
 
 	@Override
