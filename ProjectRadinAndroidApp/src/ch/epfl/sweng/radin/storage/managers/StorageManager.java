@@ -277,11 +277,8 @@ public abstract class StorageManager<M extends Model> {
 		 */
 		@Override
 		protected void onPostExecute(String result) {
-<<<<<<< HEAD
 			 System.out.println(result);
 			 Log.d("Result: ", result);
-=======
->>>>>>> master
 			if (result.equals("FAILURE")) {
 			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
 			} else {
