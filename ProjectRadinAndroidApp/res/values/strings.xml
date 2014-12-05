@@ -4,25 +4,25 @@
     <string name="app_name">ProjectRadinAndroidApp</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="action_home">Home</string>
     <string name="title_activity_contacts">ContactsActivity</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="title_activity_list">ListActivity</string>
+    <string name="title_activity_radingroup">RadinGroupActivity</string>
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_overview">OverviewActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_activity_list_view">ListViewActivity</string>
+    <string name="title_activity_radinlist_view">RadinGroupViewActivity</string>
     <string name="title_activity_profile_other">ProfileOtherActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
-    <string name="title_activity_new_list">NewListActivity</string>
-    <string name="title_activity_list_balance">ListBalanceActivity</string>
-    <string name="title_activity_list_stats">ListStatsActivity</string>
-    <string name="title_activity_list_add_expense">ListAddExpenseActivity</string>
-    <string name="title_activity_list_configuration">ListConfigurationActivity</string>
+    <string name="title_activity_new_radingroup">NewRadinGroupActivity</string>
+    <string name="title_activity_radingroup_balance">RadinGroupBalanceActivity</string>
+    <string name="title_activity_radingroup_stats">RadinGroupStatsActivity</string>
+    <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
+    <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
-    
     <string name="home_title">Home</string>
-    <string name="my_lists">My Lists</string>
+    <string name="my_radingroups">My Radin Groups</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
     <string name="contacts">Contacts</string>
@@ -30,14 +30,23 @@
     <string name="overview">Overview</string>
     <string name="add">+</string>
     <string name="radin_title">Radin</string>
-    <string name="list_view">List view</string>
-    <string name="new_list">New List</string>
-    <string name="add_expense">Add Expense</string>
+    <string name="radingroup_view">Radin Group view</string>
+    <string name="new_radingroup">New Radin Group</string>
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
-    <string name="stats">Stats</string>
     <string name="create_account">Create new account</string>
     
+    <!-- for DatabaseRadinGroupTableActivity -->
+	<string name="radin_group_table_activity_title">RadinGroup DB Table test</string>
+	<string name="rid">_RID</string>
+	<string name="rg_creation_date_hint">Group creation date[now or tomorrow]</string>
+	<string name="rg_deletion_date_hint">Group deletion date[tomorrow]</string>
+	<string name="rg_end_date_hint">Group end date[tomorrow]</string>
+	<string name="rg_name_hint">Group name</string>
+	<string name="rg_avatar_hint">Avatar location</string>
+	<string name="rg_master_id_hint">RG MasterID</string>
+	<string name="rg_description_hint">RG Description</string>
+	<string name="title_activity_database_radin_group_table">DatabaseRadinGroupTableActivity</string>
     <!-- Linked to register and login activity -->
     <string name="login">Login</string>
     <string name="password">Password</string>
@@ -50,15 +59,57 @@
     <string name="address">Home address</string>
     <string name="bic_swift_address">BIC/SWIFT address</string>
     <string name="sign_up_button_text">Sign up</string>
-    
 
     <!-- NewListActivity -->
-    <string name="list_name">Name</string>
+    <string name="radin_name">Name</string>
     <string name="friends_names">Add people</string>
     <string name="hint_name">Type the list\'s name</string>
-    <string name="multi_friend">Type the participants\' names</string>
-    <string name="add_info">If a name doesn\'t belong to the suggestions it means that it has been misspelled or doesn\'t belong to your friends, you will be able to add it in the next screen</string>
-    <string name="create_list">Create</string>
+    <string name="multi_friend">Add friends to list</string>
+    <string name="add_info"></string>
+    <string name="create_radin_group">Create</string>
+
+    <string name="invalid_name">Please add a group name</string>
+    <string name="invalid_participants">Please select at least one person to create a groupe</string>
+
+    <!-- ProfileActivity -->
+    <string name="profile_last_name">Last Name</string>
+    <string name="profile_first_name">First Name</string>
+    <string name="profile_address">Address</string>
+    <string name="profile_iban">Iban</string>
+
+    <!-- AddExpenseActivity -->
+    <string name="creditor">Creditor :</string>
+    <string name="debtors">Add debtor(s)</string>
+    <string name="creditor_select">Change creditor</string>
+    <string name="debtor_text">Debtor(s) :</string>
+    <string name="debtorsList">Choose debtors to add</string>
+    <string name="creditorList">Choose creditor</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_expense_string">Add an expense to \ </string>
+    <string name="creditor_selected">You (default)</string>
+    <string name="debtors_selected">None </string>
+    <string name="amount">Amount</string>
+    <string name="amount_hint">Amount paid</string>
+    <string name="currency">CHF</string>
+    <string name="add_this_expense">Add this expense</string>
+    <string name="invalid_amount">The amount is not valid</string>
+    <string name="invalid_debtors">Please select debitors first</string>
+    <string name="expense_added">Expense added!</string>
+    <string name="not_ready">Please wait for the data to be retrieved</string>
+    <string name="purpose_hint">Expense\'s name</string>
+    <string name="invalid_purpose">No expense purpose</string>
+    
+    <!-- RadinGroupStatsActivity -->
+    <string name="choose_graph">Select the period of your graph: </string>
+    <string name="total_amount">The total amount is:</string>
+    <string name="spinner_graph_prompt">Choose which graph to display</string>
+    <string-array name="spinner_graph_arrays">
+        <item>choose your graph</item>
+        <item>spending a day</item>
+        <item>spending a month</item>
+        <item>spending a year</item>
+    </string-array>
     
 
 </resources>

@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="ch.epfl.sweng.radin.RadinGroupStatsActivity"
+    android:orientation="vertical">
+    
+   <RelativeLayout
+       android:id="@+id/statRadinGroupLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+    <TextView
+        android:id="@+id/totalAmountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total_amount"
+        android:textSize="12sp" />
+    
+    <TextView 
+        android:id="@+id/totalAmountValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalAmountText"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/statSelectGraphText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalAmountValue"
+        android:paddingTop="5sp"
+        android:text="@string/choose_graph"
+        android:textSize="12sp" />
+
+    <Spinner
+        android:id="@+id/statsSelectGraphSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/statSelectGraphText"
+        android:prompt="@string/spinner_graph_prompt"
+        android:entries="@array/spinner_graph_arrays"
+        android:background="@android:drawable/btn_dropdown" />
+    
+    <LinearLayout 
+        android:id="@+id/statsGraphLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/statsSelectGraphSpinner"
+        android:orientation="vertical"/>
+    
+    </RelativeLayout>
+    
+    <!-- Relative for the ActionBar, do not add code in this -->
+    <RelativeLayout
+        android:id="@+id/statRadinGroupActionBarLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="9" />
+
+</LinearLayout>

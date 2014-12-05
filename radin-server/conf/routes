@@ -14,13 +14,17 @@ GET    /custom/login                       @controllers.CustomLoginController.lo
 GET    /custom/logout                      @controllers.CustomLoginController.logout
 
 GET    /radingroups                        @controllers.Application.jsonFindAll
-POST   /radingroups                        @controllers.Application.jsonInsert
+POST   /radingroups                        @controllers.Application.newRadinGroup
+GET    /radingroups/:uid                   @controllers.Application.getRadinGroupsForUser(uid: Int)
+GET	   /radingroups/:rgid/users			   @controllers.Application.getUsersInRG(rgid: Int)
 
 GET    /transactions/:rgid                 @controllers.Application.getTransactionsForGroup(rgid: Int)
 GET    /transactions/withcoeffs/:rgid      @controllers.Application.getTransactionsWithCoeffsForGroup(rgid: Int)
 
 GET    /users                              @controllers.Application.userList
-POST   /newuser                            @controllers.Application.newUser
+POST   /users                              @controllers.Application.newUser
+GET	   /users/:uid						   @controllers.Application.getUserById(uid: Int)
+POST   /login/:username					   @controllers.Application.login(username: String)
 
 GET    /userRelationships                  @controllers.Application.getUserRelationships
 #maps all requests that request userRelationships of ID sourceID that must be by pattern matching a digit of length 1 -> infinity
