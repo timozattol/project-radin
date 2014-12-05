@@ -46,6 +46,7 @@ GET    /transactions/withcoeffs/:rgid      @controllers.Application.getTransacti
 
 GET    /users                              @controllers.Application.userList
 POST   /users                              @controllers.Application.newUser
+
 GET    /users/:uid                         @controllers.Application.getUserById(uid: Int)
 
 POST   /login/:username                    @controllers.Application.login(username: String)
