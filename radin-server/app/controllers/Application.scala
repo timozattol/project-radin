@@ -37,7 +37,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", Some("")))
       transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
       transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
-      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
+      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYU_username: StringIMENT"))
       transactions.insert(Transaction(1, 2, 2, 150, "CHF", "2014/01/02 00/00", "Cooler expense", "PAYMENT"))
       userRelationships.insert(UserRelationship(1, 2, 10))
       userRelationships.insert(UserRelationship(3, 2 , 11))
@@ -108,13 +108,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   def userList = DBAction { implicit rs =>
-    Ok(toJson(users.list))
+    Ok(JsObject(List(("user",toJson(users.list)))))
   }
   //return list of all users
-  
+
   def addUsertoRadinGroup(rgid: Int) = TODO
-  
-  def getUserById(uid: Int) = TODO
+
+  def getUserById(uid: Int) = DBAction{ implicit rs =>
+    Ok(JsObject(List(("user",toJson(users.filter { _.U_ID === uid }.list)))))
+  }
 
   // a sample action using an authorization implementation
   def onlyFacebook = SecuredAction(WithProvider("facebook")) { implicit request =>
@@ -196,7 +198,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       relation <- userRelationships.filter { _.uidSource === sID }
       user <- users.filter { _.U_ID === relation.uidTarget }
       } yield user
-    val jsonValue: Seq[(String, JsValue)] = List(("userRelationship", toJson(friendsOfSID.list)))
+    val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(friendsOfSID.list)))
     Ok(JsObject(jsonValue))
   }
   

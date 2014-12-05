@@ -24,8 +24,9 @@ GET    /transactions/withcoeffs/:rgid      @controllers.Application.getTransacti
 
 GET    /users                              @controllers.Application.userList
 POST   /users                              @controllers.Application.newUser
-GET	   /users/:uid						   @controllers.Application.getUserById(uid: Int)
-POST   /login/:username					   @controllers.Application.login(username: String)
+GET    /users/:uid                         @controllers.Application.getUserById(uid: Int)
+
+POST   /login/:username                    @controllers.Application.login(username: String)
 
 GET    /userRelationships                  @controllers.Application.getUserRelationships
 #maps all requests that request userRelationships of ID sourceID that must be by pattern matching a digit of length 1 -> infinity
@@ -50,11 +51,10 @@ GET    /reset                              @securesocial.controllers.PasswordRes
 POST   /reset                              @securesocial.controllers.PasswordReset.handleStartResetPassword
 GET    /reset/:mailToken                   @securesocial.controllers.PasswordReset.resetPassword(mailToken)
 POST   /reset/:mailToken                   @securesocial.controllers.PasswordReset.handleResetPassword(mailToken)
-
+    
 # Change Password
 GET    /password                           @securesocial.controllers.PasswordChange.page
 POST   /password                           @securesocial.controllers.PasswordChange.handlePasswordChange
-
 
 # Authentication entry points for all providers
 GET    /authenticate/:provider             @securesocial.controllers.ProviderController.authenticate(provider, redirectTo: Option[String])

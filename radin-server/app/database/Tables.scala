@@ -121,8 +121,10 @@ object Tables {
 		
 		def * = (uidSource, uidTarget, URrelation) <> (UserRelationship.tupled, UserRelationship.unapply)
   }
-  
+
   case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String, U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_picture: String, U_ID: Option[Int] = None)
+
+
 
   class Users(tag: Tag) extends Table[User](tag, "USER") {
 
@@ -130,10 +132,10 @@ object Tables {
     def U_lastName: Column[String] = column[String]("U_LAST", O.NotNull)
     def U_username: Column[String] = column[String]("U_USERNAME", O.NotNull)
     def U_password: Column[String] = column[String]("U_PASSWORD", O.NotNull)
-    def U_email: Column[String] = column[String]("U_IBAN")
-    def U_address: Column[String] = column[String]("U_LANGUAGE", O.NotNull)
-    def U_iban: Column[String] = column[String]("U_ADDRESS")
-    def U_bicSwift: Column[String] = column[String]("U_OPTIONS", O.NotNull)
+    def U_email: Column[String] = column[String]("U_EMAIL")
+    def U_address: Column[String] = column[String]("U_ADDRESS", O.NotNull)
+    def U_iban: Column[String] = column[String]("U_IBAN")
+    def U_bicSwift: Column[String] = column[String]("U_BIC_SWIFT", O.NotNull)
     def U_avatar: Column[String] = column[String]("U_AVATAR")
 //    def U_deletedAt: Column[String] = column[String]("U_DELETED_AT")
     def U_ID: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
