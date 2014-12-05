@@ -3,6 +3,8 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
@@ -35,6 +37,18 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     @Override
     public JSONParser<UserModel> getJSONParser() {
         return new UserJSONParser();
+    }
+    
+    public void getAllForGroupId(int radinGroupId, RadinListener<UserModel> callback) {
+        if (isConnected()) {
+            if (!isHashMatchServer()) {
+                ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
+                        SERVER_BASE_URL + "radingroups/" + radinGroupId + "/" + getTypeUrl());
+                //Example url: http://radin.epfl.ch/radingroups/1/users
+                connTask.execute();
+                return;
+            }
+        }
     }
 
     /* (non-Javadoc)
