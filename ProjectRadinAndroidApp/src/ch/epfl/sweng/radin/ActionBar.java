@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -71,34 +71,34 @@ public class ActionBar {
 
 		mRadinGroupModel = radinGroupName;
 
-		Button[] actionBarContent = new Button[ACTION_BAR_COUNT];
+		ImageButton[] actionBarContent = new ImageButton[ACTION_BAR_COUNT];
 
-		Button settingsBtn = new Button(context);
-		settingsBtn.setText("set");
+		ImageButton settingsBtn = new ImageButton(context);
+		settingsBtn.setImageResource(R.drawable.glyphicon_settings);
 		settingsBtn.setId(R.id.settingsActionBar);
 		actionBarContent[ListButton.SETTINGS.getValue()] = settingsBtn;
 		settingsBtn.setTag(ListButton.SETTINGS);
 
-		Button myListsBtn = new Button(context);
-		myListsBtn.setText("Group");
+		ImageButton myListsBtn = new ImageButton(context);
+		myListsBtn.setImageResource(R.drawable.glyphicon_list);
 		myListsBtn.setId(R.id.myRadinGroupsActionBar);
 		actionBarContent[ListButton.MY_RADIN_GROUP.getValue()] = myListsBtn;
 		myListsBtn.setTag(ListButton.MY_RADIN_GROUP);
 
-		Button addExpeseBtn = new Button(context);
-		addExpeseBtn.setText("+");
-		addExpeseBtn.setId(R.id.addExpeseActionBar);
-		actionBarContent[ListButton.ADD_EXPENSE.getValue()] = addExpeseBtn;
-		addExpeseBtn.setTag(ListButton.ADD_EXPENSE);
+		ImageButton addExpenseBtn = new ImageButton(context);
+		addExpenseBtn.setImageResource(R.drawable.glyphicon_plus);
+		addExpenseBtn.setId(R.id.addExpeseActionBar);
+		actionBarContent[ListButton.ADD_EXPENSE.getValue()] = addExpenseBtn;
+		addExpenseBtn.setTag(ListButton.ADD_EXPENSE);
 
-		Button statsBtn = new Button(context);
-		statsBtn.setText("stats");
+		ImageButton statsBtn = new ImageButton(context);
+		statsBtn.setImageResource(R.drawable.glyphicon_charts);
 		statsBtn.setId(R.id.statsActionBar);
 		actionBarContent[ListButton.STATS.getValue()] = statsBtn;
 		statsBtn.setTag(ListButton.STATS);
 
-		Button balanceBtn = new Button(context);
-		balanceBtn.setText("bal");
+		ImageButton balanceBtn = new ImageButton(context);
+		balanceBtn.setImageResource(R.drawable.glyphicon_pie_chart);
 		balanceBtn.setId(R.id.balanceActionBar);
 		actionBarContent[ListButton.BALANCE.getValue()] = balanceBtn;
 		balanceBtn.setTag(ListButton.BALANCE);
