@@ -97,12 +97,13 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Logger.info("Login request : " + rs.request.toString + " " + rs.request.body.toString)
     val user = toJson(users.list.filter(_.U_username == username))
     val password = rs.request.body.\("password")
-    if (user.\\("U_password").length == 1 && (user.\\("U_password").head.as[String]).equals(password)) {
+    val userPass = user.\\("U_password").head
+    if (user.\\("U_password").length == 1 && (userPass).equals(password)) {
       Logger.info("Logged in !")
-      Ok("OK")
+      Ok(toJson(user))
     } else {
       Logger.info("KO     " + password + "    " + user.\\("U_password").head.as[String])
-      Ok("KO     " + password + "    " + user.\\("U_password").head.as[String])
+      Ok("KO")
     }
   }
 
