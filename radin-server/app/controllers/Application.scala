@@ -100,7 +100,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     val userPass = user.\\("U_password").head
     if (user.\\("U_password").length == 1 && (userPass).equals(password)) {
       Logger.info("Logged in !")
-      Ok(toJson(user))
+      val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(user)))
+      Ok(JsObject(jsonValue))
     } else {
       Logger.info("KO     " + password + "    " + user.\\("U_password").head.as[String])
       BadRequest("KO")
