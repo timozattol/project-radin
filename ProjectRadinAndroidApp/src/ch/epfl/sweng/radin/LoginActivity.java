@@ -56,7 +56,6 @@ public class LoginActivity extends Activity {
 			case R.id.loginButton:
 				retrieveRegisterUser();
 				verifyUser();
-				validateLogin = true;
 				if (validateLogin == true) {
 				displayActivityIntent = 
 						new Intent(v.getContext(), HomeActivity.class);
