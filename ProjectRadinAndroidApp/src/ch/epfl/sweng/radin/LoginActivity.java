@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -55,6 +56,7 @@ public class LoginActivity extends Activity {
 			case R.id.loginButton:
 				retrieveRegisterUser();
 				verifyUser();
+				validateLogin = true;
 				if (validateLogin == true) {
 				displayActivityIntent = 
 						new Intent(v.getContext(), HomeActivity.class);
@@ -89,16 +91,11 @@ public class LoginActivity extends Activity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
-					// to be removed when we can access real data
-					SharedPreferences.Editor editor = prefs.edit();
-					editor.putString(getString(R.string.username), "-1");
-					editor.commit();
-					validateLogin = true;
 					Toast.makeText(getApplicationContext(),
 							R.string.login_error, Toast.LENGTH_SHORT).show();
 					
 				} else {
-					
+					validateLogin = true;
 					UserModel mUser = items.get(0);
 					int mId = mUser.getId();
 					
@@ -106,7 +103,7 @@ public class LoginActivity extends Activity {
 					editor.putString(getString(R.string.username), 
 							String.valueOf(mId));
 					editor.commit();
-					validateLogin = true;
+					
 					Toast.makeText(getApplicationContext(),
 							R.string.success_login, Toast.LENGTH_SHORT).show();
 				}
