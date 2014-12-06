@@ -117,16 +117,17 @@ def modifyUsers = DBAction(parse.json) { implicit rs =>
   }
 
   def login(username: String) = DBAction(parse.json) { implicit rs =>
-    Logger.info("Login request : " + rs.request.toString + " " + rs.request.body.toString)
+    Logger.info("Login request : " + rs.request.toString + " " + rs.request.body.toString + " " + rs.request.rawQueryString)
     val user = toJson(users.list.filter(_.U_username == username))
     val password = rs.request.body.\("password")
     val userPass = user.\\("U_password").head
     if (user.\\("U_password").length == 1 && (userPass).equals(password)) {
       Logger.info("Logged in !")
-      Ok(toJson(user))
+      val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(user)))
+      Ok(JsObject(jsonValue))
     } else {
       Logger.info("KO     " + password + "    " + user.\\("U_password").head.as[String])
-      Ok("KO")
+      BadRequest("KO")
     }
   }
 
@@ -136,7 +137,9 @@ def modifyUsers = DBAction(parse.json) { implicit rs =>
     userListResult
   }
   //return list of all users
-  
+
+  def addUsertoRadinGroup(rgid: Int) = TODO
+
   def getUserById(uid: Int) = DBAction{ implicit rs =>
     Ok(JsObject(List(("user",toJson(users.filter { _.U_ID === uid }.list)))))
   }
