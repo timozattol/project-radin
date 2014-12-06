@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +44,7 @@ import android.widget.Toast;
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.balanceRadinGroupLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.balanceRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 
 		fetchUsersThenTransactions();
