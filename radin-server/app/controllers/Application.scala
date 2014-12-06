@@ -9,7 +9,6 @@ import scala.slick.driver.SQLiteDriver.simple._
 import play.api.db.slick._
 import play.api.data._
 import play.api.data.Forms._
-import play.api.mvc._
 import play.api.Play.current
 import play.api.mvc.BodyParsers._
 import play.api.libs.json._
@@ -74,9 +73,33 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }.getOrElse(BadRequest("invalid json"))
   }
 
-  //  lazy val users = TableQuery[Users]
+  
   implicit val userFormat = Json.format[User]
-
+    
+  def contentOfJsArray(json: JsValue): Option[Seq[JsValue]] = json match {
+    case JsArray(arr) => Some(arr)
+    case _ => None
+  }
+  
+ /**
+  *@author simonchelbc
+ * @param JsonArray containing JsObject in format of database.Tables.User
+ * @return a  webpage listing all users, to see if changes have been taken into account
+ * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON with what each of the value in the request contains
+ */
+def modifyUsers = DBAction(parse.json) { implicit rs =>
+    contentOfJsArray(rs.body.\("user")) match {
+      case Some(userNewStateJsObjects) => userNewStateJsObjects.foreach { userNewStateJsValue => 
+  		  val userNewState = userNewStateJsValue.validate[User].asOpt match {
+          case Some(userNewState) => users.filter { _.U_ID === userNewState.U_ID }.update(userNewState)
+          case None => None
+        }
+	    }
+      case None => None //empty array of Json values
+    }
+    userListResult
+  }
+  
   def newUser = DBAction(parse.json) { implicit rs =>
     Logger.info("New user request : " + rs.request.toString + " " + rs.request.body.toString)
     rs.request.body.\("user")(0).validate[User].map { user =>
@@ -107,8 +130,10 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }
   }
 
+  def userListResult(implicit session: Session) = Ok(JsObject(List(("user",toJson(users.list)))))
+  
   def userList = DBAction { implicit rs =>
-    Ok(JsObject(List(("user",toJson(users.list)))))
+    userListResult
   }
   //return list of all users
   
@@ -190,8 +215,12 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   	}.getOrElse(BadRequest("invalid json"))
   }
   
-  //get all friends of a user with UID sID, and returns those friends as a list of Users 
-  def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs => 
+ /**
+  *@author simonchelbc
+ * @param sID, U_ID of a user contained in Users table
+ * @return friends of User with U_ID equal to sID
+ */
+def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs => 
     val friendsOfSID = for {
       relation <- userRelationships.filter { _.uidSource === sID }
       user <- users.filter { _.U_ID === relation.uidTarget }
