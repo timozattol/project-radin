@@ -2,6 +2,7 @@ package ch.epfl.sweng.radin;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,11 @@ import android.view.Window;
  * @author Fabien Zellweger
  */
 public class ProfileActivity extends DashBoardActivity {
+	private String mUsername = null;
+	private String mPassword = null;
+	public static final String PREFS = "PREFS";
+	private SharedPreferences prefs;
+	private boolean validateLogin = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

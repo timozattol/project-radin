@@ -55,6 +55,7 @@
     <string name="register">Register</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
+    <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="iban">Iban</string>
     <string name="address">Home address</string>
@@ -101,6 +102,20 @@
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
     
+
+    <!-- Settings Activity -->
+    <string name="my_id">User ID</string>
+    <string name="value_id">value</string>
+    
+    <!-- Server Toasts -->
+    <string name="server_error">There was an error, please try again</string>
+    <string name="user_created">Yeah! You registered to ProjectRadin!</string>
+    <string name="login_error">Sorry this username does not exist</string>
+    <string name="success_login">Welcome back!</string>
+    
+    <!-- Share Preference File -->
+    <string name="preference_file_key">Preferences</string>
+
     <!-- RadinGroupStatsActivity -->
     <string name="choose_graph">Select the period of your graph: </string>
     <string name="total_amount">The total amount is:</string>
@@ -111,6 +126,6 @@
         <item>spending a month</item>
         <item>spending a year</item>
     </string-array>
-    
 
+    
 </resources>

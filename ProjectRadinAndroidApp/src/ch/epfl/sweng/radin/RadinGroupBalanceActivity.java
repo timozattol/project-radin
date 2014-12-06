@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,41 +44,10 @@ import android.widget.Toast;
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.balanceRadinGroupLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.balanceRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 
-		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
-		userStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(),
-				new RadinListener<UserModel>() {
-
-			@Override
-			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
-				if (status == StorageManagerRequestStatus.SUCCESS) {
-					mParticipants = items;
-					mParticipants.notify();
-				} else {
-					displayErrorToast("Failed to get users for this group");
-				}
-			}
-		});		
-
-		TransactionWithParticipantsStorageManager storageManager = 
-				TransactionWithParticipantsStorageManager.getStorageManager();
-		storageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(), 
-				new RadinListener<TransactionWithParticipantsModel>() {
-
-			@Override
-			public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
-				if (status == StorageManagerRequestStatus.SUCCESS) {
-					mTransactions = items;
-					mTransactions.notify();
-				} else {
-					displayErrorToast("Failed to get Transactions for this group");
-				}
-			}
-		});
-
-		drawBalances(calculateBalances());
+		fetchUsersThenTransactions();
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,41 +61,62 @@ import android.widget.Toast;
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.action_home:
-			Intent intent = new Intent(this, HomeActivity.class);
-			startActivity(intent);
-			return true;
-		case R.id.action_settings:
-
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+    		case R.id.action_home:
+    			Intent intent = new Intent(this, HomeActivity.class);
+    			startActivity(intent);
+    			return true;
+    		case R.id.action_settings:
+    
+    			return true;
+    		default:
+    			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	private void fetchUsersThenTransactions() {
+	    UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
+        userStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(),
+                new RadinListener<UserModel>() {
+
+            @Override
+            public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+                if (status == StorageManagerRequestStatus.SUCCESS) {
+                    mParticipants = items;
+                    
+                    // After users are fetched, fetch transactions
+                    fetchTransactions();
+                } else {
+                    displayErrorToast("Failed to get users for this group");
+                }
+            }
+        });
+	}
+	
+	private void fetchTransactions() {
+	    TransactionWithParticipantsStorageManager storageManager = 
+                TransactionWithParticipantsStorageManager.getStorageManager();
+        storageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(), 
+                new RadinListener<TransactionWithParticipantsModel>() {
+
+            @Override
+            public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
+                if (status == StorageManagerRequestStatus.SUCCESS) {
+                    mTransactions = items;
+                    
+                    // Draw balances when transactions were successfully fetched.
+                    drawBalances(calculateBalances());
+                } else {
+                    displayErrorToast("Failed to get Transactions for this group");
+                }
+            }
+        });
 	}
 
 	private HashMap<Integer, Double> calculateBalances() {		
 		HashMap<Integer, Double> userBalances = new HashMap<Integer, Double>();		
 
-		if (mParticipants == null) {
-			try {
-				mParticipants.wait(TIME_OUT);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 		for (UserModel participant : mParticipants) {
 			userBalances.put(participant.getId(), 0.0);
-		}
-
-		if (mTransactions == null) {
-			try {
-				mTransactions.wait(TIME_OUT);
-			} catch (InterruptedException e) {
-				// TODO fix
-				e.printStackTrace();
-			}
 		}
 
 		for (TransactionWithParticipantsModel transaction : mTransactions) {

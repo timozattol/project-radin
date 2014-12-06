@@ -106,7 +106,8 @@
             android:name=".RadinGroupAddExpenseActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_radingroup_add_expense"
-            android:parentActivityName=".MyRadinGroupsActivity" >
+            android:parentActivityName=".MyRadinGroupsActivity" 
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".RadinGroupConfigurationActivity"

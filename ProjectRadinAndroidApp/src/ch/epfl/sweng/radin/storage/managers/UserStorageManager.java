@@ -3,7 +3,9 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import android.util.Log;
 import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
@@ -48,5 +50,19 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     
     public void getAllForGroupId(int groupId, RadinListener<UserModel> callback) {
     	//TODO: implement
+    }
+    
+    public void verifyLogin(String username, String password, 
+    		RadinListener<UserModel> callback) {
+    	if (isConnected()) {
+			if (!isHashMatchServer()) {
+				ServerConnectionTask connTask = 
+						new ServerConnectionTask(callback, RequestType.POST,
+						SERVER_BASE_URL + "login/" + username);
+				Log.d("URL", SERVER_BASE_URL + "login/" + username );
+				connTask.execute("{\"password\": \"" + password + "\"}");
+				return;
+			}
+		}
     }
 }

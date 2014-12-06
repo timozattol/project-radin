@@ -1,12 +1,22 @@
 package ch.epfl.sweng.radin;
+import java.util.List;
+
+import ch.epfl.sweng.radin.R.id;
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.StorageManager;
+import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
+import android.content.SharedPreferences; 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 /**
  *
@@ -15,7 +25,14 @@ import android.widget.Toast;
  * give the opportunity to register.
  *
  */
+
 public class LoginActivity extends DashBoardActivity {
+	private String mUsername = null;
+	private String mPassword = null;
+	public static final String PREFS = "PREFS";
+	private SharedPreferences prefs;
+	private boolean validateLogin = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,25 +42,40 @@ public class LoginActivity extends DashBoardActivity {
 		loginBtn.setOnClickListener(loginActivityButtonListener);
 		Button newAccountBtn = (Button) findViewById(R.id.createAcountButton);
 		newAccountBtn.setOnClickListener(loginActivityButtonListener);
+
 		setHeader(getString(R.string.title_project_radin), false, false);
-		
 		StorageManager.init(this);
+		
+		prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
+
 	}
-	private OnClickListener loginActivityButtonListener = new View.OnClickListener() {
+	private OnClickListener loginActivityButtonListener = 
+			new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			int selectedId = v.getId();
 			Intent displayActivityIntent = null;
-			
+
 			switch (selectedId){
-				case R.id.loginButton:
-					displayActivityIntent = new Intent(v.getContext(), HomeActivity.class);
-					break;
-				case R.id.createAcountButton:
-					displayActivityIntent = new Intent(v.getContext(), RegisterActivity.class);
-					break;
-				default:
-					Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+			case R.id.loginButton:
+				retrieveRegisterUser();
+				verifyUser();
+				validateLogin = true;
+				if (validateLogin == true) {
+				displayActivityIntent = 
+						new Intent(v.getContext(), HomeActivity.class);
+				} else {
+					displayActivityIntent = 
+							new Intent(v.getContext(), LoginActivity.class);	
+				}
+				break;
+			case R.id.createAcountButton:
+				displayActivityIntent = 
+				new Intent(v.getContext(), RegisterActivity.class);
+				break;
+			default:
+				Toast.makeText(v.getContext(), 
+						"Error, this button shouldn't exist!",
 						Toast.LENGTH_SHORT).show();				
 			}
 			if (!(displayActivityIntent == null)) {
@@ -51,4 +83,46 @@ public class LoginActivity extends DashBoardActivity {
 			}
 		}		
 	};
+
+	private void verifyUser() {
+		UserStorageManager userStorageManager =
+				UserStorageManager.getStorageManager();
+
+		userStorageManager.verifyLogin(mUsername, mPassword, 
+				new RadinListener<UserModel>() {
+
+			@Override
+			public void callback(List<UserModel> items,
+					StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.FAILURE) {
+					Toast.makeText(getApplicationContext(),
+							R.string.login_error, Toast.LENGTH_SHORT).show();
+					
+				} else {
+					validateLogin = true;
+					UserModel mUser = items.get(0);
+					int mId = mUser.getId();
+					
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putString(getString(R.string.username), 
+							String.valueOf(mId));
+					editor.commit();
+					
+					Toast.makeText(getApplicationContext(),
+							R.string.success_login, Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+	}
+
+	private void retrieveRegisterUser() {
+		final CharSequence userUsername = 
+				((TextView) findViewById(id.login)).getText();
+		final CharSequence userPassword = 
+				((TextView) findViewById(id.password)).getText();
+
+		mUsername = userUsername.toString();
+		mPassword = userPassword.toString();
+
+	}
 }
