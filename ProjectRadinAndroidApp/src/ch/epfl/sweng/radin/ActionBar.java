@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
@@ -67,8 +67,9 @@ public class ActionBar {
 	
 	private final static String NOMASTERIDDETECTOR = "noArg";
 
-	public static void addActionBar(Context context, RelativeLayout currentLayout, RadinGroupModel radinGroupName) {
-
+	public static void addActionBar(Context context, LinearLayout currentLayout, RadinGroupModel radinGroupName) {
+	    final int buttonPadding = 45;
+	    
 		mRadinGroupModel = radinGroupName;
 
 		ImageButton[] actionBarContent = new ImageButton[ACTION_BAR_COUNT];
@@ -105,13 +106,14 @@ public class ActionBar {
 
 		for (int i = 0; i < actionBarContent.length; i++) {
 			actionBarContent[i].setOnClickListener(actionBarButtonListener);
-			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-					RelativeLayout.LayoutParams.WRAP_CONTENT, 
-					RelativeLayout.LayoutParams.WRAP_CONTENT);				
-			if (i > 0) {
-				layoutParams.addRule(RelativeLayout.RIGHT_OF, actionBarContent[i-1].getId());
-			}
-			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.MATCH_PARENT, 
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					(float) (1.0/ACTION_BAR_COUNT));
+			actionBarContent[i].setPadding(
+			        buttonPadding, buttonPadding, 
+			        buttonPadding, buttonPadding);
+			actionBarContent[i].setAdjustViewBounds(true);
 			currentLayout.addView(actionBarContent[i], layoutParams);
 		}
 	}
