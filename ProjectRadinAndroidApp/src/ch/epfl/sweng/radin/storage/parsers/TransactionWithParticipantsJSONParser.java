@@ -5,17 +5,15 @@ package ch.epfl.sweng.radin.storage.parsers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import ch.epfl.sweng.radin.storage.Currency;
 import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.TransactionType;
@@ -25,6 +23,7 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
  * @author topali2
  *
  */
+@SuppressLint("UseSparseArrays") 
 public class TransactionWithParticipantsJSONParser implements JSONParser<TransactionWithParticipantsModel> {
 
 	/* (non-Javadoc)
