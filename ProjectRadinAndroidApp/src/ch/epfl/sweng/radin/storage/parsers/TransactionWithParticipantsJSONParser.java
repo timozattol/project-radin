@@ -4,10 +4,14 @@
 package ch.epfl.sweng.radin.storage.parsers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,46 +67,47 @@ public class TransactionWithParticipantsJSONParser implements JSONParser<Transac
 	 */
 	@Override
 	public JSONObject getJsonFromModels(List<TransactionWithParticipantsModel> transactionList) throws JSONException {
-
-		TransactionJSONParser transJsonParser = new TransactionJSONParser();
-
-		List<TransactionModel> transactionListModel = new ArrayList<TransactionModel>();
-		List<List<Integer>> userIDList = new ArrayList<List<Integer>>();
-		List<List<Integer>> userCoefficientsList = new ArrayList<List<Integer>>();
-
-		for (TransactionWithParticipantsModel transactionWithParticipantsModel : transactionList) {
+		
+		JSONArray transactionWPJson = new JSONArray();
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy/MM/dd HH/mm");
+		
+		for (TransactionWithParticipantsModel transactionWPModel : transactionList) {
+			JSONObject transactionWithParticipants = new JSONObject();
 			
-			transactionListModel.add(transactionWithParticipantsModel);
-			userIDList.add(new ArrayList<Integer>(
-					transactionWithParticipantsModel.getUsersWithCoefficients().keySet()));
-			userCoefficientsList.add(new ArrayList<Integer>(
-					transactionWithParticipantsModel.getUsersWithCoefficients().values()));
+			JSONObject transaction = new JSONObject();
+			
+        	transaction.put("T_ID", transactionWPModel.getTransactionID());
+        	transaction.put("T_parentRadinGroupID", transactionWPModel.getParentRadinGroupID());
+        	transaction.put("T_debitorID", transactionWPModel.getCreditorID());
+        	transaction.put("T_creatorID", transactionWPModel.getCreatorID());
+        	transaction.put("T_amount", transactionWPModel.getAmount());
+        	transaction.put("T_currency", transactionWPModel.getCurrency().toString());
+        	transaction.put("T_dateTime", transactionWPModel.getDateTime().toString(dtf));
+        	transaction.put("T_purpose", transactionWPModel.getPurpose());
+        	transaction.put("T_type", transactionWPModel.getType().toString());
+        	
+        	transactionWithParticipants.put("transaction", transaction);
+        	
+        	Map<Integer, Integer> usersWithCoeffs = transactionWPModel.getUsersWithCoefficients();
+        	JSONArray coefficients = new JSONArray();
+        	
+        	for (Map.Entry<Integer, Integer> userWithCoeff : usersWithCoeffs.entrySet()) {
+        		JSONObject userWithCoeffJson = new JSONObject();
+        		
+        		userWithCoeffJson.put("id", userWithCoeff.getKey());
+        		userWithCoeffJson.put("coefficient", userWithCoeff.getValue());
+        		
+        		coefficients.put(userWithCoeffJson);
+        	}
+        	
+        	transactionWithParticipants.put("coefficients", coefficients);
+        	
+        	transactionWPJson.put(transactionWithParticipants);
 		}
+		JSONObject transactionWithParticipantsJson = new JSONObject();
+		transactionWithParticipantsJson.put("transactionWithParticipants", transactionWPJson);
 
-		JSONObject transactionWithParticipantsObject = new JSONObject();
-		JSONObject transObject = transJsonParser.getJsonFromModels(transactionListModel);
-		JSONArray transArray = transObject.getJSONArray("transaction");
-		
-		for (int i = 0; i < transArray.length(); i++) {
-			
-			JSONArray userArray = new JSONArray();
-			
-			for (int j = 0; j < userCoefficientsList.size(); j++) {
-			
-				JSONObject userIdCoeff = new JSONObject();
-				userIdCoeff.put("id", userIDList.get(i).get(j));
-				userIdCoeff.put("coefficient", userCoefficientsList.get(i).get(j));
-				userArray.put(userIdCoeff);
-				
-			}
-			
-			transObject.getJSONArray("transaction").getJSONObject(i).put("T_user_coefficients", userArray);
-		}
-		
-		
-		transactionWithParticipantsObject.put("transactionWithParticipants", transObject);
-		
-		return transactionWithParticipantsObject;
+		return transactionWithParticipantsJson;
 	}
 
 }
