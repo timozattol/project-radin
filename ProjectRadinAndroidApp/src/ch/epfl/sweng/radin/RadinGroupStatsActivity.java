@@ -33,7 +33,7 @@ import android.widget.Toast;
 /**
  * @author Fabien Zellweger
  */
-public class RadinGroupStatsActivity extends Activity {
+public class RadinGroupStatsActivity extends DashBoardActivity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private GraphView mYearGraphView;
 	private GraphView mMonthGraphView;
@@ -44,12 +44,14 @@ public class RadinGroupStatsActivity extends Activity {
 	private static final int GRAPH_YEAR_ID = 3;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_stats);
 		
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
+		setHeader(getString(R.string.stats), true, true);
+
 		
 		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.statRadinGroupActionBarLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
@@ -160,6 +162,7 @@ public class RadinGroupStatsActivity extends Activity {
 		GraphViewSeries yearGraph = new GraphViewSeries(yearGraphData);
 		mYearGraphView = new BarGraphView(this, "Spending per year");
 		mYearGraphView.addSeries(yearGraph);
+		mYearGraphView.getGraphViewStyle().setGridColor(this.getResources().getColor(R.color.header));
 		mYearGraphView.setHorizontalLabels(yearKeys);
 		mYearGraphView.setManualYAxisBounds(totalAmount, 0.0);
 		

@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,7 +39,7 @@ import android.widget.Toast;
  * This Activity give a view of the selected radin group
  *
  */
-public class RadinGroupViewActivity extends Activity {
+public class RadinGroupViewActivity extends DashBoardActivity {
     private final static int SIXTY_SECS = 60000;
     private final static int TEN_SECS = 10000;
 
@@ -50,14 +51,17 @@ public class RadinGroupViewActivity extends Activity {
     
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_view);
 
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
+		setHeader(getString(R.string.rg_name_hint), true, true);
+
 		
 		setTitle(radinGroupTitle);
 

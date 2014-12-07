@@ -76,6 +76,7 @@ public class ActionBar {
 
 		ImageButton settingsBtn = new ImageButton(context);
 		settingsBtn.setImageResource(R.drawable.glyphicon_settings);
+		settingsBtn.setBackgroundColor(context.getResources().getColor(R.color.header));
 		settingsBtn.setId(R.id.settingsActionBar);
 		actionBarContent[ListButton.SETTINGS.getValue()] = settingsBtn;
 		settingsBtn.setTag(ListButton.SETTINGS);
@@ -83,24 +84,28 @@ public class ActionBar {
 		ImageButton myListsBtn = new ImageButton(context);
 		myListsBtn.setImageResource(R.drawable.glyphicon_list);
 		myListsBtn.setId(R.id.myRadinGroupsActionBar);
+		myListsBtn.setBackgroundColor(context.getResources().getColor(R.color.header));
 		actionBarContent[ListButton.MY_RADIN_GROUP.getValue()] = myListsBtn;
 		myListsBtn.setTag(ListButton.MY_RADIN_GROUP);
 
 		ImageButton addExpenseBtn = new ImageButton(context);
 		addExpenseBtn.setImageResource(R.drawable.glyphicon_plus);
 		addExpenseBtn.setId(R.id.addExpeseActionBar);
+		addExpenseBtn.setBackgroundColor(context.getResources().getColor(R.color.header));
 		actionBarContent[ListButton.ADD_EXPENSE.getValue()] = addExpenseBtn;
 		addExpenseBtn.setTag(ListButton.ADD_EXPENSE);
 
 		ImageButton statsBtn = new ImageButton(context);
 		statsBtn.setImageResource(R.drawable.glyphicon_charts);
 		statsBtn.setId(R.id.statsActionBar);
+		statsBtn.setBackgroundColor(context.getResources().getColor(R.color.header));
 		actionBarContent[ListButton.STATS.getValue()] = statsBtn;
 		statsBtn.setTag(ListButton.STATS);
 
 		ImageButton balanceBtn = new ImageButton(context);
 		balanceBtn.setImageResource(R.drawable.glyphicon_pie_chart);
 		balanceBtn.setId(R.id.balanceActionBar);
+		balanceBtn.setBackgroundColor(context.getResources().getColor(R.color.header));
 		actionBarContent[ListButton.BALANCE.getValue()] = balanceBtn;
 		balanceBtn.setTag(ListButton.BALANCE);
 

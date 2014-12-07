@@ -116,6 +116,10 @@
     <!-- Share Preference File -->
     <string name="preference_file_key">Preferences</string>
 
+     <!-- Stat Activity -->
+    <string name="stats">Statistiques</string>
+    
+    
     <!-- RadinGroupStatsActivity -->
     <string name="choose_graph">Select the period of your graph: </string>
     <string name="total_amount">The total amount is:</string>
