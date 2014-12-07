@@ -23,11 +23,12 @@ public class UserModel extends Model{
 	/*
 	 * Public constructors of UserModel
 	 */
-	public UserModel(){}
+	public UserModel() { } 
 	
 		// A Constructor used for the registration
-	public UserModel(String firstName, String lastName,String username, String password, String email, 
-			String address, String iban, String bicSwift, String picture, int id) {
+	public UserModel(String firstName, String lastName, String username, 
+			String password, String email, String address, String iban, 
+			String bicSwift, String picture, int id) {
 		mFirstName = firstName;
 		mLastName = lastName;
 		mUsername = username;
@@ -41,8 +42,9 @@ public class UserModel extends Model{
 	}
 	
 		//A constructor used for representing a User in all other situations 
-	public UserModel(String firstName, String lastName, String username, String email, 
-			String address, String iban, String bicSwift, String picture, int id) {
+	public UserModel(String firstName, String lastName, String username, 
+			String email, String address, String iban, String bicSwift, 
+			String picture, int id) {
 		mFirstName = firstName;
 		mLastName = lastName;
 		mUsername = username;
