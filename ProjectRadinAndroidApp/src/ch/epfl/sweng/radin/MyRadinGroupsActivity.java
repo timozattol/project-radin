@@ -56,9 +56,10 @@ public class MyRadinGroupsActivity extends DashBoardActivity {
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 
-			    if (status == StorageManagerRequestStatus.SUCCESS) {      
-			        displayList(items);
+			    if (status == StorageManagerRequestStatus.SUCCESS) {
+			    	
 			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
+			        displayList();
 			    } else {
 			        displayErrorToast("There was an error, please try again");
 			    }
@@ -96,17 +97,17 @@ public class MyRadinGroupsActivity extends DashBoardActivity {
 	/**
 	 * Call by the callback when he reach the radingroups belong to this user.
 	 * Then diplay them with a OnclickListener
-	 * @param myRadinGroupsList
+	 * @param mListRadinGroupsModel
 	 */
-	private void displayList(List<RadinGroupModel> myRadinGroupsList) {
+	private void displayList() {
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
 		myRadinGroupsLinearLayout.setGravity(Gravity.LEFT);
 		ProgressBar myRadinGroupProgressBar = (ProgressBar) findViewById(R.id.myRadinGroupsProgressBar);
 		myRadinGroupsLinearLayout.removeView(myRadinGroupProgressBar);
 		
-		for (int i = 0; i < myRadinGroupsList.size(); i++) {
+		for (int i = 0; i < mListRadinGroupsModel.size(); i++) {
 			TextView radinGroupsTextView = new TextView(this);
-			String radinGroupsName = ((RadinGroupModel) myRadinGroupsList.get(i)).getRadinGroupName();
+			String radinGroupsName = ((RadinGroupModel) mListRadinGroupsModel.get(i)).getRadinGroupName();
 			radinGroupsTextView.setText(radinGroupsName);
 			radinGroupsTextView.setTextSize(TEXT_SIZE);
 			radinGroupsTextView.setTag(i);

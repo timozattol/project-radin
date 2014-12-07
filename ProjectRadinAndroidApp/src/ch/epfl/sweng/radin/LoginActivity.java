@@ -31,8 +31,9 @@ public class LoginActivity extends DashBoardActivity {
 	private String mPassword = null;
 	public static final String PREFS = "PREFS";
 	private SharedPreferences prefs;
-	private boolean validateLogin = false;
-	
+	private boolean validateLogin = true;
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class LoginActivity extends DashBoardActivity {
 			case R.id.loginButton:
 				retrieveRegisterUser();
 				verifyUser();
-				validateLogin = true;
+				Log.d("validate Login 2 = ", String.valueOf(validateLogin));
 				if (validateLogin == true) {
 				displayActivityIntent = 
 						new Intent(v.getContext(), HomeActivity.class);
@@ -99,17 +100,17 @@ public class LoginActivity extends DashBoardActivity {
 							R.string.login_error, Toast.LENGTH_SHORT).show();
 					
 				} else {
-					validateLogin = true;
+					
 					UserModel mUser = items.get(0);
 					int mId = mUser.getId();
-					
 					SharedPreferences.Editor editor = prefs.edit();
 					editor.putString(getString(R.string.username), 
 							String.valueOf(mId));
 					editor.commit();
-					
 					Toast.makeText(getApplicationContext(),
 							R.string.success_login, Toast.LENGTH_SHORT).show();
+					validateLogin = true;
+					Log.d("validate Login 1 = ", String.valueOf(validateLogin));
 				}
 			}
 		});
