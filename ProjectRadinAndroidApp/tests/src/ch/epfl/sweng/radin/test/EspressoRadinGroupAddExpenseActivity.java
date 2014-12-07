@@ -72,6 +72,8 @@ public class EspressoRadinGroupAddExpenseActivity extends
 	}
 	
 	public void testAddDebtor() {
+	    closeKeyboardAndSleepForAWhile();
+	    
 		//open debtor dialog button
 		scrollTo(R.id.add_debtors);
 		Espresso.onView(ViewMatchers.withId(R.id.add_debtors)).perform(ViewActions.click());
@@ -98,6 +100,8 @@ public class EspressoRadinGroupAddExpenseActivity extends
 		scrollTo(R.id.purpose_title);
 		Espresso.onView(ViewMatchers.withId(R.id.purpose_title)).perform(ViewActions.typeText("Commissions du 15.11.14"));
 		
+		closeKeyboardAndSleepForAWhile();
+
 		//open debtor dialog button.
 		scrollTo(R.id.add_debtors);
 		Espresso.onView(ViewMatchers.withId(R.id.add_debtors)).perform(ViewActions.click());
@@ -110,6 +114,8 @@ public class EspressoRadinGroupAddExpenseActivity extends
 		//Espresso.onView(ViewMatchers.withId(R.id.addExpenseRadinGroupLayout)).perform(swipeUp());
 		scrollTo(R.id.amount_Field);
 		Espresso.onView(ViewMatchers.withId(R.id.amount_Field)).perform(ViewActions.typeText("234"));
+		
+		closeKeyboardAndSleepForAWhile();
 		
 		scrollTo(R.id.add_expense_button);
 		Espresso.onView(ViewMatchers.withId(R.id.add_expense_button)).perform(ViewActions.click());
@@ -131,8 +137,12 @@ public class EspressoRadinGroupAddExpenseActivity extends
 		
 		//Espresso.onView(ViewMatchers.withId(R.id.addExpenseRadinGroupLayout)).perform(swipeUp());
 		
+		closeKeyboardAndSleepForAWhile();
+		
 		scrollTo(R.id.amount_Field);
 		Espresso.onView(ViewMatchers.withId(R.id.amount_Field)).perform(ViewActions.typeText("234")).check(ViewAssertions.matches(ViewMatchers.withText("234")));
+		
+		closeKeyboardAndSleepForAWhile();
 		
 		scrollTo(R.id.add_expense_button);
 		Espresso.onView(ViewMatchers.withId(R.id.add_expense_button)).perform(ViewActions.click());
@@ -159,11 +169,27 @@ public class EspressoRadinGroupAddExpenseActivity extends
 		
 		//Espresso.onView(ViewMatchers.withId(R.id.addExpenseRadinGroupLayout)).perform(swipeUp());
 		
+		closeKeyboardAndSleepForAWhile();
+		
 		scrollTo(R.id.amount_Field);
 		Espresso.onView(ViewMatchers.withId(R.id.amount_Field)).perform(ViewActions.typeText("234"));
+		
+		closeKeyboardAndSleepForAWhile();
 		
 		scrollTo(R.id.add_expense_button);
 		Espresso.onView(ViewMatchers.withId(R.id.add_expense_button)).perform(ViewActions.click());
 		//should toast a message, stay on RadinGroupAddExpenseActivity activity
+	}
+	
+	/**
+	 * Avoids "Error performing 'single click' on view" with fast phones
+	 */
+	private void closeKeyboardAndSleepForAWhile() {
+	    Espresso.closeSoftKeyboard();
+	    try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 	}
 }

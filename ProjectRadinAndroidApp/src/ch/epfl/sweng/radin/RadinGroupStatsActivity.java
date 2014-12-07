@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,7 +51,7 @@ public class RadinGroupStatsActivity extends Activity {
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.statRadinGroupActionBarLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.statRadinGroupActionBarLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		TransactionStorageManager transactionStorageManager = TransactionStorageManager.getStorageManager();

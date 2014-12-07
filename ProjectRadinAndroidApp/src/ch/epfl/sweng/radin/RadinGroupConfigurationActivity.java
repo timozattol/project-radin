@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 /**
  * 
@@ -24,7 +24,7 @@ public class RadinGroupConfigurationActivity extends Activity {
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.configurationRadinGroupLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.configurationRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 	}
 	

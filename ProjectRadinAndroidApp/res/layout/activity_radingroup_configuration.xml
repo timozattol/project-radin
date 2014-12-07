@@ -22,10 +22,10 @@
     </RelativeLayout>
     
             <!-- Relative for the ActionBar, do not add code in this -->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/configurationRadinGroupLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="9" />
+        android:layout_width="match_parent"
+		android:layout_height="48dp"
+        android:orientation="horizontal" />
 
 </LinearLayout>
