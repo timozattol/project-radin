@@ -28,7 +28,7 @@ public class ProfileChange extends Activity {
 	private UserModel newProfileModel;
 	private List<UserModel> userModelList = new ArrayList<UserModel>();
 	private UserStorageManager userStorageManager;
-	private int userId =3;
+	private int userId;
 	private SharedPreferences prefs;
 
 
@@ -37,10 +37,11 @@ public class ProfileChange extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile_change);
 
-//		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
-//		
-		//This is a fake userId used to test the app		
-//		userId = prefs.getString(getString(R.string.username));
+		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		
+		
+//		This is a fake userId used to test the app		
+		userId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
 
 
 
@@ -72,7 +73,7 @@ public class ProfileChange extends Activity {
 
 			EditText newUsername = (EditText) findViewById(R.id.editProfileUsername);
 			if (!newUsername.getText().toString().isEmpty()) {
-				//newProfileModel.setUsername(newUsername.getText().toString());
+				newProfileModel.setUsername(newUsername.getText().toString());
 			}
 
 			EditText newAddress = (EditText) findViewById(R.id.editProfileAddress);
@@ -92,7 +93,7 @@ public class ProfileChange extends Activity {
 			
 			EditText newBicSwift = (EditText) findViewById(R.id.editProfileBicSwift);
 			if (!newBicSwift.getText().toString().isEmpty()) {
-//				newProfileModel.setBicSwift(newBicSwift.getText().toString());
+				newProfileModel.setBicSwift(newBicSwift.getText().toString());
 			}
 
 			userModelList.add(newProfileModel);
@@ -139,7 +140,7 @@ public class ProfileChange extends Activity {
 
 				} else {
 
-					newProfileModel = new UserModel(null, null, null, null, null, null, userId);
+					newProfileModel = new UserModel(null, null, null, null, null, null, null, null, userId);
 					displayErrorToast("connection server error");
 
 				}

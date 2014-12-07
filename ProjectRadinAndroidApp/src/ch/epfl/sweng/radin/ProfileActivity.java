@@ -23,17 +23,18 @@ public class ProfileActivity extends Activity {
 
 	private UserModel profileUser;
 	private SharedPreferences prefs;
-	private int userId =3;
+	private int userId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 		
-		//This is a fake userId used to test the app
-//		userId = prefs.getString(getString(R.string.username));
-//		
-//		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		
+//		This is a fake userId used to test the app
+		userId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
+		
 		
 		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
 		userStorageManager.getById(userId, new RadinListener<UserModel>() {
@@ -80,7 +81,7 @@ public class ProfileActivity extends Activity {
 		lastName.setText(profileUser.getLastName());
 		
 		TextView username = (TextView) findViewById(R.id.profileUsername);
-//		username.setText(profileUser.getUsername());
+		username.setText(profileUser.getUsername());
 		
 		TextView email = (TextView) findViewById(R.id.profileEmail);
 		email.setText(profileUser.getEmail());
@@ -92,7 +93,7 @@ public class ProfileActivity extends Activity {
 		iBan.setText(profileUser.getIban());
 		
 		TextView bicSwift = (TextView) findViewById(R.id.profileBicSwift);
-//		bicSwift.setText(profileUser.getBicSwift());
+		bicSwift.setText(profileUser.getBicSwift());
 	
 	}
 	/**

@@ -1,0 +1,5 @@
+This is the server Play application
+=================================
+
+Use “activator run” in this directory to launch the server locally on port 9000.
+

@@ -13,8 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +51,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		TextView addExpenseText = (TextView) findViewById(R.id.title_add_expense);
 		addExpenseText.setText(addExpenseText.getText().toString() + radinGroupTitle);
 		
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseRadinGroupLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.addExpenseRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		setDialogData();

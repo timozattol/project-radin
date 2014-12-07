@@ -34,7 +34,6 @@
     <string name="new_radingroup">New Radin Group</string>
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
-    <string name="stats">Stats</string>
     <string name="create_account">Create new account</string>
 
     <!-- for DatabaseRadinGroupTableActivity -->
@@ -55,6 +54,7 @@
     <string name="register">Register</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
+    <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="iban">Iban</string>
     <string name="address">Home address</string>
@@ -81,6 +81,7 @@
     <string name="profile_picture">profile picture :</string>
 
     <!-- ProfileChangeActivity -->
+    <string name="title_activity_profile_change">ProfileChange</string>
     <string name="new_profile_firstName">Enter your new Firstname</string>
     <string name="new_profile_lastName">Enter your new Lastname</string>
     <string name="new_profile_username">Enter your new Username</string>
@@ -112,7 +113,30 @@
     <string name="not_ready">Please wait for the data to be retrieved</string>
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
-    <string name="title_activity_profile_change">ProfileChange</string>
-    <string name="hello_world">Hello world!</string>
+
+    <!-- Settings Activity -->
+    <string name="my_id">User ID</string>
+    <string name="value_id">value</string>
+
+    <!-- Server Toasts -->
+    <string name="server_error">There was an error, please try again</string>
+    <string name="user_created">Yeah! You registered to ProjectRadin!</string>
+    <string name="login_error">Sorry this username does not exist</string>
+    <string name="success_login">Welcome back!</string>
+
+    <!-- Share Preference File -->
+    <string name="preference_file_key">Preferences</string>
+
+    <!-- RadinGroupStatsActivity -->
+    <string name="choose_graph">Select the period of your graph: </string>
+    <string name="total_amount">The total amount is:</string>
+    <string name="spinner_graph_prompt">Choose which graph to display</string>
+
+    <string-array name="spinner_graph_arrays">
+        <item>choose your graph</item>
+        <item>spending a day</item>
+        <item>spending a month</item>
+        <item>spending a year</item>
+    </string-array>
 
 </resources>

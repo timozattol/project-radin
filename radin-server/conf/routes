@@ -1,0 +1,62 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Framework home page
+
+GET    /startup                            @controllers.Application.firstAction
+
+GET    /only-facebook                      @controllers.Application.onlyFacebook
+GET    /only-google                        @controllers.Application.onlyGoogle
+GET    /link-result                        @controllers.Application.linkResult
+GET    /current-user                       @controllers.Application.currentUser
+GET    /custom/login                       @controllers.CustomLoginController.login
+GET    /custom/logout                      @controllers.CustomLoginController.logout
+
+GET    /radingroups                        @controllers.Application.jsonFindAll
+POST   /radingroups                        @controllers.Application.jsonInsert
+GET    /radingroups/:uid                   @controllers.Application.getRadinGroupsForUser(uid: Int)
+GET	   /radingroups/:rgid/users			   @controllers.Application.getUsersInRG(rgid: Int)
+
+GET    /transactions/:rgid                 @controllers.Application.getTransactionsForGroup(rgid: Int)
+GET    /transactions/withcoeffs/:rgid      @controllers.Application.getTransactionsWithCoeffsForGroup(rgid: Int)
+
+GET    /users                              @controllers.Application.userList
+POST   /newuser                            @controllers.Application.newUser
+
+GET    /userRelationships                  @controllers.Application.getUserRelationships
+#maps all requests that request userRelationships of ID sourceID that must be by pattern matching a digit of length 1 -> infinity
+GET    /userRelationships/$sourceID<\d+>   @controllers.Application.getFriendsOfUserWithID(sourceID: Int)
+POST   /newUserRelationship                @controllers.Application.newUserRelationship
+
+# Map static resources from the /public folder to the /assets URL path
+GET    /assets/*file                       controllers.Assets.at(path="/public", file)
+
+# Login page
+GET    /login                              @securesocial.controllers.LoginPage.login
+GET    /logout                             @securesocial.controllers.LoginPage.logout
+
+# Registration routes
+GET    /signup                             @securesocial.controllers.Registration.startSignUp
+POST   /signup                             @securesocial.controllers.Registration.handleStartSignUp
+GET    /signup/:mailToken                  @securesocial.controllers.Registration.signUp(mailToken)
+POST   /signup/:mailToken                  @securesocial.controllers.Registration.handleSignUp(mailToken)
+
+# Reset password
+GET    /reset                              @securesocial.controllers.PasswordReset.startResetPassword
+POST   /reset                              @securesocial.controllers.PasswordReset.handleStartResetPassword
+GET    /reset/:mailToken                   @securesocial.controllers.PasswordReset.resetPassword(mailToken)
+POST   /reset/:mailToken                   @securesocial.controllers.PasswordReset.handleResetPassword(mailToken)
+
+# Change Password
+GET    /password                           @securesocial.controllers.PasswordChange.page
+POST   /password                           @securesocial.controllers.PasswordChange.handlePasswordChange
+
+
+# Authentication entry points for all providers
+GET    /authenticate/:provider             @securesocial.controllers.ProviderController.authenticate(provider, redirectTo: Option[String])
+POST   /authenticate/:provider             @securesocial.controllers.ProviderController.authenticateByPost(provider, redirectTo: Option[String])
+
+POST   /api/authenticate/:provider         @securesocial.controllers.LoginApi.authenticate(provider, builder = "token")
+
+GET    /assets/*file                       securesocial.controllers.Assets.at(path = "/public/securesocial", file)
