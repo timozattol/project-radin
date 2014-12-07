@@ -23,7 +23,7 @@ public class ProfileActivity extends Activity {
 
 	private UserModel profileUser;
 	private SharedPreferences prefs;
-	private int userId;
+	private int userId =3;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,9 @@ public class ProfileActivity extends Activity {
 		TextView lastName = (TextView) findViewById(R.id.profileLastName);
 		lastName.setText(profileUser.getLastName());
 		
+		TextView username = (TextView) findViewById(R.id.profileUsername);
+//		username.setText(profileUser.getUsername());
+		
 		TextView email = (TextView) findViewById(R.id.profileEmail);
 		email.setText(profileUser.getEmail());
 		
@@ -87,6 +90,9 @@ public class ProfileActivity extends Activity {
 		
 		TextView iBan = (TextView) findViewById(R.id.profileIban);
 		iBan.setText(profileUser.getIban());
+		
+		TextView bicSwift = (TextView) findViewById(R.id.profileBicSwift);
+//		bicSwift.setText(profileUser.getBicSwift());
 	
 	}
 	/**

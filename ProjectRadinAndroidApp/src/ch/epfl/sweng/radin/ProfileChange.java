@@ -28,7 +28,7 @@ public class ProfileChange extends Activity {
 	private UserModel newProfileModel;
 	private List<UserModel> userModelList = new ArrayList<UserModel>();
 	private UserStorageManager userStorageManager;
-	private int userId;
+	private int userId =3;
 	private SharedPreferences prefs;
 
 
@@ -79,10 +79,20 @@ public class ProfileChange extends Activity {
 			if (!newAddress.getText().toString().isEmpty()) {
 				newProfileModel.setAddress(newAddress.getText().toString());
 			}
+			
+			EditText newEmail = (EditText) findViewById(R.id.editProfileEmail);
+			if (!newEmail.getText().toString().isEmpty()) {
+				newProfileModel.setEmail(newEmail.getText().toString());
+			}
 
 			EditText newIBan = (EditText) findViewById(R.id.editProfileIBan);
 			if (!newIBan.getText().toString().isEmpty()) {
 				newProfileModel.setIban(newIBan.getText().toString());
+			}
+			
+			EditText newBicSwift = (EditText) findViewById(R.id.editProfileBicSwift);
+			if (!newBicSwift.getText().toString().isEmpty()) {
+//				newProfileModel.setBicSwift(newBicSwift.getText().toString());
 			}
 
 			userModelList.add(newProfileModel);
@@ -120,9 +130,14 @@ public class ProfileChange extends Activity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
-					newProfileModel = items.get(0);
+					if (items.size() == 1) {						
+						newProfileModel = items.get(0);
 
-				} else if (newProfileModel == null) {
+					} else {
+						displayErrorToast("Error wrong user informations");
+					}
+
+				} else {
 
 					newProfileModel = new UserModel(null, null, null, null, null, null, userId);
 					displayErrorToast("connection server error");
@@ -153,17 +168,17 @@ public class ProfileChange extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-		case R.id.action_home:
-			Intent intent = new Intent(this, HomeActivity.class);
-			startActivity(intent);
-			return true;
-		case R.id.action_settings:
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_home:
+	        	Intent homeIntent = new Intent(this, HomeActivity.class);
+	        	startActivity(homeIntent);
+	            return true;
+	        case R.id.action_settings:
 
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 }
