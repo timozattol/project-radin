@@ -28,6 +28,7 @@
             android:id="@+id/profilePic"
             android:layout_width="120dip"
             android:layout_height="120dip"
+            android:layout_marginTop="66dp"
             android:contentDescription="@string/profile_picture"
             android:scaleType="fitXY"
             android:src="@drawable/profile_pic" />

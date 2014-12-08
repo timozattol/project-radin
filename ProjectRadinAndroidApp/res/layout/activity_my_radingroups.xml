@@ -42,8 +42,8 @@
 
     <Button
         android:id="@+id/addBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
         android:gravity="center"
         android:background="@drawable/ic_add"
         android:textStyle="bold" />

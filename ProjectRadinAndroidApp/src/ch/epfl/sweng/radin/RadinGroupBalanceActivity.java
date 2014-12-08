@@ -12,7 +12,6 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;

@@ -8,7 +8,6 @@ import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.StorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.content.SharedPreferences; 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

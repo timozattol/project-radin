@@ -15,7 +15,6 @@ import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;

@@ -24,7 +24,7 @@
             android:id="@+id/editProfileFirstName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="66dp"
             android:hint="@string/new_profile_firstName"
             android:inputType="textPersonName" />
 

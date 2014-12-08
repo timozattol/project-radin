@@ -3,7 +3,6 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,7 +42,7 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 		super.onCreate(savedInstanceState);	
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_add_expense);
-		setHeader(getString(R.string.title_activity_radingroup_add_expense), true, true);
+		setHeader(getString(R.string.add_expense_string), true, true);
 		mSelectedCreditor = this.getResources().getString(R.string.creditor_selected);
 
 		Bundle extras = getIntent().getExtras();
