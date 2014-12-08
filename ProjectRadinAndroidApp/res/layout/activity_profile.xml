@@ -1,54 +1,174 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ch.epfl.sweng.radin.ProfileActivity" >
+    android:layout_height="match_parent" >
 
-    <ImageView
-        android:id="@+id/profilePic"
-        android:layout_width="120dip"
-        android:layout_height="120dip"
-        android:scaleType="fitXY"
-        android:src="@drawable/profile_pic" />
-	
-     <TextView
-        android:id="@+id/profileFirstName"
+
+
+    
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/profilePic"
-        android:text="@string/profile_first_name"
-        android:textSize="24sp" />
-   
-
-    <TextView
-        android:id="@+id/profileLastName"
-        android:layout_width="wrap_content"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="ch.epfl.sweng.radin.ProfileActivity" >
+        
+        <ViewStub
+        android:id="@+id/vsHeader"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profileFirstName"
-        android:layout_toRightOf="@id/profilePic"
-        android:text="@string/profile_last_name"
-        android:textSize="24sp" />
+        android:inflatedId="@+id/header"
+        android:layout="@layout/header" />
 
-    <TextView
-        android:id="@+id/profileAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profilePic"
-        android:layout_centerHorizontal="true"
-        android:text="@string/profile_address"
-        android:textSize="24sp" />
+        <ImageView
+            android:id="@+id/profilePic"
+            android:layout_width="120dip"
+            android:layout_height="120dip"
+            android:layout_marginTop="66dp"
+            android:contentDescription="@string/profile_picture"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile_pic" />
+        
+        
 
-    <TextView
-        android:id="@+id/profileIban"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileAddress"
-        android:layout_centerHorizontal="true"
-        android:text="@string/profile_iban"
-        android:textSize="24sp" />
+        <TextView
+            android:id="@+id/profileCompleteName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/profilePic"
+            android:layout_marginLeft="26dp"
+            android:layout_toRightOf="@+id/profilePic"
+            android:text="@string/profile_complete_name"
+            android:textSize="18sp" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/profileLastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileCompleteName"
+            android:layout_below="@+id/profileFirstName"
+            android:layout_marginBottom="5dp"
+            android:text="last" />
+
+        <TextView
+            android:id="@+id/profileFirstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileLastName"
+            android:layout_below="@+id/profileCompleteName"
+            android:layout_marginTop="14dp"
+            android:text="first" />
+
+        <TextView
+            android:id="@+id/Username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePic"
+            android:layout_below="@+id/profilePic"
+            android:layout_marginTop="40dp"
+            android:text="@string/profile_user_name"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/profileUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Username"
+            android:layout_below="@+id/Username"
+            android:layout_marginTop="5dp"
+            android:text="username" />
+
+        <TextView
+            android:id="@+id/profileAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Address"
+            android:layout_below="@+id/Address"
+            android:layout_marginTop="5dp"
+            android:text="address" />
+
+        <TextView
+            android:id="@+id/profileIban"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Iban"
+            android:layout_below="@+id/Iban"
+            android:layout_marginTop="5dp"
+            android:text="iban" />
+
+        <TextView
+            android:id="@+id/Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileAddress"
+            android:layout_below="@+id/profileAddress"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_email"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/profileEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Email"
+            android:layout_below="@+id/Email"
+            android:layout_marginTop="5dp"
+            android:text="email" />
+
+        <TextView
+            android:id="@+id/Address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileUsername"
+            android:layout_below="@+id/profileUsername"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_address"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/Iban"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileEmail"
+            android:layout_below="@+id/profileEmail"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_iban"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/bicSwift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profileIban"
+            android:layout_below="@+id/profileIban"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_bicSwift"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/profileBicSwift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/bicSwift"
+            android:layout_below="@+id/bicSwift"
+            android:layout_marginTop="5dp"
+            android:text="bicSwift" />
+
+        <Button
+            android:id="@+id/modifPofileBtn"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:layout_alignBaseline="@+id/profileCompleteName"
+            android:layout_alignBottom="@+id/profileCompleteName"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_edit_profile"
+            android:onClick="editProfile" />
+
+    </RelativeLayout>
+
+</ScrollView>

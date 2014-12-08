@@ -3,7 +3,6 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,9 +11,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +24,7 @@ import android.widget.Toast;
  * 
  * TODO class too big, split, refactor (both dialog creations are almost the same)
  */
-public class RadinGroupAddExpenseActivity extends Activity {
+public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	//private static final int CLIENT_ID = 1234; //will be propagated from LoginActivity?
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
@@ -38,9 +38,11 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	private String  mPurpose;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);		
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);	
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_add_expense);
+		setHeader(getString(R.string.add_expense_string), true, true);
 		mSelectedCreditor = this.getResources().getString(R.string.creditor_selected);
 
 		Bundle extras = getIntent().getExtras();
@@ -51,7 +53,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		TextView addExpenseText = (TextView) findViewById(R.id.title_add_expense);
 		addExpenseText.setText(addExpenseText.getText().toString() + radinGroupTitle);
 		
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseRadinGroupLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.addExpenseRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		setDialogData();

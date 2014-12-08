@@ -7,7 +7,6 @@ import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,14 +29,17 @@ import android.widget.Toast;
  * to give access.
  *
  */
-public class MyRadinGroupsActivity extends Activity {
+public class MyRadinGroupsActivity extends DashBoardActivity {
 	private final static int TEXT_SIZE = 30;
 	private List<RadinGroupModel> mListRadinGroupsModel;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_my_radingroups);
+		setHeader(getString(R.string.my_radingroups), true, true);
+
 
 
 		Button addBtn = (Button) findViewById(R.id.addBtn);
@@ -52,9 +55,10 @@ public class MyRadinGroupsActivity extends Activity {
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 
-			    if (status == StorageManagerRequestStatus.SUCCESS) {      
-			        displayList(items);
+			    if (status == StorageManagerRequestStatus.SUCCESS) {
+			    	
 			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
+			        displayList();
 			    } else {
 			        displayErrorToast("There was an error, please try again");
 			    }
@@ -92,17 +96,17 @@ public class MyRadinGroupsActivity extends Activity {
 	/**
 	 * Call by the callback when he reach the radingroups belong to this user.
 	 * Then diplay them with a OnclickListener
-	 * @param myRadinGroupsList
+	 * @param mListRadinGroupsModel
 	 */
-	private void displayList(List<RadinGroupModel> myRadinGroupsList) {
+	private void displayList() {
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
 		myRadinGroupsLinearLayout.setGravity(Gravity.LEFT);
 		ProgressBar myRadinGroupProgressBar = (ProgressBar) findViewById(R.id.myRadinGroupsProgressBar);
 		myRadinGroupsLinearLayout.removeView(myRadinGroupProgressBar);
 		
-		for (int i = 0; i < myRadinGroupsList.size(); i++) {
+		for (int i = 0; i < mListRadinGroupsModel.size(); i++) {
 			TextView radinGroupsTextView = new TextView(this);
-			String radinGroupsName = ((RadinGroupModel) myRadinGroupsList.get(i)).getRadinGroupName();
+			String radinGroupsName = ((RadinGroupModel) mListRadinGroupsModel.get(i)).getRadinGroupName();
 			radinGroupsTextView.setText(radinGroupsName);
 			radinGroupsTextView.setTextSize(TEXT_SIZE);
 			radinGroupsTextView.setTag(i);
