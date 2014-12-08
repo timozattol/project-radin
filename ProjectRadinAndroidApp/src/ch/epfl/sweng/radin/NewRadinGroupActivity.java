@@ -109,6 +109,10 @@ public class NewRadinGroupActivity extends Activity {
 		});
 	}
 	
+	/**
+	 * Sets Activity's friends lists.
+	 * @param items users's Friends 
+	 */
 	private void affectDataRetrieved(List<UserModel> items) {
 		mFriendsModel = new ArrayList<UserModel>(items);
 		mNamesAndModel = new HashMap<String, UserModel>();
@@ -175,6 +179,9 @@ public class NewRadinGroupActivity extends Activity {
 		return builder.create();
 	}
 	
+	/**
+	 * Called by create button, checks validity of user's input, starts the server interaction if valid.
+	 */
 	public void createRadinGroup(View view) {
 		String rdGrpName = mNameEdit.getText().toString();
 		Button createButton = (Button) findViewById(R.id.create);
@@ -191,6 +198,10 @@ public class NewRadinGroupActivity extends Activity {
         }
     }
 	
+	/**
+	 * Posts the radinGroup to the database, if action is successful, calls sendParticipants. 
+	 * @param name the new radinGroups's name
+	 */
 	private void sendRadinGroup(String name) {
 		RadinGroupModel rdinGrpModel = new RadinGroupModel(1, DateTime.now(), name, "", "");
     	RadinGroupStorageManager rdGrpStorageManager = RadinGroupStorageManager.getStorageManager();
@@ -211,7 +222,7 @@ public class NewRadinGroupActivity extends Activity {
 	}
 	
 	/**
-	 * Posts participants one by one to the data base. This method may be called more than once for every user
+	 * Posts participants one by one to the database. This method may be called more than once for every user
 	 * depending on TIMES_TO_TRY (max calls is TIMES_TO_TRY*number of users to send)
 	 * @param iterationNumber
 	 */
