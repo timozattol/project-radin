@@ -13,7 +13,7 @@ import android.os.Bundle;
  */
 public class AppOppnenigActivity extends Activity {
 
-	private static final long DELAY = 10000;
+	private static final long DELAY = 5000;
 	private boolean scheduled = false;
 	private Timer splashTimer;
 
