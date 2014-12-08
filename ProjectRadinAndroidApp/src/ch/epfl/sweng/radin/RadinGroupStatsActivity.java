@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.LinearLayout;
@@ -47,7 +48,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_stats);
-		
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		setHeader(getString(R.string.stats), true, true);

@@ -31,6 +31,8 @@
             android:contentDescription="@string/profile_picture"
             android:scaleType="fitXY"
             android:src="@drawable/profile_pic" />
+        
+        
 
         <TextView
             android:id="@+id/profileCompleteName"
@@ -154,6 +156,18 @@
             android:layout_below="@+id/bicSwift"
             android:layout_marginTop="5dp"
             android:text="bicSwift" />
+
+        <Button
+            android:id="@+id/modifPofileBtn"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:layout_alignBaseline="@+id/profileCompleteName"
+            android:layout_alignBottom="@+id/profileCompleteName"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_edit_profile"
+            android:onClick="editProfile" />
+
     </RelativeLayout>
 
 </ScrollView>
