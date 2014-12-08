@@ -16,8 +16,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Log;
-
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.Model;
@@ -241,9 +239,6 @@ public abstract class StorageManager<M extends Model> {
                         conn.setRequestProperty("Content-Type", "application/json");
                         DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
                         wr.writeBytes(jsonData);
-                        System.out.println(jsonData);
-                        Log.v("jsonData ", jsonData);
-                        Log.i("jsonData ", jsonData);
                         wr.flush();
                         wr.close();
 
@@ -259,7 +254,6 @@ public abstract class StorageManager<M extends Model> {
                         		+ " since it should not be null");
 				}
 				 	System.out.println(conn.getResponseCode());
-				 	Log.d("Get Response Code: ", String.valueOf(conn.getResponseCode()));
 				if (conn.getResponseCode() != SUCCESS_CODE) {
 				    return "FAILURE";
 				}
@@ -277,7 +271,6 @@ public abstract class StorageManager<M extends Model> {
 		 */
 		@Override
 		protected void onPostExecute(String result) {
-			 Log.d("Result: ", result);
 			if (result.equals("FAILURE")) {
 			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
 			} else {

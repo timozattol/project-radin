@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity" >
-    
+
     <ViewStub
         android:id="@+id/vsHeader"
         android:layout_width="fill_parent"
@@ -21,12 +21,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/last_name_new_user"
-        android:layout_below="@+id/vsHeader"
         android:layout_alignParentTop="true"
+        android:layout_below="@+id/vsHeader"
+        android:layout_marginTop="66dp"
         android:gravity="center"
         android:hint="@string/first_name"
-        android:inputType="textPersonName">
-
+        android:inputType="textPersonName" >
     </EditText>
 
     <EditText
@@ -35,10 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/username_new_user"
         android:layout_below="@+id/first_name_new_user"
-        android:hint="@string/last_name"
         android:gravity="center"
+        android:hint="@string/last_name"
         android:inputType="textPersonName" />
-    
+
     <EditText
         android:id="@+id/username_new_user"
         android:layout_width="wrap_content"
@@ -54,8 +54,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/password_new_user"
         android:layout_below="@+id/username_new_user"
-        android:hint="@string/email"
         android:gravity="center"
+        android:hint="@string/email"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -76,7 +76,7 @@
         android:layout_below="@+id/password_new_user"
         android:gravity="center"
         android:hint="@string/iban" />
-    
+
     <EditText
         android:id="@+id/iban_new_user"
         android:layout_width="wrap_content"
@@ -100,9 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bic_swift_address_new_user"
         android:layout_centerHorizontal="true"
-        android:gravity="bottom"
-        android:background="@drawable/ic_login" />
-
-    
+        android:background="@drawable/ic_login"
+        android:gravity="bottom" />
 
 </RelativeLayout>

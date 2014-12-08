@@ -78,7 +78,8 @@ public class RegisterActivity extends DashBoardActivity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
-					Intent myIntent = new Intent(getBaseContext(), LoginActivity.class);
+					Intent myIntent = 
+							new Intent(getBaseContext(), LoginActivity.class);
 					startActivity(myIntent);
 					Toast.makeText(getApplicationContext(),
 							R.string.server_error, Toast.LENGTH_SHORT).show();
@@ -90,8 +91,10 @@ public class RegisterActivity extends DashBoardActivity {
 					editor.putString(getString(R.string.username), 
 							String.valueOf(mId));
 					editor.commit();
-					Intent myIntent = new Intent(getBaseContext(), HomeActivity.class);
+					Intent myIntent = 
+							new Intent(getBaseContext(), HomeActivity.class);
 					startActivity(myIntent);
+					finishAffinity();
 					Toast.makeText(getApplicationContext(),
 							R.string.user_created, Toast.LENGTH_SHORT).show();
 				}
