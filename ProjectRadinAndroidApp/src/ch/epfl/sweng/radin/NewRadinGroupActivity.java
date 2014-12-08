@@ -15,15 +15,15 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,7 +35,7 @@ import android.widget.Toast;
  *
  */
 public class NewRadinGroupActivity extends Activity {
-	public static final int FIFTEEN_SECS = 10000; //RadinGroupViewActivity.TEN_SECS ? 
+	public static final int TIMES_TO_TRY = 3; 
 	
 	private final int mClientID = 1; //will be propagated from LoginActivity?
 	private EditText mNameEdit;
@@ -177,10 +177,14 @@ public class NewRadinGroupActivity extends Activity {
 	
 	public void createRadinGroup(View view) {
 		String rdGrpName = mNameEdit.getText().toString();
+		Button createButton = (Button) findViewById(R.id.create);
+		createButton.setClickable(false);
     	if ((rdGrpName == null) || rdGrpName.equals("")) {
     		Toast.makeText(getBaseContext(), R.string.invalid_name, Toast.LENGTH_SHORT).show();
+    		createButton.setClickable(true);
         } else if (mParticipants == null || mParticipants.isEmpty()) {
     		Toast.makeText(getBaseContext(), R.string.invalid_participants, Toast.LENGTH_SHORT).show();
+    		createButton.setClickable(true);
         } else {
         	//valid data
         	sendRadinGroup(rdGrpName);
@@ -188,7 +192,7 @@ public class NewRadinGroupActivity extends Activity {
     }
 	
 	private void sendRadinGroup(String name) {
-		RadinGroupModel rdinGrpModel = new RadinGroupModel(-1, DateTime.now(), name, "", "");
+		RadinGroupModel rdinGrpModel = new RadinGroupModel(1, DateTime.now(), name, "", "");
     	RadinGroupStorageManager rdGrpStorageManager = RadinGroupStorageManager.getStorageManager();
     	ArrayList<RadinGroupModel> rdGroupToCreate = new ArrayList<RadinGroupModel>();
     	rdGroupToCreate.add(rdinGrpModel);
@@ -197,10 +201,8 @@ public class NewRadinGroupActivity extends Activity {
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					mRadinGroupId = items.get(0).getRadinGroupID();
-					timer();
-					sendParticipants();
-					mCurrentActivity.finish();
-					Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
+					Log.i("radinGroup","sent");
+					sendParticipants(mParticipants.size() * TIMES_TO_TRY);
 				} else {
 					Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
 				}
@@ -208,31 +210,48 @@ public class NewRadinGroupActivity extends Activity {
     	});
 	}
 	
-	private void sendParticipants() {
+	/**
+	 * Posts participants one by one to the data base. This method may be called more than once for every user
+	 * depending on TIMES_TO_TRY (max calls is TIMES_TO_TRY*number of users to send)
+	 * @param iterationNumber
+	 */
+	private void sendParticipants(final int iterationNumber) {
 		if (!mParticipants.isEmpty()) {
-			UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
-			ArrayList<UserModel> usrList = new ArrayList<UserModel>();
-			usrList.add(mParticipants.get(0));
-			usrStorageManager.postMemberToRadinGroup(mRadinGroupId, usrList,	new RadinListener<UserModel>() {
-				@Override
-				public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
-					if (status == StorageManagerRequestStatus.SUCCESS) {
-						mParticipants.remove(0);
+			if (iterationNumber > 0) {
+				Log.i("enteringUsers", "YES");
+				UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
+				ArrayList<UserModel> usrList = new ArrayList<UserModel>();
+				usrList.add(mParticipants.get(0));
+				Log.i("user", mParticipants.get(0).getFirstName());
+				Log.i("rdGroupId", mRadinGroupId+"");
+				usrStorageManager.postMemberToRadinGroup(mRadinGroupId, usrList, new RadinListener<UserModel>() {
+					@Override
+					public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+						if (status == StorageManagerRequestStatus.SUCCESS) {
+							Log.i("user", "success");
+							mParticipants.remove(0);
+							Log.i("user posted", "true");
+							if (!mParticipants.isEmpty()) {
+								Log.i("still have users?", "true");
+								sendParticipants(iterationNumber - 1);
+							} else {
+								Log.i("still have users?", "false");
+								mCurrentActivity.finish();
+								Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
+							}
+						} else {
+							Log.i("user posted", "failed");
+							Toast.makeText(getBaseContext(), 
+										   R.string.server_error_participants, 
+										   Toast.LENGTH_SHORT).show();
+							mCurrentActivity.finish();
+						}
 					}
-					sendParticipants();
-				}
-			});
-		}
-	}
-	private void timer() {
-    	ProgressDialog.show(this, "", "Sending. Please wait...", true);
-    	new CountDownTimer(FIFTEEN_SECS, FIFTEEN_SECS) {
-    		public void onTick(long millisUntilFinished) {
-    		}
-    		public void onFinish() {
-				Toast.makeText(getBaseContext(), R.string.server_error2, Toast.LENGTH_SHORT).show();
+				});
+			} else {
 				mCurrentActivity.finish();
+				Toast.makeText(getBaseContext(), R.string.server_error_participants, Toast.LENGTH_SHORT).show();
 			}
-    	}.start();
+		}
 	}
 }

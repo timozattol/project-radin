@@ -5,6 +5,11 @@ package ch.epfl.sweng.radin.storage.managers;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
+
 
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RequestType;
@@ -100,7 +105,15 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
 				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + "adduser");
 				//Example url: http://radin.epfl.ch/radingroups/1/adduser
-				connTask.execute();
+				JSONObject json;
+	            try {
+	                json = (JSONObject) getJSONParser().getJsonFromModels(user);
+	                Log.i("json", json.toString());
+	                connTask.execute(json.toString());
+	            } catch (JSONException e) {
+	                // TODO Handle error
+	                e.printStackTrace();
+	            }
 				return;
 			}
 		}
