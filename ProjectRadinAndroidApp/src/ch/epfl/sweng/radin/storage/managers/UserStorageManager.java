@@ -3,14 +3,11 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
-import java.util.List;
 
+import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.util.Log;
-
-
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
@@ -66,7 +63,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(userId));
+				        SERVER_BASE_URL + ACCESS_URL + "/" + String.valueOf(userId));
 				//Example url: http://radin.epfl.ch/userRelationships/1
 				connTask.execute();
 				return;
@@ -84,7 +81,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + getTypeUrl());
+				        SERVER_BASE_URL + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + getTypeUrl());
 				//Example url: http://radin.epfl.ch/radingroups/1/users
 				connTask.execute();
 				return;
@@ -103,7 +100,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
-				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + "adduser");
+				        SERVER_BASE_URL + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + "adduser");
 				//Example url: http://radin.epfl.ch/radingroups/1/adduser
 				JSONObject json;
 	            try {
@@ -114,6 +111,19 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 	                // TODO Handle error
 	                e.printStackTrace();
 	            }
+				return;
+			}
+		}
+    }
+    
+    public void verifyLogin(String username, String password, 
+    		RadinListener<UserModel> callback) {
+    	if (isConnected()) {
+			if (!isHashMatchServer()) {
+				ServerConnectionTask connTask = 
+						new ServerConnectionTask(callback, RequestType.POST,
+						SERVER_BASE_URL + "login/" + username);
+				connTask.execute("{\"password\": \"" + password + "\"}");
 				return;
 			}
 		}

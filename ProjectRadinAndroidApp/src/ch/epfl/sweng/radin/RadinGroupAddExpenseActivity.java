@@ -16,18 +16,21 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +40,7 @@ import android.widget.Toast;
  * 
  *TODO Add reimbursement feature (if reimbursement selected amount turns to be opposite amount) 
  */
-public class RadinGroupAddExpenseActivity extends Activity {
+public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	
 	private UserModel mClientModel; // should be received from previous activity or clientId
@@ -57,18 +60,21 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	private Activity mCurrentActivity = this;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);		
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);	
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_add_expense);
+		setHeader(getString(R.string.add_expense_string), true, true);
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
+		
 		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
 		
 		TextView addExpenseText = (TextView) findViewById(R.id.title_add_expense);
 		addExpenseText.setText(addExpenseText.getText().toString() + radinGroupTitle);
 		
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.addExpenseRadinGroupLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.addExpenseRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		retrieveParticipants();
@@ -279,7 +285,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 			if (mSelectedCreditorId == 0) {
 				mSelectedCreditorId = CLIENT_ID;
 			}
-			TransactionModel newTransaction = new TransactionModel(-1,
+			TransactionModel newTransaction = new TransactionModel(1,
 																   mCurrentRadinGroupModel.getRadinGroupID(),
 																   mSelectedCreditorId,
 																   CLIENT_ID, //will be changed

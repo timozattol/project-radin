@@ -1,20 +1,22 @@
 package ch.epfl.sweng.radin;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 /**
  * @author Fabien Zellweger
  */
-public class NotificationSettingsActivity extends Activity {
+public class NotificationSettingsActivity extends DashBoardActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_notification_settings);
+		setHeader(getString(R.string.title_activity_notification_settings), true, true);
 	}
 
 	@Override

@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ import android.widget.Toast;
  * The user must provide a name for the list and the names of the people that he wants share this list with. 
  *
  */
-public class NewRadinGroupActivity extends Activity {
+public class NewRadinGroupActivity extends DashBoardActivity {
 	public static final int TIMES_TO_TRY = 3; 
 	
 	private final int mClientID = 1; //will be propagated from LoginActivity?
@@ -48,12 +49,13 @@ public class NewRadinGroupActivity extends Activity {
 	private Activity mCurrentActivity = this;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_new_radingroup);
-        retrieveData();
-		
+        setHeader(getString(R.string.new_radingroup), true, true);
         mNameEdit = (EditText) findViewById(R.id.edit_name);
+        retrieveData();
     }
 
 	public boolean onCreateOptionsMenu(Menu menu) {

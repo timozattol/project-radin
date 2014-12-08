@@ -2,11 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity" >
+
+    <ViewStub
+        android:id="@+id/vsHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/header"
+        android:layout="@layout/header" />
 
     <EditText
         android:id="@+id/first_name_new_user"
@@ -14,18 +22,30 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/last_name_new_user"
         android:layout_alignParentTop="true"
+        android:layout_below="@+id/vsHeader"
+        android:layout_marginTop="66dp"
+        android:gravity="center"
         android:hint="@string/first_name"
-        android:inputType="textPersonName">
-
+        android:inputType="textPersonName" >
     </EditText>
 
     <EditText
         android:id="@+id/last_name_new_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/email_new_user"
+        android:layout_alignLeft="@+id/username_new_user"
         android:layout_below="@+id/first_name_new_user"
+        android:gravity="center"
         android:hint="@string/last_name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/username_new_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/email_new_user"
+        android:layout_below="@+id/last_name_new_user"
+        android:hint="@string/username"
         android:inputType="textPersonName" />
 
     <EditText
@@ -33,7 +53,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/password_new_user"
-        android:layout_below="@+id/last_name_new_user"
+        android:layout_below="@+id/username_new_user"
+        android:gravity="center"
         android:hint="@string/email"
         android:inputType="textEmailAddress" />
 
@@ -41,18 +62,28 @@
         android:id="@+id/password_new_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/iban_new_user"
+        android:layout_alignLeft="@+id/address_new_user"
         android:layout_below="@+id/email_new_user"
+        android:gravity="center"
         android:hint="@string/password"
         android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/address_new_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/iban_new_user"
+        android:layout_below="@+id/password_new_user"
+        android:gravity="center"
+        android:hint="@string/iban" />
 
     <EditText
         android:id="@+id/iban_new_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/bic_swift_address_new_user"
-        android:layout_below="@+id/password_new_user"
-        android:hint="@string/iban" />
+        android:layout_below="@+id/address_new_user"
+        android:hint="@string/address" />
 
     <EditText
         android:id="@+id/bic_swift_address_new_user"
@@ -60,6 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iban_new_user"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:hint="@string/bic_swift_address" />
 
     <Button
@@ -68,8 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bic_swift_address_new_user"
         android:layout_centerHorizontal="true"
-        android:text="@string/sign_up_button_text" />
-
-    
+        android:background="@drawable/ic_login"
+        android:gravity="bottom" />
 
 </RelativeLayout>
