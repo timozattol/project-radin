@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,8 +28,7 @@ public class RegisterActivity extends Activity {
 	private boolean newUserDataUsable = false;
 	private UserModel mNewUser = null;
 	private SharedPreferences prefs;
-	private boolean statusCreationUser = false;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,17 +55,6 @@ public class RegisterActivity extends Activity {
 			retrieveNewUserData();
 			if (newUserDataUsable) {
 				submitUserToServer();
-				if (statusCreationUser == true) {
-					Intent displayHomeActivityIntent = new Intent(v.getContext(),
-							HomeActivity.class);
-					// TODO destroy this activity when communication with server
-					// done
-					startActivity(displayHomeActivityIntent);
-				} else {
-					Intent displayLoginActivityIntent = new Intent(v.getContext(),
-							LoginActivity.class);
-					startActivity(displayLoginActivityIntent);	
-				}
 			}
 		}
 	};
@@ -89,6 +76,8 @@ public class RegisterActivity extends Activity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
+					Intent myIntent = new Intent(getBaseContext(), LoginActivity.class);
+					startActivity(myIntent);
 					Toast.makeText(getApplicationContext(),
 							R.string.server_error, Toast.LENGTH_SHORT).show();
 				} else {
@@ -99,8 +88,8 @@ public class RegisterActivity extends Activity {
 					editor.putString(getString(R.string.username), 
 							String.valueOf(mId));
 					editor.commit();
-					statusCreationUser = true;
-					Log.d("StatutCreationUser", String.valueOf(statusCreationUser));
+					Intent myIntent = new Intent(getBaseContext(), HomeActivity.class);
+					startActivity(myIntent);
 					Toast.makeText(getApplicationContext(),
 							R.string.user_created, Toast.LENGTH_SHORT).show();
 				}
