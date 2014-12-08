@@ -56,6 +56,19 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     val jsonResponse: JsObject = JsObject(jsonValue)
     Ok(jsonResponse)
   }
+  
+  def newTransactionForGroup(rgid: Int) = DBAction(parse.json) { implicit rs =>
+    rs.request.body.\("transaction")(0).validate[Transaction].map { t =>
+      transactions.insert(Transaction(t.T_parentRadinGroupID, t.T_creatorID, t.T_debitorID, t.T_amount, t.T_currency, t.T_dateTime, t.T_purpose, t.T_type))
+    }
+    val lastid = transactions.map(_.tid).max.run
+    Logger.info("New Transaction ID : " + lastid)
+    val lastRG = transactions.list.filter(_.T_ID  == lastid)
+    val jsonValue: Seq[(String, JsValue)] = List(("transaction", toJson(lastRG)))
+    val jsonResponse: JsObject = JsObject(jsonValue)
+    Logger.info("New Transaction response : " + jsonResponse.toString)
+    Ok(jsonResponse)
+  }
 
   implicit val CoefficientWrites = new Writes[Coefficient] {
     def writes(coeff: Coefficient) = Json.obj(
