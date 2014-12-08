@@ -2,6 +2,7 @@ package ch.epfl.sweng.radin;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +14,8 @@ import android.widget.Toast;
  * The home activity to choose which fonctionality you want to try
  */
 public class HomeActivity extends Activity {
+	private int mUserId;
+	private SharedPreferences mPrefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,9 @@ public class HomeActivity extends Activity {
 		settingsBtn.setOnClickListener(homeButtonListener);
 		Button owerview = (Button) findViewById(R.id.overviewBtn);
 		owerview.setOnClickListener(homeButtonListener);
+		
+		mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		mUserId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
 	}
 	private OnClickListener homeButtonListener = new View.OnClickListener() {
 		@Override
@@ -44,6 +50,7 @@ public class HomeActivity extends Activity {
 					break;
 				case R.id.profileBtn:
 					displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
+					displayActivityIntent.putExtra("userId", mUserId);
 					break;
 				case R.id.notificationBtn:
 					displayActivityIntent = new Intent(v.getContext(), NotificationsActivity.class);

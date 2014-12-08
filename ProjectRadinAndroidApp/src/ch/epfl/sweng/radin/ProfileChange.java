@@ -44,7 +44,6 @@ public class ProfileChange extends Activity {
 		userId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
 
 
-
 		Button buttonSave = (Button) findViewById(R.id.profileButtonSaveChanges);
 		userStorageManager = UserStorageManager.getStorageManager();
 

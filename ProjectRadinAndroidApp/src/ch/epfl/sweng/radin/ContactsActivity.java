@@ -21,8 +21,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,9 +34,10 @@ import android.widget.Toast;
  * This activity show you you're contacts
  */
 public class ContactsActivity extends Activity {
-	private List<UserModel> mUserModelList = new ArrayList<UserModel>();
+	private List<UserModel> mContactUserModelList = new ArrayList<UserModel>();
 	private ListView mListFriend;
 	private UserArrayAdapter mUserModelAdapter;
+	int mCounter = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +48,15 @@ public class ContactsActivity extends Activity {
 		//TODO user the real userId
 		int currentId = 0;
 		
-		mUserModelAdapter = new UserArrayAdapter(this, R.layout.user_list_row, mUserModelList);
+		mUserModelAdapter = new UserArrayAdapter(this, R.layout.user_list_row, mContactUserModelList);
 		
 		mListFriend = (ListView) findViewById(R.id.fullContactListView);
 		mListFriend.setAdapter(mUserModelAdapter);
 		
 		refreshList();
+		
+		Button refreshButton = (Button) findViewById(R.id.refreshContactButton);
+		refreshButton.setOnClickListener(contactButtonListener);
 
 	}
 
@@ -90,6 +96,8 @@ public class ContactsActivity extends Activity {
 //                    displayErrorToast("Error while retrieving friends from server");
 //				} else {
 //					mUserModelAdapter.setUserModels(items);
+//					mContactUserModelList.clear();
+//					mContactUserModelList.addAll(items);
 //				}
 //				
 //				
@@ -97,18 +105,39 @@ public class ContactsActivity extends Activity {
 //			
 //		});
 		//Hard coded test
-		List<UserModel> TestUserModel = new ArrayList<UserModel>();
-		TestUserModel.add(new UserModel("Bob", "Marley", "Boby", "BobM@star.com", "allee des star 12", "CH00 0000 0000 0000 1111 A", "0", "xD", 1));
-		TestUserModel.add(new UserModel("Eddard", "Stark", "Ned", "Ned.Stark@Winterfell.nord", "Winterfell Castle 1", "CH13 2362 5450 0760 1284 C", "0", "*-*", 2));
-		TestUserModel.add(new UserModel("Albert", "Einstein", "E=MC2", "AlEin@E=MC2.com", "Kramgasse 49 du centre historique de Berne", "CH67 8462 2257 0059 1793 F", "0", ":p", 3));
-		mUserModelAdapter.setUserModels(TestUserModel);
 		
-		
+		List<UserModel> testUserModel = new ArrayList<UserModel>();
+		testUserModel.add(new UserModel("Bob", "Marley", "Boby", "BobM@star.com", "allee des star 12", "CH00 0000 0000 0000 1111 A", "0", "xD", 1));
+		testUserModel.add(new UserModel("Eddard", "Stark", "Ned", "Ned.Stark@Winterfell.nord", "Winterfell Castle 1", "CH13 2362 5450 0760 1284 C", "0", "*-*", 2));
+		testUserModel.add(new UserModel("Albert", "Einstein", "E=MC2", "AlEin@E=MC2.com", "Kramgasse 49 du centre historique de Berne", "CH67 8462 2257 0059 1793 F", "0", ":p", 3));
+		if (mCounter > 2) {
+			testUserModel.add(new UserModel("Vash", "The Stampede", "The Stampede", "IHaveABigGun@space.univers", "planet Gunsmoke", "GU36 7238 4537 1274 2174 Z", "0", "*_*", 4));
+		}
+		mUserModelAdapter.setUserModels(testUserModel);	
+		mCounter++;
+		mContactUserModelList.clear();
+		mContactUserModelList.addAll(testUserModel);
 	}
+	
+	private OnClickListener contactButtonListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (v.getId() == R.id.refreshContactButton) {
+					refreshList();	
+			} else {
+				Intent displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
+				int searchId = mContactUserModelList.get((Integer) v.getTag()).getId();
+				displayActivityIntent.putExtra("userId", searchId);
+				startActivity(displayActivityIntent);
+			}
+					
+		}		
+	};
 	
 	private void displayErrorToast(String message) {
 	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
+	
 	
     /**
      * @param context the context
@@ -144,6 +173,8 @@ public class ContactsActivity extends Activity {
 			textFullName.setText(user.getFirstName() + " " + user.getLastName());
 			textAdress.setText(user.getAddress());
 			textIban.setText(user.getIban());
+			rowView.setTag(position);
+			rowView.setOnClickListener(contactButtonListener);
 
 			return rowView;
 

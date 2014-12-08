@@ -23,7 +23,9 @@ public class ProfileActivity extends Activity {
 
 	private UserModel profileUser;
 	private SharedPreferences prefs;
-	private int userId;
+	private int mCurrentUserId;
+	private int mSearchingId;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +35,12 @@ public class ProfileActivity extends Activity {
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 		
 //		This is a fake userId used to test the app
-		userId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
+		mCurrentUserId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
+		mSearchingId = getIntent().getIntExtra("userId", mCurrentUserId);
 		
 		
 		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
-		userStorageManager.getById(userId, new RadinListener<UserModel>() {
+		userStorageManager.getById(mSearchingId, new RadinListener<UserModel>() {
 			
 			@Override
 			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
@@ -114,8 +117,12 @@ public class ProfileActivity extends Activity {
 	        	startActivity(homeIntent);
 	            return true;
 	        case R.id.action_settings:
-	        	Intent profileModifIntent = new Intent(this, ProfileChange.class);
-	        	startActivity(profileModifIntent);
+	        	if (mSearchingId == mCurrentUserId) {
+	        		Intent profileModifIntent = new Intent(this, ProfileChange.class);
+	        		startActivity(profileModifIntent);
+	        	} else {
+	        		displayErrorToast("You can't edit you're friend profil");
+	        	}
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
