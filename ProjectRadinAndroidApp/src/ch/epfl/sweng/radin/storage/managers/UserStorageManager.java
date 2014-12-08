@@ -3,10 +3,14 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
-import android.util.Log;
+
+import java.util.List;
+
+
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.StorageManager.ServerConnectionTask;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
@@ -48,13 +52,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
         return "users";
     }
     
-    public void getAllForGroupId(int groupId, RadinListener<UserModel> callback) {
-    	//TODO: implement
-    }
-    
-    public void getAllFriends(RadinListener<UserModel> callback) {
-    	//TODO: implement
-    }
+
     
     public void verifyLogin(String username, String password, 
     		RadinListener<UserModel> callback) {
@@ -62,10 +60,66 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = 
 						new ServerConnectionTask(callback, RequestType.POST,
-						SERVER_BASE_URL + "login/" + username);
+								SERVER_BASE_URL + "login/" + username);
 				connTask.execute("{\"password\": \"" + password + "\"}");
+			}
+    	}
+    }
+
+    /**
+     * Gets a list of users who are friends with the user with ID userId
+     * @param userId ID of the users that we want the friends of.
+     * @param callback UserModel callback
+     */
+    public void getFriendsOfUserWithId(int userId, RadinListener<UserModel> callback) {
+    	final String ACCESS_URL = "userRelationships";
+		if (isConnected()) {
+			if (!isHashMatchServer()) {
+				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
+				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(userId));
+				//Example url: http://radin.epfl.ch/userRelationships/1
+				connTask.execute();
+				return;
+			}
+		}
+    }
+    
+    /**
+     * Get all members of the radinGroup with id radinGroupId.
+     * @param radinGroupId
+     * @param callback
+     */
+    public void getAllForGroupId(int radinGroupId, RadinListener<UserModel> callback) {
+		final String ACCESS_URL = "radingroups";
+		if (isConnected()) {
+			if (!isHashMatchServer()) {
+				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
+				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + getTypeUrl());
+				//Example url: http://radin.epfl.ch/radingroups/1/users
+				connTask.execute();
+				return;
+			}
+		}
+    }
+    
+    /**
+     * Post one user as a member of the radinGroup with id radinGroupId
+     * @param radinGroupId RadinGroup's ID, to which the user will be added
+     * @param user Used to add to the RadinGroup 
+     * @param callback callback
+     */
+    public void postMemberToRadinGroup(int radinGroupId, List<UserModel> user, RadinListener<UserModel> callback) {
+    	final String ACCESS_URL = "radingroups";
+		if (isConnected()) {
+			if (!isHashMatchServer()) {
+				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
+				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + "adduser");
+				//Example url: http://radin.epfl.ch/radingroups/1/adduser
+				connTask.execute();
+
 				return;
 			}
 		}
     }
 }
+
