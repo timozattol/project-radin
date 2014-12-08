@@ -32,7 +32,9 @@ import android.widget.Toast;
  * This activity show you you're contacts
  */
 public class ContactsActivity extends Activity {
+	private List<UserModel> mUserModelList = new ArrayList<UserModel>();
 	private ListView mListFriend;
+	private UserArrayAdapter mUserModelAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +44,13 @@ public class ContactsActivity extends Activity {
 
 		//TODO user the real userId
 		int currentId = 0;
-
-
-		ListView mListFriend = (ListView) findViewById(R.id.fullContactListView);
+		
+		mUserModelAdapter = new UserArrayAdapter(this, R.layout.user_list_row, mUserModelList);
+		
+		mListFriend = (ListView) findViewById(R.id.fullContactListView);
+		mListFriend.setAdapter(mUserModelAdapter);
+		
+		refreshList();
 
 	}
 
@@ -59,25 +65,63 @@ public class ContactsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.action_home:
-			Intent intent = new Intent(this, HomeActivity.class);
-			startActivity(intent);
-			return true;
-		case R.id.action_settings:
-
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+			case R.id.action_home:
+				Intent intent = new Intent(this, HomeActivity.class);
+				startActivity(intent);
+				return true;
+			case R.id.action_settings:
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
-
+	
+	private void refreshList() {
+		//TODO: Uncomment this when the getAllFriend() is implemented
+//		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
+//		userStorageManager.getAllFriends(new RadinListener<UserModel>(){
+//
+//			@Override
+//			public void callback(List<UserModel> items,
+//					StorageManagerRequestStatus status) {
+//				
+//
+//				if (status == StorageManagerRequestStatus.FAILURE) {
+//                    displayErrorToast("Error while retrieving friends from server");
+//				} else {
+//					mUserModelAdapter.setUserModels(items);
+//				}
+//				
+//				
+//			}
+//			
+//		});
+		//Hard coded test
+		List<UserModel> TestUserModel = new ArrayList<UserModel>();
+		TestUserModel.add(new UserModel("Bob", "Marley", "Boby", "BobM@star.com", "allee des star 12", "CH00 0000 0000 0000 1111 A", "0", "xD", 1));
+		TestUserModel.add(new UserModel("Eddard", "Stark", "Ned", "Ned.Stark@Winterfell.nord", "Winterfell Castle 1", "CH13 2362 5450 0760 1284 C", "0", "*-*", 2));
+		TestUserModel.add(new UserModel("Albert", "Einstein", "E=MC2", "AlEin@E=MC2.com", "Kramgasse 49 du centre historique de Berne", "CH67 8462 2257 0059 1793 F", "0", ":p", 3));
+		mUserModelAdapter.setUserModels(TestUserModel);
+		
+		
+	}
+	
+	private void displayErrorToast(String message) {
+	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+	
+    /**
+     * @param context the context
+     * @param resource the view resource representing a row in the ListView
+     * @param objects the list of TransactionModel
+     */
 	private class UserArrayAdapter extends ArrayAdapter<UserModel>{
 		private List<UserModel> mUserModelList;
 		private Context mContext;
 
 		public UserArrayAdapter(Context context, int resource,
-				int textViewResourceId, List<UserModel> objects) {
-			super(context, resource, textViewResourceId, objects);
+					 List<UserModel> objects) {
+			super(context, resource, objects);
 			mUserModelList = objects;
 			mContext = context;				
 		}
@@ -90,59 +134,26 @@ public class ContactsActivity extends Activity {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
 			View rowView = inflater.inflate(R.layout.user_list_row, parent, false);
 			//TODO put the right avatar of our user
-			TextView textFirstName = (TextView) findViewById(R.id.friendsFirstName);
-			TextView textLastName = (TextView) findViewById(R.id.friendsLastName);
-			TextView textAdress = (TextView) findViewById(R.id.friendsAdress);
-			TextView textIban = (TextView) findViewById(R.id.friendsIban);
+			TextView textUserName = (TextView) rowView.findViewById(R.id.friendsUserName);
+			TextView textFullName = (TextView) rowView.findViewById(R.id.friendsFullName);
+			TextView textAdress = (TextView) rowView.findViewById(R.id.friendsAdress);
+			TextView textIban = (TextView) rowView.findViewById(R.id.friendsIban);
 
 			UserModel user = mUserModelList.get(position);
-			textFirstName.setText(user.getFirstName());
-			textLastName.setText(user.getLastName());
+			textUserName.setText(user.getUsername());
+			textFullName.setText(user.getFirstName() + " " + user.getLastName());
 			textAdress.setText(user.getAddress());
 			textIban.setText(user.getIban());
 
-
-			return null;
+			return rowView;
 
 		}
 
-
-		/* (non-Javadoc)
-		 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
-		 */
-		//    @Override
-		//    public View getView(int position, View convertView, ViewGroup parent) {
-		//        LayoutInflater inflater = LayoutInflater.from(mContext);
-		//        View rowView = inflater.inflate(R.layout.transaction_list_row, parent, false);
-		//        TextView textViewAmount = (TextView) rowView.findViewById(R.id.transaction_amount);
-		//        TextView textViewPurpose = (TextView) rowView.findViewById(R.id.transaction_purpose);
-		//        TextView textViewCreditor = (TextView) rowView.findViewById(R.id.transaction_creditor);
-		//        TextView textViewUsersConcerned = 
-		//                (TextView) rowView.findViewById(R.id.transaction_users_concerned);
-		//        TextView textViewDateTime = 
-		//                (TextView) rowView.findViewById(R.id.transaction_datetime);
-		//        
-		//
-		//        TransactionModel transaction = mTransactionModels.get(position);
-		//        textViewPurpose.setText(transaction.getPurpose());
-		//        textViewAmount.setText(transaction.getAmount() + " " + transaction.getCurrency());
-		//        
-		//        //TODO get username for id
-		//        if (transaction.getType() == TransactionType.PAYMENT) {
-		//            textViewCreditor.setText("Paid by: " + transaction.getCreditorID());
-		//        } else if (transaction.getType() == TransactionType.REIMBURSEMENT) {
-		//            textViewCreditor.setText("Reimbursed by: " + transaction.getCreditorID());
-		//        }
-		//        
-		//        
-		//        //TODO get real user for transaction
-		//        textViewUsersConcerned.setText("For: Roger, Michelle and Bob");
-		//
-		//        textViewDateTime.setText(transaction.getDateTime().toString(
-		//                DateTimeFormat.forPattern("d/M/Y")));
-		//
-		//        return rowView;
-		//    }
+		public void setUserModels(List<UserModel> newData) {
+			mUserModelList.clear();
+			mUserModelList.addAll(newData);
+			notifyDataSetChanged();
+		}
 
 	}
 

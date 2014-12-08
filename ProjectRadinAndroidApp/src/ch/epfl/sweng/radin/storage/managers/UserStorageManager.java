@@ -52,6 +52,10 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     	//TODO: implement
     }
     
+    public void getAllFriends(RadinListener<UserModel> callback) {
+    	//TODO: implement
+    }
+    
     public void verifyLogin(String username, String password, 
     		RadinListener<UserModel> callback) {
     	if (isConnected()) {
