@@ -36,7 +36,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, ""))
       transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
       transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
-      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYU_username: StringIMENT"))
+      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
       transactions.insert(Transaction(1, 2, 2, 150, "CHF", "2014/01/02 00/00", "Cooler expense", "PAYMENT"))
       userRelationships.insert(UserRelationship(1, 2, 10))
       userRelationships.insert(UserRelationship(3, 2, 11))
