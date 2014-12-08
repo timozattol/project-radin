@@ -212,7 +212,7 @@ public class NewRadinGroupActivity extends Activity {
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					mRadinGroupId = items.get(0).getRadinGroupID();
-					Log.i("radinGroup","sent");
+					Log.i("radinGroup", "sent");
 					sendParticipants(mParticipants.size() * TIMES_TO_TRY);
 				} else {
 					Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
