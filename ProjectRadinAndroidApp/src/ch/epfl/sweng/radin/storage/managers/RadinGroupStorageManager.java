@@ -3,6 +3,8 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import java.util.List;
+
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.RequestType;
@@ -58,6 +60,15 @@ public final class RadinGroupStorageManager extends StorageManager<RadinGroupMod
 			}
 		}
 		// TODO take the data from the local DB
+	}
+	
+	/**
+	 * Posts a Radin group (without participants) to the database.
+	 * @param radinGroup List consisting of one RadinGroup to post
+	 * @param callback callback
+	 */
+	public void createRadinGroup(List<RadinGroupModel> radinGroup, RadinListener<RadinGroupModel> callback) {
+		createWithID(-1, radinGroup, callback);
 	}
 }
 
