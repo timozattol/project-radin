@@ -33,7 +33,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", ""))
       users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", ""))
       users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", ""))
-      radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, ""))
+      radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", ""))
       transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
       transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
       transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
@@ -73,12 +73,11 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     def writes(list: TransactionsWithCoeffs) = Json.obj(
       "transactionWithParticipants" -> list.all)
   }
-  
-  implicit def query2twp(transactions: List[(Transactions#TableElementType, List[database.Tables.UserConcernedByTransaction#TableElementType])]): TransactionsWithCoeffs = {
-    val all = transactions.map{elem => TransactionWithParticipants(elem._1.asInstanceOf[Transaction], elem._2.map(x => Coefficient(x._1, x._2, x._3)))}
+
+  def query2twp(transactions: List[(Transactions#TableElementType, List[database.Tables.UserConcernedByTransaction#TableElementType])]): TransactionsWithCoeffs = {
+    val all = transactions.map { elem => TransactionWithParticipants(elem._1.asInstanceOf[Transaction], elem._2.map(x => Coefficient(x._1, x._2, x._3))) }
     return TransactionsWithCoeffs(all)
   }
-  
 
   def getTransactionsWithCoeffsForGroup(rgid: Int) = DBAction { implicit rs =>
     //    val transactionList = toJson(transactions.list.filter(_.T_parentRadinGroupID == rgid))
@@ -103,47 +102,53 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }.getOrElse(BadRequest("invalid json"))
   }
 
-  
   implicit val userFormat = Json.format[User]
-    
+
   def contentOfJsArray(json: JsValue): Option[Seq[JsValue]] = json match {
     case JsArray(arr) => Some(arr)
     case _ => None
   }
-  
- /**
-  *@author simonchelbc
- * @param JsonArray containing JsObject in format of database.Tables.User
- * @return a  webpage listing all users, to see if changes have been taken into account
- * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON with what each of the value in the request contains
- */
-def modifyUsers = DBAction(parse.json) { implicit rs =>
+
+  /**
+   * @author simonchelbc
+   * @param JsonArray containing JsObject in format of database.Tables.User
+   * @return a  webpage listing all users, to see if changes have been taken into account
+   * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON with what each of the value in the request contains
+   */
+  def modifyUsers = DBAction(parse.json) { implicit rs =>
     contentOfJsArray(rs.body.\("user")) match {
-      case Some(userNewStateJsObjects) => userNewStateJsObjects.foreach { userNewStateJsValue => 
-  		  val userNewState = userNewStateJsValue.validate[User].asOpt match {
+      case Some(userNewStateJsObjects) => userNewStateJsObjects.foreach { userNewStateJsValue =>
+        val userNewState = userNewStateJsValue.validate[User].asOpt match {
           case Some(userNewState) => users.filter { _.U_ID === userNewState.U_ID }.update(userNewState)
           case None => None
         }
-	    }
+      }
       case None => None //empty array of Json values
     }
     userListResult
   }
-  
+
   def newUser = DBAction(parse.json) { implicit rs =>
     Logger.info("New user request : " + rs.request.toString + " " + rs.request.body.toString)
     rs.request.body.\("user")(0).validate[User].map { user =>
       val newuser = User(user.U_firstName, user.U_lastName, user.U_username, user.U_password, user.U_email, user.U_address, user.U_iban, user.U_bicSwift, user.U_picture)
       Logger.info("New user sent : " + user.toString())
-      users.insert(newuser)
+      if (users.list.filter(_.U_username == user.U_username).isEmpty) {
+        users.insert(newuser)
+      }
     }
     val lastid = users.map(_.U_ID).max.run
-    Logger.info("New user ID : " + lastid)
-    val lastuser = users.list.filter(_.U_ID == lastid)
-    val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(lastuser)))
-    val jsonResponse: JsObject = JsObject(jsonValue)
-    Logger.info("New user response : " + jsonResponse.toString)
-    Ok(jsonResponse)
+    if (users.list.filter(_.U_ID == lastid).head.U_username == rs.request.body.\("user")(0).\("U_username")) {
+      Logger.info("New user ID : " + lastid)
+      val lastuser = users.list.filter(_.U_ID == lastid)
+      val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(lastuser)))
+      val jsonResponse: JsObject = JsObject(jsonValue)
+      Logger.info("New user response : " + jsonResponse.toString)
+      Ok(jsonResponse)
+    } else {
+      Logger.info("New user : username already exists")
+      BadRequest("username already exists")
+    }
   }
 
   def login(username: String) = DBAction(parse.json) { implicit rs =>
@@ -161,8 +166,8 @@ def modifyUsers = DBAction(parse.json) { implicit rs =>
     }
   }
 
-  def userListResult(implicit session: Session) = Ok(JsObject(List(("user",toJson(users.list)))))
-  
+  def userListResult(implicit session: Session) = Ok(JsObject(List(("user", toJson(users.list)))))
+
   def userList = DBAction { implicit rs =>
     Ok(JsObject(List(("user", toJson(users.list)))))
     userListResult
@@ -211,7 +216,7 @@ def modifyUsers = DBAction(parse.json) { implicit rs =>
   def newRadinGroup = DBAction(parse.json) { implicit rs =>
     Logger.info("New RadinGroup request : " + rs.request.toString + " " + rs.request.body.toString)
     rs.request.body.\("radinGroup")(0).validate[RadinGroup].map { rg =>
-      val newRG = RadinGroup(rg.RG_name, rg.RG_creationDate, rg.RG_description, rg.RG_masterID, rg.RG_avatar)
+      val newRG = RadinGroup(rg.RG_name, rg.RG_creationDate, rg.RG_description, rg.RG_avatar)
       Logger.info("New RadinGroup sent : " + newRG.toString())
       radinGroups.insert(newRG)
     }
@@ -249,12 +254,12 @@ def modifyUsers = DBAction(parse.json) { implicit rs =>
     }.getOrElse(BadRequest("invalid json"))
   }
 
- /**
-  *@author simonchelbc
- * @param sID, U_ID of a user contained in Users table
- * @return friends of User with U_ID equal to sID
- */
-def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs => 
+  /**
+   * @author simonchelbc
+   * @param sID, U_ID of a user contained in Users table
+   * @return friends of User with U_ID equal to sID
+   */
+  def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs =>
     val friendsOfSID = for {
       relation <- userRelationships.filter { _.uidSource === sID }
       user <- users.filter { _.U_ID === relation.uidTarget }
