@@ -44,15 +44,16 @@ public final class TransactionWithParticipantsStorageManager extends
 	 */
 	@Override
 	protected String getTypeUrl() {
-		return "transactions";
+		return "transactions/withcoeffs";
 	}
 	
 	public void getAllForGroupId(int groupId, RadinListener<TransactionWithParticipantsModel> callback) {
-		final String ACCESS_URL = "withcoeffs";
+		//final String ACCESS_URL = "withcoeffs";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + getTypeUrl() + "/" + ACCESS_URL + "/" + String.valueOf(groupId));
+				        SERVER_BASE_URL + getTypeUrl() + /*"/" + ACCESS_URL + */"/" + String.valueOf(groupId));
+				//Example url : http://radin.epfl.ch/transactions/withcoeffs/1
 				connTask.execute();
 				return;
 			}

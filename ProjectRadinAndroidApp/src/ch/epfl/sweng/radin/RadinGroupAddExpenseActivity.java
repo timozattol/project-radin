@@ -14,7 +14,6 @@ import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.UserModel;
-import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.app.Activity;
@@ -42,7 +41,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	
 	private UserModel mClientModel; // should be received from previous activity or clientId
-	private static final int CLIENT_ID = 0; // should be received from previous activity or userModel
+	private static final int CLIENT_ID = 1; // should be received from previous activity or userModel
 	
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
@@ -55,6 +54,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	private ArrayList<UserModel> mParticipants;
 	private HashMap<String, UserModel> mNamesAndModel;
 	private String[] mParticipantsNames;
+	private Activity mCurrentActivity = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -288,24 +288,32 @@ public class RadinGroupAddExpenseActivity extends Activity {
 																   DateTime.now(),
 																   mPurpose,
 																   TransactionType.PAYMENT);
-			TransactionWithParticipantsModel transactionToSend = 
-					new TransactionWithParticipantsModel(newTransaction, setAndgetParticipantsWithCoeff());
-			TransactionWithParticipantsStorageManager trWPartStorageManager =  
-					TransactionWithParticipantsStorageManager.getStorageManager();
+			TransactionWithParticipantsModel transactionToSend = new TransactionWithParticipantsModel(
+					newTransaction, setAndgetParticipantsWithCoeff());
+			TransactionWithParticipantsStorageManager trWPartStorageManager = TransactionWithParticipantsStorageManager
+					.getStorageManager();
 			ArrayList<TransactionWithParticipantsModel> myTransList = new ArrayList<TransactionWithParticipantsModel>();
 			myTransList.add(transactionToSend);
-			trWPartStorageManager.create(myTransList, new RadinListener<TransactionWithParticipantsModel>() {
-				@Override
-				public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
-					if (status == StorageManagerRequestStatus.SUCCESS) {
-						//((Activity) getApplicationContext()).finish();
-						Toast.makeText(getApplicationContext(), R.string.expense_added, Toast.LENGTH_SHORT).show();
-					} else {
-						Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
-					}
-				}
-			});
-			// WaitingDialog until callback is called	
+			trWPartStorageManager.createWithID(
+					mCurrentRadinGroupModel.getRadinGroupID(), myTransList,
+					new RadinListener<TransactionWithParticipantsModel>() {
+						@Override
+						public void callback(
+								List<TransactionWithParticipantsModel> items,
+								StorageManagerRequestStatus status) {
+							if (status == StorageManagerRequestStatus.SUCCESS) {
+								mCurrentActivity.finish();
+								Toast.makeText(getApplicationContext(),
+										R.string.expense_added,
+										Toast.LENGTH_SHORT).show();
+							} else {
+								Toast.makeText(getApplicationContext(),
+										R.string.server_error,
+										Toast.LENGTH_SHORT).show();
+							}
+						}
+					});
+			// WaitingDialog until callback is called
 		}
 	}
 	
