@@ -11,14 +11,15 @@ import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
-import ch.epfl.sweng.radin.storage.managers.UserRelationshipStorageManager;
+import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-//import android.util.Log;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,6 +35,8 @@ import android.widget.Toast;
  *
  */
 public class NewRadinGroupActivity extends Activity {
+	public static final int FIFTEEN_SECS = 10000; //RadinGroupViewActivity.TEN_SECS ? 
+	
 	private final int mClientID = 1; //will be propagated from LoginActivity?
 	private EditText mNameEdit;
 	private boolean[] checkedItems;
@@ -41,7 +44,8 @@ public class NewRadinGroupActivity extends Activity {
 	private  HashMap<String, UserModel> mNamesAndModel;
 	private String[] mFriends;
 	private ArrayList<UserModel> mParticipants;
-	
+	private int mRadinGroupId;
+	private Activity mCurrentActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,18 +91,18 @@ public class NewRadinGroupActivity extends Activity {
 	}
 	
 	/**
-	 * Retrieves the data () from StorageManager
+	 * Retrieves the data (user's friends) from StorageManager
 	 */
 	private void retrieveData() {
-		UserRelationshipStorageManager usrRelStorageManager = UserRelationshipStorageManager.getStorageManager();
-		usrRelStorageManager.getFriendsOfUserWithID(mClientID, new RadinListener<UserModel>() {
-
+		UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
+		usrStorageManager.getFriendsOfUserWithId(mClientID, new RadinListener<UserModel>() {
 			@Override
 			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					affectDataRetrieved(items);
 				} else {
-					Toast.makeText(getApplicationContext(),	R.string.server_error, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(),	R.string.server_error3, Toast.LENGTH_SHORT).show();
+					mCurrentActivity.finish();
 				}
 			}
 			
@@ -119,18 +123,6 @@ public class NewRadinGroupActivity extends Activity {
 		//initially false (default value)
 		checkedItems = new boolean[mFriends.length];
 	}
-	
-//	/**
-//	 * This will be a method that retrieve Client's friends in the radinGeoupe from server
-//	 * (Currently not implemented)
-//	 * @return an array of the client's friends's names
-//	 */
-//	public String[] serverGetFriendsInGroup() {
-//		String[] names = { "julie", "francois", "xavier", "Igor", "JT",
-//				"Thierry", "Ismail", "Tanja", "Hibou", "Cailloux", "Poux" };
-//		//TODO add proper methods
-//		return names;
-//	}
 	
 	/**
 	 * Create a dialog that display friends to check to add to the new RadiGroup
@@ -191,22 +183,56 @@ public class NewRadinGroupActivity extends Activity {
     		Toast.makeText(getBaseContext(), R.string.invalid_participants, Toast.LENGTH_SHORT).show();
         } else {
         	//valid data
-        	RadinGroupModel rdinGrpModel = new RadinGroupModel(-1, DateTime.now(), rdGrpName, "", "");
-        	RadinGroupStorageManager rdGrpStorageManager = RadinGroupStorageManager.getStorageManager();
-        	ArrayList<RadinGroupModel> rdGroupToCreate = new ArrayList<RadinGroupModel>();
-        	rdGroupToCreate.add(rdinGrpModel);
-        	rdGrpStorageManager.create(rdGroupToCreate, new RadinListener<RadinGroupModel>() {
-				@Override
-				public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
-					if (status == StorageManagerRequestStatus.SUCCESS) {
-						//((Activity) getApplicationContext()).finish();
-						Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
-					} else {
-						Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
-					}
-				}
-        	});
-        	//TODO WaitingDialog until callback is called	
+        	sendRadinGroup(rdGrpName);
         }
     }
+	
+	private void sendRadinGroup(String name) {
+		RadinGroupModel rdinGrpModel = new RadinGroupModel(-1, DateTime.now(), name, "", "");
+    	RadinGroupStorageManager rdGrpStorageManager = RadinGroupStorageManager.getStorageManager();
+    	ArrayList<RadinGroupModel> rdGroupToCreate = new ArrayList<RadinGroupModel>();
+    	rdGroupToCreate.add(rdinGrpModel);
+    	rdGrpStorageManager.create(rdGroupToCreate, new RadinListener<RadinGroupModel>() {
+			@Override
+			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					mRadinGroupId = items.get(0).getRadinGroupID();
+					timer();
+					sendParticipants();
+					mCurrentActivity.finish();
+					Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+				}
+			}
+    	});
+	}
+	
+	private void sendParticipants() {
+		if (!mParticipants.isEmpty()) {
+			UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
+			ArrayList<UserModel> usrList = new ArrayList<UserModel>();
+			usrList.add(mParticipants.get(0));
+			usrStorageManager.postMemberToRadinGroup(mRadinGroupId, usrList,	new RadinListener<UserModel>() {
+				@Override
+				public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+					if (status == StorageManagerRequestStatus.SUCCESS) {
+						mParticipants.remove(0);
+					}
+					sendParticipants();
+				}
+			});
+		}
+	}
+	private void timer() {
+    	ProgressDialog.show(this, "", "Sending. Please wait...", true);
+    	new CountDownTimer(FIFTEEN_SECS, FIFTEEN_SECS) {
+    		public void onTick(long millisUntilFinished) {
+    		}
+    		public void onFinish() {
+				Toast.makeText(getBaseContext(), R.string.server_error2, Toast.LENGTH_SHORT).show();
+				mCurrentActivity.finish();
+			}
+    	}.start();
+	}
 }
