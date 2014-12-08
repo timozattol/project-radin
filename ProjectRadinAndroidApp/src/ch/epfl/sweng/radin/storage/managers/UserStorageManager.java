@@ -63,7 +63,6 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 				ServerConnectionTask connTask = 
 						new ServerConnectionTask(callback, RequestType.POST,
 						SERVER_BASE_URL + "login/" + username);
-				Log.d("URL", SERVER_BASE_URL + "login/" + username );
 				connTask.execute("{\"password\": \"" + password + "\"}");
 				return;
 			}

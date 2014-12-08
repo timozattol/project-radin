@@ -12,13 +12,13 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,7 +29,7 @@ import android.widget.Toast;
  * @author Fabien Zellweger
  *
  */
-@SuppressLint("UseSparseArrays") public class RadinGroupBalanceActivity extends Activity {
+@SuppressLint("UseSparseArrays") public class RadinGroupBalanceActivity extends DashBoardActivity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private List<UserModel> mParticipants;
 	private List<TransactionWithParticipantsModel> mTransactions;
@@ -37,8 +37,10 @@ import android.widget.Toast;
 	private final static int TEXT_SIZE = 30;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		setContentView(R.layout.activity_radingroup_balance);
 
 		Bundle extras = getIntent().getExtras();
@@ -46,6 +48,8 @@ import android.widget.Toast;
 
 		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.balanceRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
+		setHeader(getString(R.string.balance), true, true);
+
 
 		fetchUsersThenTransactions();
 	}

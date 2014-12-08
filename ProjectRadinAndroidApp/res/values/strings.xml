@@ -7,11 +7,12 @@
     <string name="action_home">Home</string>
     <string name="title_activity_contacts">ContactsActivity</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="title_project_radin">Project Radin</string>
     <string name="title_activity_radingroup">RadinGroupActivity</string>
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_overview">OverviewActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="title_activity_radinlist_view">RadinGroupViewActivity</string>
     <string name="title_activity_profile_other">ProfileOtherActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
@@ -127,6 +128,10 @@
     <!-- Share Preference File -->
     <string name="preference_file_key">Preferences</string>
 
+     <!-- Stat Activity -->
+    <string name="stats">Statistiques</string>
+    
+    
     <!-- RadinGroupStatsActivity -->
     <string name="choose_graph">Select the period of your graph: </string>
     <string name="total_amount">The total amount is:</string>
@@ -138,5 +143,8 @@
         <item>spending a month</item>
         <item>spending a year</item>
     </string-array>
+
+    <string name="title_activity_app_oppnenig">AppOppnenigActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

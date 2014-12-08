@@ -3,23 +3,17 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.format.DateTimeFormat;
-
-import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.TransactionModel;
-import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.UserModel;
-import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
-import android.app.Activity;
+
 import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -28,22 +22,28 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.Window;
+
 
 /**
  * @author Fabien Zellweger
  * This activity show you you're contacts
  */
-public class ContactsActivity extends Activity {
+
+public class ContactsActivity extends DashBoardActivity {
 	private List<UserModel> mContactUserModelList = new ArrayList<UserModel>();
 	private ListView mListFriend;
 	private UserArrayAdapter mUserModelAdapter;
-	int mCounter = 0;
+	//TODO : surpess this when it work with server
+	private int mCounter = 0;
+
+
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_contacts);
-
 
 		//TODO user the real userId
 		int currentId = 0;
@@ -57,6 +57,8 @@ public class ContactsActivity extends Activity {
 		
 		Button refreshButton = (Button) findViewById(R.id.refreshContactButton);
 		refreshButton.setOnClickListener(contactButtonListener);
+
+		setHeader(getString(R.string.contacts), true, true);
 
 	}
 
@@ -83,7 +85,7 @@ public class ContactsActivity extends Activity {
 	}
 	
 	private void refreshList() {
-		//TODO: Uncomment this when the getAllFriend() is implemented
+		//TODO : Uncomment this when the getAllFriend() is implemented
 //		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
 //		userStorageManager.getAllFriends(new RadinListener<UserModel>(){
 //

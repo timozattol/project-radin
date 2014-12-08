@@ -4,21 +4,26 @@
 package ch.epfl.sweng.radin.storage.parsers;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
+import ch.epfl.sweng.radin.storage.Currency;
 import ch.epfl.sweng.radin.storage.TransactionModel;
+import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 
 /**
  * @author topali2
  *
  */
+@SuppressLint("UseSparseArrays") 
 public class TransactionWithParticipantsJSONParser implements JSONParser<TransactionWithParticipantsModel> {
 
 	/* (non-Javadoc)
@@ -26,36 +31,40 @@ public class TransactionWithParticipantsJSONParser implements JSONParser<Transac
 	 */
 	@Override
 	public List<TransactionWithParticipantsModel> getModelsFromJson(JSONObject json) throws JSONException {
-
-		TransactionJSONParser transParser = new TransactionJSONParser();
+	
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy/MM/dd HH/mm");
 		
-		JSONObject transWithPartObject = json.getJSONObject("transactionWithParticipants");
-		JSONArray transArray = transWithPartObject.getJSONArray("transaction");
+		List<TransactionWithParticipantsModel> transactionWPModels = new ArrayList<TransactionWithParticipantsModel>();
+		JSONArray transactionWPJson = json.getJSONArray("transactionWithParticipants");
 		
-		List<TransactionWithParticipantsModel> transWithPartList = new ArrayList<TransactionWithParticipantsModel>();
-		List<TransactionModel> transactionList = transParser.getModelsFromJson(transWithPartObject);
-		List<Map<Integer, Integer>> mapList = new ArrayList<Map<Integer, Integer>>();
-		
-		for (int i = 0; i < transArray.length(); i++) {
+		for (int i = 0; i < transactionWPJson.length(); i++) {
+			JSONObject transactionWP = transactionWPJson.getJSONObject(i);
+			JSONObject transactionJson = transactionWP.getJSONObject("transaction");
 			
-			mapList.add(new LinkedHashMap<Integer, Integer>());
-			JSONArray userIds = transArray.getJSONObject(i).getJSONArray("T_user_coefficients");
+			TransactionModel transaction = new TransactionModel(
+					transactionJson.getInt("T_ID"), 
+					transactionJson.getInt("T_parentRadinGroupID"), 
+					transactionJson.getInt("T_debitorID"), 
+					transactionJson.getInt("T_creatorID"), 
+					transactionJson.getDouble("T_amount"), 
+					Currency.valueOf(transactionJson.getString("T_currency")), 
+					dtf.parseDateTime(transactionJson.getString("T_dateTime")), 
+					transactionJson.getString("T_purpose"), 
+					TransactionType.valueOf(transactionJson.getString("T_type"))
+			);
 			
-			for (int j = 0; j < userIds.length(); j++) {
-				JSONObject userData = userIds.getJSONObject(j);
-				mapList.get(i).put(userData.getInt("id"), userData.getInt("coefficient"));
-				
+			JSONArray usersWithCoeffsJson = transactionWP.getJSONArray("coefficients");
+			Map<Integer, Integer> usersWithCoeffs = new HashMap<Integer, Integer>();
+			
+			for (int j = 0; j < usersWithCoeffsJson.length(); j++) {
+				JSONObject userWithCoeff = usersWithCoeffsJson.getJSONObject(i);
+				usersWithCoeffs.put(userWithCoeff.getInt("id"), userWithCoeff.getInt("coefficient"));
 			}
 			
-		}
-				
-		for (int i = 0; i < transactionList.size(); i++) {
-			
-			transWithPartList.add(new TransactionWithParticipantsModel(transactionList.get(i), mapList.get(i)));
-			
+			transactionWPModels.add(new TransactionWithParticipantsModel(transaction, usersWithCoeffs));
 		}
 		
-		return transWithPartList;
+		return transactionWPModels;
 	}
 
 	/* (non-Javadoc)
@@ -63,46 +72,47 @@ public class TransactionWithParticipantsJSONParser implements JSONParser<Transac
 	 */
 	@Override
 	public JSONObject getJsonFromModels(List<TransactionWithParticipantsModel> transactionList) throws JSONException {
-
-		TransactionJSONParser transJsonParser = new TransactionJSONParser();
-
-		List<TransactionModel> transactionListModel = new ArrayList<TransactionModel>();
-		List<List<Integer>> userIDList = new ArrayList<List<Integer>>();
-		List<List<Integer>> userCoefficientsList = new ArrayList<List<Integer>>();
-
-		for (TransactionWithParticipantsModel transactionWithParticipantsModel : transactionList) {
+		
+		JSONArray transactionWPJson = new JSONArray();
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy/MM/dd HH/mm");
+		
+		for (TransactionWithParticipantsModel transactionWPModel : transactionList) {
+			JSONObject transactionWithParticipants = new JSONObject();
 			
-			transactionListModel.add(transactionWithParticipantsModel);
-			userIDList.add(new ArrayList<Integer>(
-					transactionWithParticipantsModel.getUsersWithCoefficients().keySet()));
-			userCoefficientsList.add(new ArrayList<Integer>(
-					transactionWithParticipantsModel.getUsersWithCoefficients().values()));
+			JSONObject transaction = new JSONObject();
+			
+        	transaction.put("T_ID", transactionWPModel.getTransactionID());
+        	transaction.put("T_parentRadinGroupID", transactionWPModel.getParentRadinGroupID());
+        	transaction.put("T_debitorID", transactionWPModel.getCreditorID());
+        	transaction.put("T_creatorID", transactionWPModel.getCreatorID());
+        	transaction.put("T_amount", transactionWPModel.getAmount());
+        	transaction.put("T_currency", transactionWPModel.getCurrency().toString());
+        	transaction.put("T_dateTime", transactionWPModel.getDateTime().toString(dtf));
+        	transaction.put("T_purpose", transactionWPModel.getPurpose());
+        	transaction.put("T_type", transactionWPModel.getType().toString());
+        	
+        	transactionWithParticipants.put("transaction", transaction);
+        	
+        	Map<Integer, Integer> usersWithCoeffs = transactionWPModel.getUsersWithCoefficients();
+        	JSONArray coefficients = new JSONArray();
+        	
+        	for (Map.Entry<Integer, Integer> userWithCoeff : usersWithCoeffs.entrySet()) {
+        		JSONObject userWithCoeffJson = new JSONObject();
+        		
+        		userWithCoeffJson.put("id", userWithCoeff.getKey());
+        		userWithCoeffJson.put("coefficient", userWithCoeff.getValue());
+        		
+        		coefficients.put(userWithCoeffJson);
+        	}
+        	
+        	transactionWithParticipants.put("coefficients", coefficients);
+        	
+        	transactionWPJson.put(transactionWithParticipants);
 		}
+		JSONObject transactionWithParticipantsJson = new JSONObject();
+		transactionWithParticipantsJson.put("transactionWithParticipants", transactionWPJson);
 
-		JSONObject transactionWithParticipantsObject = new JSONObject();
-		JSONObject transObject = transJsonParser.getJsonFromModels(transactionListModel);
-		JSONArray transArray = transObject.getJSONArray("transaction");
-		
-		for (int i = 0; i < transArray.length(); i++) {
-			
-			JSONArray userArray = new JSONArray();
-			
-			for (int j = 0; j < userCoefficientsList.size(); j++) {
-			
-				JSONObject userIdCoeff = new JSONObject();
-				userIdCoeff.put("id", userIDList.get(i).get(j));
-				userIdCoeff.put("coefficient", userCoefficientsList.get(i).get(j));
-				userArray.put(userIdCoeff);
-				
-			}
-			
-			transObject.getJSONArray("transaction").getJSONObject(i).put("T_user_coefficients", userArray);
-		}
-		
-		
-		transactionWithParticipantsObject.put("transactionWithParticipants", transObject);
-		
-		return transactionWithParticipantsObject;
+		return transactionWithParticipantsJson;
 	}
 
 }

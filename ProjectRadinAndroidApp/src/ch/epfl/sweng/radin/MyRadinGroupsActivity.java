@@ -7,7 +7,6 @@ import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,14 +29,17 @@ import android.widget.Toast;
  * to give access.
  *
  */
-public class MyRadinGroupsActivity extends Activity {
+public class MyRadinGroupsActivity extends DashBoardActivity {
 	private final static int TEXT_SIZE = 30;
 	private List<RadinGroupModel> mListRadinGroupsModel;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_my_radingroups);
+		setHeader(getString(R.string.my_radingroups), true, true);
+
 
 
 		Button addBtn = (Button) findViewById(R.id.addBtn);

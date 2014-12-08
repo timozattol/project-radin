@@ -1,20 +1,23 @@
 package ch.epfl.sweng.radin;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 /**
  * @author Fabien Zellweger
  */
-public class OverviewActivity extends Activity {
+public class OverviewActivity extends DashBoardActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_overview);
+		setHeader(getString(R.string.overview), true, true);
+
 	}
 
 	@Override

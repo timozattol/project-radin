@@ -8,11 +8,10 @@ import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.StorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.content.SharedPreferences; 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,22 +23,25 @@ import android.widget.Toast;
  * give the opportunity to register.
  *
  */
-public class LoginActivity extends Activity {
+
+public class LoginActivity extends DashBoardActivity {
 	private String mUsername = null;
 	private String mPassword = null;
 	public static final String PREFS = "PREFS";
 	private SharedPreferences prefs;
-	private boolean validateLogin = true;
+
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
 		Button loginBtn = (Button) findViewById(R.id.loginButton);
 		loginBtn.setOnClickListener(loginActivityButtonListener);
 		Button newAccountBtn = (Button) findViewById(R.id.createAcountButton);
 		newAccountBtn.setOnClickListener(loginActivityButtonListener);
 
+		setHeader(getString(R.string.title_project_radin), false, false);
 		StorageManager.init(this);
 		
 		prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
@@ -56,14 +58,6 @@ public class LoginActivity extends Activity {
 			case R.id.loginButton:
 				retrieveRegisterUser();
 				verifyUser();
-				Log.d("validate Login 2 = ", String.valueOf(validateLogin));
-				if (validateLogin == true) {
-				displayActivityIntent = 
-						new Intent(v.getContext(), HomeActivity.class);
-				} else {
-					displayActivityIntent = 
-							new Intent(v.getContext(), LoginActivity.class);	
-				}
 				break;
 			case R.id.createAcountButton:
 				displayActivityIntent = 
@@ -91,6 +85,9 @@ public class LoginActivity extends Activity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
+					Intent myIntent = 
+							new Intent(getBaseContext(), LoginActivity.class);
+					startActivity(myIntent);
 					Toast.makeText(getApplicationContext(),
 							R.string.login_error, Toast.LENGTH_SHORT).show();
 					
@@ -102,10 +99,12 @@ public class LoginActivity extends Activity {
 					editor.putString(getString(R.string.username), 
 							String.valueOf(mId));
 					editor.commit();
+					Intent myIntent = 
+							new Intent(getBaseContext(), HomeActivity.class);
+					startActivity(myIntent);
+					finish();
 					Toast.makeText(getApplicationContext(),
 							R.string.success_login, Toast.LENGTH_SHORT).show();
-					validateLogin = true;
-					Log.d("validate Login 1 = ", String.valueOf(validateLogin));
 				}
 			}
 		});
