@@ -80,7 +80,7 @@ public class RadinGroupViewActivity extends Activity {
 		mTransactionListView.setAdapter(mTransactionsModelAdapter);
 
 		refreshUsersInGroupAndThenTransaction();
-		setAutoTransactionRefresh();
+		//setAutoTransactionRefresh();
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
