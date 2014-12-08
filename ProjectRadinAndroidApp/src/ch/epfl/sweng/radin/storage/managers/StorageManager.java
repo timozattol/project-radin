@@ -88,15 +88,48 @@ public abstract class StorageManager<M extends Model> {
 		}
 		//TODO take the data from the local DB
 	}
+	
 
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List, android.app.Activity)
-	 */
-
+	 */	
 	public void create(List<M> entries, RadinListener<M> callback) {
+		createHelper("", entries, callback);
+		return;
+	}
+	
+	/**
+	 * create entries in database, used with an ID to create relationships.
+	 *
+	 */
+	public void createWithID(int id, List<M> entries, RadinListener<M> callback) {
+		if (id == -1) {
+			createHelper("", entries, callback);
+			return;
+		} else {
+			createHelper(String.valueOf(id), entries, callback);
+			return;
+		}
+	}
+	
+	/**
+	 * Auxiliary method to create an entry in the database.
+	 * @param id	depends on the url of the root, it is a number encoded as a string when we want to add 
+	 * a list of {@link Model} items to an entry with this id, it is an empty string otherwise. 
+	 * @param entries the data to put on the database
+	 * @param callback callback
+	 */
+	private void createHelper(String id, List<M> entries, RadinListener<M> callback) {
+		String endUrl = "";
+		if (!id.isEmpty()) {
+			endUrl += "/" + id;
+		}
+		
+
+
 		if (isConnected()) {
 			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
-			        SERVER_BASE_URL + getTypeUrl());
+			        SERVER_BASE_URL + getTypeUrl() + endUrl);
 			JSONObject json;
 			
             try {
@@ -272,7 +305,7 @@ public abstract class StorageManager<M extends Model> {
 		 */
 		@Override
 		protected void onPostExecute(String result) {
-			 
+
 			if (result.equals("FAILURE")) {
 			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
 			} else {
@@ -314,5 +347,4 @@ public abstract class StorageManager<M extends Model> {
 			}
 		}
 	}
-
 }
