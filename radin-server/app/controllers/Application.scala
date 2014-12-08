@@ -138,15 +138,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       }
     }
     val lastid = users.map(_.U_ID).max.run
-    if (users.list.filter(_.U_ID == lastid).head.U_username == rs.request.body.\("user")(0).\("U_username")) {
+    if ((toJson(users.list.filter(_.U_ID == lastid))).\\("U_username").head.equals(rs.request.body.\("user")(0).\("U_username"))) {
       Logger.info("New user ID : " + lastid)
-      val lastuser = users.list.filter(_.U_ID == lastid)
-      val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(lastuser)))
+      val lastuser = toJson(users.list.filter(_.U_ID == lastid))
+      val jsonValue: Seq[(String, JsValue)] = List(("user", lastuser))
       val jsonResponse: JsObject = JsObject(jsonValue)
       Logger.info("New user response : " + jsonResponse.toString)
       Ok(jsonResponse)
     } else {
-      Logger.info("New user : username already exists")
+      Logger.info("New user : username already exists " + rs.request.body.\("user")(0).\\("U_username").head)
       BadRequest("username already exists")
     }
   }
