@@ -3,13 +3,13 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +23,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
  * @author topali2
  *
  */
-public class ProfileChange extends Activity {
+public class ProfileChange extends DashBoardActivity {
 
 	private UserModel newProfileModel;
 	private List<UserModel> userModelList = new ArrayList<UserModel>();
@@ -33,9 +33,11 @@ public class ProfileChange extends Activity {
 
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_profile_change);
+		setHeader(getString(R.string.title_activity_profile_change), true, true);
 
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 		

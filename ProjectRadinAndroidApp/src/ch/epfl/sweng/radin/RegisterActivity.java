@@ -9,12 +9,12 @@ import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.content.SharedPreferences; 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,17 +24,19 @@ import android.widget.Toast;
  * @author Simonchelbc
  * 
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends DashBoardActivity {
 	private boolean newUserDataUsable = false;
 	private UserModel mNewUser = null;
 	private SharedPreferences prefs;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_register);
 		Button signUpButton = (Button) findViewById(id.sign_up_button);
 		signUpButton.setOnClickListener(signUpButtonListener);
+		setHeader(getString(R.string.title_project_radin), false, false);
 		mNewUser = new UserModel();
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 	}
@@ -76,7 +78,8 @@ public class RegisterActivity extends Activity {
 			public void callback(List<UserModel> items,
 					StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
-					Intent myIntent = new Intent(getBaseContext(), LoginActivity.class);
+					Intent myIntent = 
+							new Intent(getBaseContext(), LoginActivity.class);
 					startActivity(myIntent);
 					Toast.makeText(getApplicationContext(),
 							R.string.server_error, Toast.LENGTH_SHORT).show();
@@ -88,8 +91,10 @@ public class RegisterActivity extends Activity {
 					editor.putString(getString(R.string.username), 
 							String.valueOf(mId));
 					editor.commit();
-					Intent myIntent = new Intent(getBaseContext(), HomeActivity.class);
+					Intent myIntent = 
+							new Intent(getBaseContext(), HomeActivity.class);
 					startActivity(myIntent);
+					finishAffinity();
 					Toast.makeText(getApplicationContext(),
 							R.string.user_created, Toast.LENGTH_SHORT).show();
 				}
