@@ -71,6 +71,7 @@
     <string name="invalid_name">Please add a group name</string>
     <string name="invalid_participants">Please select at least one person to create a group</string>
     <string name="rd_group_created">Radin Group created!</string>
+    <string name="server_error_participants">Couldn\'t add all participants, please add them manually through the group.</string>
     
     <!-- ProfileActivity -->
     <string name="profile_last_name">Last Name</string>
