@@ -174,7 +174,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
   //return list of all users
 
-  def addUsertoRadinGroup(rgid: Int) = TODO
+  def addUsertoRadinGroup(rgid: Int) = DBAction(parse.json) { implicit rs =>
+    var addedUser: User = null
+    rs.request.body.\("user")(0).validate[User].map { user =>
+      addedUser = user
+      memberInRadins += ((user.U_ID.get, rgid, "", 0, ""))
+    }
+    Logger.info("User " + addedUser.U_ID + " has been added to RadinGroup " + rgid)
+    Ok(rs.request.body)
+  }
 
   def getUserById(uid: Int) = DBAction { implicit rs =>
     Ok(JsObject(List(("user", toJson(users.filter { _.U_ID === uid }.list)))))
