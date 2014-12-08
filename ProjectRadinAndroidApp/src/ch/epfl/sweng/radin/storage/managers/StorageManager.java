@@ -102,8 +102,13 @@ public abstract class StorageManager<M extends Model> {
 	 *
 	 */
 	public void createWithID(int id, List<M> entries, RadinListener<M> callback) {
-		createHelper(""+ id, entries, callback);
-		return;
+		if (id == -1) {
+			createHelper("", entries, callback);
+			return;
+		} else {
+			createHelper(String.valueOf(id), entries, callback);
+			return;
+		}
 	}
 	
 	/**
@@ -297,7 +302,6 @@ public abstract class StorageManager<M extends Model> {
 		 */
 		@Override
 		protected void onPostExecute(String result) {
-			 
 			if (result.equals("FAILURE")) {
 			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
 			} else {
