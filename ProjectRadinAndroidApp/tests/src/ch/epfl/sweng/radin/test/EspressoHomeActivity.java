@@ -45,10 +45,10 @@ public class EspressoHomeActivity extends ActivityInstrumentationTestCase2<HomeA
 		Espresso.pressBack();
 	}
 	
-	public void testProfileBtn() {
+	/*public void testProfileBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.profileBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
-	}
+	}*/
 	
 	public void testSettingsBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.settingsBtn)).perform(ViewActions.click());

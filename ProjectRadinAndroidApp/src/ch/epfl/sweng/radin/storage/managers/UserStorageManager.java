@@ -3,7 +3,6 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
-import android.util.Log;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
