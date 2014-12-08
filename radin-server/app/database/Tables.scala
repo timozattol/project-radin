@@ -93,7 +93,7 @@ object Tables {
   }
   lazy val userConcernedByTransactions = TableQuery[UserConcernedByTransaction]
 
-  case class RadinGroup(RG_name: String, RG_creationDate: String, RG_description: String, RG_masterID: Int, RG_avatar: String, RG_deletedAt: Option[String] = Some(""), RG_ID: Option[Int] = None)
+  case class RadinGroup(RG_name: String, RG_creationDate: String, RG_description: String, RG_masterID: Int, RG_avatar: String, RG_ID: Option[Int] = None)
 
   class RadinGroups(tag: Tag) extends Table[RadinGroup](tag, "RADINGROUP") {
     def rid: Column[Int] = column[Int]("RID", O.PrimaryKey, O.AutoInc)
@@ -102,9 +102,9 @@ object Tables {
     def RGdescription: Column[String] = column[String]("RG_DESCRIPTION")
     def RGmasterRID: Column[Int] = column[Int]("RG_MASTERRID")
     def RGavatar: Column[String] = column[String]("RG_AVATAR")
-    def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
+//    def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
 
-    def * = (RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, RGdeletedAt.?, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
+    def * = (RGname, RGstartDate, RGdescription, RGmasterRID, RGavatar, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
   }
   
   case class UserRelationship(source: Int, target: Int, URrel: Int)

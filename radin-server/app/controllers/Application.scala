@@ -14,11 +14,10 @@ import play.api.Play.current
 import play.api.mvc.BodyParsers._
 import play.api.libs.json._
 import play.api.libs.json.Json._
-import play.api.db.slick.DBAction
 import play.api.mvc.BodyParsers
 import play.api.db.slick.DBAction
-import play.api.db.slick.DBAction
 import database.Tables._
+import database.OtherModels._
 
 class Application(override implicit val env: RuntimeEnvironment[DemoUser]) extends securesocial.core.SecureSocial[DemoUser] {
 
@@ -29,20 +28,22 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       userRelationships.ddl.create
       transactions.ddl.create
       memberInRadins.ddl.create
+      userConcernedByTransactions.ddl.create
     } finally {
       users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", ""))
       users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", ""))
       users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", ""))
       users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", ""))
-      radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, "", Some("")))
+      radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", 0, ""))
       transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
       transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
       transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYU_username: StringIMENT"))
       transactions.insert(Transaction(1, 2, 2, 150, "CHF", "2014/01/02 00/00", "Cooler expense", "PAYMENT"))
       userRelationships.insert(UserRelationship(1, 2, 10))
-      userRelationships.insert(UserRelationship(3, 2 , 11))
-      userRelationships.insert(UserRelationship(1, 3 , 12))
+      userRelationships.insert(UserRelationship(3, 2, 11))
+      userRelationships.insert(UserRelationship(1, 3, 12))
       memberInRadins ++= Seq((1, 1, "", 0, ""), (2, 1, "", 0, ""))
+      userConcernedByTransactions ++= Seq((1, 1, 1), (1, 2, 2), (1, 3, 0), (2, 1, 0), (2, 2, 2), (2, 4, 1))
     }
 
     Ok("done")
@@ -57,10 +58,39 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(jsonResponse)
   }
 
+  implicit val CoefficientWrites = new Writes[Coefficient] {
+    def writes(coeff: Coefficient) = Json.obj(
+      "id" -> coeff.id,
+      "coefficient" -> coeff.coefficient)
+  }
+
+  implicit val TransactionWithParticipantsWrites = new Writes[TransactionWithParticipants] {
+    def writes(twp: TransactionWithParticipants) = Json.obj(
+      "transaction" -> toJson(twp.transaction),
+      "coefficients" -> twp.coefficients)
+  }
+
+  implicit val TransactionWithParticipantsListWrites = new Writes[TransactionsWithCoeffs] {
+    def writes(list: TransactionsWithCoeffs) = Json.obj(
+      "transactionWithParticipants" -> list.all)
+  }
+  
+  implicit def query2twp(transactions: List[(Transactions#TableElementType, List[database.Tables.UserConcernedByTransaction#TableElementType])]): TransactionsWithCoeffs = {
+    val all = transactions.map{elem => TransactionWithParticipants(elem._1.asInstanceOf[Transaction], elem._2.map(x => Coefficient(x._1, x._2, x._3)))}
+    return TransactionsWithCoeffs(all)
+  }
+  
+
   def getTransactionsWithCoeffsForGroup(rgid: Int) = DBAction { implicit rs =>
-    val transactionList = toJson(transactions.list.filter(_.T_parentRadinGroupID == rgid))
-    val transactionsWithCoeffsList = transactionList
-    Ok
+    //    val transactionList = toJson(transactions.list.filter(_.T_parentRadinGroupID == rgid))
+    //    val transactionsWithCoeffsList = transactionList
+    val x = (for {
+      transaction <- transactions.list.filter { _.T_parentRadinGroupID == rgid }
+      coefficients <- userConcernedByTransactions.list.filter { _._1 == transaction.T_ID.get }
+    } yield (transaction, coefficients)).groupBy(_._1).mapValues(x => x.map { elem => elem._2 }).toList
+    val transactionsWithCoeffsForGroup = query2twp(x)
+    val jsonValue: JsArray = JsArray(List(toJson(transactionsWithCoeffsForGroup)))
+    Ok(jsonValue)
   }
 
   def getAllTransactions = DBAction { implicit rs =>
@@ -109,14 +139,14 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   def userList = DBAction { implicit rs =>
-    Ok(JsObject(List(("user",toJson(users.list)))))
+    Ok(JsObject(List(("user", toJson(users.list)))))
   }
   //return list of all users
 
   def addUsertoRadinGroup(rgid: Int) = TODO
 
-  def getUserById(uid: Int) = DBAction{ implicit rs =>
-    Ok(JsObject(List(("user",toJson(users.filter { _.U_ID === uid }.list)))))
+  def getUserById(uid: Int) = DBAction { implicit rs =>
+    Ok(JsObject(List(("user", toJson(users.filter { _.U_ID === uid }.list)))))
   }
 
   // a sample action using an authorization implementation
@@ -161,7 +191,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }
     val lastid = radinGroups.map(_.rid).max.run
     Logger.info("New RadinGroup ID : " + lastid)
-    val lastRG = radinGroups.list.filter(_.RG_ID  == lastid)
+    val lastRG = radinGroups.list.filter(_.RG_ID == lastid)
     val jsonValue: Seq[(String, JsValue)] = List(("radinGroup", toJson(lastRG)))
     val jsonResponse: JsObject = JsObject(jsonValue)
     Logger.info("New RadinGroup response : " + jsonResponse.toString)
@@ -185,30 +215,29 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   implicit val userRelationShipFormat = Json.format[UserRelationship]
-  
-  def newUserRelationship = DBAction(BodyParsers.parse.json) { implicit rs => 
-  	  rs.request.body.validate[UserRelationship].map { rg => 
-  	    userRelationships.insert(rg)
-  	    Ok(toJson(rg))
-  	}.getOrElse(BadRequest("invalid json"))
+
+  def newUserRelationship = DBAction(BodyParsers.parse.json) { implicit rs =>
+    rs.request.body.validate[UserRelationship].map { rg =>
+      userRelationships.insert(rg)
+      Ok(toJson(rg))
+    }.getOrElse(BadRequest("invalid json"))
   }
-  
+
   //get all friends of a user with UID sID, and returns those friends as a list of Users 
-  def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs => 
+  def getFriendsOfUserWithID(sID: Int) = DBAction { implicit rs =>
     val friendsOfSID = for {
       relation <- userRelationships.filter { _.uidSource === sID }
       user <- users.filter { _.U_ID === relation.uidTarget }
-      } yield user
+    } yield user
     val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(friendsOfSID.list)))
     Ok(JsObject(jsonValue))
   }
-  
-  def getUserRelationships = DBAction { implicit rs => 
+
+  def getUserRelationships = DBAction { implicit rs =>
     val jsonValue: Seq[(String, JsValue)] = List(("userRelationship", toJson(userRelationships.list)))
     Ok(JsObject(jsonValue))
   }
 }
-
 
 // An Authorization implementation that only authorizes uses that logged in using twitter
 case class WithProvider(provider: String) extends Authorization[DemoUser] {
