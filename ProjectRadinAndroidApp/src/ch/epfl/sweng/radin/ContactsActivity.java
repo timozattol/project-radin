@@ -39,20 +39,15 @@ public class ContactsActivity extends DashBoardActivity {
 	private ListView mListFriend;
 	private UserArrayAdapter mUserModelAdapter;
 	private int mUserId;
-
-
-
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_contacts);
 
-
 		SharedPreferences prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 		mUserId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
-		
 		
 		mUserModelAdapter = new UserArrayAdapter(this, R.layout.user_list_row, mContactUserModelList);
 		
@@ -111,10 +106,16 @@ public class ContactsActivity extends DashBoardActivity {
 //		//Hard coded test
 //		
 //		List<UserModel> testUserModel = new ArrayList<UserModel>();
-//		testUserModel.add(new UserModel("Bob", "Marley", "Boby", "BobM@star.com", "allee des star 12", "CH00 0000 0000 0000 1111 A", "0", "xD", 1));
-//		testUserModel.add(new UserModel("Eddard", "Stark", "Ned", "Ned.Stark@Winterfell.nord", "Winterfell Castle 1", "CH13 2362 5450 0760 1284 C", "0", "*-*", 2));
-//		testUserModel.add(new UserModel("Albert", "Einstein", "E=MC2", "AlEin@E=MC2.com", "Kramgasse 49 du centre historique de Berne", "CH67 8462 2257 0059 1793 F", "0", ":p", 3));
-//		testUserModel.add(new UserModel("Vash", "The Stampede", "The Stampede", "IHaveABigGun@space.univers", "planet Gunsmoke", "GU36 7238 4537 1274 2174 Z", "0", "*_*", 4));
+//		testUserModel.add(new UserModel("Bob", "Marley", "Boby", "BobM@star.com",
+//			"allee des star 12", "CH00 0000 0000 0000 1111 A", "0", "xD", 1));
+//		testUserModel.add(new UserModel("Eddard", "Stark", "Ned",
+//			"Ned.Stark@Winterfell.nord", "Winterfell Castle 1",
+//			"CH13 2362 5450 0760 1284 C", "0", "*-*", 2));
+//		testUserModel.add(new UserModel("Albert", "Einstein", "E=MC2",
+//			"AlEin@E=MC2.com", "Kramgasse 49 du centre historique de Berne",
+//			"CH67 8462 2257 0059 1793 F", "0", ":p", 3));
+//		testUserModel.add(new UserModel("Vash", "The Stampede", "The Stampede",
+//			"IHaveABigGun@space.univers", "planet Gunsmoke", "GU36 7238 4537 1274 2174 Z", "0", "*_*", 4));
 //
 //		mUserModelAdapter.setUserModels(testUserModel);	
 //
@@ -126,7 +127,7 @@ public class ContactsActivity extends DashBoardActivity {
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == R.id.refreshContactButton) {
-					refreshList();	
+				refreshList();	
 			} else {
 				Intent displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
 				int searchId = mContactUserModelList.get((Integer) v.getTag()).getId();
@@ -147,7 +148,7 @@ public class ContactsActivity extends DashBoardActivity {
      * @param resource the view resource representing a row in the ListView
      * @param objects the list of TransactionModel
      */
-	private class UserArrayAdapter extends ArrayAdapter<UserModel>{
+	private class UserArrayAdapter extends ArrayAdapter<UserModel> {
 		private List<UserModel> mUserModelList;
 		private Context mContext;
 
