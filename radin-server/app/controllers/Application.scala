@@ -122,24 +122,25 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     case _ => None
   }
 
+  
+  
   /**
    * @author simonchelbc
    * @param JsonArray containing JsObject in format of database.Tables.User
    * @return a  webpage listing all users, to see if changes have been taken into account
    * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON with what each of the value in the request contains
-   */
-  def modifyUsers = DBAction(parse.json) { implicit rs =>
-    contentOfJsArray(rs.body.\("user")) match {
-      case Some(userNewStateJsObjects) => userNewStateJsObjects.foreach { userNewStateJsValue =>
-        val userNewState = userNewStateJsValue.validate[User].asOpt match {
-          case Some(userNewState) => users.filter { _.U_ID === userNewState.U_ID }.update(userNewState)
-          case None => None
-        }
+ * 
+ */
+def modifyUsers = DBAction(parse.json) { implicit rs => 
+    rs.body.\("user") match {
+      case JsArray(jsonValues) => jsonValues foreach { 
+         _.validate[User].asOpt.foreach { 
+           userNewState =>  users.filter { _.U_ID === userNewState.U_ID }.update(userNewState)
+       }
       }
-      case None => None //empty array of Json values
     }
-    userListResult
   }
+
 
   def newUser = DBAction(parse.json) { implicit rs =>
     Logger.info("New user request : " + rs.request.toString + " " + rs.request.body.toString)
