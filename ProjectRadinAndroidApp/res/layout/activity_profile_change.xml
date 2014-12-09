@@ -7,16 +7,12 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="ch.epfl.sweng.radin.ProfileChange" >
 
         <ViewStub
             android:id="@+id/vsHeader"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:inflatedId="@+id/header"
             android:layout="@layout/header" />
 
@@ -24,7 +20,7 @@
             android:id="@+id/profileChangeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="80dp"
             android:text="@string/profile_complete_name"
             android:textSize="20sp" />
@@ -158,9 +154,10 @@
             android:layout_alignBottom="@id/editProfileFirstName"
             android:layout_alignRight="@id/editProfileFirstName"
             android:layout_alignTop="@id/editProfileFirstName"
-            android:background="@drawable/ic_action_edit"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_action_backspace"
             android:contentDescription="@string/profile_complete_name"
-            android:tag="@id/editProfileFirstName" />
+            android:tag="1" />
 
         <ImageButton
             android:id="@+id/delete_button_lastName"
@@ -169,9 +166,10 @@
             android:layout_alignBottom="@id/editProfileLastName"
             android:layout_alignRight="@id/editProfileLastName"
             android:layout_alignTop="@id/editProfileLastName"
-            android:background="@drawable/ic_action_edit"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_action_backspace"
             android:contentDescription="@string/profile_complete_name"
-            android:tag="@id/editProfileLastName" />
+            android:tag="2" />
 
         <ImageButton
             android:id="@+id/delete_button_username"
@@ -180,9 +178,10 @@
             android:layout_alignBottom="@id/editProfileUsername"
             android:layout_alignRight="@id/editProfileUsername"
             android:layout_alignTop="@id/editProfileUsername"
-            android:background="@drawable/ic_action_edit"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_action_backspace"
             android:contentDescription="@string/profile_user_name"
-            android:tag="@id/editProfileUsername" />
+            android:tag="3" />
 
         <ImageButton
             android:id="@+id/delete_button_address"
@@ -191,9 +190,10 @@
             android:layout_alignBottom="@id/editProfileAddress"
             android:layout_alignRight="@id/editProfileAddress"
             android:layout_alignTop="@id/editProfileAddress"
-            android:background="@drawable/ic_action_edit"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_action_backspace"
             android:contentDescription="@string/profile_address"
-            android:tag="@id/editProfileAddress" />
+            android:tag="4" />
 
         <ImageButton
             android:id="@+id/delete_button_email"
@@ -202,9 +202,10 @@
             android:layout_alignBottom="@id/editProfileEmail"
             android:layout_alignRight="@id/editProfileEmail"
             android:layout_alignTop="@id/editProfileEmail"
-            android:background="@drawable/ic_action_edit"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_action_backspace"
             android:contentDescription="@string/profile_email"
-            android:tag="@id/editProfileEmail" />
+            android:tag="5" />
 
         <ImageButton
             android:id="@+id/delete_button_iBan"
@@ -213,9 +214,10 @@
             android:layout_alignBottom="@id/editProfileIBan"
             android:layout_alignRight="@id/editProfileIBan"
             android:layout_alignTop="@id/editProfileIBan"
-            android:background="@drawable/ic_action_edit"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_action_backspace"
             android:contentDescription="@string/profile_iban"
-            android:tag="@id/editProfileIBan" />
+            android:tag="6" />
 
         <ImageButton
             android:id="@+id/delete_button_bicwift"
@@ -224,9 +226,11 @@
             android:layout_alignBottom="@id/editProfileBicSwift"
             android:layout_alignRight="@id/editProfileBicSwift"
             android:layout_alignTop="@id/editProfileBicSwift"
-            android:background="@drawable/ic_action_edit"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_action_backspace"
             android:contentDescription="@string/profile_bicSwift"
-            android:tag="@id/editProfileBicSwift" />
+            android:tag="7" />
+
     </RelativeLayout>
 
 </ScrollView>
