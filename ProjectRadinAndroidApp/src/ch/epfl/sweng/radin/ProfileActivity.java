@@ -43,7 +43,6 @@ public class ProfileActivity extends DashBoardActivity {
 
 		mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 		
-//		This is a fake userId used to test the app
 		mCurrentUserId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
 		mSearchingId = getIntent().getIntExtra("userId", mCurrentUserId);
 		

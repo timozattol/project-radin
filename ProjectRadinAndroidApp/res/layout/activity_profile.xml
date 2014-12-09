@@ -48,7 +48,7 @@
             android:layout_alignLeft="@+id/profileCompleteName"
             android:layout_below="@+id/profileFirstName"
             android:layout_marginBottom="5dp"
-            android:text="last" />
+            android:hint="last" />
 
         <TextView
             android:id="@+id/profileFirstName"
@@ -57,7 +57,7 @@
             android:layout_alignLeft="@+id/profileLastName"
             android:layout_below="@+id/profileCompleteName"
             android:layout_marginTop="14dp"
-            android:text="first" />
+            android:hint="first" />
 
         <TextView
             android:id="@+id/Username"
@@ -76,7 +76,7 @@
             android:layout_alignLeft="@+id/Username"
             android:layout_below="@+id/Username"
             android:layout_marginTop="5dp"
-            android:text="username" />
+            android:hint="username" />
 
         <TextView
             android:id="@+id/profileAddress"
@@ -85,7 +85,7 @@
             android:layout_alignLeft="@+id/Address"
             android:layout_below="@+id/Address"
             android:layout_marginTop="5dp"
-            android:text="address" />
+            android:hint="address" />
 
         <TextView
             android:id="@+id/profileIban"
@@ -94,7 +94,7 @@
             android:layout_alignLeft="@+id/Iban"
             android:layout_below="@+id/Iban"
             android:layout_marginTop="5dp"
-            android:text="iban" />
+            android:hint="iban" />
 
         <TextView
             android:id="@+id/Email"
@@ -113,7 +113,7 @@
             android:layout_alignLeft="@+id/Email"
             android:layout_below="@+id/Email"
             android:layout_marginTop="5dp"
-            android:text="email" />
+            android:hint="email" />
 
         <TextView
             android:id="@+id/Address"
@@ -152,7 +152,7 @@
             android:layout_alignLeft="@+id/bicSwift"
             android:layout_below="@+id/bicSwift"
             android:layout_marginTop="5dp"
-            android:text="bicSwift" />
+            android:hint="bicSwift" />
 
         <Button
             android:id="@+id/modifPofileBtn"

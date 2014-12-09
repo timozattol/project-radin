@@ -1,8 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/background" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -14,64 +14,132 @@
         tools:context="ch.epfl.sweng.radin.ProfileChange" >
 
         <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header" />
-        
+            android:id="@+id/vsHeader"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/header"
+            android:layout="@layout/header" />
+
+        <TextView
+            android:id="@+id/profileChangeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/profile_complete_name"
+            android:textSize="20sp" />
+
         <EditText
             android:id="@+id/editProfileFirstName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/profileChangeName"
-            android:layout_marginTop="66dp"
+            android:layout_alignLeft="@id/profileChangeName"
+            android:layout_below="@id/profileChangeName"
             android:hint="@string/new_profile_firstName"
             android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/editProfileLastName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/profileChangeName"
+            android:layout_below="@id/editProfileFirstName"
+            android:hint="@string/new_profile_lastName"
+            android:inputType="textPersonName" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/profileChangeUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/profileChangeName"
+            android:layout_below="@id/editProfileLastName"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_user_name"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editProfileUsername"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/profileChangeUsername"
-            android:layout_below="@+id/editProfileLastName"
-            android:layout_marginTop="50dp"
+            android:layout_alignLeft="@id/profileChangeUsername"
+            android:layout_below="@id/profileChangeUsername"
             android:hint="@string/new_profile_username"
             android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/profileChangeAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/profileChangeUsername"
+            android:layout_below="@id/editProfileUsername"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_address"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editProfileAddress"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editProfileUsername"
-            android:layout_marginTop="50dp"
+            android:layout_alignLeft="@id/profileChangeAddress"
+            android:layout_below="@id/profileChangeAddress"
             android:hint="@string/new_profile_address"
             android:inputType="textPostalAddress" />
+
+        <TextView
+            android:id="@+id/profileChangeEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/profileChangeAddress"
+            android:layout_below="@id/editProfileAddress"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_email"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editProfileEmail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editProfileAddress"
-            android:layout_marginTop="50dp"
+            android:layout_alignLeft="@id/profileChangeEmail"
+            android:layout_below="@id/profileChangeEmail"
             android:hint="@string/new_profile_email"
             android:inputType="textEmailAddress" />
+
+        <TextView
+            android:id="@+id/profileChangeIBan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/profileChangeEmail"
+            android:layout_below="@id/editProfileEmail"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_iban"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editProfileIBan"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editProfileEmail"
-            android:layout_marginTop="50dp"
+            android:layout_alignLeft="@id/profileChangeIBan"
+            android:layout_below="@id/profileChangeIBan"
             android:hint="@string/new_profile_iBan"
             android:inputType="text" />
+
+        <TextView
+            android:id="@+id/profileChangeBicSwift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/profileChangeIBan"
+            android:layout_below="@id/editProfileIBan"
+            android:layout_marginTop="30dp"
+            android:text="@string/profile_bicSwift"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editProfileBicSwift"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editProfileIBan"
-            android:layout_marginTop="50dp"
+            android:layout_below="@id/profileChangeBicSwift"
+			android:layout_alignLeft="@id/profileChangeBicSwift"
             android:hint="@string/new_profile_bicSwift"
             android:inputType="text" />
 
@@ -79,81 +147,86 @@
             android:id="@+id/profileButtonSaveChanges"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editProfileBicSwift"
-            android:layout_marginTop="50dp"
+            android:layout_below="@id/editProfileBicSwift"
+            android:layout_marginTop="40dp"
             android:text="@string/button_save" />
 
-        <EditText
-            android:id="@+id/editProfileLastName"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editProfileFirstName"
-            android:layout_below="@+id/editProfileFirstName"
-            android:ems="10"
-            android:hint="@string/new_profile_lastName"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/profileChangeName"
+        <ImageButton
+            android:id="@+id/delete_button_firstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/editProfileFirstName"
-            android:layout_marginBottom="37dp"
-            android:layout_marginLeft="10dp"
-            android:hint="@string/profile_complete_name"
-            android:text="@string/profile_complete_name"
-            android:textSize="20sp" />
+            android:layout_alignBottom="@id/editProfileFirstName"
+            android:layout_alignRight="@id/editProfileFirstName"
+            android:layout_alignTop="@id/editProfileFirstName"
+            android:background="@drawable/ic_action_edit"
+            android:contentDescription="@string/profile_complete_name"
+            android:tag="@id/editProfileFirstName" />
 
-        <TextView
-            android:id="@+id/profileChangeUsername"
+        <ImageButton
+            android:id="@+id/delete_button_lastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/profileChangeName"
-            android:layout_below="@+id/editProfileLastName"
-            android:layout_marginTop="25dp"
-            android:text="@string/profile_user_name"
-            android:textSize="20sp" />
+            android:layout_alignBottom="@id/editProfileLastName"
+            android:layout_alignRight="@id/editProfileLastName"
+            android:layout_alignTop="@id/editProfileLastName"
+            android:background="@drawable/ic_action_edit"
+            android:contentDescription="@string/profile_complete_name"
+            android:tag="@id/editProfileLastName" />
 
-        <TextView
-            android:id="@+id/profileChangeAddress"
+        <ImageButton
+            android:id="@+id/delete_button_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/profileChangeUsername"
-            android:layout_below="@+id/editProfileUsername"
-            android:layout_marginTop="32dp"
-            android:text="@string/profile_address"
-            android:textSize="20sp" />
+            android:layout_alignBottom="@id/editProfileUsername"
+            android:layout_alignRight="@id/editProfileUsername"
+            android:layout_alignTop="@id/editProfileUsername"
+            android:background="@drawable/ic_action_edit"
+            android:contentDescription="@string/profile_user_name"
+            android:tag="@id/editProfileUsername" />
 
-        <TextView
-            android:id="@+id/profileChangeEmail"
+        <ImageButton
+            android:id="@+id/delete_button_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/profileChangeAddress"
-            android:layout_below="@+id/editProfileAddress"
-            android:layout_marginTop="34dp"
-            android:text="@string/profile_email"
-            android:textSize="20sp" />
+            android:layout_alignBottom="@id/editProfileAddress"
+            android:layout_alignRight="@id/editProfileAddress"
+            android:layout_alignTop="@id/editProfileAddress"
+            android:background="@drawable/ic_action_edit"
+            android:contentDescription="@string/profile_address"
+            android:tag="@id/editProfileAddress" />
 
-        <TextView
-            android:id="@+id/profileChangeIBan"
+        <ImageButton
+            android:id="@+id/delete_button_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/profileChangeEmail"
-            android:layout_below="@+id/editProfileEmail"
-            android:layout_marginTop="34dp"
-            android:text="@string/profile_iban"
-            android:textSize="20sp" />
+            android:layout_alignBottom="@id/editProfileEmail"
+            android:layout_alignRight="@id/editProfileEmail"
+            android:layout_alignTop="@id/editProfileEmail"
+            android:background="@drawable/ic_action_edit"
+            android:contentDescription="@string/profile_email"
+            android:tag="@id/editProfileEmail" />
 
-        <TextView
-            android:id="@+id/profileChangeBicSwift"
+        <ImageButton
+            android:id="@+id/delete_button_iBan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/profileChangeIBan"
-            android:layout_below="@+id/editProfileIBan"
-            android:layout_marginTop="33dp"
-            android:text="@string/profile_bicSwift"
-            android:textSize="20sp" />
+            android:layout_alignBottom="@id/editProfileIBan"
+            android:layout_alignRight="@id/editProfileIBan"
+            android:layout_alignTop="@id/editProfileIBan"
+            android:background="@drawable/ic_action_edit"
+            android:contentDescription="@string/profile_iban"
+            android:tag="@id/editProfileIBan" />
 
+        <ImageButton
+            android:id="@+id/delete_button_bicwift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/editProfileBicSwift"
+            android:layout_alignRight="@id/editProfileBicSwift"
+            android:layout_alignTop="@id/editProfileBicSwift"
+            android:background="@drawable/ic_action_edit"
+            android:contentDescription="@string/profile_bicSwift"
+            android:tag="@id/editProfileBicSwift" />
     </RelativeLayout>
 
 </ScrollView>

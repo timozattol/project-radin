@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
@@ -41,22 +42,45 @@ public class ProfileChange extends DashBoardActivity {
 		setHeader(getString(R.string.title_activity_profile_change), true, true);
 
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
-
-
-		//		This is a fake userId used to test the app		
+	
 		userId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
 
-
-		Button buttonSave = (Button) findViewById(R.id.profileButtonSaveChanges);
 		userStorageManager = UserStorageManager.getStorageManager();
 
-		buttonSave.setOnClickListener(profileChangeButtonListener);
+		Button buttonSave = (Button) findViewById(R.id.profileButtonSaveChanges);
+		ImageButton deleteButtonFirstName = (ImageButton) findViewById(R.id.delete_button_firstName);
+		ImageButton deleteButtonalastName = (ImageButton) findViewById(R.id.delete_button_lastName);
+		ImageButton deleteButtonaUsername = (ImageButton) findViewById(R.id.delete_button_username);
+		ImageButton deleteButtonaAddress = (ImageButton) findViewById(R.id.delete_button_address);
+		ImageButton deleteButtonaEmail = (ImageButton) findViewById(R.id.delete_button_email);
+		ImageButton deleteButtonaIban = (ImageButton) findViewById(R.id.delete_button_iBan);
+		ImageButton deleteButtonaBicSwift = (ImageButton) findViewById(R.id.delete_button_bicwift);
+		
 
+		buttonSave.setOnClickListener(profileChangeButtonListener);
+		deleteButtonFirstName.setOnClickListener(deleteButtonListener);
+		deleteButtonalastName.setOnClickListener(deleteButtonListener);
+		deleteButtonaUsername.setOnClickListener(deleteButtonListener);
+		deleteButtonaAddress.setOnClickListener(deleteButtonListener);
+		deleteButtonaEmail.setOnClickListener(deleteButtonListener);
+		deleteButtonaIban.setOnClickListener(deleteButtonListener);
+		deleteButtonaBicSwift.setOnClickListener(deleteButtonListener);
+		
 		retrieveUserInformation();
 
 	}
 
-
+	private OnClickListener deleteButtonListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			System.out.println((String) v.getTag());
+			EditText deletedText = (EditText) findViewById(Integer.parseInt((String) v.getTag()));
+			deletedText.getText().clear();
+		}
+	};
+	
+	
 	private OnClickListener profileChangeButtonListener = new View.OnClickListener() {
 
 		@Override
