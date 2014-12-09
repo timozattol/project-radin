@@ -115,7 +115,7 @@
     <string name="invalid_purpose">No expense purpose</string>
 
     <!-- Settings Activity -->
-    <string name="my_id">User ID</string>
+    <string name="my_id">User ID : </string>
     <string name="value_id">value</string>
 
     <!-- Server Toasts -->
