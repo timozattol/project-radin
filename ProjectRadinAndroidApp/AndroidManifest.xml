@@ -7,17 +7,18 @@
     <uses-sdk
         android:minSdkVersion="18"
         android:targetSdkVersion="19" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppBaseTheme" >
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,84 +29,107 @@
         <activity
             android:name=".ContactsActivity"
             android:label="@string/contacts"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".HomeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/home_title" >
         </activity>
         <activity
             android:name=".MyRadinGroupsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/my_radingroups"
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".NotificationsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/notifications"
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".OverviewActivity"
+            android:screenOrientation="portrait"
             android:label="@string/overview"
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".ProfileActivity"
+            android:screenOrientation="portrait"
             android:label="@string/profile"
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/settings"
             android:parentActivityName=".HomeActivity" >
         </activity>
         <activity
             android:name=".RadinGroupViewActivity"
+            android:screenOrientation="portrait"
             android:label="@string/radingroup_view"
             android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
             android:name=".ProfileOtherActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_profile_other" >
         </activity>
         <activity
             android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_register"
             android:parentActivityName=".LoginActivity" >
         </activity>
         <activity
             android:name=".NewRadinGroupActivity"
+            android:screenOrientation="portrait"
             android:label="@string/new_radingroup"
             android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
             android:name=".RadinGroupBalanceActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_radingroup_balance"
             android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
             android:name=".RadinGroupStatsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_radingroup_stats"
             android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
             android:name=".RadinGroupAddExpenseActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_radingroup_add_expense"
-            android:parentActivityName=".MyRadinGroupsActivity" >
+            android:parentActivityName=".MyRadinGroupsActivity" 
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".RadinGroupConfigurationActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_radingroup_configuration"
             android:parentActivityName=".MyRadinGroupsActivity" >
         </activity>
         <activity
             android:name=".NotificationSettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_notification_settings"
             android:parentActivityName=".MyListsActivity" >
         </activity>
         <activity
             android:name=".DatabaseRadinGroupTableActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_database_radin_group_table" >
+        </activity>
+        <activity
+            android:name=".ProfileChange"
+            android:label="@string/title_activity_profile_change"
+            android:parentActivityName=".ProfileActivity" >
         </activity>
     </application>
 

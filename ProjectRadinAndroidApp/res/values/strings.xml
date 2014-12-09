@@ -7,11 +7,12 @@
     <string name="action_home">Home</string>
     <string name="title_activity_contacts">ContactsActivity</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="title_project_radin">Project Radin</string>
     <string name="title_activity_radingroup">RadinGroupActivity</string>
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_overview">OverviewActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="title_activity_radinlist_view">RadinGroupViewActivity</string>
     <string name="title_activity_profile_other">ProfileOtherActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
@@ -35,18 +36,18 @@
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
     <string name="create_account">Create new account</string>
-    
+
     <!-- for DatabaseRadinGroupTableActivity -->
-	<string name="radin_group_table_activity_title">RadinGroup DB Table test</string>
-	<string name="rid">_RID</string>
-	<string name="rg_creation_date_hint">Group creation date[now or tomorrow]</string>
-	<string name="rg_deletion_date_hint">Group deletion date[tomorrow]</string>
-	<string name="rg_end_date_hint">Group end date[tomorrow]</string>
-	<string name="rg_name_hint">Group name</string>
-	<string name="rg_avatar_hint">Avatar location</string>
-	<string name="rg_master_id_hint">RG MasterID</string>
-	<string name="rg_description_hint">RG Description</string>
-	<string name="title_activity_database_radin_group_table">DatabaseRadinGroupTableActivity</string>
+    <string name="radin_group_table_activity_title">RadinGroup DB Table test</string>
+    <string name="rid">_RID</string>
+    <string name="rg_creation_date_hint">Group creation date[now or tomorrow]</string>
+    <string name="rg_deletion_date_hint">Group deletion date[tomorrow]</string>
+    <string name="rg_end_date_hint">Group end date[tomorrow]</string>
+    <string name="rg_name_hint">Group name</string>
+    <string name="rg_avatar_hint">Avatar location</string>
+    <string name="rg_master_id_hint">RG MasterID</string>
+    <string name="rg_description_hint">RG Description</string>
+    <string name="title_activity_database_radin_group_table">DatabaseRadinGroupTableActivity</string>
     <!-- Linked to register and login activity -->
     <string name="login">Login</string>
     <string name="password">Password</string>
@@ -54,6 +55,7 @@
     <string name="register">Register</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
+    <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="iban">Iban</string>
     <string name="address">Home address</string>
@@ -67,15 +69,28 @@
     <string name="multi_friend">Add friends to list</string>
     <string name="add_info"></string>
     <string name="create_radin_group">Create</string>
-
     <string name="invalid_name">Please add a group name</string>
     <string name="invalid_participants">Please select at least one person to create a groupe</string>
 
     <!-- ProfileActivity -->
-    <string name="profile_last_name">Last Name</string>
-    <string name="profile_first_name">First Name</string>
-    <string name="profile_address">Address</string>
-    <string name="profile_iban">Iban</string>
+    <string name="profile_user_name">Username :</string>
+    <string name="profile_complete_name">Name :</string>
+    <string name="profile_email">Email :</string>
+    <string name="profile_address">Address :</string>
+    <string name="profile_iban">Iban :</string>
+    <string name="profile_bicSwift">BicSwift :</string>
+    <string name="profile_picture">profile picture :</string>
+
+    <!-- ProfileChangeActivity -->
+    <string name="title_activity_profile_change">ProfileChange</string>
+    <string name="new_profile_firstName">Enter your new Firstname</string>
+    <string name="new_profile_lastName">Enter your new Lastname</string>
+    <string name="new_profile_username">Enter your new Username</string>
+    <string name="new_profile_address">Enter your new Address</string>
+    <string name="new_profile_email">Enter your new email</string>
+    <string name="new_profile_iBan">Enter your new iBan</string>
+    <string name="new_profile_bicSwift">Enter your new bicSwift</string>
+    <string name="button_save">Save</string>
 
     <!-- AddExpenseActivity -->
     <string name="creditor">Creditor :</string>
@@ -99,17 +114,34 @@
     <string name="not_ready">Please wait for the data to be retrieved</string>
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
+
+    <!-- Settings Activity -->
+    <string name="my_id">User ID</string>
+    <string name="value_id">value</string>
+
+    <!-- Server Toasts -->
+    <string name="server_error">There was an error, please try again</string>
+    <string name="user_created">Yeah! You registered to ProjectRadin!</string>
+    <string name="login_error">Sorry this username does not exist</string>
+    <string name="success_login">Welcome back!</string>
+
+    <!-- Share Preference File -->
+    <string name="preference_file_key">Preferences</string>
+
+     <!-- Stat Activity -->
+    <string name="stats">Statistiques</string>
+    
     
     <!-- RadinGroupStatsActivity -->
     <string name="choose_graph">Select the period of your graph: </string>
     <string name="total_amount">The total amount is:</string>
     <string name="spinner_graph_prompt">Choose which graph to display</string>
+
     <string-array name="spinner_graph_arrays">
         <item>choose your graph</item>
         <item>spending a day</item>
         <item>spending a month</item>
         <item>spending a year</item>
     </string-array>
-    
 
 </resources>

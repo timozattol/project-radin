@@ -15,7 +15,6 @@ import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.TransactionModel;
 import ch.epfl.sweng.radin.storage.TransactionType;
 import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,9 +25,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +38,7 @@ import android.widget.Toast;
  * This Activity give a view of the selected radin group
  *
  */
-public class RadinGroupViewActivity extends Activity {
+public class RadinGroupViewActivity extends DashBoardActivity {
     private final static int SIXTY_SECS = 60000;
     private final static int TEN_SECS = 10000;
 
@@ -50,18 +50,21 @@ public class RadinGroupViewActivity extends Activity {
     
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_view);
 
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
+		setHeader(getString(R.string.rg_name_hint), true, true);
+
 		
 		setTitle(radinGroupTitle);
 
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.radinGroupViewLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.radinGroupViewLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		mTransactionsModelAdapter = new TransactionArrayAdapter(
@@ -124,7 +127,6 @@ public class RadinGroupViewActivity extends Activity {
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
                             displayErrorToast("Error while retrieving transactions");
-                            fillWithTestData();
                         } else {
                             refreshViewWithData(items);
                         }
