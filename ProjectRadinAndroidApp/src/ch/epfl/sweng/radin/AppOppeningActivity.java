@@ -11,9 +11,9 @@ import android.os.Bundle;
  * @author topali2
  *
  */
-public class AppOppnenigActivity extends Activity {
+public class AppOppeningActivity extends Activity {
 
-	private static final long DELAY = 5000;
+	private static final long DELAY = 2000;
 	private boolean scheduled = false;
 	private Timer splashTimer;
 
@@ -27,8 +27,8 @@ public class AppOppnenigActivity extends Activity {
 			
 			@Override
 			public void run() {
-				AppOppnenigActivity.this.finish();
-				startActivity(new Intent(AppOppnenigActivity.this, LoginActivity.class));
+				AppOppeningActivity.this.finish();
+				startActivity(new Intent(AppOppeningActivity.this, LoginActivity.class));
 			}
 		}, DELAY);
 		scheduled = true;

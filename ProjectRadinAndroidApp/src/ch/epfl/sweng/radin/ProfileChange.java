@@ -26,6 +26,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 public class ProfileChange extends DashBoardActivity {
 
 	private UserModel newProfileModel;
+	private boolean profileChanged = false;
 	private List<UserModel> userModelList = new ArrayList<UserModel>();
 	private UserStorageManager userStorageManager;
 	private int userId;
@@ -40,9 +41,9 @@ public class ProfileChange extends DashBoardActivity {
 		setHeader(getString(R.string.title_activity_profile_change), true, true);
 
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
-		
-		
-//		This is a fake userId used to test the app		
+
+
+		//		This is a fake userId used to test the app		
 		userId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
 
 
@@ -61,64 +62,69 @@ public class ProfileChange extends DashBoardActivity {
 		@Override
 		public void onClick(View v) {
 
+			if (profileChanged) {
 
-			EditText newFirstName = (EditText) findViewById(R.id.editProfileFirstName);
-			if (!newFirstName.getText().toString().isEmpty()) {
-				newProfileModel.setFirstName(newFirstName.getText().toString());
-			}
 
-			EditText newLastName = (EditText) findViewById(R.id.editProfileLastName);
-			if (!newLastName.getText().toString().isEmpty()) {
-				newProfileModel.setLastName(newLastName.getText().toString());
-			}
-
-			EditText newUsername = (EditText) findViewById(R.id.editProfileUsername);
-			if (!newUsername.getText().toString().isEmpty()) {
-				newProfileModel.setUsername(newUsername.getText().toString());
-			}
-
-			EditText newAddress = (EditText) findViewById(R.id.editProfileAddress);
-			if (!newAddress.getText().toString().isEmpty()) {
-				newProfileModel.setAddress(newAddress.getText().toString());
-			}
-			
-			EditText newEmail = (EditText) findViewById(R.id.editProfileEmail);
-			if (!newEmail.getText().toString().isEmpty()) {
-				newProfileModel.setEmail(newEmail.getText().toString());
-			}
-
-			EditText newIBan = (EditText) findViewById(R.id.editProfileIBan);
-			if (!newIBan.getText().toString().isEmpty()) {
-				newProfileModel.setIban(newIBan.getText().toString());
-			}
-			
-			EditText newBicSwift = (EditText) findViewById(R.id.editProfileBicSwift);
-			if (!newBicSwift.getText().toString().isEmpty()) {
-				newProfileModel.setBicSwift(newBicSwift.getText().toString());
-			}
-
-			userModelList.add(newProfileModel);
-
-			userStorageManager.update(userModelList, new RadinListener<UserModel>() {
-
-				@Override
-				public void callback(List<UserModel> items,
-						StorageManagerRequestStatus status) {
-					if (status == StorageManagerRequestStatus.SUCCESS) {
-
-						Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
-						startActivity(profile);
-					} else {
-
-						displayErrorToast("Error uploading userProfile informations");
-					}
-
+				EditText newFirstName = (EditText) findViewById(R.id.editProfileFirstName);
+				if (!newFirstName.getText().toString().isEmpty()) {
+					newProfileModel.setFirstName(newFirstName.getText().toString());
 				}
 
-			});
+				EditText newLastName = (EditText) findViewById(R.id.editProfileLastName);
+				if (!newLastName.getText().toString().isEmpty()) {
+					newProfileModel.setLastName(newLastName.getText().toString());
+				}
 
+				EditText newUsername = (EditText) findViewById(R.id.editProfileUsername);
+				if (!newUsername.getText().toString().isEmpty()) {
+					newProfileModel.setUsername(newUsername.getText().toString());
+				}
+
+				EditText newAddress = (EditText) findViewById(R.id.editProfileAddress);
+				if (!newAddress.getText().toString().isEmpty()) {
+					newProfileModel.setAddress(newAddress.getText().toString());
+				}
+
+				EditText newEmail = (EditText) findViewById(R.id.editProfileEmail);
+				if (!newEmail.getText().toString().isEmpty()) {
+					newProfileModel.setEmail(newEmail.getText().toString());
+				}
+
+				EditText newIBan = (EditText) findViewById(R.id.editProfileIBan);
+				if (!newIBan.getText().toString().isEmpty()) {
+					newProfileModel.setIban(newIBan.getText().toString());
+				}
+
+				EditText newBicSwift = (EditText) findViewById(R.id.editProfileBicSwift);
+				if (!newBicSwift.getText().toString().isEmpty()) {
+					newProfileModel.setBicSwift(newBicSwift.getText().toString());
+				}
+
+				userModelList.add(newProfileModel);
+
+				userStorageManager.update(userModelList, new RadinListener<UserModel>() {
+
+					@Override
+					public void callback(List<UserModel> items,
+							StorageManagerRequestStatus status) {
+						if (status == StorageManagerRequestStatus.SUCCESS) {
+
+							Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
+							startActivity(profile);
+						} else {
+
+							displayErrorToast("Error uploading userProfile informations");
+						}
+
+					}
+
+				});
+
+			} else {
+				retrieveUserInformation();	
+			}
+			
 		};
-
 	};
 
 	/**
@@ -134,14 +140,14 @@ public class ProfileChange extends DashBoardActivity {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					if (items.size() == 1) {						
 						newProfileModel = items.get(0);
-
+						profileChanged = true;
 					} else {
 						displayErrorToast("Error wrong user informations");
 					}
 
 				} else {
 
-					newProfileModel = new UserModel(null, null, null, null, null, null, null, null, userId);
+					//newProfileModel = new UserModel(null, null, null, null, null, null, null, null, userId);
 					displayErrorToast("connection server error");
 
 				}
@@ -170,17 +176,16 @@ public class ProfileChange extends DashBoardActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {
-	        case R.id.action_home:
-	        	Intent homeIntent = new Intent(this, HomeActivity.class);
-	        	startActivity(homeIntent);
-	            return true;
-	        case R.id.action_settings:
-
-	        	return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+			case R.id.action_home:
+				Intent intent = new Intent(this, HomeActivity.class);
+				startActivity(intent);
+				return true;
+			case R.id.action_settings:
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 }
