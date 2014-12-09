@@ -64,7 +64,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					displayItems(items);
 				} else {
-					displayErrorToast("There was an error, please try again");
+					displayErrorToast(getString(R.string.retrinving_transaction_group_error));
 				}
 			}
 		});
@@ -125,12 +125,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 			String currentMonthDate = currentYearDate + " / " 
 					+ String.valueOf(items.get(i).getDateTime().getMonthOfYear());
 			String currentDayDate = currentMonthDate + " / "
-					+ String.valueOf(items.get(i).getDateTime().getDayOfMonth());
-			
-			System.out.println(currentYearDate);
-			System.out.println(currentMonthDate);
-			System.out.println(currentDayDate);
-			
+					+ String.valueOf(items.get(i).getDateTime().getDayOfMonth());			
 			
 			sortedByYear.put(currentYearDate, currentYearDate.equals(previousYearDate) 
 					? sortedByYear.get(currentYearDate) + items.get(i).getAmount() 
@@ -149,7 +144,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 		}
 		
 		TextView totalAmountView = (TextView) findViewById(R.id.totalAmountValue);
-		totalAmountView.setText("For " + mCurrentRadinGroupModel.getRadinGroupName() 
+		totalAmountView.setText(mCurrentRadinGroupModel.getRadinGroupName() 
 				+ ": " + totalAmount);
 		
 		//Create the year graph
@@ -160,7 +155,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 			yearGraphData[i] = new GraphViewData(i, sortedByYear.get(yearKeys[i]));
 		}		
 		GraphViewSeries yearGraph = new GraphViewSeries(yearGraphData);
-		mYearGraphView = new BarGraphView(this, "Spending per year");
+		mYearGraphView = new BarGraphView(this, getString(R.string.spending_year));
 		mYearGraphView.addSeries(yearGraph);
 		mYearGraphView.getGraphViewStyle().setGridColor(this.getResources().getColor(R.color.header));
 		mYearGraphView.setHorizontalLabels(yearKeys);
@@ -175,7 +170,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 			monthGraphData[i] = new GraphViewData(i, sortedByMonth.get(monthKeys[i]));
 		}
 		GraphViewSeries monthGraph = new GraphViewSeries(monthGraphData);
-		mMonthGraphView = new BarGraphView(this, "Spending per month");
+		mMonthGraphView = new BarGraphView(this, getString(R.string.spending_month));
 		mMonthGraphView.addSeries(monthGraph);
 		mMonthGraphView.setHorizontalLabels(monthKeys);
 		mMonthGraphView.setManualYAxisBounds(totalAmount/2, 0);
@@ -188,7 +183,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 			dayGraphData[i] = new GraphViewData(i, sortedByDay.get(dayKeys[i]));
 		}
 		GraphViewSeries dayGraph = new GraphViewSeries(dayGraphData);
-		mDayGraphView = new BarGraphView(this, "Spending per day");
+		mDayGraphView = new BarGraphView(this, getString(R.string.spending_day));
 		mDayGraphView.addSeries(dayGraph);
 		mDayGraphView.setHorizontalLabels(dayKeys);
 		mDayGraphView.setManualYAxisBounds(totalAmount/2, 0);
@@ -235,7 +230,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 					mYearGraphView.setVisibility(View.VISIBLE);
 					break;
 				default:
-					displayErrorToast("Error: You souldn't be abble to select this one.");
+					displayErrorToast(getString(R.string.invalid_spinner_elem));
 					break;
 			}
 		}

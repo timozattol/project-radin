@@ -95,7 +95,7 @@ public class ContactsActivity extends DashBoardActivity {
 					StorageManagerRequestStatus status) {				
 
 				if (status == StorageManagerRequestStatus.FAILURE) {
-                    displayErrorToast("Error while retrieving friends from server");
+                    displayErrorToast(getString(R.string.retriving_friend_error));
 				} else {
 					mUserModelAdapter.setUserModels(items);
 					mContactUserModelList.clear();
@@ -189,9 +189,5 @@ public class ContactsActivity extends DashBoardActivity {
 			mUserModelList.addAll(newData);
 			notifyDataSetChanged();
 		}
-
 	}
-
-
-
 }

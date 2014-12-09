@@ -126,7 +126,7 @@ public class RadinGroupViewActivity extends DashBoardActivity {
                     public void callback(List<TransactionModel> items,
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
-                            displayErrorToast("Error while retrieving transactions");
+                            displayErrorToast(getString(R.string.retrinving_transaction_group_error));
                         } else {
                             refreshViewWithData(items);
                         }
