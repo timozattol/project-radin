@@ -248,7 +248,14 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(jsonResponse)
   }
 
-  def getRadinGroupsForUser(uid: Int) = TODO
+  def getRadinGroupsForUser(uid: Int) = DBAction { implicit rs =>
+    val radinGroupsForUser = for {
+      memberInRadin <- memberInRadins.list.filter(_._1  == uid)
+      radinGroupForUser <- radinGroups.list.filter(_.RG_ID.get  == memberInRadin._1)
+    } yield radinGroupForUser
+    val jsonValue = JsObject(List(("radinGroup", toJson(radinGroupsForUser))))
+    Ok(jsonValue)
+  }
 
   def getUsersInRG(rgid: Int) = DBAction { implicit rs =>
     val x = memberInRadins.list.filter(_._2 == rgid)
