@@ -8,6 +8,14 @@ For testing PUT /users
 	_modification of some user specific fields(NOT POSSIBLE):
 	curl -H "Content-Type: application/json" -X PUT -d '{"user":[{"U_firstName":"Wesh","U_lastName":"Maggle", "U_ID":1}]}' radin.epfl.ch/users
 
+        _Json Input that is a "user" JSON object but not a "user" JSON array should return BAD request 400:
+	verify that users content doesn't change though
+curl -H "Content-Type: application/json" -X PUT -d '{"U_firstName":"modifiedName","U_lastName":"modifiedLastname","U_username":"modifiedUsername","U_password":"password","U_email":"ModifiedEmail",
+	"U_address":"modifiedAddress","U_iban":"modifiedIban","U_bicSwift":"modifiedSwift","U_picture":"ModifiedPicture","U_ID":20}' radin.epfl.ch/users
 
+	_Json Input that is a "user" with negative ID should be ignored:
 	curl -H "Content-Type: application/json" -X PUT -d '{"user":[{"U_firstName":"modifiedName","U_lastName":"modifiedLastname","U_username":"modifiedUsername","U_password":"password","U_email":"ModifiedEmail",
-	"U_address":"modifiedAddress","U_iban":"modifiedIban","U_bicSwift":"modifiedSwift","U_picture":"ModifiedPicture","U_ID":20}]}' radin.epfl.ch/users
+	"U_address":"modifiedAddress","U_iban":"modifiedIban","U_bicSwift":"modifiedSwift","U_picture":"ModifiedPicture","U_ID":-1}]}' radin.epfl.ch/users
+
+
+
