@@ -138,6 +138,8 @@ def modifyUsers = DBAction(parse.json) { implicit rs =>
            userNewState =>  users.filter { _.U_ID === userNewState.U_ID }.update(userNewState)
        }
       }
+      Ok
+      case _ => BadRequest("Request body doesn't contain a JSON array of users \n")
     }
   }
 
