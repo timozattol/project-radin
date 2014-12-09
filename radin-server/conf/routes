@@ -21,7 +21,7 @@ POST   /radingroups/:rgid/adduser		   @controllers.Application.addUsertoRadinGro
 
 GET    /transactions/:rgid                 @controllers.Application.getTransactionsForGroup(rgid: Int)
 GET    /transactions/withcoeffs/:rgid      @controllers.Application.getTransactionsWithCoeffsForGroup(rgid: Int)
-POST   /transactions/:rgid				   @controllers.Applicatoin.newTransactionForGroup(rgid: Int)
+POST   /transactions/:rgid				   @controllers.Application.newTransactionForGroup(rgid: Int)
 
 GET    /users                              @controllers.Application.userList
 POST   /users                              @controllers.Application.newUser
