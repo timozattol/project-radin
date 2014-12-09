@@ -10,10 +10,13 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.content.SharedPreferences; 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -40,6 +43,8 @@ public class LoginActivity extends DashBoardActivity {
 		loginBtn.setOnClickListener(loginActivityButtonListener);
 		Button newAccountBtn = (Button) findViewById(R.id.createAcountButton);
 		newAccountBtn.setOnClickListener(loginActivityButtonListener);
+		EditText passwordEditText = (EditText) findViewById(R.id.password);
+		passwordEditText.setOnKeyListener(loginActivityOnKeyListener);
 
 		setHeader(getString(R.string.title_project_radin), false, false);
 		StorageManager.init(this);
@@ -73,6 +78,19 @@ public class LoginActivity extends DashBoardActivity {
 					  }
 				  }		
 				  };
+	private OnKeyListener loginActivityOnKeyListener = new OnKeyListener() {
+
+		@Override
+		public boolean onKey(View v, int keyCode, KeyEvent event) {
+			if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+		   		retrieveRegisterUser();
+		   		verifyUser();
+		        return true;
+			}
+			return false;
+		}
+		
+	};
 
 	private void verifyUser() {
 		UserStorageManager userStorageManager =
