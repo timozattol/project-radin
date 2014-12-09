@@ -122,9 +122,7 @@ object Tables {
 		def * = (uidSource, uidTarget, URrelation) <> (UserRelationship.tupled, UserRelationship.unapply)
   }
 
-  case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String, U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_picture: String, U_ID: Option[Int] = None)
-
-
+  case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String = "", U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_picture: String, U_ID: Option[Int] = None)
 
   class Users(tag: Tag) extends Table[User](tag, "USER") {
 
