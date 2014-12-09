@@ -45,7 +45,8 @@
         android:id="@+id/addBtn"
         android:layout_width="30dip"
         android:layout_height="30dip"
-        android:gravity="center"
-        android:background="@drawable/ic_add"/>
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/ic_add"
+        android:gravity="center" />
 
 </LinearLayout>
