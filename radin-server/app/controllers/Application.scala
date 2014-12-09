@@ -93,14 +93,12 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   def getTransactionsWithCoeffsForGroup(rgid: Int) = DBAction { implicit rs =>
-    //    val transactionList = toJson(transactions.list.filter(_.T_parentRadinGroupID == rgid))
-    //    val transactionsWithCoeffsList = transactionList
     val x = (for {
       transaction <- transactions.list.filter { _.T_parentRadinGroupID == rgid }
       coefficients <- userConcernedByTransactions.list.filter { _._1 == transaction.T_ID.get }
     } yield (transaction, coefficients)).groupBy(_._1).mapValues(x => x.map { elem => elem._2 }).toList
     val transactionsWithCoeffsForGroup = query2twp(x)
-    val jsonValue: JsArray = JsArray(List(toJson(transactionsWithCoeffsForGroup)))
+    val jsonValue = toJson(transactionsWithCoeffsForGroup)
     Ok(jsonValue)
   }
 
