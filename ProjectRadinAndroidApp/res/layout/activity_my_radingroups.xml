@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ch.epfl.sweng.radin.MyRadinGroupsActivity" >
+    tools:context="ch.epfl.sweng.radin.MyRadinGroupsActivity">
     
     
     <!-- Included header.xml here -->
@@ -23,7 +23,8 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:id="@+id/myRadinGroupsLinearLayout"
@@ -45,7 +46,6 @@
         android:layout_width="30dip"
         android:layout_height="30dip"
         android:gravity="center"
-        android:background="@drawable/ic_add"
-        android:textStyle="bold" />
+        android:background="@drawable/ic_add"/>
 
 </LinearLayout>
