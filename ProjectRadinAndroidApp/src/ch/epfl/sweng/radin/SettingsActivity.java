@@ -49,7 +49,7 @@ public class SettingsActivity extends DashBoardActivity {
 				break;
 			default:
 				Toast.makeText(v.getContext(), 
-						"Error, this button shouldn't exist!",
+						R.string.invalid_button,
 						Toast.LENGTH_SHORT).show();				
 			}
 			if (!(displayActivityIntent == null)) {
