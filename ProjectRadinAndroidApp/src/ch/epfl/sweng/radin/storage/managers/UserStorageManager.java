@@ -76,7 +76,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(userId));
+				        SERVER_BASE_URL + ACCESS_URL + "/" + String.valueOf(userId));
 				//Example url: http://radin.epfl.ch/userRelationships/1
 				connTask.execute();
 				return;
@@ -94,7 +94,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + getTypeUrl());
+				        SERVER_BASE_URL + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + getTypeUrl());
 				//Example url: http://radin.epfl.ch/radingroups/1/users
 				connTask.execute();
 				return;
@@ -113,7 +113,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
-				        SERVER_BASE_URL + "/" + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + "adduser");
+				        SERVER_BASE_URL + ACCESS_URL + "/" + String.valueOf(radinGroupId) + "/" + "adduser");
 				//Example url: http://radin.epfl.ch/radingroups/1/adduser
 				connTask.execute();
 

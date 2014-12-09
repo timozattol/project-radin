@@ -120,13 +120,17 @@ public class ProfileActivity extends DashBoardActivity {
 							case R.id.modifPofileBtn:
 								displayActivityIntent = 
 								new Intent(v.getContext(), ProfileChange.class);
+					        	if (mSearchingId == mCurrentUserId) {
+					        		displayActivityIntent = 
+											new Intent(v.getContext(), ProfileChange.class);
+					        		startActivity(displayActivityIntent);
+					        	} else {
+					        		displayErrorToast("You can't edit you're friend profil");
+					        	}
 								break;
 							default:
 								displayErrorToast(
 										"Error, this button shouldn't exist!");
-						}
-						if (!(displayActivityIntent == null)) {
-							startActivity(displayActivityIntent);	
 						}
 					}
 				};
