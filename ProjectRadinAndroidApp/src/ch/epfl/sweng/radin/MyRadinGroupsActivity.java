@@ -40,18 +40,24 @@ public class MyRadinGroupsActivity extends DashBoardActivity {
 		setContentView(R.layout.activity_my_radingroups);
 		setHeader(getString(R.string.my_radingroups), true, true);
 
-
-
 		Button addBtn = (Button) findViewById(R.id.addBtn);
 		addBtn.setOnClickListener(myRadinGroupsClickListener);
+		
+		retrieveRadinGroups();
+	}
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		retrieveRadinGroups();
+	}
 
+	private void retrieveRadinGroups() {
 		//TODO This is a fake userId used to test the app, need to remplace this when we got one.
 		int userId = 0;
-
-		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
 		
+		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
 		radinGroupStorageManager.getAllByUserId(userId, new RadinListener<RadinGroupModel>() {
-
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 
@@ -65,7 +71,7 @@ public class MyRadinGroupsActivity extends DashBoardActivity {
 			}
 		});
 	}
-
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
