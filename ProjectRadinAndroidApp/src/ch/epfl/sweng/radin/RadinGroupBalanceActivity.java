@@ -90,7 +90,7 @@ import android.widget.Toast;
                     // After users are fetched, fetch transactions
                     fetchTransactions();
                 } else {
-                    displayErrorToast("Failed to get users for this group");
+                    displayErrorToast(getString(R.string.retrinving_user_group_error));
                 }
             }
         });
@@ -110,7 +110,7 @@ import android.widget.Toast;
                     // Draw balances when transactions were successfully fetched.
                     drawBalances(calculateBalances());
                 } else {
-                    displayErrorToast("Failed to get Transactions for this group");
+                    displayErrorToast(getString(R.string.retrinving_transaction_group_error));
                 }
             }
         });
@@ -157,7 +157,7 @@ import android.widget.Toast;
 		for (UserModel participant : mParticipants) {
 			TextView userBalanceTextView = new TextView(this);
 			String userName = participant.getFirstName();
-			userBalanceTextView.setText(userName + " owes: " + userBalances.get(participant.getId()));
+			userBalanceTextView.setText(userName + getString(R.string.owes) + userBalances.get(participant.getId()));
 			userBalanceTextView.setTextSize(TEXT_SIZE);
 			userBalanceTextView.setTag(i);
 			i++;

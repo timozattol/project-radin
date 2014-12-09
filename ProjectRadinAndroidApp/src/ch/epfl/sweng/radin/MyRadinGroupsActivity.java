@@ -60,7 +60,7 @@ public class MyRadinGroupsActivity extends DashBoardActivity {
 			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
 			        displayList();
 			    } else {
-			        displayErrorToast("There was an error, please try again");
+			        displayErrorToast(getString(R.string.retriving_radin_group_error));
 			    }
 			}
 		});

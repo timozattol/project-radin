@@ -110,7 +110,7 @@ public class ProfileChange extends DashBoardActivity {
 						startActivity(profile);
 					} else {
 
-						displayErrorToast("Error uploading userProfile informations");
+						displayErrorToast(getString(R.string.sending_user_data_error));
 					}
 
 				}
@@ -136,13 +136,13 @@ public class ProfileChange extends DashBoardActivity {
 						newProfileModel = items.get(0);
 
 					} else {
-						displayErrorToast("Error wrong user informations");
+						displayErrorToast(getString(R.string.retriving_user_error));
 					}
 
 				} else {
 
 					newProfileModel = new UserModel(null, null, null, null, null, null, null, null, userId);
-					displayErrorToast("connection server error");
+					displayErrorToast(getString(R.string.server_general_error));
 
 				}
 

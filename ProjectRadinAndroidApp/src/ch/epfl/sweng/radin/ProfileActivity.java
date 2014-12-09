@@ -58,11 +58,11 @@ public class ProfileActivity extends DashBoardActivity {
 						profileUser = items.get(0);
 						displayUser();
 					} else {
-						displayErrorToast("Error wrong user informations");
+						displayErrorToast(getString(R.string.wrong_user_data));
 					}
 
 				} else {
-					displayErrorToast("Connection Error getting userProfile informations");
+					displayErrorToast(getString(R.string.retriving_user_error));
 				}
 
 			}
@@ -125,12 +125,12 @@ public class ProfileActivity extends DashBoardActivity {
 											new Intent(v.getContext(), ProfileChange.class);
 					        		startActivity(displayActivityIntent);
 					        	} else {
-					        		displayErrorToast("You can't edit you're friend profil");
+					        		displayErrorToast(getString(R.string.edit_friends_profile));
 					        	}
 								break;
 							default:
 								displayErrorToast(
-										"Error, this button shouldn't exist!");
+										getString(R.string.invalid_button));
 						}
 					}
 				};
@@ -156,7 +156,7 @@ public class ProfileActivity extends DashBoardActivity {
 	        		Intent profileModifIntent = new Intent(this, ProfileChange.class);
 	        		startActivity(profileModifIntent);
 	        	} else {
-	        		displayErrorToast("You can't edit you're friend profil");
+	        		displayErrorToast(getString(R.string.edit_friends_profile));
 	        	}
 	        	return true;
 	        default:

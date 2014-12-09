@@ -48,73 +48,73 @@ public class LoginActivity extends DashBoardActivity {
 
 	}
 	private OnClickListener loginActivityButtonListener = 
-			new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			int selectedId = v.getId();
-			Intent displayActivityIntent = null;
+			  new View.OnClickListener() {
+				  @Override
+				  public void onClick(View v) {
+					  int selectedId = v.getId();
+					  Intent displayActivityIntent = null;
 
-			switch (selectedId){
-			case R.id.loginButton:
-				retrieveRegisterUser();
-				verifyUser();
-				break;
-			case R.id.createAcountButton:
-				displayActivityIntent = 
-				new Intent(v.getContext(), RegisterActivity.class);
-				break;
-			default:
-				Toast.makeText(v.getContext(), 
-						"Error, this button shouldn't exist!",
-						Toast.LENGTH_SHORT).show();				
-			}
-			if (!(displayActivityIntent == null)) {
-				startActivity(displayActivityIntent);	
-			}
-		}		
-	};
+					  switch (selectedId){
+					   	  case R.id.loginButton:
+					   		  retrieveRegisterUser();
+					   		  verifyUser();
+					   		  break;
+					   	  case R.id.createAcountButton:
+					   		  displayActivityIntent = 
+					   		  new Intent(v.getContext(), RegisterActivity.class);
+					   		  break;
+					   	  default:
+					   		  Toast.makeText(v.getContext(), 
+					   				getString(R.string.invalid_button),
+					  				Toast.LENGTH_SHORT).show();				
+					  }
+					  if (!(displayActivityIntent == null)) {
+						  startActivity(displayActivityIntent);	
+					  }
+				  }		
+				  };
 
 	private void verifyUser() {
 		UserStorageManager userStorageManager =
-				UserStorageManager.getStorageManager();
+				  UserStorageManager.getStorageManager();
 
 		userStorageManager.verifyLogin(mUsername, mPassword, 
-				new RadinListener<UserModel>() {
+			  	new RadinListener<UserModel>() {
 
-			@Override
-			public void callback(List<UserModel> items,
-					StorageManagerRequestStatus status) {
-				if (status == StorageManagerRequestStatus.FAILURE) {
-					Intent myIntent = 
-							new Intent(getBaseContext(), LoginActivity.class);
-					startActivity(myIntent);
-					Toast.makeText(getApplicationContext(),
-							R.string.login_error, Toast.LENGTH_SHORT).show();
+					@Override
+					public void callback(List<UserModel> items,
+						  	StorageManagerRequestStatus status) {
+							if (status == StorageManagerRequestStatus.FAILURE) {
+								Intent myIntent = 
+								  		new Intent(getBaseContext(), LoginActivity.class);
+								startActivity(myIntent);
+								Toast.makeText(getApplicationContext(),
+										R.string.login_error, Toast.LENGTH_SHORT).show();
 					
-				} else {
+							} else {
 					
-					UserModel mUser = items.get(0);
-					int mId = mUser.getId();
-					SharedPreferences.Editor editor = prefs.edit();
-					editor.putString(getString(R.string.username), 
-							String.valueOf(mId));
-					editor.commit();
-					Intent myIntent = 
-							new Intent(getBaseContext(), HomeActivity.class);
-					startActivity(myIntent);
-					finish();
-					Toast.makeText(getApplicationContext(),
-							R.string.success_login, Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
+								UserModel mUser = items.get(0);
+								int mId = mUser.getId();
+								SharedPreferences.Editor editor = prefs.edit();
+								editor.putString(getString(R.string.username), 
+								  		String.valueOf(mId));
+								editor.commit();
+								Intent myIntent = 
+								  		new Intent(getBaseContext(), HomeActivity.class);
+								startActivity(myIntent);
+								finish();
+								Toast.makeText(getApplicationContext(),
+										R.string.success_login, Toast.LENGTH_SHORT).show();
+							}
+					}
+				});
 	}
 
 	private void retrieveRegisterUser() {
 		final CharSequence userUsername = 
-				((TextView) findViewById(id.login)).getText();
+			  	((TextView) findViewById(id.login)).getText();
 		final CharSequence userPassword = 
-				((TextView) findViewById(id.password)).getText();
+			  	((TextView) findViewById(id.password)).getText();
 
 		mUsername = userUsername.toString();
 		mPassword = userPassword.toString();
