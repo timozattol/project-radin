@@ -86,11 +86,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ProfileOtherActivity"
-            android:label="@string/title_activity_profile_other"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".LoginActivity"
