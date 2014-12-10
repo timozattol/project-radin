@@ -1,5 +1,9 @@
 
 For testing PUT /users
+
+	_modification of unique user: 
+	curl -H "Content-Type: application/json" -X PUT -d '{"user":[{"U_firstName":"Simon","U_lastName":"Lbc","U_username":"Simonchelbc","U_password":"Heartbleed","U_email":"simon.lebail-collet@epfl.ch","U_address":"PaysDesFrites","U_iban":"BE19209321093","U_bicSwift":"BANKBE01","U_picture":"Maggle","U_ID":9}]}' radin.epfl.ch/users
+	
 	_modification of multiple users:
 	curl -H "Content-Type: application/json" -X PUT -d '{"user":[{"U_firstName":"modifiedName","U_lastName":"modifiedLastname","U_username":"modifiedUsername","U_password":"password","U_email":"ModifiedEmail",
 	"U_address":"modifiedAddress","U_iban":"modifiedIban","U_bicSwift":"modifiedSwift","U_picture":"ModifiedPicture","U_ID":1}, {"U_firstName":"modified2","U_lastName":"modifiedLastname2","U_username":"modifiedUsername2","U_password":"passwordModified2","U_email":"ModifiedEmail2",
@@ -18,4 +22,11 @@ curl -H "Content-Type: application/json" -X PUT -d '{"U_firstName":"modifiedName
 	"U_address":"modifiedAddress","U_iban":"modifiedIban","U_bicSwift":"modifiedSwift","U_picture":"ModifiedPicture","U_ID":-1}]}' radin.epfl.ch/users
 
 
+
+curl -H "Content-Type: application/json" -d '{"transactionWithParticipants":[{"transaction":{"T_parentRadinGroupID":1,"T_creatorID":1,"T_debitorID":1,"T_amount":100,"T_currency":"CHF","T_dateTime":"2014/01/01 00/00","T_purpose":"Buy more jewelleries","T_type":"PAYMENT","T_ID":1},"coefficients":[{"id":1,"coefficient":1},{"id":2,"coefficient":2},{"id":3,"coefficient":0}]},{"transaction":{"T_parentRadinGroupID":1,"T_creatorID":1,"T_debitorID":2,"T_amount":50,"T_currency":"CHF","T_dateTime":"2013/02/01 00/00","T_purpose":"Whatever","T_type":"PAYMENT","T_ID":2},"coefficients":[{"id":1,"coefficient":0},{"id":2,"coefficient":2},{"id":4,"coefficient":1}]}]}' localhost:9000/transactions/withcoeffs
+
+
+for testing transactions/withcoeffs
+
+curl -H "Content-Type: application/json" -d '{"transactionWithParticipants":[{"transaction":{"T_parentRadinGroupID":1,"T_creatorID":1,"T_debitorID":1,"T_amount":100,"T_currency":"CHF","T_dateTime":"2014/01/01 00/00","T_purpose":"Buy more jewelleries","T_type":"PAYMENT","T_ID":1},"coefficients":[{"id":1,"coefficient":1},{"id":2,"coefficient":2},{"id":3,"coefficient":0}]},{"transaction":{"T_parentRadinGroupID":1,"T_creatorID":1,"T_debitorID":2,"T_amount":50,"T_currency":"CHF","T_dateTime":"2013/02/01 00/00","T_purpose":"Whatever","T_type":"PAYMENT","T_ID":2},"coefficients":[{"id":1,"coefficient":0},{"id":2,"coefficient":2},{"id":4,"coefficient":1}]}]}' localhost:9000/transactions/withcoeffs
 
