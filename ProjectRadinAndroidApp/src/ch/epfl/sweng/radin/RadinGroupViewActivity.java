@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +35,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import ch.epfl.sweng.radin.storage.Currency;
-import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
 
 /**
  * 
@@ -333,6 +332,7 @@ public class RadinGroupViewActivity extends Activity {
                 } else {
                     // We're not supposed to have some coefficient < 1
                 }
+
                 result += ", ";
             }
             

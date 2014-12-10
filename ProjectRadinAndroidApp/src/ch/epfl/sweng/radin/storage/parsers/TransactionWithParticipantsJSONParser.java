@@ -57,10 +57,10 @@ public class TransactionWithParticipantsJSONParser implements JSONParser<Transac
 			Map<Integer, Integer> usersWithCoeffs = new HashMap<Integer, Integer>();
 			
 			for (int j = 0; j < usersWithCoeffsJson.length(); j++) {
-				JSONObject userWithCoeff = usersWithCoeffsJson.getJSONObject(i);
+				JSONObject userWithCoeff = usersWithCoeffsJson.getJSONObject(j);
 				usersWithCoeffs.put(userWithCoeff.getInt("id"), userWithCoeff.getInt("coefficient"));
 			}
-			
+
 			transactionWPModels.add(new TransactionWithParticipantsModel(transaction, usersWithCoeffs));
 		}
 		
