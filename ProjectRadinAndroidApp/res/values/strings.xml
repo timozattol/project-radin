@@ -21,6 +21,7 @@
     <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
+	<string name="title_activity_app_opening">AppOpeningActivity</string>
     <string name="home_title">Home</string>
     <string name="my_radingroups">My Expense Groups</string>
     <string name="profile">Profile</string>
@@ -146,7 +147,6 @@
         <item>Spent per year</item>
     </string-array>
 
-    <string name="title_activity_app_oppnenig">AppOpeningActivity</string>
     <string name="hello_world">Hello world!</string>
     
     <!-- Display error with Toast -->
