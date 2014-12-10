@@ -106,6 +106,7 @@
     <string name="cancel">Cancel</string>
     <string name="add_expense_string">Add an expense to \ </string>
     <string name="creditor_selected">You (default)</string>
+    <string name="you">You</string>
     <string name="debtors_selected">None </string>
     <string name="amount">Amount</string>
     <string name="amount_hint">Amount paid</string>

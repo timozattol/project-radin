@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import ch.epfl.sweng.radin.R.string;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.Currency;
@@ -33,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 /**
  * This activity allows the user to add an expense to a radinGroup by providing the creditor, 
@@ -41,22 +43,20 @@ import android.widget.Toast;
  *TODO Add reimbursement feature (if reimbursement selected amount turns to be opposite amount) 
  */
 public class RadinGroupAddExpenseActivity extends DashBoardActivity {
-	private RadinGroupModel mCurrentRadinGroupModel;
-	
-	private UserModel mClientModel; // should be received from previous activity or clientId
-	private static final int CLIENT_ID = 1; // should be received from previous activity or userModel
-	
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
+
+	private RadinGroupModel mCurrentRadinGroupModel;
+	private SharedPreferences mPrefs;
+	private int mClientId;
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
-	
 	private double mAmount;
-	private boolean[] checkedItems;
-	private String  mPurpose;
 	private int mSelectedCreditorId;
+	private boolean[] dialogCheckedItems;
+	private String  mPurpose;
 	private ArrayList<UserModel> mPeopleWhoHaveToPay = new ArrayList<UserModel>();
 	private ArrayList<UserModel> mParticipants;
 	private HashMap<String, UserModel> mNamesAndModel;
-	private String[] mParticipantsNames;
+	private String[] mGroupParticipantsNames;
 	private Activity mCurrentActivity = this;
 
 	@Override
@@ -76,6 +76,10 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 		
 		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.addExpenseRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
+		
+		mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		mClientId = Integer.parseInt(mPrefs.getString(getString(R.string.username), "-1"));
+		mSelectedCreditorId = mClientId; //Default creditor = client
 		
 		retrieveParticipants();
 	}
@@ -102,13 +106,53 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	/**
+	 * Retrieve friends and sets the arrays for the dialogs
+	 */
+	private void retrieveParticipants() {
+		UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
+		usrStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(), new RadinListener<UserModel>() {
+			@Override
+			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					useDataRetrieved(items);
+				} else {
+					Toast.makeText(getApplicationContext(),	R.string.server_error, Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Instantiates participants' lists from server's retrieved data 
+	 * @param items UserModels retrieved from server
+	 */
+	private void useDataRetrieved(List<UserModel> items) {
+		mNamesAndModel = new HashMap<String, UserModel>();
+		mGroupParticipantsNames = new String[items.size()];
+		for (int i = 0; i < items.size(); i++) {
+			UserModel currentUser = items.get(i);
+			String fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
+			if (currentUser.getId() != mClientId) {
+				mGroupParticipantsNames[i] = fullName;
+				mNamesAndModel.put(fullName, currentUser);
+			} else {
+				String clientName = getResources().getString(string.you);
+				mGroupParticipantsNames[i] = clientName;
+				mNamesAndModel.put(clientName, currentUser);
+			}
+		}
+		//initially false (default value)
+		dialogCheckedItems = new boolean[items.size()];
+	}
 
 	/**
 	 * Shows an AlertDialog with a list of potential debtors to select.
 	 * Shows a toast if data not ready
 	 */
 	public void showDebDialog(View view) {
-		if (mParticipantsNames != null) {
+		if (mGroupParticipantsNames != null) {
 			peopleWhoHaveToPayDialog().show();
 		} else {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
@@ -121,7 +165,7 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	 * Shows a toast if data not ready
 	 */
 	public void showCredDialog(View view) {
-		if (mParticipantsNames != null) {
+		if (mGroupParticipantsNames != null) {
 			creditorDialog().show();
 		} else {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
@@ -129,47 +173,45 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	}
 	
 	/**
-	 * Retrieve friends and sets the arrays for the dialogs
+	 * Create a Dialog that shows the client's friends' names that can be
+	 * selected to be the creditor's name.
+	 * 
+	 * @param names The names that can be selected
+	 * @return an AlertDialog that is ready to be shown
 	 */
-	private void retrieveParticipants() {
-		UserStorageManager usrStorageManager = UserStorageManager
-				.getStorageManager();
-		usrStorageManager.getAllForGroupId(
-				mCurrentRadinGroupModel.getRadinGroupID(),
-				new RadinListener<UserModel>() {
+	private AlertDialog creditorDialog() {
+		mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.creditorList);
+		builder.setSingleChoiceItems(mGroupParticipantsNames,
+				DEFAULT_CREDITOR_SELECTION,
+				new DialogInterface.OnClickListener() {
 					@Override
-					public void callback(List<UserModel> items,
-							StorageManagerRequestStatus status) {
-						if (status == StorageManagerRequestStatus.SUCCESS) {
-							useDataRetrieved(items);
-						} else {
-							Toast.makeText(getApplicationContext(),
-									R.string.server_error, Toast.LENGTH_SHORT).show();
-						}
+					public void onClick(DialogInterface dialog, int which) {
+						mSelectedIndex = which;
 					}
 				});
+		
+		// Set OK button
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				TextView creditorSelected = (TextView) findViewById(R.id.creditor_selected);
+				mSelectedCreditorId = mNamesAndModel.get(mGroupParticipantsNames[mSelectedIndex]).getId();
+				creditorSelected.setText(mGroupParticipantsNames[mSelectedIndex]);
+			}
+		});
+		// Set CANCEL button
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				//nothing to do, changes are discarded
+			}
+		});
+		return builder.create();
 	}
 	
-	/**
-	 * Instantiates participants' lists from server's retrieved data 
-	 * @param items UserModels retrieved from server
-	 */
-	private void useDataRetrieved(List<UserModel> items) {
-		mParticipants = new ArrayList<UserModel>(items);
-		mNamesAndModel = new HashMap<String, UserModel>();
-		mParticipantsNames = new String[mParticipants.size()];
-		
-		for (int i = 0; i < mParticipants.size(); i++) {
-			UserModel currentUser = mParticipants.get(i);
-			String fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
-			
-			mNamesAndModel.put(fullName, currentUser);
-			mParticipantsNames[i] = fullName;
-		}
-		//initially false (default value)
-		checkedItems = new boolean[mParticipants.size()];
-	}
-
+	
 	/**
 	 * Create a Dialog that shows the client's friends' names that can be
 	 * selected to add to the expense.
@@ -184,11 +226,13 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 		
 		final ListView listView = new ListView(this);
 		StableArrayAdapter<String> adapter = 
-				new StableArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice, mParticipantsNames);
+				new StableArrayAdapter<String>(this, 
+											   android.R.layout.select_dialog_multichoice, 
+											   mGroupParticipantsNames);
 		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		for (int i = 0; i < checkedItems.length; i++) {
-			listView.setItemChecked(i, checkedItems[i]);
+		for (int i = 0; i < dialogCheckedItems.length; i++) {
+			listView.setItemChecked(i, dialogCheckedItems[i]);
 		}
 		builder.setView(listView);
 		
@@ -198,18 +242,18 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 			public void onClick(DialogInterface dialog, int id) {
 				//remember choices
 				long[] checkedIds = listView.getCheckedItemIds();
-				checkedItems = new boolean[mParticipantsNames.length];
+				dialogCheckedItems = new boolean[mGroupParticipantsNames.length];
 				for (int i = 0; i < checkedIds.length; i++) {
-					checkedItems[(int) checkedIds[i]] = true;
+					dialogCheckedItems[(int) checkedIds[i]] = true;
 				}				
-				//add to list & set textView
-				String strNames = "";
+				//add to list & set listView
+				
 				for (int i = 0; i < checkedIds.length; i++) {
-					strNames = strNames + " " + mParticipantsNames[(int) checkedIds[i]];
-					mPeopleWhoHaveToPay.add(mNamesAndModel.get(mParticipantsNames[(int) checkedIds[i]]));
+					// mParticipantsNames[(int) checkedIds[i]]; TODO
+					mPeopleWhoHaveToPay.add(mNamesAndModel.get(mGroupParticipantsNames[(int) checkedIds[i]]));
 				}
 				TextView debitorSelected = (TextView) findViewById(R.id.debtors_selected);
-				debitorSelected.setText(strNames);
+				debitorSelected.setText("");//TODO
 			}
 		});
 		//Set CANCEL button
@@ -222,44 +266,8 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 		return builder.create();
 	}
 
-	/**
-	 * Create a Dialog that shows the client's friends' names that can be
-	 * selected to be the creditor's name.
-	 * 
-	 * @param names The names that can be selected
-	 * @return an AlertDialog that is ready to be shown
-	 */
-	private AlertDialog creditorDialog() {
-		mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.creditorList);
-		builder.setSingleChoiceItems(mParticipantsNames,
-				DEFAULT_CREDITOR_SELECTION,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						mSelectedIndex = which;
-					}
-				});
-
-		// Set OK button
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				//set textView
-				TextView creditorSelected = (TextView) findViewById(R.id.creditor_selected);
-				mSelectedCreditorId = mNamesAndModel.get(mParticipantsNames[mSelectedIndex]).getId();
-				creditorSelected.setText(mParticipantsNames[mSelectedIndex]);
-			}
-		});
-		// Set CANCEL button
-		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					//nothing to do, changes are discarded
-				}
-			});
-		return builder.create();
+	private void setCreditorListView() {
+		
 	}
 
 	/**
@@ -282,13 +290,10 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 			Toast.makeText(this, R.string.invalid_amount, Toast.LENGTH_SHORT).show();
 		} else {
 			//Data OK
-			if (mSelectedCreditorId == 0) {
-				mSelectedCreditorId = CLIENT_ID;
-			}
 			TransactionModel newTransaction = new TransactionModel(1,
 																   mCurrentRadinGroupModel.getRadinGroupID(),
 																   mSelectedCreditorId,
-																   CLIENT_ID, //will be changed
+																   mClientId,
 																   mAmount,
 																   Currency.CHF,
 																   DateTime.now(),
