@@ -32,6 +32,7 @@ public class TransactionWithParticipantsModel extends TransactionModel {
     
     /**
      * @return the usersWithCoefficients
+     * Maps every concerned user id to the corresponding coefficient.
      */
     public Map<Integer, Integer> getUsersWithCoefficients() {
         return new LinkedHashMap<Integer, Integer>(mUsersWithCoefficients);

@@ -7,15 +7,17 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="05dp"
+        android:layout_marginTop="10dp"
         tools:context="ch.epfl.sweng.radin.ProfileChange" >
-
 
         <TextView
             android:id="@+id/profileChangeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="80dp"
             android:text="@string/profile_complete_name"
             android:textSize="20sp" />
 

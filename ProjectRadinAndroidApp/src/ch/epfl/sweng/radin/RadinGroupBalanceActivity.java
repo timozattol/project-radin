@@ -154,7 +154,8 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 		for (UserModel participant : mParticipants) {
 			TextView userBalanceTextView = new TextView(this);
 			String userName = participant.getFirstName();
-			userBalanceTextView.setText(userName + getString(R.string.owes) + userBalances.get(participant.getId()));
+			userBalanceTextView.setText(userName + " " + getString(R.string.owes) 
+			        + " " + userBalances.get(participant.getId()));
 			userBalanceTextView.setTextSize(TEXT_SIZE);
 			userBalanceTextView.setTag(i);
 			i++;

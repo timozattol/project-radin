@@ -119,7 +119,6 @@ public class TransactionWithParticipantsJSONParserTest extends AndroidTestCase{
 				+ "    			]" 
 				+ "}"; 
 
-
 		json = new JSONObject(jsonString);
 		
 		map1 = new LinkedHashMap<Integer, Integer>();

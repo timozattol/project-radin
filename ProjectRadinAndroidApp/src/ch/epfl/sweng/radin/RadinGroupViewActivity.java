@@ -3,11 +3,22 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import ch.epfl.sweng.radin.storage.TransactionModel;
+import ch.epfl.sweng.radin.storage.TransactionType;
+import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
+import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
+import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,18 +35,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.Currency;
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.TransactionModel;
-import ch.epfl.sweng.radin.storage.TransactionType;
-import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
 
 /**
  * 
  * @author Fabien Zellweger
  * This Activity give a view of the selected radin group
+ * The List of transactions must be updated via refreshWithData,
+ * so that the ArrayAdapter updates the view.
  *
  */
 public class RadinGroupViewActivity extends Activity {
@@ -43,11 +49,13 @@ public class RadinGroupViewActivity extends Activity {
     private final static int TEN_SECS = 10000;
 
 	private RadinGroupModel mCurrentRadinGroupModel;
-	private List<TransactionModel> mTransactionModelList = new ArrayList<TransactionModel>();
+	private List<TransactionWithParticipantsModel> mTransactionModelList = 
+	        new ArrayList<TransactionWithParticipantsModel>();
 	private TransactionArrayAdapter mTransactionsModelAdapter;
 	private ListView mTransactionListView;
 	private CountDownTimer mAutoRefreshTimer;
     
+	private Map<Integer, UserModel> mIdToUserModelMapping = new HashMap<Integer, UserModel>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,9 +79,9 @@ public class RadinGroupViewActivity extends Activity {
 		
 		mTransactionListView = (ListView) findViewById(R.id.transactionListView);
 		mTransactionListView.setAdapter(mTransactionsModelAdapter);
-		
-		refreshList();
-		setAutoRefresh();
+
+		refreshUsersInGroupAndThenTransaction();
+		//setAutoTransactionRefresh();
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,7 +111,7 @@ public class RadinGroupViewActivity extends Activity {
 	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 	
-	private void refreshViewWithData(List<TransactionModel> transactions) {
+	private void refreshViewWithData(List<TransactionWithParticipantsModel> transactions) {
 	    sortByDateTime(transactions);
 	    mTransactionsModelAdapter.setTransactionModels(transactions);
 	}
@@ -112,15 +120,15 @@ public class RadinGroupViewActivity extends Activity {
 	 * Asynchronously gets the data from the server, 
 	 * and refresh the view with data when available.
 	 */
-	private void refreshList() {
-	    TransactionStorageManager transactionStorageManager = 
-	            TransactionStorageManager.getStorageManager();
+	private void refreshTransactionList() {
+	    TransactionWithParticipantsStorageManager transactionStorageManager = 
+	            TransactionWithParticipantsStorageManager.getStorageManager();
 	    
 	    transactionStorageManager.getAllForGroupId(
-	            mCurrentRadinGroupModel.getRadinGroupID(), new RadinListener<TransactionModel>() {
+	            mCurrentRadinGroupModel.getRadinGroupID(), new RadinListener<TransactionWithParticipantsModel>() {
                     
                     @Override
-                    public void callback(List<TransactionModel> items,
+                    public void callback(List<TransactionWithParticipantsModel> items,
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
                             displayErrorToast(getString(R.string.retrinving_transaction_group_error));
@@ -131,7 +139,7 @@ public class RadinGroupViewActivity extends Activity {
                 });
 	}
 	
-	private void sortByDateTime(List<TransactionModel> transactions) {
+	private void sortByDateTime(List<TransactionWithParticipantsModel> transactions) {
 	    Collections.sort(transactions, new Comparator<TransactionModel>() {
 
             @Override
@@ -146,49 +154,80 @@ public class RadinGroupViewActivity extends Activity {
         });
 	}
 
-	private void fillWithTestData() {
-	    final int hundredFrancs = 100;
-	    final int twoHundredFrancs = 100;
-	    final int fiveSecs = 5000;
-	    final int halfASec = 500;
-        
+	/**
+	 * Asynchronously gets all the users that are in the RadinGroup.
+	 * Refresh the view when done.
+	 */
+	private void refreshUsersInGroupAndThenTransaction() {
+	    UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
 	    
-	    //TEST
-        final List<TransactionModel> models = new ArrayList<TransactionModel>();
-        models.add(new TransactionModel(0, 0, 0, 0, hundredFrancs, Currency.CHF, 
-                DateTime.now(), "Buy stuff", TransactionType.PAYMENT));
-        models.add(new TransactionModel(0, 0, 0, 0, twoHundredFrancs, Currency.CHF, 
-                DateTime.now(), "Buy more stuff", TransactionType.PAYMENT));
-        refreshViewWithData(models);
-        
-        new CountDownTimer(fiveSecs, halfASec) {
-            private int i = 0;
-            
-            @Override
-            public void onTick(long millisUntilFinished) {
-                i++;
-                models.add(new TransactionModel(0, 0, 0, 0, i*hundredFrancs, Currency.CHF, 
-                        DateTime.now().minusDays(i), "Buy buy buy", TransactionType.PAYMENT));
-                refreshViewWithData(models);
-            }
-            
-            @Override
-            public void onFinish() {
-                
-            }
-        }.start();
+	    userStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(), 
+	            new RadinListener<UserModel>() {
+                    
+                    @Override
+                    public void callback(List<UserModel> items,
+                            StorageManagerRequestStatus status) {
+                        if (status == StorageManagerRequestStatus.SUCCESS) {
+                            mIdToUserModelMapping.clear();
+                            
+                            for (UserModel userModel : items) {
+                                mIdToUserModelMapping.put(userModel.getId(), userModel);
+                            }
+                            
+                            // Refresh the list of transactions when the list of users is 
+                            // successfully retrieved
+                            refreshTransactionList();
+                        } else {
+                            displayErrorToast("Error while retrieving users");
+                        }
+                    }
+                });
+	}
+
+	private void fillWithTestData() {
+	    //TODO do again with participants
+//	    final int hundredFrancs = 100;
+//	    final int twoHundredFrancs = 100;
+//	    final int fiveSecs = 5000;
+//	    final int halfASec = 500;
+//        
+
+//	    //TEST
+//        final List<TransactionWithParticipantsModel> models = new ArrayList<TransactionWithParticipantsModel>();
+//        models.add(new TransactionWithParticipantsModel(0, 0, 0, 0, hundredFrancs, Currency.CHF, 
+//                DateTime.now(), "Buy stuff", TransactionType.PAYMENT));
+//        models.add(new TransactionModel(0, 0, 0, 0, twoHundredFrancs, Currency.CHF, 
+//                DateTime.now(), "Buy more stuff", TransactionType.PAYMENT));
+//        refreshViewWithData(models);
+//        
+//        new CountDownTimer(fiveSecs, halfASec) {
+//            private int i = 0;
+//            
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                i++;
+//                models.add(new TransactionModel(0, 0, 0, 0, i*hundredFrancs, Currency.CHF, 
+//                        DateTime.now().minusDays(i), "Buy buy buy", TransactionType.PAYMENT));
+//                refreshViewWithData(models);
+//            }
+//            
+//            @Override
+//            public void onFinish() {
+//                
+//            }
+//        }.start();
 	}
 	
 	/**
 	 * Sets a timer to refresh the list every 10 seconds, forever.
 	 */
-	private void setAutoRefresh() {
+	private void setAutoTransactionRefresh() {
 	    if (mAutoRefreshTimer == null) {
 	        mAutoRefreshTimer = new CountDownTimer(SIXTY_SECS, TEN_SECS) {
                 
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    refreshList();
+                    refreshTransactionList();
                 }
                 
                 @Override
@@ -206,8 +245,8 @@ public class RadinGroupViewActivity extends Activity {
 	 * @author timozattol
 	 *
 	 */
-	private class TransactionArrayAdapter extends ArrayAdapter<TransactionModel> {
-	    private List<TransactionModel> mTransactionModels;
+	private class TransactionArrayAdapter extends ArrayAdapter<TransactionWithParticipantsModel> {
+	    private List<TransactionWithParticipantsModel> mTransactionModels;
 	    private final Context mContext;
 	    
         /**
@@ -216,7 +255,7 @@ public class RadinGroupViewActivity extends Activity {
          * @param objects the list of TransactionModel
          */
         public TransactionArrayAdapter(Context context, int resource,
-                List<TransactionModel> objects) {
+                List<TransactionWithParticipantsModel> objects) {
             super(context, resource, objects);
             mTransactionModels = objects;
             this.mContext = context;
@@ -238,20 +277,25 @@ public class RadinGroupViewActivity extends Activity {
                     (TextView) rowView.findViewById(R.id.transaction_datetime);
             
 
-            TransactionModel transaction = mTransactionModels.get(position);
+            TransactionWithParticipantsModel transaction = mTransactionModels.get(position);
             textViewPurpose.setText(transaction.getPurpose());
             textViewAmount.setText(transaction.getAmount() + " " + transaction.getCurrency());
             
-            //TODO get username for id
+            UserModel creditor = mIdToUserModelMapping.get(transaction.getCreditorID());
+
+            String creditorFirstName = creditor.getFirstName();
+            creditorFirstName = Character.toUpperCase(creditorFirstName.charAt(0))
+                    + creditorFirstName.substring(1);
+
             if (transaction.getType() == TransactionType.PAYMENT) {
-                textViewCreditor.setText("Paid by: " + transaction.getCreditorID());
+                textViewCreditor.setText("Paid by: " + creditorFirstName);
             } else if (transaction.getType() == TransactionType.REIMBURSEMENT) {
-                textViewCreditor.setText("Reimbursed by: " + transaction.getCreditorID());
+                textViewCreditor.setText("Reimbursed by: " + creditorFirstName);
             }
             
+            Map<Integer, Integer> usersWithCoeffs = transaction.getUsersWithCoefficients();
             
-            //TODO get real user for transaction
-            textViewUsersConcerned.setText("For: Roger, Michelle and Bob");
+            textViewUsersConcerned.setText(constructStringFromUsersWithCoeffs(usersWithCoeffs));
 
             textViewDateTime.setText(transaction.getDateTime().toString(
                     DateTimeFormat.forPattern("d/M/Y")));
@@ -259,10 +303,43 @@ public class RadinGroupViewActivity extends Activity {
             return rowView;
         }
         
-        public void setTransactionModels(List<TransactionModel> newData) {
+        public void setTransactionModels(List<TransactionWithParticipantsModel> newData) {
             mTransactionModels.clear();
             mTransactionModels.addAll(newData);
             notifyDataSetChanged();
+        }
+        
+        private String constructStringFromUsersWithCoeffs(Map<Integer, Integer> usersWithCoeffs) {
+            String result = "For: ";
+            
+            for (int userId : usersWithCoeffs.keySet()) {
+                UserModel user = mIdToUserModelMapping.get(userId);
+                int coeff = usersWithCoeffs.get(userId);
+
+                String firstName;
+                
+                if (user == null) {
+                    firstName = "Anonymous";
+                } else {
+                    firstName = user.getFirstName();
+                    firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
+                }
+
+                if (coeff == 1) {
+                    result+= firstName;
+                } else if (coeff > 1) {
+                    result+= firstName + " (" + coeff + "x)";
+                } else {
+                    // We're not supposed to have some coefficient < 1
+                }
+
+                result += ", ";
+            }
+            
+            // Remove last coma and space
+            result = result.substring(0, result.length()-2);
+
+            return result;
         }
 	}
 }
