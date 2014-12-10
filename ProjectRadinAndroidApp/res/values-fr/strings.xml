@@ -118,11 +118,6 @@
     <!-- Settings Activity -->
     <string name="my_id">User ID : </string>
     <string name="value_id">valeur</string>
-    
-    <string-array name="languages_array">
-        <item>English (US)</item>
-        <item>French</item>
-    </string-array>
 
     <!-- Server Toasts -->
     <string name="server_error">Un erreur s\'est produit, veuillez réessayer.</string>
@@ -141,6 +136,9 @@
     <string name="choose_graph">Sélectionnez la période du graphe : </string>
     <string name="total_amount">Le montant total est de : </string>
     <string name="spinner_graph_prompt">Choissisez le graphe à afficher :</string>
+    <string name="spending_year">Dépenses par année</string>
+    <string name="spending_month">Dépenses par mois</string>
+    <string name="spending_day">Dépenses par jour</string>
 
     <string-array name="spinner_graph_arrays">
         <item>Choissisez une période</item>
@@ -152,6 +150,22 @@
     <string name="title_activity_app_oppnenig">AppOpeningActivity</string>
     <string name="hello_world">Hello world!</string>
     
+    
+        <!-- Display error with Toast -->
+    <string name="invalid_button">Comment est-ce que vous avez trouvé ce bouton ? Il n\'existe même pas.</string>
+    <string name="retriving_friend_error">Amis ? Amis ? Vous êtes ou? Il semble que le serveur n\'arrive pas à les trouver.</string>
+    <string name="retriving_radin_group_error">Désolé. On a perdu tes groupes sur le web. Veuillez retenter.</string>
+    <string name="wrong_user_data">Wow ! On a reçu trop de data pour toi. Tu dois être super important !</string>
+    <string name="retriving_user_error">Ton requet a decidé de partir en vancances, veuillez retenter.</string>
+    <string name="edit_friends_profile">N\'essaye pas d\'éditer le profile d\'un ami, petit malin.</string>
+    <string name="sending_user_data_error">Wooo, on se calme. Le serveur n\'arrive pas à traiter le requet.</string>
+    <string name="server_general_error">Le serveur est mort en ce moment, mais pas pour longtemps !</string>
+    <string name="retrinving_user_group_error">Les utilisateurs de ce groupe ne veulent pas se manifester. Plus tard ?</string>
+    <string name="retrinving_transaction_group_error">Hmmm cette transaction... Retente plus tard pour le trouver.</string>
+    <string name="invalid_spinner_elem">Tu a trouvé un élement phantôme. Faut appeller SOS Fantômes !</string>
+    
+    <!-- RadinGroupBalanceActivity -->
+    <string name="owes"> doit: </string>
     
 
 </resources>
