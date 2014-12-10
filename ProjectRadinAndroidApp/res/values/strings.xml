@@ -93,18 +93,18 @@
 
     <!-- AddExpenseActivity -->
     <string name="creditor">Who paid?</string>
-    <string name="debtors">For whom?</string>
+    <string name="debtors_select">Change participants</string>
     <string name="creditor_select">Change payer</string>
-    <string name="debtor_text">Participants:</string>
+    <string name="debtors">For whom?:</string>
     <string name="debtorsList">Choose participants to add:</string>
     <string name="creditorList">Choose payer</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="add_expense_string">Add an expense to \ </string>
+    <string name="add_expense_string">Add an expense to:\ </string>
     <string name="creditor_selected">You (default)</string>
     <string name="debtors_selected">None </string>
     <string name="amount">Amount</string>
-    <string name="amount_hint">Amount paid</string>
+    <string name="amount_hint"></string>
     <string name="currency">CHF</string>
     <string name="add_this_expense">Add this expense</string>
     <string name="invalid_amount">The amount is not valid</string>

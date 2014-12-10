@@ -94,14 +94,14 @@
 
     <!-- AddExpenseActivity -->
     <string name="creditor">Créditeur :</string>
-    <string name="debtors">Ajouter débiteurs</string>
-    <string name="creditor_select">Changez créditeur</string>
-    <string name="debtor_text">Débiteur(s) :</string>
+    <string name="debtors_select">Changer débiteurs</string>
+    <string name="creditor_select">Changer créditeur</string>
+    <string name="debtors">Débiteur(s) :</string>
     <string name="debtorsList">Choissisez des débiteurs à ajouter</string>
     <string name="creditorList">Choissiez le créditeur</string>
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
-    <string name="add_expense_string">Ajouter une dépense à \ </string>
+    <string name="add_expense_string">Ajouter une dépense à :\ </string>
     <string name="creditor_selected">Vous (par défaut)</string>
     <string name="debtors_selected">Aucun </string>
     <string name="amount">Montant</string>
