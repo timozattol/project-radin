@@ -23,7 +23,7 @@
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
     <string name="home_title">Home</string>
-    <string name="my_radingroups">My Radin Groups</string>
+    <string name="my_radingroups">My Groups</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
     <string name="contacts">Contacts</string>
@@ -31,8 +31,8 @@
     <string name="overview">Overview</string>
     <string name="add">+</string>
     <string name="radin_title">Radin</string>
-    <string name="radingroup_view">Radin Group view</string>
-    <string name="new_radingroup">New Radin Group</string>
+    <string name="radingroup_view">Expense Group view</string>
+    <string name="new_radingroup">New Expense Group</string>
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
     <string name="create_account">Create new account</string>
@@ -65,40 +65,40 @@
     <!-- NewListActivity -->
     <string name="radin_name">Name</string>
     <string name="friends_names">Add people</string>
-    <string name="hint_name">Type the list\'s name</string>
-    <string name="multi_friend">Add friends to list</string>
+    <string name="hint_name">Type the groups name</string>
+    <string name="multi_friend">Add friends to group</string>
     <string name="add_info"></string>
     <string name="create_radin_group">Create</string>
     <string name="invalid_name">Please add a group name</string>
-    <string name="invalid_participants">Please select at least one person to create a groupe</string>
+    <string name="invalid_participants">Please select at least one person to create a group</string>
 
     <!-- ProfileActivity -->
-    <string name="profile_user_name">Username :</string>
-    <string name="profile_complete_name">Name :</string>
-    <string name="profile_email">Email :</string>
-    <string name="profile_address">Address :</string>
-    <string name="profile_iban">Iban :</string>
-    <string name="profile_bicSwift">BicSwift :</string>
-    <string name="profile_picture">profile picture :</string>
+    <string name="profile_user_name">Username:</string>
+    <string name="profile_complete_name">Name:</string>
+    <string name="profile_email">Email:</string>
+    <string name="profile_address">Address:</string>
+    <string name="profile_iban">IBAN:</string>
+    <string name="profile_bicSwift">BIC/SWIFT:</string>
+    <string name="profile_picture">Profile Picture:</string>
 
     <!-- ProfileChangeActivity -->
-    <string name="title_activity_profile_change">ProfileChange</string>
-    <string name="new_profile_firstName">Enter your new Firstname</string>
-    <string name="new_profile_lastName">Enter your new Lastname</string>
-    <string name="new_profile_username">Enter your new Username</string>
+    <string name="title_activity_profile_change">Change Profile</string>
+    <string name="new_profile_firstName">Enter your new first name</string>
+    <string name="new_profile_lastName">Enter your new last name</string>
+    <string name="new_profile_username">Enter your new username</string>
     <string name="new_profile_address">Enter your new Address</string>
     <string name="new_profile_email">Enter your new email</string>
-    <string name="new_profile_iBan">Enter your new iBan</string>
-    <string name="new_profile_bicSwift">Enter your new bicSwift</string>
+    <string name="new_profile_iBan">Enter your new IBAN</string>
+    <string name="new_profile_bicSwift">Enter your new BIC/SWIFT</string>
     <string name="button_save">Save</string>
 
     <!-- AddExpenseActivity -->
-    <string name="creditor">Creditor :</string>
-    <string name="debtors">Add debtor(s)</string>
-    <string name="creditor_select">Change creditor</string>
-    <string name="debtor_text">Debtor(s) :</string>
-    <string name="debtorsList">Choose debtors to add</string>
-    <string name="creditorList">Choose creditor</string>
+    <string name="creditor">Who paid?</string>
+    <string name="debtors">For whom?</string>
+    <string name="creditor_select">Change payer</string>
+    <string name="debtor_text">Participants:</string>
+    <string name="debtorsList">Choose participants to add:</string>
+    <string name="creditorList">Choose payer</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="add_expense_string">Add an expense to \ </string>
@@ -109,42 +109,49 @@
     <string name="currency">CHF</string>
     <string name="add_this_expense">Add this expense</string>
     <string name="invalid_amount">The amount is not valid</string>
-    <string name="invalid_debtors">Please select debitors first</string>
+    <string name="invalid_debtors">Please select participants first</string>
     <string name="expense_added">Expense added!</string>
     <string name="not_ready">Please wait for the data to be retrieved</string>
-    <string name="purpose_hint">Expense\'s name</string>
+    <string name="purpose_hint">Purpose of the expense:</string>
     <string name="invalid_purpose">No expense purpose</string>
 
     <!-- Settings Activity -->
-    <string name="my_id">User ID : </string>
+    <string name="my_id">User ID: </string>
     <string name="value_id">value</string>
+    
+    <string-array name="languages_array">
+        <item>English (US)</item>
+        <item>French</item>
+    </string-array>
 
     <!-- Server Toasts -->
-    <string name="server_error">There was an error, please try again</string>
+    <string name="server_error">There was an error, please try again.</string>
     <string name="user_created">Yeah! You registered to ProjectRadin!</string>
-    <string name="login_error">Sorry this username does not exist</string>
+    <string name="login_error">Sorry, this username does not exist.</string>
     <string name="success_login">Welcome back!</string>
 
     <!-- Share Preference File -->
     <string name="preference_file_key">Preferences</string>
 
      <!-- Stat Activity -->
-    <string name="stats">Statistiques</string>
+    <string name="stats">Statistics</string>
     
     
     <!-- RadinGroupStatsActivity -->
     <string name="choose_graph">Select the period of your graph: </string>
-    <string name="total_amount">The total amount is:</string>
-    <string name="spinner_graph_prompt">Choose which graph to display</string>
+    <string name="total_amount">Total amount:</string>
+    <string name="spinner_graph_prompt">Choose the period for which to display the graph: </string>
 
     <string-array name="spinner_graph_arrays">
-        <item>choose your graph</item>
-        <item>spending a day</item>
-        <item>spending a month</item>
-        <item>spending a year</item>
+        <item>Choose a graph:</item>
+        <item>Spent per day</item>
+        <item>Spent per month</item>
+        <item>Spent per year</item>
     </string-array>
 
-    <string name="title_activity_app_oppnenig">AppOppnenigActivity</string>
+    <string name="title_activity_app_oppnenig">AppOpeningActivity</string>
     <string name="hello_world">Hello world!</string>
+    
+    
 
 </resources>
