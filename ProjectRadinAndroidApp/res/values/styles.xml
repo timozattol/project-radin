@@ -1,27 +1,49 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppTheme" parent="android:Theme.Holo.Light">
-       
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
+
+    </style>
+
+    <!-- theme applied to the application -->
+
+    <style name="CustomizedTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:logo">@drawable/money</item>
+        <item name="android:height">@dimen/actionBarSize</item>
+        <item name="android:background">@color/header</item>
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
         
     </style>
 
+    <style name="MyActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+
+        <item name="android:textColor">@color/lightYellow</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="heading_text">
-		<item name="android:textColor">#ff000000</item>
-		<item name="android:textStyle">bold</item>
-		<item name="android:textSize">16sp</item>
-		<item name="android:padding">5dp</item>
-	</style>
-    
-   <style name="HomeButton">
+        <item name="android:textColor">#ff000000</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="HomeButton">
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -29,8 +51,8 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textStyle">normal</item>
-<!--         <item name="android:textColor">@null</item> -->
-		<item name="android:background">@null</item>
+        <item name="android:textColor">@null</item>
+        <item name="android:background">@null</item>
     </style>
 
 </resources>

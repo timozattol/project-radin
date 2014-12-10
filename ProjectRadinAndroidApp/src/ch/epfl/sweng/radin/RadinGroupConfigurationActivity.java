@@ -1,27 +1,25 @@
 package ch.epfl.sweng.radin;
 
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.LinearLayout;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 /**
  * 
  * @author Fabien Zellweger
  *
  */
-public class RadinGroupConfigurationActivity extends DashBoardActivity {
+public class RadinGroupConfigurationActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_configuration);
-		setHeader(getString(R.string.configuration), true, true);
 		
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);

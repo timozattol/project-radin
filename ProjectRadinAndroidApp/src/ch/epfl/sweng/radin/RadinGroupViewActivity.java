@@ -8,13 +8,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.Currency;
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.TransactionModel;
-import ch.epfl.sweng.radin.storage.TransactionType;
-import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,12 +19,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.Currency;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import ch.epfl.sweng.radin.storage.TransactionModel;
+import ch.epfl.sweng.radin.storage.TransactionType;
+import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
 
 /**
  * 
@@ -38,7 +38,7 @@ import android.widget.Toast;
  * This Activity give a view of the selected radin group
  *
  */
-public class RadinGroupViewActivity extends DashBoardActivity {
+public class RadinGroupViewActivity extends Activity {
     private final static int SIXTY_SECS = 60000;
     private final static int TEN_SECS = 10000;
 
@@ -52,16 +52,13 @@ public class RadinGroupViewActivity extends DashBoardActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_view);
 
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
-		setHeader(getString(R.string.rg_name_hint), true, true);
-
-		
+			
 		setTitle(radinGroupTitle);
 
 		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.radinGroupViewLayout);
@@ -126,7 +123,7 @@ public class RadinGroupViewActivity extends DashBoardActivity {
                     public void callback(List<TransactionModel> items,
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
-                            displayErrorToast("Error while retrieving transactions");
+                            displayErrorToast(getString(R.string.retrinving_transaction_group_error));
                         } else {
                             refreshViewWithData(items);
                         }

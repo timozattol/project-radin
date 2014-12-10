@@ -2,6 +2,7 @@ package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,7 +20,7 @@ import android.widget.Toast;
  * The user must provide a name for the list and the names of the people that he wants share this list with. 
  *
  */
-public class NewRadinGroupActivity extends DashBoardActivity {
+public class NewRadinGroupActivity extends Activity {
 	private final int mClientID = 1234; //will be propagated from LoginActivity?
 	private EditText mNameEdit;
 	private boolean[] checkedItems;
@@ -31,10 +31,8 @@ public class NewRadinGroupActivity extends DashBoardActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_new_radingroup);
-        setHeader(getString(R.string.new_radingroup), true, true);
-        
+                
         retrieveData();
         createDialog();
 		

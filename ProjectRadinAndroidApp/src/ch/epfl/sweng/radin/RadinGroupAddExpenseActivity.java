@@ -2,7 +2,7 @@ package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
 
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,12 +11,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 /**
  * This activity allows the user to add an expense to a radinGroup by providing the creditor, 
@@ -24,7 +24,7 @@ import android.widget.Toast;
  * 
  * TODO class too big, split, refactor (both dialog creations are almost the same)
  */
-public class RadinGroupAddExpenseActivity extends DashBoardActivity {
+public class RadinGroupAddExpenseActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	//private static final int CLIENT_ID = 1234; //will be propagated from LoginActivity?
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
@@ -39,10 +39,8 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);	
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_add_expense);
-		setHeader(getString(R.string.add_expense_string), true, true);
 		mSelectedCreditor = this.getResources().getString(R.string.creditor_selected);
 
 		Bundle extras = getIntent().getExtras();

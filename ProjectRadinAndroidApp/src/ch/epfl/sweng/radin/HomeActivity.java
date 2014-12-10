@@ -1,26 +1,24 @@
 package ch.epfl.sweng.radin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 
 /**
  * @author Fabien Zellweger
  * The home activity to choose which fonctionality you want to try
  */
-public class HomeActivity extends DashBoardActivity {
+public class HomeActivity extends Activity {
 	private int mUserId;
 	private SharedPreferences mPrefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_home);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_home);
-		setHeader(getString(R.string.title_project_radin), false, false);
+		
 		
 		mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 		mUserId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
