@@ -18,7 +18,7 @@
             android:theme="@style/CustomizedTheme" >
         <activity
             android:name=".AppOppeningActivity"
-            android:label="@string/title_activity_app_oppnenig"
+            android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

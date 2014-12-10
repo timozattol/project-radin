@@ -146,7 +146,7 @@
         <item>spending a year</item>
     </string-array>
 
-    <string name="title_activity_app_oppnenig">AppOppnenigActivity</string>
+    <string name="title_activity_app_oppening">AppOppeningActivity</string>
     <string name="hello_world">Hello world!</string>
     
     <!-- Display error with Toast -->
