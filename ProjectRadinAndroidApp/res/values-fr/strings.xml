@@ -22,20 +22,20 @@
     <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
-    <string name="home_title">Home</string>
-    <string name="my_radingroups">My Radin Groups</string>
+    <string name="home_title">Maison</string>
+    <string name="my_radingroups">Mes Groupes</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
-    <string name="contacts">Contacts</string>
+    <string name="contacts">Contactes</string>
     <string name="settings">Paramètres</string>
     <string name="overview">Resumé</string>
     <string name="add">+</string>
     <string name="radin_title">Radin</string>
-    <string name="radingroup_view">Radin Group view</string>
-    <string name="new_radingroup">New Radin Group</string>
+    <string name="radingroup_view">Voir Groupe</string>
+    <string name="new_radingroup">Nouvelle Groupe</string>
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
-    <string name="create_account">Create new account</string>
+    <string name="create_account">Créer nouvelle compte</string>
 
     <!-- for DatabaseRadinGroupTableActivity -->
     <string name="radin_group_table_activity_title">RadinGroup DB Table test</string>
@@ -50,7 +50,7 @@
     <string name="title_activity_database_radin_group_table">DatabaseRadinGroupTableActivity</string>
     <!-- Linked to register and login activity -->
     <string name="login">Login</string>
-    <string name="password">Password</string>
+    <string name="password">Mot de passe</string>
     <!-- Linked to register activity -->
     <string name="register">Registrer</string>
     <string name="first_name">Prénom</string>
@@ -63,61 +63,61 @@
     <string name="sign_up_button_text">Registrer maintenant</string>
 
     <!-- NewListActivity -->
-    <string name="radin_name">Name</string>
-    <string name="friends_names">Add people</string>
-    <string name="hint_name">Type the list\'s name</string>
-    <string name="multi_friend">Add friends to list</string>
+    <string name="radin_name">Nom</string>
+    <string name="friends_names">Ajouter des gens</string>
+    <string name="hint_name">Entrer le nom de la groupe</string>
+    <string name="multi_friend">Ajouter des amis à la groupe</string>
     <string name="add_info"></string>
-    <string name="create_radin_group">Create</string>
-    <string name="invalid_name">Please add a group name</string>
-    <string name="invalid_participants">Please select at least one person to create a groupe</string>
+    <string name="create_radin_group">Créer</string>
+    <string name="invalid_name">Veuillez ajouter un nom de la groupe</string>
+    <string name="invalid_participants">Veuillez ajouter au moins une personne pour créer une groupe</string>
 
     <!-- ProfileActivity -->
-    <string name="profile_user_name">Username :</string>
-    <string name="profile_complete_name">Name :</string>
+    <string name="profile_user_name">Nom d'utilisateur :</string>
+    <string name="profile_complete_name">Nom :</string>
     <string name="profile_email">Email :</string>
-    <string name="profile_address">Address :</string>
-    <string name="profile_iban">Iban :</string>
-    <string name="profile_bicSwift">BicSwift :</string>
-    <string name="profile_picture">profile picture :</string>
+    <string name="profile_address">Addresse :</string>
+    <string name="profile_iban">IBAN :</string>
+    <string name="profile_bicSwift">BIC/SWIFT :</string>
+    <string name="profile_picture">Photo de profile :</string>
 
     <!-- ProfileChangeActivity -->
-    <string name="title_activity_profile_change">ProfileChange</string>
-    <string name="new_profile_firstName">Enter your new Firstname</string>
-    <string name="new_profile_lastName">Enter your new Lastname</string>
-    <string name="new_profile_username">Enter your new Username</string>
-    <string name="new_profile_address">Enter your new Address</string>
-    <string name="new_profile_email">Enter your new email</string>
-    <string name="new_profile_iBan">Enter your new iBan</string>
-    <string name="new_profile_bicSwift">Enter your new bicSwift</string>
-    <string name="button_save">Save</string>
+    <string name="title_activity_profile_change">Changer le profile</string>
+    <string name="new_profile_firstName">Entrez votre nouveau prénom</string>
+    <string name="new_profile_lastName">Entez votre nouveau nom</string>
+    <string name="new_profile_username">Entrez votre nouveau nom d'utilisateur</string>
+    <string name="new_profile_address">Entrez votre nouvelle addresse</string>
+    <string name="new_profile_email">Entrez votre nouveau email</string>
+    <string name="new_profile_iBan">Entrez votre nouveau IBAN</string>
+    <string name="new_profile_bicSwift">Entrez votre nouveau BIC/SWIFT</string>
+    <string name="button_save">Sauvegarder</string>
 
     <!-- AddExpenseActivity -->
-    <string name="creditor">Creditor :</string>
-    <string name="debtors">Add debtor(s)</string>
-    <string name="creditor_select">Change creditor</string>
-    <string name="debtor_text">Debtor(s) :</string>
-    <string name="debtorsList">Choose debtors to add</string>
-    <string name="creditorList">Choose creditor</string>
+    <string name="creditor">Créditeur :</string>
+    <string name="debtors">Ajouter débiteurs</string>
+    <string name="creditor_select">Changez créditeur</string>
+    <string name="debtor_text">Débiteur(s) :</string>
+    <string name="debtorsList">Choissisez des débiteurs à ajouter</string>
+    <string name="creditorList">Choissiez le créditeur</string>
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="add_expense_string">Add an expense to \ </string>
-    <string name="creditor_selected">You (default)</string>
-    <string name="debtors_selected">None </string>
-    <string name="amount">Amount</string>
-    <string name="amount_hint">Amount paid</string>
+    <string name="cancel">Annuler</string>
+    <string name="add_expense_string">Ajouter une dépense à \ </string>
+    <string name="creditor_selected">Vous (par défaut)</string>
+    <string name="debtors_selected">Aucun </string>
+    <string name="amount">Montant</string>
+    <string name="amount_hint">Montant payé</string>
     <string name="currency">CHF</string>
-    <string name="add_this_expense">Add this expense</string>
-    <string name="invalid_amount">The amount is not valid</string>
-    <string name="invalid_debtors">Please select debitors first</string>
-    <string name="expense_added">Expense added!</string>
-    <string name="not_ready">Please wait for the data to be retrieved</string>
-    <string name="purpose_hint">Expense\'s name</string>
-    <string name="invalid_purpose">No expense purpose</string>
+    <string name="add_this_expense">Ajouter cette dépense</string>
+    <string name="invalid_amount">Le montant n'est pas valide</string>
+    <string name="invalid_debtors">Veuillez premièrement ajouter des débiteurs</string>
+    <string name="expense_added">Dépense ajouté !</string>
+    <string name="not_ready">Veuillez attendre pour le récuperation des données</string>
+    <string name="purpose_hint">Déscription de la dépense</string>
+    <string name="invalid_purpose">Pas de déscription de la dépense</string>
 
     <!-- Settings Activity -->
     <string name="my_id">User ID : </string>
-    <string name="value_id">value</string>
+    <string name="value_id">valeur</string>
     
     <string-array name="languages_array">
         <item>English (US)</item>
@@ -125,31 +125,31 @@
     </string-array>
 
     <!-- Server Toasts -->
-    <string name="server_error">There was an error, please try again</string>
-    <string name="user_created">Yeah! You registered to ProjectRadin!</string>
-    <string name="login_error">Sorry this username does not exist</string>
-    <string name="success_login">Welcome back!</string>
+    <string name="server_error">Un erreur s'est produit, veuillez réessayer.</string>
+    <string name="user_created">Woop woop! Vous êtes désormais registrer au ProjectRadin !</string>
+    <string name="login_error">Désolé, ce nom d\'utilisateur n\'existe pas</string>
+    <string name="success_login">Re-bienvenue !</string>
 
     <!-- Share Preference File -->
-    <string name="preference_file_key">Preferences</string>
+    <string name="preference_file_key">Paramétrages</string>
 
      <!-- Stat Activity -->
     <string name="stats">Statistiques</string>
     
     
     <!-- RadinGroupStatsActivity -->
-    <string name="choose_graph">Select the period of your graph: </string>
-    <string name="total_amount">The total amount is:</string>
-    <string name="spinner_graph_prompt">Choose which graph to display</string>
+    <string name="choose_graph">Sélectionnez la période du graphe : </string>
+    <string name="total_amount">Le montant total est de : </string>
+    <string name="spinner_graph_prompt">Choissisez le graphe à afficher :</string>
 
     <string-array name="spinner_graph_arrays">
-        <item>choose your graph</item>
-        <item>spending a day</item>
-        <item>spending a month</item>
-        <item>spending a year</item>
+        <item>Choissisez une période</item>
+        <item>Dépenses par jour</item>
+        <item>Dépenses par semaine</item>
+        <item>Dépenses par année</item>
     </string-array>
 
-    <string name="title_activity_app_oppnenig">AppOppnenigActivity</string>
+    <string name="title_activity_app_oppnenig">AppOpeningActivity</string>
     <string name="hello_world">Hello world!</string>
     
     
