@@ -58,4 +58,17 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     protected String getTypeUrl() {
         return "users";
     }
+    
+    public void verifyLogin(String username, String password, 
+    		RadinListener<UserModel> callback) {
+    	if (isConnected()) {
+			if (!isHashMatchServer()) {
+				ServerConnectionTask connTask = 
+				        new ServerConnectionTask(callback, RequestType.POST, 
+				                SERVER_BASE_URL + "login/" + username);
+				connTask.execute("{\"password\": \"" + password + "\"}");
+				return;
+			}
+		}
+    }
 }

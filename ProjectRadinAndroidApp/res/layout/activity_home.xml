@@ -1,3 +1,7 @@
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -60,3 +64,92 @@
         android:layout_toRightOf="@id/settingsBtn"
         android:text="@string/overview" />
 </RelativeLayout>
+-->
+
+
+<!-- <?xml version="1.0" encoding="utf-8"?> -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@color/background">
+
+    <!-- Included header.xml here -->
+	<ViewStub android:id="@+id/vsHeader" 
+	    android:inflatedId="@+id/header" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:layout="@layout/header" />
+	
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="6dip" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/myRadinGroupBtn"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/group_icon"
+                android:onClick="onButtonClicker"
+                android:text="@string/my_radingroups" />
+
+            <Button
+                android:id="@+id/profileBtn"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/ic_profile"
+                android:onClick="onButtonClicker"
+                android:text="@string/profile" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/notificationBtn"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/ic_notifications"
+                android:onClick="onButtonClicker"
+                android:text="@string/notifications" />
+
+            <Button
+                android:id="@+id/contactsBtn"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/ic_contact"
+                android:onClick="onButtonClicker"
+                android:text="@string/contacts" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/overviewBtn"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/ic_overview"
+                android:onClick="onButtonClicker"
+                android:text="@string/overview" />
+
+            <Button
+                android:id="@+id/settingsBtn"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/ic_settings"
+                android:onClick="onButtonClicker"
+                android:text="@string/settings" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

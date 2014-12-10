@@ -18,7 +18,6 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,9 +28,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +43,7 @@ import android.widget.Toast;
  * so that the ArrayAdapter updates the view.
  *
  */
-public class RadinGroupViewActivity extends Activity {
+public class RadinGroupViewActivity extends DashBoardActivity {
     private final static int SIXTY_SECS = 60000;
     private final static int TEN_SECS = 10000;
 
@@ -57,18 +57,21 @@ public class RadinGroupViewActivity extends Activity {
 	private Map<Integer, UserModel> mIdToUserModelMapping = new HashMap<Integer, UserModel>();
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_view);
 
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
+		setHeader(getString(R.string.rg_name_hint), true, true);
+
 		
 		setTitle(radinGroupTitle);
 
-		RelativeLayout thisLayout = (RelativeLayout) findViewById(R.id.radinGroupViewLayout);
+		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.radinGroupViewLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
 		
 		mTransactionsModelAdapter = new TransactionArrayAdapter(
@@ -280,11 +283,16 @@ public class RadinGroupViewActivity extends Activity {
             textViewPurpose.setText(transaction.getPurpose());
             textViewAmount.setText(transaction.getAmount() + " " + transaction.getCurrency());
             
-            //TODO get username for id
+            UserModel creditor = mIdToUserModelMapping.get(transaction.getCreditorID());
+
+            String creditorFirstName = creditor.getFirstName();
+            creditorFirstName = Character.toUpperCase(creditorFirstName.charAt(0))
+                    + creditorFirstName.substring(1);
+
             if (transaction.getType() == TransactionType.PAYMENT) {
-                textViewCreditor.setText("Paid by: " + transaction.getCreditorID());
+                textViewCreditor.setText("Paid by: " + creditorFirstName);
             } else if (transaction.getType() == TransactionType.REIMBURSEMENT) {
-                textViewCreditor.setText("Reimbursed by: " + transaction.getCreditorID());
+                textViewCreditor.setText("Reimbursed by: " + creditorFirstName);
             }
             
             Map<Integer, Integer> usersWithCoeffs = transaction.getUsersWithCoefficients();
@@ -307,16 +315,25 @@ public class RadinGroupViewActivity extends Activity {
             String result = "For: ";
             
             for (int userId : usersWithCoeffs.keySet()) {
+                UserModel user = mIdToUserModelMapping.get(userId);
                 int coeff = usersWithCoeffs.get(userId);
-                String userName = mIdToUserModelMapping.get(userId).getFirstName();
+
+                String firstName;
+                
+                if (user == null) {
+                    firstName = "Anonymous";
+                } else {
+                    firstName = user.getFirstName();
+                    firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
+                }
+
                 if (coeff == 1) {
-                    result+= userName;
+                    result+= firstName;
                 } else if (coeff > 1) {
-                    result+= userName + " (" + coeff + "x)";
+                    result+= firstName + " (" + coeff + "x)";
                 } else {
                     // We're not supposed to have some coefficient < 1
                 }
-                
                 result += ", ";
             }
             

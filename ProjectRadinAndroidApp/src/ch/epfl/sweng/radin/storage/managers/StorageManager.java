@@ -16,7 +16,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.Model;
@@ -254,7 +253,7 @@ public abstract class StorageManager<M extends Model> {
                         throw new IllegalStateException("The request type must be one of the 4 values,"
                         		+ " since it should not be null");
 				}
-				
+
 				if (conn.getResponseCode() != SUCCESS_CODE) {
 				    return "FAILURE";
 				}
@@ -280,6 +279,7 @@ public abstract class StorageManager<M extends Model> {
                 try {
                     jsonResult = new JSONObject(result);
                 } catch (JSONException e) {
+                    e.printStackTrace();
                     mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
                     return;
                 }

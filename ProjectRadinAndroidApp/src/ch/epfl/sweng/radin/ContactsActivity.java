@@ -1,22 +1,24 @@
 package ch.epfl.sweng.radin;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 
 /**
  * @author Fabien Zellweger
  * This activity show you you're contacts
  */
-public class ContactsActivity extends Activity {
+public class ContactsActivity extends DashBoardActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_contacts);
+		setHeader(getString(R.string.contacts), true, true);
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
