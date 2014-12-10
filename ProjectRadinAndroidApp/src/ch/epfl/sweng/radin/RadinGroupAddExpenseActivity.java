@@ -300,25 +300,19 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 					.getStorageManager();
 			ArrayList<TransactionWithParticipantsModel> myTransList = new ArrayList<TransactionWithParticipantsModel>();
 			myTransList.add(transactionToSend);
-			trWPartStorageManager.createWithID(
-					mCurrentRadinGroupModel.getRadinGroupID(), myTransList,
-					new RadinListener<TransactionWithParticipantsModel>() {
-						@Override
-						public void callback(
-								List<TransactionWithParticipantsModel> items,
-								StorageManagerRequestStatus status) {
-							if (status == StorageManagerRequestStatus.SUCCESS) {
-								mCurrentActivity.finish();
-								Toast.makeText(getApplicationContext(),
-										R.string.expense_added,
-										Toast.LENGTH_SHORT).show();
-							} else {
-								Toast.makeText(getApplicationContext(),
-										R.string.server_error,
-										Toast.LENGTH_SHORT).show();
-							}
-						}
-					});
+			trWPartStorageManager.create(myTransList, new RadinListener<TransactionWithParticipantsModel>() {
+				@Override
+				public void callback(
+						List<TransactionWithParticipantsModel> items,
+						StorageManagerRequestStatus status) {
+					if (status == StorageManagerRequestStatus.SUCCESS) {
+						mCurrentActivity.finish();
+						Toast.makeText(getApplicationContext(), R.string.expense_added, Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+					}
+				}
+			});
 			// WaitingDialog until callback is called
 		}
 	}
