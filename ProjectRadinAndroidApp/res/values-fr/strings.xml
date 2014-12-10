@@ -22,7 +22,6 @@
     <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
-    <string name="title_activity_app_opening">AppOpeningActivity</string>
     <string name="home_title">Maison</string>
     <string name="my_radingroups">Mes Groupes</string>
     <string name="profile">Profile</string>
