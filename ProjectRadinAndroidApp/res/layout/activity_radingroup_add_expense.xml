@@ -22,19 +22,11 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-            
-            <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header" />
 
             <TextView
                 android:id="@+id/title_add_expense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="66dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:text="@string/add_expense_string"

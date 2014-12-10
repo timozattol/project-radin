@@ -112,9 +112,9 @@ public class ActionBar {
 		for (int i = 0; i < actionBarContent.length; i++) {
 			actionBarContent[i].setOnClickListener(actionBarButtonListener);
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT, 
-					LinearLayout.LayoutParams.MATCH_PARENT,
-					(float) (1.0/ACTION_BAR_COUNT));
+					  LinearLayout.LayoutParams.MATCH_PARENT, 
+					  LinearLayout.LayoutParams.MATCH_PARENT,
+					  (float) (1.0/ACTION_BAR_COUNT));
 			actionBarContent[i].setPadding(
 			        buttonPadding, buttonPadding, 
 			        buttonPadding, buttonPadding);
@@ -188,7 +188,7 @@ public class ActionBar {
 						RadinGroupBalanceActivity.class);
 					break;
 				default:
-					Toast.makeText(v.getContext(), "Error, this button shouldn't exist!",
+					Toast.makeText(v.getContext(), v.getContext().getResources().getString(R.string.invalid_button),
 						Toast.LENGTH_SHORT).show();
 			}
 			if (!(displayActivityIntent == null)) {

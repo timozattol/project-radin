@@ -2,13 +2,13 @@ package ch.epfl.sweng.radin;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,31 +22,31 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 /**
  * @author topali2
  */
-public class ProfileActivity extends DashBoardActivity {
+public class ProfileActivity extends Activity {
 	public static final String PREFS = "PREFS";
-	private SharedPreferences prefs;
-
 	private UserModel profileUser;
-	private int userId;
+	private SharedPreferences mPrefs;
+	private int mCurrentUserId;
+	private int mSearchingId;
+
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_profile);
-		setHeader(getString(R.string.profile), true, true);
 
 		Button modifBtn = (Button) findViewById(R.id.modifPofileBtn);
 		modifBtn.setOnClickListener(modifProfileButtonListener);
 
-		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
-
-		//		This is a fake userId used to test the app
-		userId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
-
-
+		mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		
+		mCurrentUserId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
+		mSearchingId = getIntent().getIntExtra("userId", mCurrentUserId);
+		
+		
 		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
-		userStorageManager.getById(userId, new RadinListener<UserModel>() {
+		userStorageManager.getById(mSearchingId, new RadinListener<UserModel>() {
 
 			@Override
 			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
@@ -55,11 +55,11 @@ public class ProfileActivity extends DashBoardActivity {
 						profileUser = items.get(0);
 						displayUser();
 					} else {
-						displayErrorToast("Error wrong user informations");
+						displayErrorToast(getString(R.string.wrong_user_data));
 					}
 
 				} else {
-					displayErrorToast("Connection Error getting userProfile informations");
+					displayErrorToast(getString(R.string.retriving_user_error));
 				}
 
 			}
@@ -108,26 +108,29 @@ public class ProfileActivity extends DashBoardActivity {
 
 	private OnClickListener modifProfileButtonListener = 
 			new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			int selectedId = v.getId();
-			Intent displayActivityIntent = null;
+					@Override
+					public void onClick(View v) {
+						int selectedId = v.getId();
+						Intent displayActivityIntent = null;
 
-			switch (selectedId){
-			case R.id.modifPofileBtn:
-				displayActivityIntent = 
-				new Intent(v.getContext(), ProfileChange.class);
-				break;
-			default:
-				Toast.makeText(v.getContext(), 
-						"Error, this button shouldn't exist!",
-						Toast.LENGTH_SHORT).show();	
-			}
-			if (!(displayActivityIntent == null)) {
-				startActivity(displayActivityIntent);	
-			}
-		}
-	};
+						switch (selectedId){
+							case R.id.modifPofileBtn:
+								displayActivityIntent = 
+								new Intent(v.getContext(), ProfileChange.class);
+					        	if (mSearchingId == mCurrentUserId) {
+					        		displayActivityIntent = 
+											new Intent(v.getContext(), ProfileChange.class);
+					        		startActivity(displayActivityIntent);
+					        	} else {
+					        		displayErrorToast(getString(R.string.edit_friends_profile));
+					        	}
+								break;
+							default:
+								displayErrorToast(
+										getString(R.string.invalid_button));
+						}
+					}
+				};
 
 	/**
 	 * 
@@ -135,23 +138,26 @@ public class ProfileActivity extends DashBoardActivity {
 	 */
 	private void displayErrorToast(String message) {
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-		case R.id.action_home:
-			Intent homeIntent = new Intent(this, HomeActivity.class);
-			startActivity(homeIntent);
-			return true;
-		case R.id.action_settings:
-			Intent profileModifIntent = new Intent(this, ProfileChange.class);
-			startActivity(profileModifIntent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_home:
+	        	Intent homeIntent = new Intent(this, HomeActivity.class);
+	        	startActivity(homeIntent);
+	            return true;
+	        case R.id.action_settings:
+	        	if (mSearchingId == mCurrentUserId) {
+	        		Intent profileModifIntent = new Intent(this, ProfileChange.class);
+	        		startActivity(profileModifIntent);
+	        	} else {
+	        		displayErrorToast(getString(R.string.edit_friends_profile));
+	        	}
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 }

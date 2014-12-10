@@ -14,7 +14,6 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_radinlist_view">RadinGroupViewActivity</string>
-    <string name="title_activity_profile_other">ProfileOtherActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_new_radingroup">NewRadinGroupActivity</string>
     <string name="title_activity_radingroup_balance">RadinGroupBalanceActivity</string>
@@ -23,7 +22,7 @@
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
     <string name="home_title">Home</string>
-    <string name="my_radingroups">My Radin Groups</string>
+    <string name="my_radingroups">My expense Groups</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
     <string name="contacts">Contacts</string>
@@ -116,13 +115,13 @@
     <string name="invalid_purpose">No expense purpose</string>
 
     <!-- Settings Activity -->
-    <string name="my_id">User ID</string>
+    <string name="my_id">User ID : </string>
     <string name="value_id">value</string>
 
     <!-- Server Toasts -->
     <string name="server_error">There was an error, please try again</string>
     <string name="user_created">Yeah! You registered to ProjectRadin!</string>
-    <string name="login_error">Sorry this username does not exist</string>
+    <string name="login_error">You shall not pass!</string>
     <string name="success_login">Welcome back!</string>
 
     <!-- Share Preference File -->
@@ -136,6 +135,9 @@
     <string name="choose_graph">Select the period of your graph: </string>
     <string name="total_amount">The total amount is:</string>
     <string name="spinner_graph_prompt">Choose which graph to display</string>
+    <string name="spending_year">Spending per year</string>
+    <string name="spending_month">Spending per month</string>
+    <string name="spending_day">Spending per day</string>
 
     <string-array name="spinner_graph_arrays">
         <item>choose your graph</item>
@@ -146,5 +148,22 @@
 
     <string name="title_activity_app_oppnenig">AppOppnenigActivity</string>
     <string name="hello_world">Hello world!</string>
+    
+    <!-- Display error with Toast -->
+    <string name="invalid_button">How did you find this button? It dosn\'t exist!</string>
+    <string name="retriving_friend_error">Friends? Friends? Where are you guys? It seems the server can\'t find them…</string>
+    <string name="retriving_radin_group_error">"Sorry, we lost you're groups on the web, please try again."</string>
+    <string name="wrong_user_data">Damn, we recive too much data for you, you must be too important!</string>
+    <string name="retriving_user_error">"Your request decide to take vacation, try again with an other one."</string>
+    <string name="edit_friends_profile">Don\'t try to edit you friend profile, little sneaky one</string>
+    <string name="sending_user_data_error">Wow, easy! The server couldn\'t update all this informations! Try again.</string>
+    <string name="server_general_error">The server is currently dead, but not for long!</string>
+    <string name="retrinving_user_group_error">The user from this group don\'t want to show up. Maybe latter?</string>
+    <string name="retrinving_transaction_group_error">Where did I put this transaction? I need time to find it, come back latter!</string>
+    <string name="invalid_spinner_elem">You find a ghost element, you can\'t handle it yourself, it\'s a job for the Ghostbuster!</string>
+    
+    <!-- RadinGroupBalanceActivity -->
+    <string name="owes"> owes: </string>
+    
 
 </resources>

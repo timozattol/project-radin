@@ -9,14 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ch.epfl.sweng.radin.SettingsActivity" >
 
-    <!-- Included header.xml here -->
-
-    <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -27,7 +19,6 @@
             android:id="@+id/my_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="66dp"
             android:text="@string/my_id"
             android:textSize="14sp" />
 
@@ -35,11 +26,21 @@
             android:id="@+id/value_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="66dp"
             android:layout_toRightOf="@+id/my_id"
             android:editable="true"
             android:text="@string/value_id"
             android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_logout"
+            android:onClick="logout" />
+
     </RelativeLayout>
+    
 
 </RelativeLayout>

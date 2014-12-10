@@ -9,11 +9,5 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ch.epfl.sweng.radin.NotificationsActivity" >
 
-    <!-- Included header.xml here -->
-	<ViewStub android:id="@+id/vsHeader" 
-	    android:inflatedId="@+id/header" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content" 
-		android:layout="@layout/header" />
     
 </RelativeLayout>
