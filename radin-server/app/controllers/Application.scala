@@ -194,6 +194,12 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Logger.info("User " + addedUser.U_ID + " has been added to RadinGroup " + rgid)
     Ok(rs.request.body)
   }
+  
+  def removeUserFromRadinGroup(uid: Int, rgid: Int) = DBAction { implicit rs =>
+    val query1 = memberInRadins.filter(_.MRuid === uid).filter(_.MRrid === rgid)
+    val delete = (query1).delete
+    Ok
+  }
 
   def getUserById(uid: Int) = DBAction { implicit rs =>
     Ok(JsObject(List(("user", toJson(users.filter { _.U_ID === uid }.list)))))
@@ -251,7 +257,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   def getRadinGroupsForUser(uid: Int) = DBAction { implicit rs =>
     val radinGroupsForUser = for {
       memberInRadin <- memberInRadins.list.filter(_._1  == uid)
-      radinGroupForUser <- radinGroups.list.filter(_.RG_ID.get  == memberInRadin._1)
+      radinGroupForUser <- radinGroups.list.filter(_.RG_ID.get  == memberInRadin._2)
     } yield radinGroupForUser
     val jsonValue = JsObject(List(("radinGroup", toJson(radinGroupsForUser))))
     Ok(jsonValue)

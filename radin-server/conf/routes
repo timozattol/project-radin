@@ -18,6 +18,7 @@ POST   /radingroups                        @controllers.Application.newRadinGrou
 GET    /radingroups/:uid                   @controllers.Application.getRadinGroupsForUser(uid: Int)
 GET	   /radingroups/:rgid/users			   @controllers.Application.getUsersInRG(rgid: Int)
 POST   /radingroups/:rgid/adduser		   @controllers.Application.addUsertoRadinGroup(rgid: Int)
+DELETE /radingroups/:rgid/removeuser/:uid  @controllers.Application.removeUserFromRadinGroup(uid: Int, rgid: Int)
 
 GET    /transactions/:rgid                 @controllers.Application.getTransactionsForGroup(rgid: Int)
 GET    /transactions/withcoeffs/:rgid      @controllers.Application.getTransactionsWithCoeffsForGroup(rgid: Int)
