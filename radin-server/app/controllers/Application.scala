@@ -49,6 +49,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   }
 
   implicit val transactionFormat = Json.format[Transaction]
+  
+ 
 
   def getTransactionsForGroup(rgid: Int) = DBAction { implicit rs =>
     val transactionList = toJson(transactions.list.filter(_.T_parentRadinGroupID == rgid))
@@ -57,17 +59,39 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok(jsonResponse)
   }
   
-  def newTransactionForGroup(rgid: Int) = DBAction(parse.json) { implicit rs =>
+  def newTransaction = DBAction(parse.json) { implicit rs =>
     rs.request.body.\("transaction")(0).validate[Transaction].map { t =>
       transactions.insert(Transaction(t.T_parentRadinGroupID, t.T_creatorID, t.T_debitorID, t.T_amount, t.T_currency, t.T_dateTime, t.T_purpose, t.T_type))
     }
     val lastid = transactions.map(_.tid).max.run
     Logger.info("New Transaction ID : " + lastid)
-    val lastRG = transactions.list.filter(_.T_ID  == lastid)
-    val jsonValue: Seq[(String, JsValue)] = List(("transaction", toJson(lastRG)))
+    val lastT = transactions.list.filter(_.T_ID  == lastid)
+    val jsonValue: Seq[(String, JsValue)] = List(("transaction", toJson(lastT)))
     val jsonResponse: JsObject = JsObject(jsonValue)
     Logger.info("New Transaction response : " + jsonResponse.toString)
     Ok(jsonResponse)
+  }
+  
+  
+  def newTransactionWithCoeffs = DBAction(parse.json) { implicit rs => 
+    rs.request.body.\("transactionWithParticipants") match {
+      case JsArray(transactionsWithParticipants) => transactionsWithParticipants foreach {t => 
+        t.\("transaction").validate[Transaction].asOpt.map{
+          transactions.insert(_)
+        }
+        val lastid = transactions.map(_.tid).max.run
+        t.\("coefficients") match {
+          case JsArray(coefficients) => coefficients foreach { coeff =>
+            val id = coeff.\("id").as[Int]
+            val coefficient = coeff.\("coefficient").as[Int]
+            userConcernedByTransactions += ((lastid.get, id, coefficient))
+            }
+          case _ => BadRequest("wrong coeffs")
+        }
+      }
+      case _ => BadRequest("transactionWithParticipants should be a JSON array")
+    }
+    Ok
   }
 
   implicit val CoefficientWrites = new Writes[Coefficient] {
@@ -104,13 +128,6 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   def getAllTransactions = DBAction { implicit rs =>
     Ok(toJson(transactions.list))
-  }
-
-  def newTransaction = DBAction(parse.json) { implicit rs =>
-    rs.request.body.validate[Transaction].map { ta =>
-      transactions.insert(ta)
-      Ok("Ok")
-    }.getOrElse(BadRequest("invalid json"))
   }
 
   implicit val userFormat = Json.format[User]
