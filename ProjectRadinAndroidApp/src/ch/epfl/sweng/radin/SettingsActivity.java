@@ -1,26 +1,24 @@
 package ch.epfl.sweng.radin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SettingsActivity extends DashBoardActivity {
+public class SettingsActivity extends Activity {
 
 	private SharedPreferences prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_settings);
-		setHeader(getString(R.string.title_activity_settings), true, true);
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 		Button logoutBtn = (Button) findViewById(R.id.logout_btn);
 		logoutBtn.setOnClickListener(logoutButtonListener);

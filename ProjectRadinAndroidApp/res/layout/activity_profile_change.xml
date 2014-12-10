@@ -9,12 +9,6 @@
         android:layout_height="wrap_content"
         tools:context="ch.epfl.sweng.radin.ProfileChange" >
 
-        <ViewStub
-            android:id="@+id/vsHeader"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:inflatedId="@+id/header"
-            android:layout="@layout/header" />
 
         <TextView
             android:id="@+id/profileChangeName"

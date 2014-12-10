@@ -2,13 +2,13 @@ package ch.epfl.sweng.radin;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,7 +22,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 /**
  * @author topali2
  */
-public class ProfileActivity extends DashBoardActivity {
+public class ProfileActivity extends Activity {
 	public static final String PREFS = "PREFS";
 	private UserModel profileUser;
 	private SharedPreferences mPrefs;
@@ -34,9 +34,7 @@ public class ProfileActivity extends DashBoardActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_profile);
-		setHeader(getString(R.string.profile), true, true);
 
 		Button modifBtn = (Button) findViewById(R.id.modifPofileBtn);
 		modifBtn.setOnClickListener(modifProfileButtonListener);

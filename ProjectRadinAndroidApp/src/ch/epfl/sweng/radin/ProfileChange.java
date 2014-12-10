@@ -3,6 +3,7 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,7 +24,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
  * @author topali2
  *
  */
-public class ProfileChange extends DashBoardActivity {
+public class ProfileChange extends Activity {
 
 	private UserModel newProfileModel = null;
 	private boolean profileOK = false;
@@ -37,13 +37,11 @@ public class ProfileChange extends DashBoardActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_profile_change);
-		setHeader(getString(R.string.title_activity_profile_change), true, true);
 
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 
-		userId = Integer.parseInt(prefs.getString(getString(R.string.username), ""));
+		userId = Integer.parseInt(prefs.getString(getString(R.string.username), "-1"));
 
 		userStorageManager = UserStorageManager.getStorageManager();
 
@@ -106,7 +104,7 @@ public class ProfileChange extends DashBoardActivity {
 
 			deletedText.getText().clear();
 			deletedText.requestFocus();
-			
+
 		}
 	};
 
@@ -134,7 +132,7 @@ public class ProfileChange extends DashBoardActivity {
 						} else {
 
 							displayErrorToast(getString(R.string.sending_user_data_error));
-							
+
 						}
 
 					}
@@ -153,31 +151,35 @@ public class ProfileChange extends DashBoardActivity {
 	 */
 	private void retrieveUserInformation() {
 
-		userStorageManager.getById(userId, new RadinListener<UserModel>() {
+		if (userId != -1) {
 
-			@Override
-			public void callback(List<UserModel> items,
-					StorageManagerRequestStatus status) {
-				if (status == StorageManagerRequestStatus.SUCCESS) {
-					if (items.size() == 1) {						
-						newProfileModel = items.get(0);
-						profileOK = true;
-						initializeEditText();
+			userStorageManager.getById(userId, new RadinListener<UserModel>() {
+
+				@Override
+				public void callback(List<UserModel> items,
+						StorageManagerRequestStatus status) {
+					if (status == StorageManagerRequestStatus.SUCCESS) {
+						if (items.size() == 1) {						
+							newProfileModel = items.get(0);
+							profileOK = true;
+							initializeEditText();
+						} else {
+							displayErrorToast(getString(R.string.retriving_user_error));
+						}
+
 					} else {
-						displayErrorToast(getString(R.string.retriving_user_error));
+
+						displayErrorToast(getString(R.string.server_general_error));
+
+
 					}
-
-				} else {
-
-					displayErrorToast(getString(R.string.server_general_error));
 
 
 				}
-
-
-			}
-		});
-
+			});
+		} else {
+			displayErrorToast("please relogin again, error getting userID");
+		}
 	}
 
 	/**
@@ -189,7 +191,7 @@ public class ProfileChange extends DashBoardActivity {
 	}
 
 	private void initializeEditText() {
-		
+
 		EditText firstName = (EditText) findViewById(R.id.editProfileFirstName);
 		firstName.setText(newProfileModel.getFirstName());
 
@@ -215,12 +217,12 @@ public class ProfileChange extends DashBoardActivity {
 
 		EditText bicSwift = (EditText) findViewById(R.id.editProfileBicSwift);
 		bicSwift.setText(newProfileModel.getBicSwift());
-		
+
 	}
 	private void setAllEditText() {
 
 		profileOK = true;
-		
+
 		EditText newFirstName = (EditText) findViewById(R.id.editProfileFirstName);
 		newProfileModel.setFirstName(newFirstName.getText().toString());
 

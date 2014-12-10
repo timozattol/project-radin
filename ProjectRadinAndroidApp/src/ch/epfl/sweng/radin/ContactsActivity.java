@@ -3,21 +3,15 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.UserModel;
-import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
-
+import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -26,7 +20,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.Window;
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 
 /**
@@ -34,7 +31,7 @@ import android.view.Window;
  * This activity show you you're contacts
  */
 
-public class ContactsActivity extends DashBoardActivity {
+public class ContactsActivity extends Activity {
 	private List<UserModel> mContactUserModelList = new ArrayList<UserModel>();
 	private ListView mListFriend;
 	private UserArrayAdapter mUserModelAdapter;
@@ -43,7 +40,6 @@ public class ContactsActivity extends DashBoardActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_contacts);
 
 		SharedPreferences prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
@@ -58,8 +54,6 @@ public class ContactsActivity extends DashBoardActivity {
 		
 		Button refreshButton = (Button) findViewById(R.id.refreshContactButton);
 		refreshButton.setOnClickListener(contactButtonListener);
-
-		setHeader(getString(R.string.contacts), true, true);
 
 	}
 

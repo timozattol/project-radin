@@ -13,12 +13,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity" >
 
-    <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header" />
 
     <Button
         android:id="@+id/sign_up_button"
@@ -103,7 +97,6 @@
         android:layout_alignLeft="@+id/last_name_new_user"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="85dp"
         android:ems="10"
         android:gravity="center"
         android:hint="@string/first_name"

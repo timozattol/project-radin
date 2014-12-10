@@ -7,21 +7,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
         tools:context="ch.epfl.sweng.radin.ProfileActivity" >
-
-        <ViewStub
-            android:id="@+id/vsHeader"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inflatedId="@+id/header"
-            android:layout="@layout/header" />
 
         <ImageView
             android:id="@+id/profilePic"
             android:layout_width="120dip"
             android:layout_height="120dip"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="80dp"
             android:contentDescription="@string/profile_picture"
             android:scaleType="fitXY"
             android:src="@drawable/profile_pic" />

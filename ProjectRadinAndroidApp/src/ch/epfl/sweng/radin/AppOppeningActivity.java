@@ -20,7 +20,7 @@ public class AppOppeningActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_app_oppnenig);
+		setContentView(R.layout.activity_app_oppening);
 
 		splashTimer = new Timer();
 		splashTimer.schedule(new TimerTask() {
