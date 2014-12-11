@@ -106,6 +106,7 @@ public class MyRadinGroupsActivity extends DashBoardActivity {
 	 */
 	private void displayList() {
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
+		myRadinGroupsLinearLayout.removeAllViews();
 		myRadinGroupsLinearLayout.setGravity(Gravity.LEFT);
 		ProgressBar myRadinGroupProgressBar = (ProgressBar) findViewById(R.id.myRadinGroupsProgressBar);
 		myRadinGroupsLinearLayout.removeView(myRadinGroupProgressBar);
