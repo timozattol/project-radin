@@ -17,6 +17,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="@string/radin_name"
@@ -48,7 +49,15 @@
             android:text="@string/friends_names"
             android:textSize="15sp" />
 
-        <Button
+        <TextView
+	       android:id="@+id/participants_in_radin_group"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignParentLeft="true"
+	       android:layout_below="@id/people"
+	       android:text="@string/participants" />
+        
+		<Button
             android:id="@+id/create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,14 +69,6 @@
             android:onClick="createRadinGroup"
             android:text="@string/create_radin_group"
             android:textSize="15sp" />
-        
-        <TextView
-	       android:id="@+id/participants_in_radin_group"
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:layout_alignParentLeft="true"
-	       android:layout_below="@id/people"
-	       android:text="@string/participants" />
         	   
     </RelativeLayout>
 

@@ -131,7 +131,8 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 			for (Integer participant : userBalances.keySet()) {
 				Double oldBalance = userBalances.get(participant);
-				Double newBalance = transactionAmount * (usersAndCoefficients.get(participant) / sumCoefficients);
+				Double newBalance = transactionAmount * (usersAndCoefficients.get(participant).doubleValue()
+					/ sumCoefficients);
 
 				if (transaction.getCreditorID() == participant) {
 					newBalance -= transactionAmount;
