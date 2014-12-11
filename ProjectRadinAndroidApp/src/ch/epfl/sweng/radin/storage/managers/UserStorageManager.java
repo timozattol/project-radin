@@ -3,6 +3,7 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,12 +129,21 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     
     public void addNewFriend(int userId, String friendUserName, RadinListener<UserModel> callback) {
     	final String accessUrl = "userRalationships/";
+    	List<UserModel> user = new ArrayList<UserModel>();
+    	user.add(new UserModel());
     	if (isConnected()) {
     		if (!isHashMatchServer()) {
     			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST, 
-    					SERVER_BASE_URL + accessUrl + userId + "/" + friendUserName);
+    				  	SERVER_BASE_URL + accessUrl + userId + "/" + friendUserName);
     			//Example url: http://radin.epfl.ch/userRalationships/1/uname
-    			connTask.execute();
+    			JSONObject json;
+    			try {
+    				json = (JSONObject) getJSONParser().getJsonFromModels(user);
+    				connTask.execute(json.toString());
+    			} catch (JSONException e) {
+    				e.printStackTrace();
+    			}
+    			return;
     		}
     	}
     }
