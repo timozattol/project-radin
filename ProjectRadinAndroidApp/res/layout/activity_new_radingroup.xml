@@ -55,7 +55,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/people"
+            android:layout_below="@id/participants_in_radin_group"
             android:layout_marginTop="10dp"
             android:onClick="createRadinGroup"
             android:text="@string/create_radin_group"
