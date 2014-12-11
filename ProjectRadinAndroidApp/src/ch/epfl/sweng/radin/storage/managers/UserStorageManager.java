@@ -131,7 +131,6 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     	final String accessUrl = "userRelationships/";
     	List<UserModel> user = new ArrayList<UserModel>();
     	user.add(new UserModel());
-    	System.out.println(SERVER_BASE_URL + accessUrl + userId + "/" + friendUserName);
     	if (isConnected()) {
     		if (!isHashMatchServer()) {
     			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST, 
