@@ -118,6 +118,7 @@
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
     <string name="weight">weighting</string>
+    <string name="edit_text_warning">Setting the weighting after checking has no effect</string>
 
     <!-- Settings Activity -->
     <string name="my_id">User ID: </string>

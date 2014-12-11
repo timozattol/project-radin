@@ -31,6 +31,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -376,15 +377,30 @@ public class RadinGroupAddExpenseActivity extends Activity {
             checkbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String weightStr = ((EditText) rowView.findViewById(R.id.transaction_weight)).getText().toString();
+					EditText weight = (EditText) rowView.findViewById(R.id.transaction_weight);
+					String weightStr = weight.getText().toString();
 					String name = ((TextView) rowView.findViewById(R.id.transaction_participant)).getText().toString();
 					if (((CheckBox) v).isChecked()) {
 						if (weightStr.equals("")) {
 							weightStr = "1";
 						}
+						weight.setOnFocusChangeListener(new OnFocusChangeListener() {
+							@Override
+							public void onFocusChange(View v, boolean hasFocus) {
+								Toast.makeText(getApplicationContext(),
+										R.string.edit_text_warning,
+										Toast.LENGTH_SHORT).show();
+							}
+						});
 						mSharedMap.put(name, Integer.parseInt(weightStr));
 					} else {
 						mSharedMap.remove(name);
+						weight.setOnFocusChangeListener(new OnFocusChangeListener() {
+							@Override
+							public void onFocusChange(View v, boolean hasFocus) {
+								//do nothing
+							}
+						});
 					}
 				}
 			});
