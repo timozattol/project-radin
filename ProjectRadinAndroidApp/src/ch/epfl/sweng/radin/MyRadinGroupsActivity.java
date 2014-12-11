@@ -33,6 +33,7 @@ import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 public class MyRadinGroupsActivity extends Activity {
 	private final static int TEXT_SIZE = 30;
 	private List<RadinGroupModel> mListRadinGroupsModel;
+	private int mUserId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,8 @@ public class MyRadinGroupsActivity extends Activity {
 		addBtn.setOnClickListener(myRadinGroupsClickListener);
 
 		SharedPreferences mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
-		int userId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
+		mUserId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
 
-		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
 		retrieveRadinGroups();
 	}
 	
@@ -80,11 +80,8 @@ public class MyRadinGroupsActivity extends Activity {
 	}
 	
 	private void retrieveRadinGroups() {
-		//TODO This is a fake userId used to test the app, need to remplace this when we got one.
-		int userId = 0;
-		
 		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
-		radinGroupStorageManager.getAllByUserId(userId, new RadinListener<RadinGroupModel>() {
+		radinGroupStorageManager.getAllByUserId(mUserId, new RadinListener<RadinGroupModel>() {
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 				

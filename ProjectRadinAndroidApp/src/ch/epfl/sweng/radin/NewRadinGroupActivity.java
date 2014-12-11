@@ -41,12 +41,13 @@ public class NewRadinGroupActivity extends Activity {
 	
 	private SharedPreferences mPrefs;
 	private int mClientId;
+	private UserModel mClientModel;
 	private EditText mNameEdit;
 	private boolean[] checkedItems;
 	private ArrayList<UserModel> mFriendsModel;
 	private  HashMap<String, UserModel> mNamesAndModel;
 	private String[] mFriends;
-	private ArrayList<UserModel> mParticipants;
+	private ArrayList<UserModel> mParticipants = new ArrayList<UserModel>();
 	private int mRadinGroupId;
 	private Activity mCurrentActivity = this;
 
@@ -168,7 +169,6 @@ public class NewRadinGroupActivity extends Activity {
 					mParticipants.add(mNamesAndModel.get(mFriends[(int) checkedIds[i]]));
 					// Log.i("participant" + i, mFriends[(int) checkedIds[i]]);
 				}
-
 				String participants = getResources().getString(R.string.participants);
 				for (UserModel usr : mParticipants) {
 					participants += usr.getFirstName() +" ";
@@ -191,6 +191,12 @@ public class NewRadinGroupActivity extends Activity {
 	 * Called by create button, checks validity of user's input, starts the server interaction if valid.
 	 */
 	public void createRadinGroup(View view) {
+		if (mClientModel != null) {
+			mParticipants.add(mClientModel);
+		} else {
+			mCurrentActivity.finish();
+			Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+		}
 		String rdGrpName = mNameEdit.getText().toString();
 		Button createButton = (Button) findViewById(R.id.create);
 		createButton.setClickable(false);
@@ -202,7 +208,6 @@ public class NewRadinGroupActivity extends Activity {
     		createButton.setClickable(true);
         } else {
         	//valid data
-
         	sendRadinGroup(rdGrpName);
         }
     }
@@ -236,42 +241,32 @@ public class NewRadinGroupActivity extends Activity {
 	 * @param iterationNumber
 	 */
 	private void sendParticipants(final int iterationNumber) {
-		if (!mParticipants.isEmpty()) {
-			if (iterationNumber > 0) {
-				Log.i("enteringUsers", "YES");
-				UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
-				ArrayList<UserModel> usrList = new ArrayList<UserModel>();
-				usrList.add(mParticipants.get(0));
-				Log.i("user", mParticipants.get(0).getFirstName());
-				Log.i("rdGroupId", mRadinGroupId+"");
-				usrStorageManager.postMemberToRadinGroup(mRadinGroupId, usrList, new RadinListener<UserModel>() {
-					@Override
-					public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
-						if (status == StorageManagerRequestStatus.SUCCESS) {
-							Log.i("user", "success");
-							mParticipants.remove(0);
-							Log.i("user posted", "true");
-							if (!mParticipants.isEmpty()) {
-								Log.i("still have users?", "true");
-								sendParticipants(iterationNumber - 1);
-							} else {
-								Log.i("still have users?", "false");
-								mCurrentActivity.finish();
-								Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
-							}
+		if (iterationNumber > 0) {
+			UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
+			ArrayList<UserModel> usrList = new ArrayList<UserModel>();
+			usrList.add(mParticipants.get(0));
+			usrStorageManager.postMemberToRadinGroup(mRadinGroupId, usrList, new RadinListener<UserModel>() {
+				@Override
+				public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+					if (status == StorageManagerRequestStatus.SUCCESS) {
+						mParticipants.remove(0);
+						if (!mParticipants.isEmpty()) {
+							sendParticipants(iterationNumber - 1);
 						} else {
-							Log.i("user posted", "failed");
-							Toast.makeText(getBaseContext(), 
-										   R.string.server_error_participants, 
-										   Toast.LENGTH_SHORT).show();
 							mCurrentActivity.finish();
+							Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
 						}
+					} else {
+						Toast.makeText(getBaseContext(), 
+									   R.string.server_error_participants, 
+									   Toast.LENGTH_SHORT).show();
+						mCurrentActivity.finish();
 					}
-				});
-			} else {
-				mCurrentActivity.finish();
-				Toast.makeText(getBaseContext(), R.string.server_error_participants, Toast.LENGTH_SHORT).show();
-			}
+				}
+			});
+		} else {
+			mCurrentActivity.finish();
+			Toast.makeText(getBaseContext(), R.string.server_error_participants, Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -285,6 +280,12 @@ public class NewRadinGroupActivity extends Activity {
 			((Button) findViewById(R.id.create)).setClickable(false);
 			return false;
 		} else {
+			UserStorageManager.getStorageManager().getById(mClientId, new RadinListener<UserModel>() {
+				@Override
+				public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+					mClientModel = items.get(0);			
+				}
+			});
 			return true;
 		}
 	}
