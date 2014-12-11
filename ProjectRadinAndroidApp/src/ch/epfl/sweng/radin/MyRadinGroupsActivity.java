@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -42,8 +43,8 @@ public class MyRadinGroupsActivity extends Activity {
 		Button addBtn = (Button) findViewById(R.id.addBtn);
 		addBtn.setOnClickListener(myRadinGroupsClickListener);
 
-		//TODO This is a fake userId used to test the app, need to remplace this when we got one.
-		int userId = 0;
+		SharedPreferences mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		int userId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
 
 		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
 		
