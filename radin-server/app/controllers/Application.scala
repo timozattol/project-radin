@@ -305,6 +305,17 @@ def modifyUsers = DBAction(parse.json) { implicit rs =>
       Ok(toJson(rg))
     }.getOrElse(BadRequest("invalid json"))
   }
+  
+  def newUserRelationshipForUserFromUsername(uid: Int, username: String) = DBAction { implicit rs =>
+    val newFriendID = users.list.filter(_.U_username == username).head.U_ID
+    if (newFriendID.isDefined) {
+       userRelationships.insert(UserRelationship(uid, newFriendID.get, 1))
+       Ok(JsObject(List(("user", toJson(users.list.filter(_.U_ID.get == uid))))))
+    } else {
+      BadRequest("username doesn't exists")
+    }
+    
+  }
 
   /**
    * @author simonchelbc
