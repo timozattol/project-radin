@@ -45,7 +45,9 @@
             android:layout_below="@+id/edit_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:background="@color/header"
             android:onClick="showDialog"
+            android:padding="10dp"
             android:text="@string/friends_names"
             android:textSize="15sp" />
 
@@ -68,6 +70,7 @@
             android:layout_marginTop="10dp"
             android:onClick="createRadinGroup"
             android:text="@string/create_radin_group"
+            android:background="@color/header"
             android:textSize="15sp" />
         	   
     </RelativeLayout>

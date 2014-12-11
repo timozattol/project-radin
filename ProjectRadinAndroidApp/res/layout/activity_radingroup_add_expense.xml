@@ -54,7 +54,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/creditor_selected"
                 android:layout_marginTop="10sp"
+                android:background="@color/header"
                 android:onClick="showCredDialog"
+                android:padding="10dp"
                 android:text="@string/creditor_select" />
 
             <TextView
@@ -84,7 +86,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/debtors_selected"
                 android:layout_marginTop="10dp"
+                android:background="@color/header"
                 android:onClick="showPeopleWhoHaveToPayDialog"
+                android:padding="10dp"
                 android:text="@string/debtors" />
 
             <TextView
@@ -100,7 +104,7 @@
                 android:id="@+id/amount_Field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/add_debtors"
+                android:layout_alignLeft="@id/add_debtors"
                 android:layout_below="@id/amount"
                 android:layout_marginTop="5sp"
                 android:ems="10"
@@ -123,7 +127,9 @@
                 android:layout_below="@id/amount_Field"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15sp"
+                android:background="@color/header"
                 android:onClick="sendExpense"
+                android:padding="10dp"
                 android:text="@string/add_this_expense" />
 
             <TextView
