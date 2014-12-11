@@ -1,10 +1,13 @@
 package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import ch.epfl.sweng.radin.R.string;
 import ch.epfl.sweng.radin.callback.RadinListener;
@@ -20,18 +23,28 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.SharedPreferences;
@@ -51,14 +64,13 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	private int mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
 	private double mAmount;
 	private int mSelectedCreditorId;
-	private boolean[] dialogCheckedItems;
 	private String  mPurpose;
-	private ArrayList<UserModel> mPeopleWhoHaveToPay = new ArrayList<UserModel>();
-	private ArrayList<UserModel> mParticipants;
 	private HashMap<String, UserModel> mNamesAndModel;
 	private String[] mGroupParticipantsNames;
 	private Activity mCurrentActivity = this;
-
+	private HashMap<String, Integer> mSharedMap = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mPeopleWhoHaveToPay = new HashMap<String, Integer>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
@@ -80,7 +92,7 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 		mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 		mClientId = Integer.parseInt(mPrefs.getString(getString(R.string.username), "-1"));
 		mSelectedCreditorId = mClientId; //Default creditor = client
-		
+		checkClientId();
 		retrieveParticipants();
 	}
 
@@ -143,17 +155,22 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 				mNamesAndModel.put(clientName, currentUser);
 			}
 		}
-		//initially false (default value)
-		dialogCheckedItems = new boolean[items.size()];
 	}
 
 	/**
 	 * Shows an AlertDialog with a list of potential debtors to select.
 	 * Shows a toast if data not ready
 	 */
-	public void showDebDialog(View view) {
+	public void showPeopleWhoHaveToPayDialog(View view) {
 		if (mGroupParticipantsNames != null) {
-			peopleWhoHaveToPayDialog().show();
+			AlertDialog dialog = peopleWhoHaveToPayDialog();
+			dialog.show();
+			
+			//EditText don't open the keyboard automatically in alertDialog
+			//stackoverflow.com/questions/9102074/android-edittext-in-dialog-doesnt-pull-up-soft-keyboard
+			dialog.getWindow().clearFlags(
+					WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+					| WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		} else {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
 		}
@@ -167,6 +184,7 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	public void showCredDialog(View view) {
 		if (mGroupParticipantsNames != null) {
 			creditorDialog().show();
+			
 		} else {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
 		}
@@ -215,45 +233,30 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	/**
 	 * Create a Dialog that shows the client's friends' names that can be
 	 * selected to add to the expense.
-	 * Based on http://developer.android.com/guide/topics/ui/dialogs.html
 	 * 
 	 * @param names The names that can be selected
 	 * @return an AlertDialog that is ready to be shown
 	 */
 	private AlertDialog peopleWhoHaveToPayDialog() {
+		mSharedMap.clear();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.debtorsList);
 		
 		final ListView listView = new ListView(this);
-		StableArrayAdapter<String> adapter = 
-				new StableArrayAdapter<String>(this, 
-											   android.R.layout.select_dialog_multichoice, 
-											   mGroupParticipantsNames);
+		
+		PeopleAndWeightArrayAdapter adapter = new PeopleAndWeightArrayAdapter(
+				this, R.layout.transactions_coeff_layout,
+				mGroupParticipantsNames);
+		
 		listView.setAdapter(adapter);
-		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		for (int i = 0; i < dialogCheckedItems.length; i++) {
-			listView.setItemChecked(i, dialogCheckedItems[i]);
-		}
 		builder.setView(listView);
 		
 		// Set OK button
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				//remember choices
-				long[] checkedIds = listView.getCheckedItemIds();
-				dialogCheckedItems = new boolean[mGroupParticipantsNames.length];
-				for (int i = 0; i < checkedIds.length; i++) {
-					dialogCheckedItems[(int) checkedIds[i]] = true;
-				}				
-				//add to list & set listView
-				
-				for (int i = 0; i < checkedIds.length; i++) {
-					// mParticipantsNames[(int) checkedIds[i]]; TODO
-					mPeopleWhoHaveToPay.add(mNamesAndModel.get(mGroupParticipantsNames[(int) checkedIds[i]]));
-				}
-				TextView debitorSelected = (TextView) findViewById(R.id.debtors_selected);
-				debitorSelected.setText("");//TODO
+				mPeopleWhoHaveToPay = new HashMap<String, Integer>(mSharedMap);
+				((TextView) findViewById(R.id.debtors_selected)).setText(mSharedMap.keySet().toString());
 			}
 		});
 		//Set CANCEL button
@@ -264,10 +267,6 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 			}
 		});
 		return builder.create();
-	}
-
-	private void setCreditorListView() {
-		
 	}
 
 	/**
@@ -286,7 +285,7 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 			Toast.makeText(this, R.string.invalid_purpose, Toast.LENGTH_SHORT).show();
 		} else if (mPeopleWhoHaveToPay.isEmpty()) {
 			Toast.makeText(this, R.string.invalid_debtors, Toast.LENGTH_SHORT).show();
-		} else if (mAmount == 0) {
+		} else if (mAmount <= 0) {
 			Toast.makeText(this, R.string.invalid_amount, Toast.LENGTH_SHORT).show();
 		} else {
 			//Data OK
@@ -324,19 +323,79 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 	
 	/**
 	 * Add coefficient to transaction's participants. 
-	 * For the moment only coeff 1 and 0 availabale (in transaction and not in transaction)
 	 * @return participants with coeff contained in a map
 	 */
 	private  HashMap<Integer, Integer> setAndgetParticipantsWithCoeff() {
 		HashMap<Integer, Integer> participantsWithCoeff = new HashMap<Integer, Integer>();
-		for (UserModel usr : mParticipants) {
-			if (mPeopleWhoHaveToPay.contains(usr)) {
-				participantsWithCoeff.put(usr.getId(), 1);
-			} else {
-				participantsWithCoeff.put(usr.getId(), 0);
-			}
+		for (Entry<String, Integer> entry : mPeopleWhoHaveToPay.entrySet()) {
+		    String name = entry.getKey();
+		    int weighting = entry.getValue();
+		    
+		    int usrId = mNamesAndModel.get(name).getId();
+		    participantsWithCoeff.put(usrId, weighting);
 		}
 		return participantsWithCoeff;
 	}	
+	
+	/**
+	 * Checks whether the id well set in the shared preferences
+	 * Disables create button if not.
+	 */
+	private void checkClientId() {
+		if (mClientId == -1) {
+			Toast.makeText(getApplicationContext(), R.string.bad_id, Toast.LENGTH_SHORT).show();
+			((Button) findViewById(R.id.create)).setClickable(false);
+		}
+	}
+	
+	/**
+	 * An adapter for creditor dialog 
+	 * @author Jokau (adapted from timozattol's implementation)
+	 *
+	 */
+	private class PeopleAndWeightArrayAdapter extends ArrayAdapter<String> {
+	    private String[] mParticipants;
+	    private final Context mContext;
+	    
+        /**
+         * @param context the context
+         * @param resource the view resource representing a row in the ListView
+         * @param objects the array of participant's names
+         */
+	    public PeopleAndWeightArrayAdapter(Context context, int resource, String[] objects) {
+	    	super(context, resource, objects);
+	    	mParticipants = objects;
+	    	this.mContext = context;
+	    }
+	    
+        /* (non-Javadoc)
+         * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+         */
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            final View rowView = inflater.inflate(R.layout.transactions_coeff_layout, parent, false);
+            TextView textViewName = (TextView) rowView.findViewById(R.id.transaction_participant);
+            CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.check_box);
+            textViewName.setText(mParticipants[position]+"");   
+            
+            checkbox.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String weightStr = ((EditText) rowView.findViewById(R.id.transaction_weight)).getText().toString();
+					String name = ((TextView) rowView.findViewById(R.id.transaction_participant)).getText().toString();
+					if (((CheckBox) v).isChecked()) {
+						if (weightStr.equals("")) {
+							weightStr = "1";
+						}
+						mSharedMap.put(name, Integer.parseInt(weightStr));
+					} else {
+						mSharedMap.remove(name);
+					}
+				}
+			});
+            return rowView;
+        }
+	}
 }
 

@@ -8,27 +8,25 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ch.epfl.sweng.radin.RadinGroupAddExpenseActivity"
-    android:orientation="vertical">
+    android:orientation="vertical" >
     
     <!-- Relative layout wrapping all layouts needed for the actionBar -->
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1" >
         
-         
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
             
             <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header" />
+       			android:id="@+id/vsHeader"
+        		android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+        		android:inflatedId="@+id/header"
+        		android:layout="@layout/header" />
 
             <TextView
                 android:id="@+id/title_add_expense"
@@ -49,9 +47,11 @@
                 android:layout_below="@id/title_add_expense"
                 android:layout_marginTop="12dp"
                 android:hint="@string/purpose_hint"
+                android:singleLine="true"
                 android:maxLength="100" >
 
                 <requestFocus />
+
             </EditText>
 
             <Button
@@ -91,8 +91,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/debtors_selected"
                 android:layout_marginTop="10dp"
-                android:onClick="showDebDialog"
+                android:onClick="showPeopleWhoHaveToPayDialog"
                 android:text="@string/debtors" />
+
 
             <TextView
                 android:id="@+id/amount"
