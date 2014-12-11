@@ -141,7 +141,7 @@ object Tables {
     def * = (U_firstName, U_lastName, U_username, U_password, U_email, U_address, U_iban, U_bicSwift, U_avatar, U_ID.?) <> (User.tupled, User.unapply)
   }
 
-  case class Transaction(T_parentRadinGroupID: Int, T_creatorID: Int, T_debitorID: Int, T_amount: Int, T_currency: String, T_dateTime: String, T_purpose: String, T_type: String, T_ID: Option[Int] = None)
+  case class Transaction(T_parentRadinGroupID: Int, T_creatorID: Int, T_debitorID: Int, T_amount: Double, T_currency: String, T_dateTime: String, T_purpose: String, T_type: String, T_ID: Option[Int] = None)
 
   class Transactions(tag: Tag) extends Table[Transaction](tag, "TRANSACTION") {
 
@@ -149,7 +149,7 @@ object Tables {
     def rid: Column[Int] = column[Int]("_RID", O.NotNull)
     def Tdebitor: Column[Int] = column[Int]("T_DEBITOR", O.NotNull)
     def TaddedBy: Column[Int] = column[Int]("T_ADDEDBY", O.NotNull)
-    def Tamount: Column[Int] = column[Int]("T_AMOUNT", O.NotNull)
+    def Tamount: Column[Double] = column[Double]("T_AMOUNT", O.NotNull)
     def Tpurpose: Column[String] = column[String]("T_PURPOSE", O.NotNull)
     def Tcurrency: Column[String] = column[String]("T_CURRENCY", O.NotNull)
     def Tdate: Column[String] = column[String]("T_DATE", O.NotNull)
