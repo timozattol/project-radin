@@ -53,8 +53,8 @@ public final class RadinGroupStorageManager extends StorageManager<RadinGroupMod
 		//TODO use base class method
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET, 
-								SERVER_BASE_URL	+ "radingroups");
+				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
+						SERVER_BASE_URL + "radingroups/" + userId);
 				connTask.execute();
 				return;
 			}
