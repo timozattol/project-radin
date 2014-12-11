@@ -19,7 +19,7 @@
     <string name="title_activity_new_radingroup">NewRadinGroupActivity</string>
     <string name="title_activity_radingroup_balance">RadinGroupBalanceActivity</string>
     <string name="title_activity_radingroup_stats">RadinGroupStatsActivity</string>
-    <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
+    <string name="title_activity_radingroup_add_expense">Add expense</string>
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
     <string name="home_title">Maison</string>
