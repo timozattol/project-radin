@@ -10,13 +10,24 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ch.epfl.sweng.radin.ContactsActivity" >
 
-    <!-- Included header.xml here -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/refreshContactButton"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:drawableTop="@drawable/glyphicon_refresh" />
+        <Button
+            android:id="@+id/refreshContactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:drawableTop="@drawable/glyphicon_refresh" />
+
+        <Button
+            android:id="@+id/addFriendContactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:onClick="dialogAddFriend"
+            android:drawableTop="@drawable/glyphicons_user_add" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/fullContactListView"

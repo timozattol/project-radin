@@ -161,6 +161,7 @@
     <string name="retrinving_user_group_error">Les utilisateurs de ce groupe ne veulent pas se manifester. Plus tard ?</string>
     <string name="retrinving_transaction_group_error">Hmmm cette transaction... Retente plus tard pour le trouver.</string>
     <string name="invalid_spinner_elem">Tu a trouvé un élement phantôme. Faut appeller SOS Fantômes !</string>
+     <string name="add_friend_error">Navré, nous ne pouvons pas ajouter d\'ami pour l\'instant.</string>
     
     <!-- RadinGroupBalanceActivity -->
     <string name="owes"> doit: </string>

@@ -115,5 +115,17 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 			}
 		}
     }
+    
+    public void addNewFriend(int userId, String friendUserName, RadinListener<UserModel> callback) {
+    	final String accessUrl = "userRalationships/";
+    	if (isConnected()) {
+    		if (!isHashMatchServer()) {
+    			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST, 
+    					SERVER_BASE_URL + accessUrl + userId + "/" + friendUserName);
+    			//Example url: http://radin.epfl.ch/userRalationships/1/uname
+    			connTask.execute();
+    		}
+    	}
+    }
 }
 

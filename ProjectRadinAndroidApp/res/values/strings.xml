@@ -145,6 +145,9 @@
         <item>Spent per month</item>
         <item>Spent per year</item>
     </string-array>
+    
+    <!-- Contact Activity -->
+    <string name="contactDialogAlert">Add new firend</string>
 
     <string name="hello_world">Hello world!</string>
     
@@ -160,6 +163,7 @@
     <string name="retrinving_user_group_error">The users from this group don\'t want to show up. Maybe later?</string>
     <string name="retrinving_transaction_group_error">Where did I put this transaction? I need time to find it, come back later!</string>
     <string name="invalid_spinner_elem">You found a ghost element, you can\'t handle it yourself, it\'s a job for the Ghostbusters!</string>
+    <string name="add_friend_error">Sorry, we can\'t add you a friend now.</string>
     
     <!-- RadinGroupBalanceActivity -->
     <string name="owes"> owes: </string>
