@@ -42,7 +42,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       userRelationships.insert(UserRelationship(3, 2, 11))
       userRelationships.insert(UserRelationship(1, 3, 12))
       memberInRadins ++= Seq((1, 1, "", 0, ""), (2, 1, "", 0, ""))
-      userConcernedByTransactions ++= Seq((1, 1, 1), (1, 2, 2), (1, 3, 0), (2, 1, 0), (2, 2, 2), (2, 4, 1))
+      userConcernedByTransactions ++= Seq((1, 1, 1), (1, 2, 2), (1, 3, 1), (2, 1, 1), (2, 2, 2), (2, 4, 1))
     }
 
     Ok("done")
@@ -91,7 +91,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       }
       case _ => BadRequest("transactionWithParticipants should be a JSON array")
     }
-    Ok
+    Ok(rs.request.body)
   }
 
   implicit val CoefficientWrites = new Writes[Coefficient] {
