@@ -4,24 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
@@ -134,6 +140,39 @@ public class ContactsActivity extends Activity {
 	
 	private void displayErrorToast(String message) {
 	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+	public void dialogAddFriend(View v) {
+		final EditText editText = new EditText(this);
+		editText.setId(R.id.editTextAddfriend);
+		editText.setMaxLines(1);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.contactDialogAlert);
+		builder.setView(editText);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				addNewFriend(editText.getText().toString());				
+			}			
+		});		
+		builder.create().show();
+	}
+
+	public void addNewFriend(String friendUserName) {
+		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
+		userStorageManager.addNewFriend(mUserId, friendUserName, new RadinListener<UserModel>(){
+
+			@Override
+			public void callback(List<UserModel> items,
+			   	StorageManagerRequestStatus status) {
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					refreshList();
+				    } else {
+				        displayErrorToast(getString(R.string.add_friend_error));				        
+				    }
+				
+			}
+			
+		});
 	}
 	
 	

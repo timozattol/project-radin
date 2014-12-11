@@ -14,8 +14,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-            android:theme="@style/CustomizedTheme" >
+        android:theme="@style/CustomizedTheme" >
         <activity
             android:name=".AppOpeningActivity"
             android:label="@string/app_name"
@@ -28,15 +27,9 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"
+            android:label="@string/login"
             android:screenOrientation="portrait" >
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".ContactsActivity"
@@ -111,7 +104,7 @@
         </activity>
         <activity
             android:name=".RadinGroupAddExpenseActivity"
-            android:label="@string/title_activity_radingroup_add_expense"
+            android:label="@string/add_expense"
             android:parentActivityName=".MyRadinGroupsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >

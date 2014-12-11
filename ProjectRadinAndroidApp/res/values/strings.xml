@@ -18,7 +18,6 @@
     <string name="title_activity_new_radingroup">NewRadinGroupActivity</string>
     <string name="title_activity_radingroup_balance">RadinGroupBalanceActivity</string>
     <string name="title_activity_radingroup_stats">RadinGroupStatsActivity</string>
-    <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
     <string name="home_title">Home</string>
@@ -95,12 +94,15 @@
     <string name="button_save">Save</string>
 
     <!-- AddExpenseActivity -->
+
+    <string name="add_expense">Add expense</string>
     <string name="creditor">Who paid ? </string>
     <string name="debtors">Choose</string>
     <string name="creditor_select">Change</string>
     <string name="debtor_text">For whom? \</string>
     <string name="debtorsList">Choose who has to pay and the weightings</string>
     <string name="creditorList">Select who paid</string>
+
     <string name="debtors_select">Change participants</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -154,6 +156,9 @@
         <item>Spent per month</item>
         <item>Spent per year</item>
     </string-array>
+    
+    <!-- Contact Activity -->
+    <string name="contactDialogAlert">Add new firend</string>
 
     <string name="title_activity_app_oppnenig">AppOppnenigActivity</string>
     <string name="hello_world">Hello world!</string>
@@ -170,6 +175,7 @@
     <string name="retrinving_user_group_error">The users from this group don\'t want to show up. Maybe later?</string>
     <string name="retrinving_transaction_group_error">Where did I put this transaction? I need time to find it, come back later!</string>
     <string name="invalid_spinner_elem">You found a ghost element, you can\'t handle it yourself, it\'s a job for the Ghostbusters!</string>
+    <string name="add_friend_error">Sorry, we can\'t add you a friend now.</string>
     
     <!-- RadinGroupBalanceActivity -->
     <string name="owes"> owes: </string>
