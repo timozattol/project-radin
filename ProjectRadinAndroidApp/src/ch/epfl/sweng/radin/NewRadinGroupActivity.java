@@ -167,11 +167,10 @@ public class NewRadinGroupActivity extends Activity {
 				for (int i = 0; i < checkedIds.length; i++) {
 					checkedItems[(int) checkedIds[i]] = true;
 					mParticipants.add(mNamesAndModel.get(mFriends[(int) checkedIds[i]]));
-					// Log.i("participant" + i, mFriends[(int) checkedIds[i]]);
 				}
 				String participants = getResources().getString(R.string.participants);
 				for (UserModel usr : mParticipants) {
-					participants += usr.getFirstName() +" ";
+					participants += " " + usr.getFirstName();
 				}
 				TextView participantsTextView = (TextView) findViewById(R.id.participants_in_radin_group);
 				participantsTextView.setText(participants);

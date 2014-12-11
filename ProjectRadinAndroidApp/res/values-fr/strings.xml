@@ -93,10 +93,11 @@
     <string name="button_save">Sauvegarder</string>
 
     <!-- AddExpenseActivity -->
-    <string name="creditor">Créditeur :</string>
+    <string name="creditor">Qui a payé? \</string>
     <string name="debtors_select">Changer débiteurs</string>
-    <string name="creditor_select">Changer créditeur</string>
-    <string name="debtors">Débiteur(s) :</string>
+    <string name="creditor_select">Changer</string>
+    <string name="debtors">Choisir</string>
+    <string name="debtor_text">Pour qui? \</string>
     <string name="debtorsList">Choissisez des débiteurs à ajouter</string>
     <string name="creditorList">Choissiez le créditeur</string>
     <string name="ok">OK</string>
