@@ -128,9 +128,10 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     }
     
     public void addNewFriend(int userId, String friendUserName, RadinListener<UserModel> callback) {
-    	final String accessUrl = "userRalationships/";
+    	final String accessUrl = "userRelationships/";
     	List<UserModel> user = new ArrayList<UserModel>();
     	user.add(new UserModel());
+    	System.out.println(SERVER_BASE_URL + accessUrl + userId + "/" + friendUserName);
     	if (isConnected()) {
     		if (!isHashMatchServer()) {
     			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST, 
