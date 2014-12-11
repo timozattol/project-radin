@@ -18,7 +18,6 @@
     <string name="title_activity_new_radingroup">NewRadinGroupActivity</string>
     <string name="title_activity_radingroup_balance">RadinGroupBalanceActivity</string>
     <string name="title_activity_radingroup_stats">RadinGroupStatsActivity</string>
-    <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
     <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
     <string name="home_title">Home</string>
@@ -92,6 +91,7 @@
     <string name="button_save">Save</string>
 
     <!-- AddExpenseActivity -->
+    <string name="add_expense">Add expense</string>
     <string name="creditor">Who paid?</string>
     <string name="debtors_select">Change participants</string>
     <string name="creditor_select">Change payer</string>
