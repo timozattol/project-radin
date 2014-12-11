@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,7 +25,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,7 +39,8 @@ import android.widget.Toast;
 public class NewRadinGroupActivity extends Activity {
 	public static final int TIMES_TO_TRY = 3; 
 	
-	private final int mClientID = 1; //will be propagated from LoginActivity?
+	private SharedPreferences mPrefs;
+	private int mClientId;
 	private EditText mNameEdit;
 	private boolean[] checkedItems;
 	private ArrayList<UserModel> mFriendsModel;
@@ -52,10 +53,14 @@ public class NewRadinGroupActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_new_radingroup);
         mNameEdit = (EditText) findViewById(R.id.edit_name);
-        retrieveData();
+        
+        mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		mClientId = Integer.parseInt(mPrefs.getString(getString(R.string.username), "-1"));
+		if (isClientIdValid()) {
+	        retrieveData();
+		}
     }
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,7 +102,7 @@ public class NewRadinGroupActivity extends Activity {
 	 */
 	private void retrieveData() {
 		UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
-		usrStorageManager.getFriendsOfUserWithId(mClientID, new RadinListener<UserModel>() {
+		usrStorageManager.getFriendsOfUserWithId(mClientId, new RadinListener<UserModel>() {
 			@Override
 			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
@@ -267,6 +272,20 @@ public class NewRadinGroupActivity extends Activity {
 				mCurrentActivity.finish();
 				Toast.makeText(getBaseContext(), R.string.server_error_participants, Toast.LENGTH_SHORT).show();
 			}
+		}
+	}
+	
+	/**
+	 * Checks whether the id well set in the shared preferences
+	 * Disables create button if not.
+	 */
+	private boolean isClientIdValid() {
+		if (mClientId == -1) {
+			Toast.makeText(getApplicationContext(), R.string.bad_id, Toast.LENGTH_SHORT).show();
+			((Button) findViewById(R.id.create)).setClickable(false);
+			return false;
+		} else {
+			return true;
 		}
 	}
 }

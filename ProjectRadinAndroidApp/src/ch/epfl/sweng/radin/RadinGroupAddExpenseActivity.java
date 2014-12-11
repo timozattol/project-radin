@@ -339,7 +339,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	private void checkClientId() {
 		if (mClientId == -1) {
 			Toast.makeText(getApplicationContext(), R.string.bad_id, Toast.LENGTH_SHORT).show();
-			((Button) findViewById(R.id.create)).setClickable(false);
+			((Button) findViewById(R.id.add_expense_button)).setClickable(false);
 		}
 	}
 	
