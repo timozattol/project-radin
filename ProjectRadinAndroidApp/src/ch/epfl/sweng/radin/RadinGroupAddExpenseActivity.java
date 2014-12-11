@@ -1,13 +1,11 @@
 package ch.epfl.sweng.radin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import ch.epfl.sweng.radin.R.string;
 import ch.epfl.sweng.radin.callback.RadinListener;
@@ -27,7 +25,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,14 +34,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.SharedPreferences;
@@ -55,7 +50,7 @@ import android.content.SharedPreferences;
  * 
  *TODO Add reimbursement feature (if reimbursement selected amount turns to be opposite amount) 
  */
-public class RadinGroupAddExpenseActivity extends DashBoardActivity {
+public class RadinGroupAddExpenseActivity extends Activity {
 	private static final int DEFAULT_CREDITOR_SELECTION = 0;
 
 	private RadinGroupModel mCurrentRadinGroupModel;
@@ -76,7 +71,6 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
 		super.onCreate(savedInstanceState);	
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_add_expense);
-		setHeader(getString(R.string.add_expense_string), true, true);
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
@@ -398,4 +392,3 @@ public class RadinGroupAddExpenseActivity extends DashBoardActivity {
         }
 	}
 }
-

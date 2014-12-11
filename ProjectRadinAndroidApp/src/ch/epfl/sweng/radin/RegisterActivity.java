@@ -3,28 +3,28 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 import ch.epfl.sweng.radin.R.id;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
-import android.content.SharedPreferences; 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * @author Simonchelbc
  * 
  */
-public class RegisterActivity extends DashBoardActivity {
+public class RegisterActivity extends Activity {
 	private boolean newUserDataUsable = false;
 	private UserModel mNewUser = null;
 	private SharedPreferences prefs;
@@ -32,11 +32,9 @@ public class RegisterActivity extends DashBoardActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_register);
 		Button signUpButton = (Button) findViewById(id.sign_up_button);
 		signUpButton.setOnClickListener(signUpButtonListener);
-		setHeader(getString(R.string.title_project_radin), false, false);
 		mNewUser = new UserModel();
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 	}

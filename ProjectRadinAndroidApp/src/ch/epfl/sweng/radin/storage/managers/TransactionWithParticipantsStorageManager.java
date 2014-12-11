@@ -47,12 +47,16 @@ public final class TransactionWithParticipantsStorageManager extends
 		return "transactions/withcoeffs";
 	}
 	
+	/**
+	 * Get all Transactions for a specific radinGroup with coefficients from server
+	 * @param groupId RadinGroup's ID
+	 * @param callback callback
+	 */
 	public void getAllForGroupId(int groupId, RadinListener<TransactionWithParticipantsModel> callback) {
-		//final String ACCESS_URL = "withcoeffs";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + getTypeUrl() + /*"/" + ACCESS_URL + */"/" + String.valueOf(groupId));
+				        SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(groupId));
 				//Example url : http://radin.epfl.ch/transactions/withcoeffs/1
 				connTask.execute();
 				return;

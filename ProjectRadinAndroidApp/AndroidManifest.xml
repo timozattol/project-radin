@@ -15,10 +15,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppBaseTheme" >
+            android:theme="@style/CustomizedTheme" >
         <activity
-            android:name=".AppOppnenigActivity"
-            android:label="@string/title_activity_app_oppnenig"
+            android:name=".AppOpeningActivity"
+            android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,11 +83,6 @@
             android:name=".RadinGroupViewActivity"
             android:label="@string/radingroup_view"
             android:parentActivityName=".MyRadinGroupsActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".ProfileOtherActivity"
-            android:label="@string/title_activity_profile_other"
             android:screenOrientation="portrait" >
         </activity>
         <activity

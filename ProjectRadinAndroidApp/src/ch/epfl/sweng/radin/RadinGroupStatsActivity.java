@@ -5,23 +5,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 
-import com.jjoe64.graphview.BarGraphView;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GraphViewSeries;
-import com.jjoe64.graphview.GraphView.GraphViewData;
-
-import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.TransactionModel;
-import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.LinearLayout;
@@ -29,11 +19,21 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import ch.epfl.sweng.radin.storage.TransactionModel;
+import ch.epfl.sweng.radin.storage.managers.TransactionStorageManager;
+
+import com.jjoe64.graphview.BarGraphView;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphViewSeries;
 
 /**
  * @author Fabien Zellweger
  */
-public class RadinGroupStatsActivity extends DashBoardActivity {
+public class RadinGroupStatsActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private GraphView mYearGraphView;
 	private GraphView mMonthGraphView;
@@ -46,12 +46,10 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_stats);
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
-		setHeader(getString(R.string.stats), true, true);
-
+	
 		
 		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.statRadinGroupActionBarLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
@@ -64,7 +62,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					displayItems(items);
 				} else {
-					displayErrorToast("There was an error, please try again");
+					displayErrorToast(getString(R.string.retrinving_transaction_group_error));
 				}
 			}
 		});
@@ -125,12 +123,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 			String currentMonthDate = currentYearDate + " / " 
 					+ String.valueOf(items.get(i).getDateTime().getMonthOfYear());
 			String currentDayDate = currentMonthDate + " / "
-					+ String.valueOf(items.get(i).getDateTime().getDayOfMonth());
-			
-			System.out.println(currentYearDate);
-			System.out.println(currentMonthDate);
-			System.out.println(currentDayDate);
-			
+					+ String.valueOf(items.get(i).getDateTime().getDayOfMonth());			
 			
 			sortedByYear.put(currentYearDate, currentYearDate.equals(previousYearDate) 
 					? sortedByYear.get(currentYearDate) + items.get(i).getAmount() 
@@ -149,7 +142,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 		}
 		
 		TextView totalAmountView = (TextView) findViewById(R.id.totalAmountValue);
-		totalAmountView.setText("For " + mCurrentRadinGroupModel.getRadinGroupName() 
+		totalAmountView.setText(mCurrentRadinGroupModel.getRadinGroupName() 
 				+ ": " + totalAmount);
 		
 		//Create the year graph
@@ -160,7 +153,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 			yearGraphData[i] = new GraphViewData(i, sortedByYear.get(yearKeys[i]));
 		}		
 		GraphViewSeries yearGraph = new GraphViewSeries(yearGraphData);
-		mYearGraphView = new BarGraphView(this, "Spending per year");
+		mYearGraphView = new BarGraphView(this, getString(R.string.spending_year));
 		mYearGraphView.addSeries(yearGraph);
 		mYearGraphView.getGraphViewStyle().setGridColor(this.getResources().getColor(R.color.header));
 		mYearGraphView.setHorizontalLabels(yearKeys);
@@ -175,7 +168,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 			monthGraphData[i] = new GraphViewData(i, sortedByMonth.get(monthKeys[i]));
 		}
 		GraphViewSeries monthGraph = new GraphViewSeries(monthGraphData);
-		mMonthGraphView = new BarGraphView(this, "Spending per month");
+		mMonthGraphView = new BarGraphView(this, getString(R.string.spending_month));
 		mMonthGraphView.addSeries(monthGraph);
 		mMonthGraphView.setHorizontalLabels(monthKeys);
 		mMonthGraphView.setManualYAxisBounds(totalAmount/2, 0);
@@ -188,7 +181,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 			dayGraphData[i] = new GraphViewData(i, sortedByDay.get(dayKeys[i]));
 		}
 		GraphViewSeries dayGraph = new GraphViewSeries(dayGraphData);
-		mDayGraphView = new BarGraphView(this, "Spending per day");
+		mDayGraphView = new BarGraphView(this, getString(R.string.spending_day));
 		mDayGraphView.addSeries(dayGraph);
 		mDayGraphView.setHorizontalLabels(dayKeys);
 		mDayGraphView.setManualYAxisBounds(totalAmount/2, 0);
@@ -235,7 +228,7 @@ public class RadinGroupStatsActivity extends DashBoardActivity {
 					mYearGraphView.setVisibility(View.VISIBLE);
 					break;
 				default:
-					displayErrorToast("Error: You souldn't be abble to select this one.");
+					displayErrorToast(getString(R.string.invalid_spinner_elem));
 					break;
 			}
 		}

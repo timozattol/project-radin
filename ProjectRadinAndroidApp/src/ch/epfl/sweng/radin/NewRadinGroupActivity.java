@@ -30,12 +30,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 /**
  * Activity allows the user to create a new list of expenses.
  * The user must provide a name for the list and the names of the people that he wants share this list with. 
  *
  */
-public class NewRadinGroupActivity extends DashBoardActivity {
+public class NewRadinGroupActivity extends Activity {
 	public static final int TIMES_TO_TRY = 3; 
 	
 	private final int mClientID = 1; //will be propagated from LoginActivity?
@@ -53,7 +54,6 @@ public class NewRadinGroupActivity extends DashBoardActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_new_radingroup);
-        setHeader(getString(R.string.new_radingroup), true, true);
         mNameEdit = (EditText) findViewById(R.id.edit_name);
         retrieveData();
     }
@@ -163,6 +163,7 @@ public class NewRadinGroupActivity extends DashBoardActivity {
 					mParticipants.add(mNamesAndModel.get(mFriends[(int) checkedIds[i]]));
 					// Log.i("participant" + i, mFriends[(int) checkedIds[i]]);
 				}
+
 				String participants = getResources().getString(R.string.participants);
 				for (UserModel usr : mParticipants) {
 					participants += usr.getFirstName() +" ";
@@ -196,6 +197,7 @@ public class NewRadinGroupActivity extends DashBoardActivity {
     		createButton.setClickable(true);
         } else {
         	//valid data
+
         	sendRadinGroup(rdGrpName);
         }
     }

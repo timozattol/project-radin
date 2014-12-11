@@ -11,24 +11,24 @@ import android.os.Bundle;
  * @author topali2
  *
  */
-public class AppOppnenigActivity extends Activity {
+public class AppOpeningActivity extends Activity {
 
-	private static final long DELAY = 5000;
+	private static final long DELAY = 2000;
 	private boolean scheduled = false;
 	private Timer splashTimer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_app_oppnenig);
+		setContentView(R.layout.activity_app_opening);
 
 		splashTimer = new Timer();
 		splashTimer.schedule(new TimerTask() {
 			
 			@Override
 			public void run() {
-				AppOppnenigActivity.this.finish();
-				startActivity(new Intent(AppOppnenigActivity.this, LoginActivity.class));
+				AppOpeningActivity.this.finish();
+				startActivity(new Intent(AppOpeningActivity.this, LoginActivity.class));
 			}
 		}, DELAY);
 		scheduled = true;

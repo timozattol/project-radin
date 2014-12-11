@@ -122,7 +122,6 @@ public abstract class StorageManager<M extends Model> {
 		if (!id.isEmpty()) {
 			endUrl += "/" + id;
 		}
-		
 		if (isConnected()) {
 			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
 			        SERVER_BASE_URL + getTypeUrl() + endUrl);
@@ -283,7 +282,7 @@ public abstract class StorageManager<M extends Model> {
                         throw new IllegalStateException("The request type must be one of the 4 values,"
                         		+ " since it should not be null");
 				}
-				 	System.out.println(conn.getResponseCode());
+
 				if (conn.getResponseCode() != SUCCESS_CODE) {
 				    return "FAILURE";
 				}
@@ -301,6 +300,7 @@ public abstract class StorageManager<M extends Model> {
 		 */
 		@Override
 		protected void onPostExecute(String result) {
+
 			if (result.equals("FAILURE")) {
 			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
 			} else {
@@ -309,6 +309,7 @@ public abstract class StorageManager<M extends Model> {
                 try {
                     jsonResult = new JSONObject(result);
                 } catch (JSONException e) {
+                    e.printStackTrace();
                     mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
                     return;
                 }
@@ -342,5 +343,4 @@ public abstract class StorageManager<M extends Model> {
 			}
 		}
 	}
-
 }

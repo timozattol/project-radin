@@ -33,22 +33,22 @@ public class EspressoHomeActivity extends ActivityInstrumentationTestCase2<HomeA
 		Espresso.onView(ViewMatchers.withId(R.id.notificationBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
 	}
-	public void testContactBtn() {
+	/*public void testContactBtn() {
 		
 		Espresso.onView(ViewMatchers.withId(R.id.contactsBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
 		
-	}
+	}*/
 	
 	public void testOverviewBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.overviewBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
 	}
 	
-	public void testProfileBtn() {
+	/*public void testProfileBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.profileBtn)).perform(ViewActions.click());
 		Espresso.pressBack();
-	}
+	}*/
 	
 	public void testSettingsBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.settingsBtn)).perform(ViewActions.click());
