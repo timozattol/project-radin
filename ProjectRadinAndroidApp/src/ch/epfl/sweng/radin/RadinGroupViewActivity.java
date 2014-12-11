@@ -84,6 +84,12 @@ public class RadinGroupViewActivity extends Activity {
 		//setAutoTransactionRefresh();
 	}
 	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		refreshUsersInGroupAndThenTransaction();
+	}
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
