@@ -17,7 +17,7 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 /**
  * A class for testing everything that concerns RadinGroups
  * @author Jokau
- *
+ * TODO Mock connections!
  */
 public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCase2<NewRadinGroupActivity> {
 	public EspressoNewRadinGroupActivity() {
@@ -48,7 +48,7 @@ public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCa
 		.check(ViewAssertions.matches(ViewMatchers.withText("Ma super liste !")));
 		
 		Espresso.onView(ViewMatchers.withId(R.id.people)).perform(ViewActions.click());
-		Espresso.onView(ViewMatchers.withText("julie")).perform(ViewActions.click());
+		Espresso.onView(ViewMatchers.withText("second beforLast")).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText("OK")).perform(ViewActions.click());
 		scrollTo(R.id.create);
 		Espresso.onView(ViewMatchers.withId(R.id.create)).perform(ViewActions.click());
@@ -58,7 +58,7 @@ public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCa
 	public void testNewRadinGroupWithoutName() {
 		scrollTo(R.id.people);
 		Espresso.onView(ViewMatchers.withId(R.id.people)).perform(ViewActions.click());
-		Espresso.onView(ViewMatchers.withText("julie")).perform(ViewActions.click());
+		Espresso.onView(ViewMatchers.withText("second beforLast")).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText("OK")).perform(ViewActions.click());
 		scrollTo(R.id.create);
 		Espresso.onView(ViewMatchers.withId(R.id.create)).perform(ViewActions.click());

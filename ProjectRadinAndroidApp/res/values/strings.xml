@@ -61,16 +61,19 @@
     <string name="bic_swift_address">BIC/SWIFT address</string>
     <string name="sign_up_button_text">Sign up</string>
 
-    <!-- NewListActivity -->
+    <!-- NewRadinGroupeActivity -->
     <string name="radin_name">Name</string>
     <string name="friends_names">Add people</string>
     <string name="hint_name">Type the groups name</string>
     <string name="multi_friend">Add friends to group</string>
     <string name="add_info"></string>
     <string name="create_radin_group">Create</string>
+    <string name="participants">Participants : </string>
     <string name="invalid_name">Please add a group name</string>
     <string name="invalid_participants">Please select at least one person to create a group</string>
-
+    <string name="rd_group_created">Radin Group created!</string>
+    <string name="server_error_participants">Couldn\'t add all participants, please add them manually through the group.</string>
+    
     <!-- ProfileActivity -->
     <string name="profile_user_name">Username:</string>
     <string name="profile_complete_name">Name:</string>
@@ -92,44 +95,50 @@
     <string name="button_save">Save</string>
 
     <!-- AddExpenseActivity -->
-    <string name="creditor">Who paid?</string>
+    <string name="creditor">Who paid ? </string>
+    <string name="debtors">Choose</string>
+    <string name="creditor_select">Change</string>
+    <string name="debtor_text">Debt goes to :</string>
+    <string name="debtorsList">Choose who has to pay and the weightings</string>
+    <string name="creditorList">Select who paid</string>
     <string name="debtors_select">Change participants</string>
-    <string name="creditor_select">Change payer</string>
-    <string name="debtors">For whom?:</string>
-    <string name="debtorsList">Choose participants to add:</string>
-    <string name="creditorList">Choose payer</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="add_expense_string">Add an expense to:\ </string>
     <string name="creditor_selected">You (default)</string>
+    <string name="you">You</string>
     <string name="debtors_selected">None </string>
-    <string name="amount">Amount</string>
-    <string name="amount_hint"></string>
+    <string name="amount">How much?</string>
+    <string name="amount_hint">Amount paid</string>
     <string name="currency">CHF</string>
     <string name="add_this_expense">Add this expense</string>
     <string name="invalid_amount">The amount is not valid</string>
     <string name="invalid_debtors">Please select participants first</string>
     <string name="expense_added">Expense added!</string>
-    <string name="not_ready">Please wait for the data to be retrieved</string>
-    <string name="purpose_hint">Purpose of the expense:</string>
+    <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
+    <string name="weight">weighting</string>
+    <string name="edit_text_warning">Setting the weighting after checking has no effect</string>
 
     <!-- Settings Activity -->
     <string name="my_id">User ID: </string>
     <string name="value_id">value</string>
     
     <!-- Server Toasts -->
-    <string name="server_error">There was an error, please try again.</string>
     <string name="user_created">Yeah! You registered to ProjectRadin!</string>
-    <string name="login_error">You shall not pass!</string>
+    <string name="login_error">Sorry this username does not exist</string>
+    <string name="server_error">There was an error, please try again.</string>
+    <string name="server_error2">Operation took too much time, please try again</string>
+    <string name="server_error3">Unable to contact the server, please check your connection</string>
+    <string name="not_ready">Please wait for the data to be retrieved</string>
     <string name="success_login">Welcome back!</string>
+    <string name="bad_id">There was a problem identifying you, please log in again</string>
 
     <!-- Share Preference File -->
     <string name="preference_file_key">Preferences</string>
 
      <!-- Stat Activity -->
     <string name="stats">Statistics</string>
-    
     
     <!-- RadinGroupStatsActivity -->
     <string name="choose_graph">Select the period of your graph: </string>
@@ -149,6 +158,7 @@
     <!-- Contact Activity -->
     <string name="contactDialogAlert">Add new firend</string>
 
+    <string name="title_activity_app_oppnenig">AppOppnenigActivity</string>
     <string name="hello_world">Hello world!</string>
     
     <!-- Display error with Toast -->
@@ -167,6 +177,5 @@
     
     <!-- RadinGroupBalanceActivity -->
     <string name="owes"> owes: </string>
-    
 
 </resources>

@@ -33,37 +33,29 @@ import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 public class MyRadinGroupsActivity extends Activity {
 	private final static int TEXT_SIZE = 30;
 	private List<RadinGroupModel> mListRadinGroupsModel;
+	private int mUserId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_radingroups);
-		
 
 		Button addBtn = (Button) findViewById(R.id.addBtn);
 		addBtn.setOnClickListener(myRadinGroupsClickListener);
 
 		SharedPreferences mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
-		int userId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
+		mUserId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
 
-		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
-		
-		radinGroupStorageManager.getAllByUserId(userId, new RadinListener<RadinGroupModel>() {
-
-			@Override
-			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
-
-			    if (status == StorageManagerRequestStatus.SUCCESS) {
-			    	
-			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
-			        displayList();
-			    } else {
-			        displayErrorToast(getString(R.string.retriving_radin_group_error));
-			    }
-			}
-		});
+		retrieveRadinGroups();
+	}
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		retrieveRadinGroups();
 	}
 
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
@@ -87,6 +79,23 @@ public class MyRadinGroupsActivity extends Activity {
 		}
 	}
 	
+	private void retrieveRadinGroups() {
+		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
+		radinGroupStorageManager.getAllByUserId(mUserId, new RadinListener<RadinGroupModel>() {
+			@Override
+			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
+				
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					
+					mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
+					displayList();
+				} else {
+					displayErrorToast(getString(R.string.retriving_radin_group_error));
+				}
+			}
+		});
+	}
+	
 	private void displayErrorToast(String message) {
 	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
@@ -98,6 +107,7 @@ public class MyRadinGroupsActivity extends Activity {
 	 */
 	private void displayList() {
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
+		myRadinGroupsLinearLayout.removeAllViews();
 		myRadinGroupsLinearLayout.setGravity(Gravity.LEFT);
 		ProgressBar myRadinGroupProgressBar = (ProgressBar) findViewById(R.id.myRadinGroupsProgressBar);
 		myRadinGroupsLinearLayout.removeView(myRadinGroupProgressBar);

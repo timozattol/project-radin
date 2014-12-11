@@ -4,9 +4,14 @@
 package ch.epfl.sweng.radin.storage.managers;
 
 import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.util.Log;
+
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.StorageManager.ServerConnectionTask;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
@@ -15,9 +20,7 @@ import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
  *
  */
 public final class UserStorageManager extends StorageManager<UserModel> {
-
 	private static UserStorageManager userStorageManager = null;
-	
 	private UserStorageManager() {
 
 	}
@@ -48,29 +51,29 @@ public final class UserStorageManager extends StorageManager<UserModel> {
         return "users";
     }
 
-    public void verifyLogin(String username, String password, 
-    		RadinListener<UserModel> callback) {
-    	if (isConnected()) {
+	public void verifyLogin(String username, String password, 
+			RadinListener<UserModel> callback) {
+		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = 
 						new ServerConnectionTask(callback, RequestType.POST,
 								SERVER_BASE_URL + "login/" + username);
 				connTask.execute("{\"password\": \"" + password + "\"}");
 			}
-    	}
-    }
-
+		}
+	}
+    
     /**
      * Gets a list of users who are friends with the user with ID userId
      * @param userId ID of the users that we want the friends of.
      * @param callback UserModel callback
      */
     public void getFriendsOfUserWithId(int userId, RadinListener<UserModel> callback) {
-    	final String ACCESS_URL = "userRelationships";
+    	final String accessUrl = "userRelationships";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + ACCESS_URL + "/" + String.valueOf(userId));
+				        SERVER_BASE_URL + accessUrl + "/" + String.valueOf(userId));
 				//Example url: http://radin.epfl.ch/userRelationships/1
 				connTask.execute();
 				return;
@@ -109,8 +112,15 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
 				        SERVER_BASE_URL + accessUrl + "/" + String.valueOf(radinGroupId) + "/" + "adduser");
 				//Example url: http://radin.epfl.ch/radingroups/1/adduser
-				connTask.execute();
-
+				JSONObject json;
+	            try {
+	                json = (JSONObject) getJSONParser().getJsonFromModels(user);
+	                Log.i("json", json.toString());
+	                connTask.execute(json.toString());
+	            } catch (JSONException e) {
+	                // TODO Handle error
+	                e.printStackTrace();
+	            }
 				return;
 			}
 		}

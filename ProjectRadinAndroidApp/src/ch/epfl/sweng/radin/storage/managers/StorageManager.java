@@ -88,7 +88,6 @@ public abstract class StorageManager<M extends Model> {
 		//TODO take the data from the local DB
 	}
 	
-
 	/* (non-Javadoc)
 	 * @see ch.epfl.sweng.radin.storage.StorageManager#create(java.util.List, android.app.Activity)
 	 */	
@@ -123,9 +122,6 @@ public abstract class StorageManager<M extends Model> {
 		if (!id.isEmpty()) {
 			endUrl += "/" + id;
 		}
-		
-
-
 		if (isConnected()) {
 			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
 			        SERVER_BASE_URL + getTypeUrl() + endUrl);
