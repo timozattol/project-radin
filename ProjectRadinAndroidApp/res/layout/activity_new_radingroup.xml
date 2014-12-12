@@ -46,6 +46,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:onClick="showDialog"
+            android:padding="10dp"
             android:text="@string/friends_names"
             android:textSize="15sp" />
 

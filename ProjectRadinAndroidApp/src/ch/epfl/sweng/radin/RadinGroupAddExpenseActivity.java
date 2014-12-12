@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -70,7 +69,6 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_radingroup_add_expense);
 
 		Bundle extras = getIntent().getExtras();
@@ -269,6 +267,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 *
 	 */
 	public void sendExpense(View view) {
+		Button sendButton = (Button) findViewById(R.id.add_expense_button);
+		sendButton.setClickable(false);
 		mPurpose = ((EditText) findViewById(R.id.purpose_title)).getText().toString();
 		String tmpAmount = ((EditText) findViewById(R.id.amount_Field)).getText().toString();
 		if (tmpAmount.equals("")) {
@@ -278,10 +278,13 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		}
 		if (mPurpose == null || mPurpose.isEmpty()) {
 			Toast.makeText(this, R.string.invalid_purpose, Toast.LENGTH_SHORT).show();
+			sendButton.setClickable(true);
 		} else if (mPeopleWhoHaveToPay.isEmpty()) {
 			Toast.makeText(this, R.string.invalid_debtors, Toast.LENGTH_SHORT).show();
+			sendButton.setClickable(true);
 		} else if (mAmount <= 0) {
 			Toast.makeText(this, R.string.invalid_amount, Toast.LENGTH_SHORT).show();
+			sendButton.setClickable(true);
 		} else {
 			//Data OK
 			TransactionModel newTransaction = new TransactionModel(1,
