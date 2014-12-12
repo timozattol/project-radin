@@ -149,7 +149,6 @@ public class RadinGroupStatsActivity extends Activity {
 		String[] yearKeys = sortedByYear.navigableKeySet().toArray(new String[0]);
 		GraphViewData[] yearGraphData = new GraphViewData[sortedByYear.size()];
 		for (int i = 0; i < sortedByYear.size(); i++) {
-			System.out.println("yearKey" + i + " " + yearKeys[i]);
 			yearGraphData[i] = new GraphViewData(i, sortedByYear.get(yearKeys[i]));
 		}		
 		GraphViewSeries yearGraph = new GraphViewSeries(yearGraphData);
@@ -164,7 +163,6 @@ public class RadinGroupStatsActivity extends Activity {
 		String[] monthKeys = sortedByMonth.navigableKeySet().toArray(new String[0]);
 		GraphViewData[] monthGraphData = new GraphViewData[sortedByMonth.size()];
 		for (int i = 0; i < sortedByMonth.size(); i++) {
-			System.out.println("monthKey" + i + " " + monthKeys[i]);
 			monthGraphData[i] = new GraphViewData(i, sortedByMonth.get(monthKeys[i]));
 		}
 		GraphViewSeries monthGraph = new GraphViewSeries(monthGraphData);
@@ -177,7 +175,6 @@ public class RadinGroupStatsActivity extends Activity {
 		String[] dayKeys = sortedByDay.keySet().toArray(new String[0]);
 		GraphViewData[] dayGraphData = new GraphViewData[sortedByDay.size()];
 		for (int i = 0; i < sortedByDay.size(); i++) {
-			System.out.println("dayKey" + i + " " + dayKeys[i]);
 			dayGraphData[i] = new GraphViewData(i, sortedByDay.get(dayKeys[i]));
 		}
 		GraphViewSeries dayGraph = new GraphViewSeries(dayGraphData);

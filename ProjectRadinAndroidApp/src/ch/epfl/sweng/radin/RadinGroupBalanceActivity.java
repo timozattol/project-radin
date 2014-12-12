@@ -5,14 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jjoe64.graphview.BarGraphView;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphViewDataInterface;
+import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
+import com.jjoe64.graphview.ValueDependentColor;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -158,21 +168,39 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 		ProgressBar progressBar = (ProgressBar) findViewById(R.id.radinGroupBalanceProgressBar);
 		radinGroupBalanceLinearLayout.removeView(progressBar);
 
+		int numberOfUsers = userBalances.size();
+		
+		GraphViewData[] balanceViewData = new GraphViewData[numberOfUsers];
+		String[] firstNames = new String[numberOfUsers];
+		
 		int i = 0;
 		for (UserModel participant : mParticipants) {
-			TextView userBalanceTextView = new TextView(this);
-			String userName = participant.getFirstName();
-			Double amountOwed = userBalances.get(participant.getId());
+			firstNames[i] = participant.getFirstName();
+			Double amountOwed = -userBalances.get(participant.getId());
 			
-			userBalanceTextView.setText(userName + " " + getString(R.string.owes) 
-			        + " " + new DecimalFormat("##.##").format(amountOwed));
-			userBalanceTextView.setTextSize(TEXT_SIZE);
-			userBalanceTextView.setTag(i);
+			balanceViewData[i] = new GraphViewData(i, amountOwed);
+			
 			i++;
-
-			radinGroupBalanceLinearLayout.addView(userBalanceTextView);
 		}
+		GraphViewSeriesStyle seriesStyle = new GraphViewSeriesStyle();
+		seriesStyle.setValueDependentColor(new ValueDependentColor() {
+			@Override
+			public int get(GraphViewDataInterface data) {
+				if (data.getY() > 0) {
+					return Color.GREEN;
+				} else {
+					return Color.RED;
+				}
+			}
+		});
+		GraphViewSeries balanceSeries = new GraphViewSeries("aaa", seriesStyle, balanceViewData);
+		//TODO use string from R instead of Balances
+		GraphView graphView = new BarGraphView(this, "Balances");
+		graphView.addSeries(balanceSeries);
+		graphView.setHorizontalLabels(firstNames);
 		
+		radinGroupBalanceLinearLayout.addView(graphView);
+		graphView.setVisibility(View.VISIBLE);
 		
 	}
 
