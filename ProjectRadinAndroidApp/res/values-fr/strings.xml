@@ -69,9 +69,12 @@
     <string name="multi_friend">Ajouter des amis au groupe</string>
     <string name="add_info"></string>
     <string name="create_radin_group">Créer</string>
+    <string name="participants">Participants : </string>
     <string name="invalid_name">Veuillez ajouter un nom de groupe</string>
     <string name="invalid_participants">Veuillez ajouter au moins une personne pour créer un groupe</string>
-
+	<string name="rd_group_created">Groupe crée!</string>
+    <string name="server_error_participants">Couldn\'t add all participants, please add them manually through the group.</string>
+    
     <!-- ProfileActivity -->
     <string name="profile_user_name">Nom d\'utilisateur :</string>
     <string name="profile_complete_name">Nom :</string>
@@ -93,6 +96,7 @@
     <string name="button_save">Sauvegarder</string>
 
     <!-- AddExpenseActivity -->
+    <string name="add_expense">Add expense</string>
     <string name="creditor">Qui a payé? \</string>
     <string name="debtors_select">Changer débiteurs</string>
     <string name="creditor_select">Changer</string>
@@ -105,6 +109,7 @@
     <string name="add_expense_string">Ajouter une dépense à :\ </string>
     <string name="creditor_selected">Vous (par défaut)</string>
     <string name="debtors_selected">Aucun </string>
+    <string name="you">Vous</string>
     <string name="amount">Montant</string>
     <string name="amount_hint">Montant payé</string>
     <string name="currency">CHF</string>
@@ -115,7 +120,9 @@
     <string name="not_ready">Veuillez attendre pour le récuperation des données</string>
     <string name="purpose_hint">Déscription de la dépense</string>
     <string name="invalid_purpose">Pas de déscription de la dépense</string>
-
+	<string name="weight">weighting</string>
+    <string name="edit_text_warning">Setting the weighting after checking has no effect</string>
+    
     <!-- Settings Activity -->
     <string name="my_id">User ID : </string>
     <string name="value_id">valeur</string>
