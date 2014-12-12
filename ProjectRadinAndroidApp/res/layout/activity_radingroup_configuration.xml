@@ -13,14 +13,22 @@
     
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1" >
 
         <TextView
+            android:id="@+id/radinConfigGroupMemberText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="40sp" />
+            android:text="@string/group_member"
+            android:textSize="12sp" />
+        
+        <ListView
+            android:id="@+id/radinConfigGroupMemberList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/radinConfigGroupMemberText"
+			/>
     </RelativeLayout>
     
             <!-- Relative for the ActionBar, do not add code in this -->

@@ -179,5 +179,9 @@
     
     <!-- RadinGroupBalanceActivity -->
     <string name="owes"> owes: </string>
+    
+    <!-- RadinGroupConfigurationActivity -->
+    <string name="group_member">Group member:</string>
+    <string name="comming_soon">edit member\'s right comming soon</string>
 
 </resources>
