@@ -17,14 +17,14 @@
     <string name="title_activity_profile_other">ProfileOtherActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_new_radingroup">NewRadinGroupActivity</string>
-    <string name="title_activity_radingroup_balance">RadinGroupBalanceActivity</string>
-    <string name="title_activity_radingroup_stats">RadinGroupStatsActivity</string>
-    <string name="title_activity_radingroup_add_expense">Add expense</string>
-    <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
+    <string name="title_activity_radingroup_balance">Balance</string>
+    <string name="title_activity_radingroup_stats">Statistiques</string>
+    <string name="title_activity_radingroup_add_expense">Nouvelle dépense</string>
+    <string name="title_activity_radingroup_configuration">Configuration</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
     <string name="home_title">Accueil</string>
     <string name="my_radingroups">Mes Groupes</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Profil</string>
     <string name="notifications">Notifications</string>
     <string name="contacts">Contacts</string>
     <string name="settings">Paramètres</string>
@@ -168,7 +168,7 @@
     <string name="owes"> doit: </string>
     
     <!-- RadinGroupConfigurationActivity -->
-    <string name="group_member">Membre du groupe:</string>
+    <string name="group_member">Membres du groupe:</string>
     <string name="comming_soon">editer les droits des membres arrive bientôt</string>
     
     

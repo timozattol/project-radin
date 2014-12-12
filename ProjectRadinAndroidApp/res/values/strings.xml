@@ -16,9 +16,9 @@
     <string name="title_activity_radinlist_view">RadinGroupViewActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_new_radingroup">NewRadinGroupActivity</string>
-    <string name="title_activity_radingroup_balance">RadinGroupBalanceActivity</string>
-    <string name="title_activity_radingroup_stats">RadinGroupStatsActivity</string>
-    <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
+    <string name="title_activity_radingroup_balance">Group balance</string>
+    <string name="title_activity_radingroup_stats">Group stats</string>
+    <string name="title_activity_radingroup_configuration">Group configuration</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
     <string name="home_title">Home</string>
     <string name="my_radingroups">My Expense Groups</string>
@@ -181,7 +181,7 @@
     <string name="owes"> owes: </string>
     
     <!-- RadinGroupConfigurationActivity -->
-    <string name="group_member">Group member:</string>
+    <string name="group_member">Group members:</string>
     <string name="comming_soon">edit member\'s right comming soon</string>
 
 </resources>
