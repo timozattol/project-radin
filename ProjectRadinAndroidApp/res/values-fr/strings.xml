@@ -148,6 +148,9 @@
         <item>Dépenses par année</item>
     </string-array>
     
+    <!-- Contact Activity -->
+    <string name="contactDialogAlert">Ajout de nouveaux amis</string>
+    
     <string name="hello_world">Hello world!</string>
         
         <!-- Display error with Toast -->

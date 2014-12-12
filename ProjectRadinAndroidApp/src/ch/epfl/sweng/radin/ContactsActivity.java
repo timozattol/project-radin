@@ -54,9 +54,6 @@ public class ContactsActivity extends Activity {
 		mListFriend.setAdapter(mUserModelAdapter);
 		
 		refreshList();
-		
-		Button refreshButton = (Button) findViewById(R.id.refreshContactButton);
-		refreshButton.setOnClickListener(contactButtonListener);
 
 	}
 
@@ -123,15 +120,10 @@ public class ContactsActivity extends Activity {
 	private OnClickListener contactButtonListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (v.getId() == R.id.refreshContactButton) {
-				refreshList();	
-			} else {
 				Intent displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
 				int searchId = mContactUserModelList.get((Integer) v.getTag()).getId();
 				displayActivityIntent.putExtra("userId", searchId);
 				startActivity(displayActivityIntent);
-			}
-					
 		}		
 	};
 	

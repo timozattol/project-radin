@@ -158,7 +158,7 @@
     </string-array>
     
     <!-- Contact Activity -->
-    <string name="contactDialogAlert">Add new firend</string>
+    <string name="contactDialogAlert">Add new friend</string>
 
     <string name="title_activity_app_oppnenig">AppOppnenigActivity</string>
     <string name="hello_world">Hello world!</string>
