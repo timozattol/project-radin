@@ -1,5 +1,6 @@
 package ch.epfl.sweng.radin;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,14 +160,18 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 		for (UserModel participant : mParticipants) {
 			TextView userBalanceTextView = new TextView(this);
 			String userName = participant.getFirstName();
+			Double amountOwed = userBalances.get(participant.getId());
+			
 			userBalanceTextView.setText(userName + " " + getString(R.string.owes) 
-			        + " " + userBalances.get(participant.getId()));
+			        + " " + new DecimalFormat("##.##").format(amountOwed));
 			userBalanceTextView.setTextSize(TEXT_SIZE);
 			userBalanceTextView.setTag(i);
 			i++;
 
 			radinGroupBalanceLinearLayout.addView(userBalanceTextView);
 		}
+		
+		
 	}
 
 
