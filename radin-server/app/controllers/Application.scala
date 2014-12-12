@@ -29,20 +29,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       memberInRadins.ddl.create
       userConcernedByTransactions.ddl.create
     } finally {
-      users.insert(User("name", "lastname", "username", "password", "email", "address", "iban", "bicSwift", ""))
-      users.insert(User("second", "beforeLast", "uname", "mdp", "courriel", "chez moi", "#1", "mybic", ""))
-      users.insert(User("Joel", "Kaufman", "jojo", "1234", "jojo@epfl.ch", "Monadresse", "iban", "#2", ""))
-      users.insert(User("Koko", "loco", "koko", "234", "koko@epfl.ch", "kokoAdd", "iban", "#3", ""))
-      radinGroups.insert(RadinGroup("radinGroup", "2014/11/28 10/11", "description bidon", ""))
-      transactions.insert(Transaction(1, 1, 1, 100, "CHF", "2014/01/01 00/00", "Buy more jewelleries", "PAYMENT"))
-      transactions.insert(Transaction(1, 1, 2, 50, "CHF", "2013/02/01 00/00", "Whatever", "PAYMENT"))
-      transactions.insert(Transaction(1, 2, 1, 25, "CHF", "2014/02/01 00/00", "Cool expense", "PAYMENT"))
-      transactions.insert(Transaction(1, 2, 2, 150, "CHF", "2014/01/02 00/00", "Cooler expense", "PAYMENT"))
-      userRelationships.insert(UserRelationship(1, 2, 10))
-      userRelationships.insert(UserRelationship(3, 2, 11))
-      userRelationships.insert(UserRelationship(1, 3, 12))
-      memberInRadins ++= Seq((1, 1, "", 0, ""), (2, 1, "", 0, ""))
-      userConcernedByTransactions ++= Seq((1, 1, 1), (1, 2, 2), (1, 3, 1), (2, 1, 1), (2, 2, 2), (2, 4, 1))
+      users.insert(User("Joël", "Kaufmann", "jokau", "radin", "yolo@kau.ch", "BC05", "CH10 00230 00A109822346", "GE0RGE5C4ND", "img/pic1"))
+      users.insert(User("Simon", "Le Bail-Collet", "simonchelbc", "radin", "simonche@lbc.be", "RLC sleeping bag", "BE29 02330 00A109AZJ822346", "RAD118ARNABIC", "home/mess/LoStFolDer/pic"))
+      users.insert(User("Cedric", "Cook", "cedric", "radin", "cedric@hackerz.nl", "Dans la maison de ma tante", "NL40 02330 00A109AZJ822346", "J4M3SLA51US", "compromisingPics@remote.com/pic1"))
+      users.insert(User("Julie", "Djeffal", "julied20", "radin", "julied20@epfl.ch", "Satellite", "FR40 02330 00OOI12AZJ822346", "GE0RGE5C4ND", "Users/home/img/1"))
+      users.insert(User("Timothée", "Lottaz", "timozattol", "radin", "timo@zattol.ch", "9 Yolo avenue ", "CH49 02330 00A103REJ822346", "J4M3SLA51US", "~/img/1"))
+      users.insert(User("Thomas", "Batschelet", "topali2", "radin", "top@ali.ch", "SV cafeteria", "CH19 12093 00A10ASD3FE2346", "RAD118ARNABIC", "nver.gonna/give/u/.."))
+      users.insert(User("Fabien","Zellweger", "walono", "radin", "walono@clic.ch", "EPFHELL", "CH82 98432 NINFI12INI23UN14", "GE0RGE5C4ND", "images/2"))
+      users.insert(User("Ireneu","Pla", "ireneu", "radin", "Ire@neu.ch", "9000, No joke avenue", "CH32 98441 OJOIJ29I23UN14", "GE0RGE5C4ND", "images/3"))
+  
     }
 
     Ok("done")
