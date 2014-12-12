@@ -142,20 +142,35 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   /**
    * @author simonchelbc
    * @param JsonArray containing JsObject in format of database.Tables.User
-   * @return a  webpage listing all users, to see if changes have been taken into account
-   * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON with what each of the value in the request contains
+   * @return a  webpage listing all users that have changed, to see if changes have been taken into account
+   * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON
+   *  with what each of the value in the request contains
  * 
  */
 def modifyUsers = DBAction(parse.json) { implicit rs => 
-    rs.body.\("user") match {
-      case JsArray(jsonValues) => jsonValues foreach { 
-         _.validate[User].asOpt.foreach { 
-           userNewState =>  users.filter { _.U_ID === userNewState.U_ID }.update(userNewState)
-       }
+    def updateUsers: (String, Seq[JsValue]) = {
+	    var errorsLog: String = ""
+			var modifiedUsers: Seq[JsValue] = Seq()
+      rs.body.\("user") match {
+        case JsArray(jsonValues) => jsonValues foreach { jsonValue => 
+           jsonValue.validate[User].asOpt.foreach { userNewState =>  
+              val userToUpdate = users.filter { _.U_ID === userNewState.U_ID }
+              val listOfOneUser = userToUpdate.list
+              if (!listOfOneUser.isEmpty) {
+                userToUpdate.update(userNewState) 
+                modifiedUsers = modifiedUsers :+ jsonValue
+              } else errorsLog += "the following user doesn't exist in the database: " + Json.prettyPrint(JsObject(Seq(("user", jsonValue)))) + "\n"
+         }  
+        }
+        (errorsLog, modifiedUsers)
+        case _ => (errorsLog + "Request body doesn't contain a JSON array of users \n", modifiedUsers)
       }
-      Ok
-      case _ => BadRequest("Request body doesn't contain a JSON array of users \n")
     }
+    val (errorsLog, modifiedUsers) = updateUsers
+    if (errorsLog.isEmpty()) {
+    	val modifedUsersAsJsObject = JsObject(Seq(("user", JsArray(modifiedUsers))))
+      Ok(modifedUsersAsJsObject)
+    } else BadRequest(errorsLog)
   }
 
 
