@@ -45,8 +45,8 @@
             android:layout_below="@+id/edit_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:background="@drawable/styled_button"
             android:onClick="showDialog"
-            android:padding="10dp"
             android:text="@string/friends_names"
             android:textSize="15sp" />
 
@@ -59,17 +59,18 @@
 	       android:text="@string/participants" />
         
 		<Button
-            android:id="@+id/create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/participants_in_radin_group"
-            android:layout_marginTop="10dp"
-            android:onClick="createRadinGroup"
-            android:text="@string/create_radin_group"
-            android:textSize="15sp" />
+		    android:id="@+id/create"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentBottom="true"
+		    android:layout_alignParentLeft="true"
+		    android:layout_alignParentRight="true"
+		    android:layout_below="@id/participants_in_radin_group"
+		    android:layout_marginTop="10dp"
+		    android:background="@drawable/styled_button"
+		    android:onClick="createRadinGroup"
+		    android:text="@string/create_radin_group"
+		    android:textSize="15sp" />
         	   
     </RelativeLayout>
 

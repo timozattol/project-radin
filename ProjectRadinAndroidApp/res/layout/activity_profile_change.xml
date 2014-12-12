@@ -140,8 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editProfileBicSwift"
             android:layout_marginTop="40dp"
-            android:background="@color/header"
-            android:padding="10dp"
+            android:background="@drawable/styled_button"
             android:text="@string/button_save" />
 
         <ImageButton
