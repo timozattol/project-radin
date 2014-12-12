@@ -155,17 +155,22 @@
     <string name="retriving_friend_error">Amis ? Amis ? Vous êtes ou? Il semble que le serveur n\'arrive pas à les trouver.</string>
     <string name="retriving_radin_group_error">Désolé. On a perdu tes groupes sur le web. Veuillez retenter.</string>
     <string name="wrong_user_data">Wow ! On a reçu trop de data pour toi. Tu dois être super important !</string>
-    <string name="retriving_user_error">Ton requet a decidé de partir en vancances, veuillez retenter.</string>
+    <string name="retriving_user_error">Ta requet a decidé de partir en vancances, veuillez retenter.</string>
     <string name="edit_friends_profile">N\'essaye pas d\'éditer le profile d\'un ami, petit malin.</string>
-    <string name="sending_user_data_error">Wooo, on se calme. Le serveur n\'arrive pas à traiter le requet.</string>
+    <string name="sending_user_data_error">Wooo, on se calme. Le serveur n\'arrive pas à traiter la requet.</string>
     <string name="server_general_error">Le serveur est mort en ce moment, mais pas pour longtemps !</string>
     <string name="retrinving_user_group_error">Les utilisateurs de ce groupe ne veulent pas se manifester. Plus tard ?</string>
-    <string name="retrinving_transaction_group_error">Hmmm cette transaction.... Retente plus tard pour le trouver.</string>
+    <string name="retrinving_transaction_group_error">Hmmm cette transaction.... Retente plus tard pour la trouver.</string>
     <string name="invalid_spinner_elem">Tu a trouvé un élement phantôme. Faut appeller SOS Fantômes !</string>
      <string name="add_friend_error">Navré, nous ne pouvons pas ajouter d\'ami pour l\'instant.</string>
     
     <!-- RadinGroupBalanceActivity -->
     <string name="owes"> doit: </string>
+    
+    <!-- RadinGroupConfigurationActivity -->
+    <string name="group_member">Membre du groupe:</string>
+    <string name="comming_soon">editer les droits des membres arrive bientôt</string>
+    
     
 
 </resources>
