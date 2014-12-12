@@ -167,10 +167,10 @@ def modifyUsers = DBAction(parse.json) { implicit rs =>
       }
     }
     val (errorsLog, modifiedUsers) = updateUsers
+    val modifedUsersAsJsObject = JsObject(Seq(("user", JsArray(modifiedUsers))))
     if (errorsLog.isEmpty()) {
-    	val modifedUsersAsJsObject = JsObject(Seq(("user", JsArray(modifiedUsers))))
       Ok(modifedUsersAsJsObject)
-    } else BadRequest(errorsLog)
+    } else BadRequest(errorsLog + "the following has been modified \n " + Json.prettyPrint(modifedUsersAsJsObject))
   }
 
 
