@@ -8,11 +8,15 @@ import java.util.Map;
 import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphViewDataInterface;
 import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
+import com.jjoe64.graphview.ValueDependentColor;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -174,7 +178,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 			
 //			TextView userBalanceTextView = new TextView(this);
 			firstNames[i] = participant.getFirstName();
-			Double amountOwed = userBalances.get(participant.getId());
+			Double amountOwed = -userBalances.get(participant.getId());
 			
 			balanceViewData[i] = new GraphViewData(i, amountOwed);
 			
@@ -186,13 +190,25 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 //			radinGroupBalanceLinearLayout.addView(userBalanceTextView);
 		}
-		
-		GraphViewSeries balanceSeries = new GraphViewSeries(balanceViewData);
+		GraphViewSeriesStyle seriesStyle = new GraphViewSeriesStyle();
+		seriesStyle.setValueDependentColor(new ValueDependentColor() {
+			  @Override
+			  public int get(GraphViewDataInterface data) {
+			    if (data.getY() > 0) {
+			    	 return Color.rgb(0, 200, 0);
+			    } else {
+			    	return Color.rgb(200, 0, 0);
+			    }
+			  }
+		});
+		GraphViewSeries balanceSeries = new GraphViewSeries("aaa", seriesStyle, balanceViewData);
 		//TODO use string from R instead of Balances
 		GraphView graphView = new BarGraphView(this, "Balances");
 		graphView.addSeries(balanceSeries);
 		graphView.setHorizontalLabels(firstNames);
-		
+
+
+
 		LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		
 		radinGroupBalanceLinearLayout.addView(graphView, layoutParams);
