@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -190,9 +191,12 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 		//TODO use string from R instead of Balances
 		GraphView graphView = new BarGraphView(this, "Balances");
 		graphView.addSeries(balanceSeries);
-		//graphView.setHorizontalLabels(firstNames);
+		graphView.setHorizontalLabels(firstNames);
 		
-		radinGroupBalanceLinearLayout.addView(graphView);
+		LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		
+		radinGroupBalanceLinearLayout.addView(graphView, layoutParams);
+		graphView.setVisibility(View.VISIBLE);
 		
 	}
 
