@@ -3,6 +3,7 @@
 
     <color name="background"> #66FFFF99</color>
     <color name="header"> #19A347</color>
+    <color name="header_transparency"> #6619A347</color>
     <color name="lightYellow">#F5F5C2</color>
     <color name="mediumYellow">#F0F08C</color>
     <color name="darkYellow">#F0F06C</color>
