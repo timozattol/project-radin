@@ -173,45 +173,31 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 		
 		int i = 0;
 		for (UserModel participant : mParticipants) {
-			
-
-			
-//			TextView userBalanceTextView = new TextView(this);
 			firstNames[i] = participant.getFirstName();
 			Double amountOwed = -userBalances.get(participant.getId());
 			
 			balanceViewData[i] = new GraphViewData(i, amountOwed);
 			
-//			userBalanceTextView.setText(userName + " " + getString(R.string.owes) 
-//			        + " " + new DecimalFormat("##.##").format(amountOwed));
-//			userBalanceTextView.setTextSize(TEXT_SIZE);
-//			userBalanceTextView.setTag(i);
 			i++;
-
-//			radinGroupBalanceLinearLayout.addView(userBalanceTextView);
 		}
 		GraphViewSeriesStyle seriesStyle = new GraphViewSeriesStyle();
 		seriesStyle.setValueDependentColor(new ValueDependentColor() {
-			  @Override
-			  public int get(GraphViewDataInterface data) {
-			    if (data.getY() > 0) {
-			    	 return Color.rgb(0, 200, 0);
-			    } else {
-			    	return Color.rgb(200, 0, 0);
-			    }
-			  }
+			@Override
+			public int get(GraphViewDataInterface data) {
+				if (data.getY() > 0) {
+					return Color.GREEN;
+				} else {
+					return Color.RED;
+				}
+			}
 		});
 		GraphViewSeries balanceSeries = new GraphViewSeries("aaa", seriesStyle, balanceViewData);
 		//TODO use string from R instead of Balances
 		GraphView graphView = new BarGraphView(this, "Balances");
 		graphView.addSeries(balanceSeries);
 		graphView.setHorizontalLabels(firstNames);
-
-
-
-		LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		
-		radinGroupBalanceLinearLayout.addView(graphView, layoutParams);
+		radinGroupBalanceLinearLayout.addView(graphView);
 		graphView.setVisibility(View.VISIBLE);
 		
 	}
