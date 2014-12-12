@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jjoe64.graphview.BarGraphView;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphViewSeries;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -156,21 +161,38 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 		ProgressBar progressBar = (ProgressBar) findViewById(R.id.radinGroupBalanceProgressBar);
 		radinGroupBalanceLinearLayout.removeView(progressBar);
 
+		int numberOfUsers = userBalances.size();
+		
+		GraphViewData[] balanceViewData = new GraphViewData[numberOfUsers];
+		String[] firstNames = new String[numberOfUsers];
+		
 		int i = 0;
 		for (UserModel participant : mParticipants) {
-			TextView userBalanceTextView = new TextView(this);
-			String userName = participant.getFirstName();
+			
+
+			
+//			TextView userBalanceTextView = new TextView(this);
+			firstNames[i] = participant.getFirstName();
 			Double amountOwed = userBalances.get(participant.getId());
 			
-			userBalanceTextView.setText(userName + " " + getString(R.string.owes) 
-			        + " " + new DecimalFormat("##.##").format(amountOwed));
-			userBalanceTextView.setTextSize(TEXT_SIZE);
-			userBalanceTextView.setTag(i);
+			balanceViewData[i] = new GraphViewData(i, amountOwed);
+			
+//			userBalanceTextView.setText(userName + " " + getString(R.string.owes) 
+//			        + " " + new DecimalFormat("##.##").format(amountOwed));
+//			userBalanceTextView.setTextSize(TEXT_SIZE);
+//			userBalanceTextView.setTag(i);
 			i++;
 
-			radinGroupBalanceLinearLayout.addView(userBalanceTextView);
+//			radinGroupBalanceLinearLayout.addView(userBalanceTextView);
 		}
 		
+		GraphViewSeries balanceSeries = new GraphViewSeries(balanceViewData);
+		//TODO use string from R instead of Balances
+		GraphView graphView = new BarGraphView(this, "Balances");
+		graphView.addSeries(balanceSeries);
+		//graphView.setHorizontalLabels(firstNames);
+		
+		radinGroupBalanceLinearLayout.addView(graphView);
 		
 	}
 
