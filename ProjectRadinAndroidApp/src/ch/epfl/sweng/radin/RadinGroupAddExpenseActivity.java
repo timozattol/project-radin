@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -248,6 +249,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
+				listView.requestFocus(); //needed to add value of last EditText focused
 				mPeopleWhoHaveToPay = new HashMap<String, Integer>(mSharedMap);
 				((TextView) findViewById(R.id.debtors_selected)).setText(mSharedMap.keySet().toString());
 			}
@@ -374,9 +376,9 @@ public class RadinGroupAddExpenseActivity extends Activity {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             final View rowView = inflater.inflate(R.layout.transactions_coeff_layout, parent, false);
             TextView textViewName = (TextView) rowView.findViewById(R.id.transaction_participant);
-            CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.check_box);
-            textViewName.setText(mParticipants[position]+"");   
+            textViewName.setText(mParticipants[position]+"");
             
+            CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.check_box);
             checkbox.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -387,23 +389,29 @@ public class RadinGroupAddExpenseActivity extends Activity {
 						if (weightStr.equals("")) {
 							weightStr = "1";
 						}
-						weight.setOnFocusChangeListener(new OnFocusChangeListener() {
-							@Override
-							public void onFocusChange(View v, boolean hasFocus) {
-								Toast.makeText(getApplicationContext(),
-										R.string.edit_text_warning,
-										Toast.LENGTH_SHORT).show();
-							}
-						});
 						mSharedMap.put(name, Integer.parseInt(weightStr));
+						Log.i("hashmap", mSharedMap.size()+"");
 					} else {
 						mSharedMap.remove(name);
-						weight.setOnFocusChangeListener(new OnFocusChangeListener() {
-							@Override
-							public void onFocusChange(View v, boolean hasFocus) {
-								//do nothing
-							}
-						});
+						Log.i("hashmap", mSharedMap.size()+"");
+					}
+				}
+			});
+            
+            EditText weight = (EditText) rowView.findViewById(R.id.transaction_weight);
+            weight.setText("1");
+            weight.setOnFocusChangeListener(new OnFocusChangeListener() {
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) {
+					CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.check_box);
+					String name = ((TextView) rowView.findViewById(R.id.transaction_participant)).getText().toString();
+					String weightStr = ((EditText) v).getText().toString();
+					if (weightStr.equals("")) {
+						weightStr = "1";
+					}
+					if (checkbox.isChecked()) {
+						mSharedMap.put(name, Integer.parseInt(weightStr));
+						Log.i("hashmap", mSharedMap.size()+"");
 					}
 				}
 			});
