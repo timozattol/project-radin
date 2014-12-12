@@ -41,7 +41,8 @@
                 android:layout_marginTop="12dp"
                 android:hint="@string/purpose_hint"
                 android:singleLine="true"
-                android:maxLength="100" >
+                android:maxLength="100"
+                android:imeOptions="actionDone" >
 
                 <requestFocus />
 
