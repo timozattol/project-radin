@@ -75,6 +75,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
 		
+		setTitle(R.string.title_activity_radingroup_add_expense);
+		
 		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
 		
 		TextView addExpenseText = (TextView) findViewById(R.id.title_add_expense);
