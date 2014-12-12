@@ -44,6 +44,8 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
+		
+		setTitle(R.string.title_activity_radingroup_balance);
 
 		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.balanceRadinGroupLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
