@@ -21,12 +21,13 @@ curl -H "Content-Type: application/json" -X PUT -d '{"U_firstName":"modifiedName
 	curl -H "Content-Type: application/json" -X PUT -d '{"user":[{"U_firstName":"modifiedName","U_lastName":"modifiedLastname","U_username":"modifiedUsername","U_password":"password","U_email":"ModifiedEmail",
 	"U_address":"modifiedAddress","U_iban":"modifiedIban","U_bicSwift":"modifiedSwift","U_picture":"ModifiedPicture","U_ID":-1}]}' radin.epfl.ch/users
 
-
-
-curl -H "Content-Type: application/json" -d '{"transactionWithParticipants":[{"transaction":{"T_parentRadinGroupID":1,"T_creatorID":1,"T_debitorID":1,"T_amount":100,"T_currency":"CHF","T_dateTime":"2014/01/01 00/00","T_purpose":"Buy more jewelleries","T_type":"PAYMENT","T_ID":1},"coefficients":[{"id":1,"coefficient":1},{"id":2,"coefficient":2},{"id":3,"coefficient":0}]},{"transaction":{"T_parentRadinGroupID":1,"T_creatorID":1,"T_debitorID":2,"T_amount":50,"T_currency":"CHF","T_dateTime":"2013/02/01 00/00","T_purpose":"Whatever","T_type":"PAYMENT","T_ID":2},"coefficients":[{"id":1,"coefficient":0},{"id":2,"coefficient":2},{"id":4,"coefficient":1}]}]}' localhost:9000/transactions/withcoeffs
-
+	_modification of a user that doesn't exist: U_ID must not match U_ID of any user in Users (returns : "the following user doesn't exist in the database: + <JSON of users update values with U_ID not matching any user in db>"
+curl -H "Content-Type:application/json" -X PUT -d '{"user":[{"U_firstName":"Koukouw","U_lastName":"lastName", "U_username":"koko","U_password":"234","U_email":"koko@epfl.ch","U_address":"kokokoaddress","U_iban":"ibanObviously","U_bicSwift":"#5","U_picture":"newFoto","U_ID":9000}]}' localhost:9000/users
 
 for testing transactions/withcoeffs
 
 curl -H "Content-Type: application/json" -d '{"transactionWithParticipants":[{"transaction":{"T_parentRadinGroupID":1,"T_creatorID":1,"T_debitorID":1,"T_amount":100,"T_currency":"CHF","T_dateTime":"2014/01/01 00/00","T_purpose":"Buy more jewelleries","T_type":"PAYMENT","T_ID":1},"coefficients":[{"id":1,"coefficient":1},{"id":2,"coefficient":2},{"id":3,"coefficient":0}]},{"transaction":{"T_parentRadinGroupID":1,"T_creatorID":1,"T_debitorID":2,"T_amount":50,"T_currency":"CHF","T_dateTime":"2013/02/01 00/00","T_purpose":"Whatever","T_type":"PAYMENT","T_ID":2},"coefficients":[{"id":1,"coefficient":0},{"id":2,"coefficient":2},{"id":4,"coefficient":1}]}]}' localhost:9000/transactions/withcoeffs
+
+Add a friendship on server
+curl -X POST radin.epfl.ch/userRelationships/5/jojo
 
