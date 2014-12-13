@@ -129,9 +129,12 @@
 
     <!-- Server Toasts -->
     <string name="server_error">Un erreur s\'est produite, veuillez réessayer.</string>
+    <string name="server_error2">L\'operation a duré trop de temps.</string>
+    <string name="server_error3">Impossible de contacter le serveur, veuillez réesayer</string>
     <string name="user_created">Woop woop! Vous êtes désormais inscrit au ProjectRadin !</string>
     <string name="login_error">Désolé, ce nom d\'utilisateur n\'existe pas</string>
     <string name="success_login">Re-bienvenue !</string>
+    <string name="bad_id">Il y avait un problème pour t\'identifier. Veuillez vous relogguer.</string>
 
     <!-- Share Preference File -->
     <string name="preference_file_key">Paramétrages</string>
