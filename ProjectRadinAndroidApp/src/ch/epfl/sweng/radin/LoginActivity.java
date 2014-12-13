@@ -1,4 +1,7 @@
 package ch.epfl.sweng.radin;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import android.app.Activity;
@@ -17,6 +20,7 @@ import ch.epfl.sweng.radin.R.id;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
+import ch.epfl.sweng.radin.storage.managers.NetworkProvider;
 import ch.epfl.sweng.radin.storage.managers.StorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 /**
@@ -46,7 +50,13 @@ public class LoginActivity extends Activity {
 		passwordEditText.setOnKeyListener(loginActivityOnKeyListener);
 
 
-		StorageManager.init(this);
+		StorageManager.init(this, new NetworkProvider() {
+			
+			@Override
+			public HttpURLConnection getConnection(URL url) throws IOException {
+				return (HttpURLConnection) url.openConnection();
+			}
+		});
 
 		prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
 
