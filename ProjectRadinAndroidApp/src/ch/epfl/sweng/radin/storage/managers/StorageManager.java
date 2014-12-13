@@ -30,6 +30,7 @@ import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 public abstract class StorageManager<M extends Model> {
 
 	private static Context mContext = null;
+	private static NetworkProvider mNetworkProvider = null;
 	static final String SERVER_BASE_URL = "http://radin.epfl.ch/";
 
 	/**
@@ -48,13 +49,19 @@ public abstract class StorageManager<M extends Model> {
 
 
 	/**
-	 * Initiates the StorageManager with the application Context
+	 * Initiates the StorageManager with the application Context and a networkProvider
 	 * The Context is needed when we check the connection
+	 * The networkProvider is used to obtain a httpurlconnection
 	 * @param appContext the context of the Application
+	 * @param networkProvider the networkProvider to get a connection from
 	 */
-	public static void init(Context appContext) {
+	public static void init(Context appContext, NetworkProvider networkProvider) {
 		if (mContext == null) {
 			mContext = appContext;
+		}
+
+		if (mNetworkProvider == null) {
+			mNetworkProvider = networkProvider;
 		}
 	}
 
@@ -253,7 +260,7 @@ public abstract class StorageManager<M extends Model> {
                             + "to the execute method");
 			    }
 			    
-			    HttpURLConnection conn = (HttpURLConnection) mURL.openConnection();
+			    HttpURLConnection conn = mNetworkProvider.getConnection(mURL);
 			    conn.setRequestMethod(mRequestType.name());
 			    
 				switch(mRequestType) {
