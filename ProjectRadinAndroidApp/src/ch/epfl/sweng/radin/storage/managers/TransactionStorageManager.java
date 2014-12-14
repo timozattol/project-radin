@@ -11,7 +11,7 @@ import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
 
 /**
  * @author CedricCook
- *
+ * A storage manager for the model type TransactionModel
  */
 public final class TransactionStorageManager extends StorageManager<TransactionModel> {
     private static TransactionStorageManager transactionStorageManager = null;

@@ -17,7 +17,7 @@ import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
 /**
  * @author CedricCook
- *
+ * A storage manager for the model type UserModel
  */
 public final class UserStorageManager extends StorageManager<UserModel> {
 	private static UserStorageManager userStorageManager = null;

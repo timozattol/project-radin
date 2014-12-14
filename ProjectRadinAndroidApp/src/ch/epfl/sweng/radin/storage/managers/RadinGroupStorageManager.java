@@ -13,7 +13,7 @@ import ch.epfl.sweng.radin.storage.parsers.RadinGroupJSONParser;
 
 /**
  * @author CedricCook
- *
+ * A storage manager for the model type RadinGroupModel
  */
 
 public final class RadinGroupStorageManager extends StorageManager<RadinGroupModel> {
