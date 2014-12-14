@@ -25,7 +25,7 @@ GET    /transactions/withcoeffs/:rgid      @controllers.Application.getTransacti
 POST   /transactions					   @controllers.Application.newTransactions
 POST   /transactions/withcoeffs			   @controllers.Application.newTransactionsWithCoeffs
 
-GET    /users                              @controllers.Application.userList
+#GET    /users                              @controllers.Application.userList also uncomment in Application to use !
 POST   /users                              @controllers.Application.newUser
 PUT    /users                              @controllers.Application.modifyUsers
 GET    /users/:uid                         @controllers.Application.getUserById(uid: Int)
