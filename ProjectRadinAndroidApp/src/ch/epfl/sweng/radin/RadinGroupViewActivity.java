@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +18,7 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +44,7 @@ import android.widget.Toast;
  * so that the ArrayAdapter updates the view.
  *
  */
+@SuppressLint("UseSparseArrays")
 public class RadinGroupViewActivity extends Activity {
     private final static int SIXTY_SECS = 60000;
     private final static int TEN_SECS = 10000;
@@ -189,7 +190,7 @@ public class RadinGroupViewActivity extends Activity {
                     }
                 });
 	}
-	
+
 	/**
 	 * Sets a timer to refresh the list every 10 seconds, forever.
 	 */
