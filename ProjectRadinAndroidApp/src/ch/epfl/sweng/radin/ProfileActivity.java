@@ -23,7 +23,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
  */
 public class ProfileActivity extends Activity {
 	public static final String PREFS = "PREFS";
-	private UserModel profileUser;
+	private UserModel mProfileUser;
 	private SharedPreferences mPrefs;
 	private int mCurrentUserId;
 	private int mSearchingId;
@@ -51,7 +51,7 @@ public class ProfileActivity extends Activity {
 			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					if (items.size() == 1) {						
-						profileUser = items.get(0);
+						mProfileUser = items.get(0);
 						displayUser();
 					} else {
 						displayErrorToast(getString(R.string.wrong_user_data));
@@ -74,8 +74,9 @@ public class ProfileActivity extends Activity {
 		getMenuInflater().inflate(R.menu.profile, menu);
 		return true;
 	}
+
 	/**
-	 * 
+	 * Refresh view with user data.
 	 */
 	public void displayUser() {
 
@@ -83,25 +84,25 @@ public class ProfileActivity extends Activity {
 		//ImageView profilePicture = (ImageView) findViewById(R.id.profilePic);
 
 		TextView firstName = (TextView) findViewById(R.id.profileFirstName);
-		firstName.setText(profileUser.getFirstName());
+		firstName.setText(mProfileUser.getFirstName());
 
 		TextView lastName = (TextView) findViewById(R.id.profileLastName);
-		lastName.setText(profileUser.getLastName());
+		lastName.setText(mProfileUser.getLastName());
 
 		TextView username = (TextView) findViewById(R.id.profileUsername);
-		username.setText(profileUser.getUsername());
+		username.setText(mProfileUser.getUsername());
 
 		TextView email = (TextView) findViewById(R.id.profileEmail);
-		email.setText(profileUser.getEmail());
+		email.setText(mProfileUser.getEmail());
 
 		TextView address = (TextView) findViewById(R.id.profileAddress);
-		address.setText(profileUser.getAddress());
+		address.setText(mProfileUser.getAddress());
 
 		TextView iBan = (TextView) findViewById(R.id.profileIban);
-		iBan.setText(profileUser.getIban());
+		iBan.setText(mProfileUser.getIban());
 
 		TextView bicSwift = (TextView) findViewById(R.id.profileBicSwift);
-		bicSwift.setText(profileUser.getBicSwift());
+		bicSwift.setText(mProfileUser.getBicSwift());
 
 	}
 
