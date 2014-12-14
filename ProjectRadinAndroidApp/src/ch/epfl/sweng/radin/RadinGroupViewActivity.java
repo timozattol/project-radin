@@ -81,13 +81,13 @@ public class RadinGroupViewActivity extends Activity {
 		mTransactionListView = (ListView) findViewById(R.id.transactionListView);
 		mTransactionListView.setAdapter(mTransactionsModelAdapter);
 
-		refreshUsersInGroupAndThenTransaction();
+		fetchUsersInGroupAndThenTransaction();
 	}
 	
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		refreshUsersInGroupAndThenTransaction();
+		fetchUsersInGroupAndThenTransaction();
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,7 +128,7 @@ public class RadinGroupViewActivity extends Activity {
 	 * Asynchronously gets the data from the server, 
 	 * and refresh the view with data when available.
 	 */
-	private void refreshTransactionList() {
+	private void fetchTransactionList() {
 	    TransactionWithParticipantsStorageManager transactionStorageManager = 
 	            TransactionWithParticipantsStorageManager.getStorageManager();
 	    
@@ -169,7 +169,7 @@ public class RadinGroupViewActivity extends Activity {
 	 * Asynchronously gets all the users that are in the RadinGroup.
 	 * Refresh the view when done.
 	 */
-	private void refreshUsersInGroupAndThenTransaction() {
+	private void fetchUsersInGroupAndThenTransaction() {
 	    UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
 	    
 	    userStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(), 
@@ -187,7 +187,7 @@ public class RadinGroupViewActivity extends Activity {
                             
                             // Refresh the list of transactions when the list of users is 
                             // successfully retrieved
-                            refreshTransactionList();
+                            fetchTransactionList();
                         } else {
                             displayErrorToast("Error while retrieving users");
                         }
@@ -204,7 +204,7 @@ public class RadinGroupViewActivity extends Activity {
                 
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    refreshTransactionList();
+                    fetchTransactionList();
                 }
                 
                 @Override
