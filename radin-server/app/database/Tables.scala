@@ -100,26 +100,26 @@ object Tables {
     def RGname: Column[String] = column[String]("RG_NAME", O.NotNull)
     def RGstartDate: Column[String] = column[String]("RG_STARTDATE", O.NotNull)
     def RGdescription: Column[String] = column[String]("RG_DESCRIPTION")
-//    def RGmasterRID: Column[Int] = column[Int]("RG_MASTERRID")
+    //    def RGmasterRID: Column[Int] = column[Int]("RG_MASTERRID")
     def RGavatar: Column[String] = column[String]("RG_AVATAR")
-//    def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
+    //    def RGdeletedAt: Column[String] = column[String]("RG_DELETEDAT")
 
     def * = (RGname, RGstartDate, RGdescription, RGavatar, rid.?) <> (RadinGroup.tupled, RadinGroup.unapply)
   }
-  
+
   case class UserRelationship(source: Int, target: Int, URrel: Int)
-  
+
   class UserRelationships(tag: Tag) extends Table[UserRelationship](tag, "USER_RELATIONSHIP") {
-  	
-  	def uidSource: Column[Int] = column[Int]("UID_SOURCE", O.NotNull)
-		def uidTarget: Column[Int] = column[Int]("UID_TARGET", O.NotNull)
-		def URrelation: Column[Int] = column[Int]("UR_RELATION", O.NotNull)
-		
-		def sourceUser = foreignKey("SOURCE_USER", uidSource, users)(_.U_ID)
-		def targetUser = foreignKey("TARGET_USER", uidTarget, users)(_.U_ID)
-		def URpk = primaryKey("URpk", (uidSource, uidTarget))
-		
-		def * = (uidSource, uidTarget, URrelation) <> (UserRelationship.tupled, UserRelationship.unapply)
+
+    def uidSource: Column[Int] = column[Int]("UID_SOURCE", O.NotNull)
+    def uidTarget: Column[Int] = column[Int]("UID_TARGET", O.NotNull)
+    def URrelation: Column[Int] = column[Int]("UR_RELATION", O.NotNull)
+
+    def sourceUser = foreignKey("SOURCE_USER", uidSource, users)(_.U_ID)
+    def targetUser = foreignKey("TARGET_USER", uidTarget, users)(_.U_ID)
+    def URpk = primaryKey("URpk", (uidSource, uidTarget))
+
+    def * = (uidSource, uidTarget, URrelation) <> (UserRelationship.tupled, UserRelationship.unapply)
   }
 
   case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String = "", U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_picture: String, U_ID: Option[Int] = None)
@@ -135,7 +135,7 @@ object Tables {
     def U_iban: Column[String] = column[String]("U_ADDRESS")
     def U_bicSwift: Column[String] = column[String]("U_OPTIONS", O.NotNull)
     def U_avatar: Column[String] = column[String]("U_AVATAR")
-//    def U_deletedAt: Column[String] = column[String]("U_DELETED_AT")
+    //    def U_deletedAt: Column[String] = column[String]("U_DELETED_AT")
     def U_ID: Column[Int] = column[Int]("UID", O.PrimaryKey, O.AutoInc, O.NotNull)
 
     def * = (U_firstName, U_lastName, U_username, U_password, U_email, U_address, U_iban, U_bicSwift, U_avatar, U_ID.?) <> (User.tupled, User.unapply)
