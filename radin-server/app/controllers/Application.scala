@@ -129,6 +129,12 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     return TransactionsWithCoeffs(all)
   }
 
+  /**
+   * @author ireneu
+   * 
+   * Return Json for transactions with corresponding coefficients.
+   * Uses the implicit vals for converting to Json as well as queryToTransactionsWithParticipants to type the DB query correctly.
+   */
   def getTransactionsWithCoeffsForGroup(rgid: Int) = DBAction { implicit rs =>
     // This query returns a List of transactions associated to their coefficients
     val transactionsWithParticipantsQuery = (for {
