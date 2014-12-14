@@ -1,12 +1,5 @@
 package ch.epfl.sweng.radin.storage.managers;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -15,9 +8,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
