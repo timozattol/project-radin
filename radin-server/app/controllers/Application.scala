@@ -154,7 +154,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   /**
    * @author simonchelbc
    * @param JsonArray containing JsObject in format of database.Tables.User
-   * @return a  webpage listing all users that have changed, to see if changes have been taken into account
+   * @return a OK 200 response with the list of modified users in JSON with a empty error-log OR a 400 Bad-Request response, 
+   * containing list of modified-users with an non-empty error-log.
    * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON
    *  with what each of the value in the request contains
    *
