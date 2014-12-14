@@ -24,10 +24,10 @@ import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 
 /**
- * An Asynchronous task who communicates with the server. 
- * The execute method takes 3 String arguments: 
- * 1. The url to connect to
- * 2. The json data to post or put. (Can be empty if request method is get or delete).
+ * An Asynchronous task who communicates with the server.
+ * @param <M> the type of model to be transmitted to the server. 
+ * The execute method the json data to post or put. 
+ * (Can be empty if request method is get or delete).
  * @author timozattol
  *
  */
@@ -111,31 +111,31 @@ public class ServerConnectionTask<M extends Model> extends AsyncTask<String, Voi
 			conn.setRequestMethod(mRequestType.name());
 
 			switch(mRequestType) {
-			case GET:
-				conn.connect();
-
-				break;
-
-			case POST:
-			case PUT:
-				conn.setDoOutput(true);
-				conn.setRequestProperty("Content-Type", "application/json");
-				DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-				wr.writeBytes(jsonData);
-				wr.flush();
-				wr.close();
-
-				break;
-
-			case DELETE:
-				conn.connect();
-
-				break;
-
-			default:
-				throw new IllegalStateException("The request type must be one of the 4 values,"
-						+ " since it should not be null");
-			}
+    			case GET:
+    				conn.connect();
+    
+    				break;
+    
+    			case POST:
+    			case PUT:
+    				conn.setDoOutput(true);
+    				conn.setRequestProperty("Content-Type", "application/json");
+    				DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+    				wr.writeBytes(jsonData);
+    				wr.flush();
+    				wr.close();
+    
+    				break;
+    
+    			case DELETE:
+    				conn.connect();
+    
+    				break;
+    
+    			default:
+    				throw new IllegalStateException("The request type must be one of the 4 values,"
+    						+ " since it should not be null");
+    		}
 
 			if (conn.getResponseCode() != SUCCESS_CODE) {
 				return "FAILURE";
