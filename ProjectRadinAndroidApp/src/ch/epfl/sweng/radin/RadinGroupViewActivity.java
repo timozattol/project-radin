@@ -189,40 +189,6 @@ public class RadinGroupViewActivity extends Activity {
                     }
                 });
 	}
-
-	private void fillWithTestData() {
-	    //TODO do again with participants
-//	    final int hundredFrancs = 100;
-//	    final int twoHundredFrancs = 100;
-//	    final int fiveSecs = 5000;
-//	    final int halfASec = 500;
-//        
-
-//	    //TEST
-//        final List<TransactionWithParticipantsModel> models = new ArrayList<TransactionWithParticipantsModel>();
-//        models.add(new TransactionWithParticipantsModel(0, 0, 0, 0, hundredFrancs, Currency.CHF, 
-//                DateTime.now(), "Buy stuff", TransactionType.PAYMENT));
-//        models.add(new TransactionModel(0, 0, 0, 0, twoHundredFrancs, Currency.CHF, 
-//                DateTime.now(), "Buy more stuff", TransactionType.PAYMENT));
-//        refreshViewWithData(models);
-//        
-//        new CountDownTimer(fiveSecs, halfASec) {
-//            private int i = 0;
-//            
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                i++;
-//                models.add(new TransactionModel(0, 0, 0, 0, i*hundredFrancs, Currency.CHF, 
-//                        DateTime.now().minusDays(i), "Buy buy buy", TransactionType.PAYMENT));
-//                refreshViewWithData(models);
-//            }
-//            
-//            @Override
-//            public void onFinish() {
-//                
-//            }
-//        }.start();
-	}
 	
 	/**
 	 * Sets a timer to refresh the list every 10 seconds, forever.
