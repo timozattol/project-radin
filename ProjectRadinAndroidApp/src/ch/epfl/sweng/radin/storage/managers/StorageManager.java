@@ -30,6 +30,7 @@ import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 public abstract class StorageManager<M extends Model> {
 
 	private static Context mContext = null;
+	private ConnectionFactory<M> mConnectionFactory = new ConnectionFactory<M>();
 	static final String SERVER_BASE_URL = "http://radin.epfl.ch/";
 
 	/**
@@ -47,10 +48,11 @@ public abstract class StorageManager<M extends Model> {
 	protected abstract String getTypeUrl();
 	
 	/**
-	 * Get the connectionFactory that will instantiate ServerConnectionTasks.
-	 * This let's us separate the code better.
+	 * set A different connectionFactory
 	 */
-	protected abstract ConnectionFactory<M> getConnectionFactory();
+	protected void setConnectionFactory(ConnectionFactory<M> connFactory) {
+		mConnectionFactory = connFactory;
+	}
 
 
 	/**
@@ -71,7 +73,7 @@ public abstract class StorageManager<M extends Model> {
 	public void getById(int id, RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.GET, 
+				ServerConnectionTask<M> connTask = mConnectionFactory.createTask(callback, RequestType.GET, 
 				        SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(id), getJSONParser());
 				connTask.execute();
 				return;
@@ -86,7 +88,7 @@ public abstract class StorageManager<M extends Model> {
 	public void getAll(RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.GET,
+				ServerConnectionTask<M> connTask = mConnectionFactory.createTask(callback, RequestType.GET,
 				        SERVER_BASE_URL + getTypeUrl(), getJSONParser());
 				connTask.execute();
 				return;
@@ -130,7 +132,7 @@ public abstract class StorageManager<M extends Model> {
 			endUrl += "/" + id;
 		}
 		if (isConnected()) {
-			ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.POST,
+			ServerConnectionTask<M> connTask = mConnectionFactory.createTask(callback, RequestType.POST,
 			        SERVER_BASE_URL + getTypeUrl() + endUrl, getJSONParser());
 			JSONObject json;
 			
@@ -150,7 +152,7 @@ public abstract class StorageManager<M extends Model> {
 	 */
 	public void update(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()) {
-			ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.PUT,
+			ServerConnectionTask<M> connTask = mConnectionFactory.createTask(callback, RequestType.PUT,
 			        SERVER_BASE_URL + getTypeUrl(), getJSONParser());
 			
 			JSONObject json;
@@ -171,7 +173,7 @@ public abstract class StorageManager<M extends Model> {
 	 */
 	public void delete(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()) {
-			ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.DELETE,
+			ServerConnectionTask<M> connTask = mConnectionFactory.createTask(callback, RequestType.DELETE,
 			        SERVER_BASE_URL + getTypeUrl(), getJSONParser());
 			
 			JSONObject json;
