@@ -11,7 +11,7 @@ import android.content.ContentValues;
 
 /**
  * @author Simonchelbc RadinGroupModel is an object with only immutable fields
- *         which provides a representation of the design of our RadinGroupModel
+ * which provides a representation of the design of our RadinGroupModel
  */
 public class RadinGroupModel extends Model {
 	/**
