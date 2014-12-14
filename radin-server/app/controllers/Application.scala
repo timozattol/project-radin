@@ -302,17 +302,25 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }
   }
 
-  //  lazy val radinGroups = TableQuery[RadinGroups]
   implicit val radinGroupFormat = Json.format[RadinGroup]
 
-  def jsonFindAll = DBAction { implicit rs =>
-    val jsonValue: Seq[(String, JsValue)] = List(("radinGroup", toJson(radinGroups.list)))
-    val jsonResponse: JsObject = JsObject(jsonValue)
+  /**
+   * @author ireneu
+   * 
+   * Sends back all existing RadinGroups in the DB.
+   */
+  def getAllRadinGroups = DBAction { implicit rs =>
+    val jsonResponse: JsObject = JsObject(List(("radinGroup", toJson(radinGroups.list))))
     Ok(jsonResponse)
   }
 
+  /**
+   * @author ireneu
+   * 
+   * Inserts a new RadinGroup in the DB sent in Json format
+   */
   def newRadinGroup = DBAction(parse.json) { implicit rs =>
-    Logger.info("New RadinGroup request : " + rs.request.toString + " " + rs.request.body.toString)
+    Logger.info("New RadinGroup request")
     rs.request.body.\("radinGroup")(0).validate[RadinGroup].map { rg =>
       val newRG = RadinGroup(rg.RG_name, rg.RG_creationDate, rg.RG_description, rg.RG_avatar)
       Logger.info("New RadinGroup sent : " + newRG.toString())
@@ -321,37 +329,44 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     val lastid = radinGroups.map(_.rid).max.run
     Logger.info("New RadinGroup ID : " + lastid)
     val lastRG = radinGroups.list.filter(_.RG_ID == lastid)
-    val jsonValue: Seq[(String, JsValue)] = List(("radinGroup", toJson(lastRG)))
-    val jsonResponse: JsObject = JsObject(jsonValue)
+    val jsonResponse: JsObject = JsObject(List(("radinGroup", toJson(lastRG))))
     Logger.info("New RadinGroup response : " + jsonResponse.toString)
     Ok(jsonResponse)
   }
 
+  /**
+   * @author ireneu
+   * 
+   * Sends back all RadinGroups a user belongs to.
+   */
   def getRadinGroupsForUser(uid: Int) = DBAction { implicit rs =>
     val radinGroupsForUser = for {
       memberInRadin <- memberInRadins.list.filter(_._1 == uid)
       radinGroupForUser <- radinGroups.list.filter(_.RG_ID.get == memberInRadin._2)
     } yield radinGroupForUser
-    val jsonValue = JsObject(List(("radinGroup", toJson(radinGroupsForUser))))
-    Ok(jsonValue)
+    val jsonResponse = JsObject(List(("radinGroup", toJson(radinGroupsForUser))))
+    Ok(jsonResponse)
   }
 
+  /**
+   * @author ireneu
+   * 
+   * Sends back all users belonging to a certain RadinGroup
+   */
   def getUsersInRG(rgid: Int) = DBAction { implicit rs =>
-    val x = memberInRadins.list.filter(_._2 == rgid)
-    val y = for {
-      a <- x
-      b <- users.list.filter(_.U_ID.get == a._1)
-    } yield (b)
-    Logger.info("Get users in RG json of users : " + y.toString)
-    val jsonFirst = toJson(y).as[JsArray]
-    Logger.info("Get users in RG jsonArray : " + jsonFirst.toString)
-    val jsonValue = List(("user", jsonFirst))
-    val jsonResponse = JsObject(jsonValue)
+    val usersInRGIds = memberInRadins.list.filter(_._2 /*RadinGroupId*/== rgid)
+    val usersInGroup = for {
+      eachUser <- usersInRGIds
+      userInGroup <- users.list.filter(_.U_ID.get == eachUser._1 /*UserId*/)
+    } yield (userInGroup)
+    val userArray = toJson(usersInGroup).as[JsArray]
+    val jsonResponse = JsObject(List(("user", userArray)))
     Ok(jsonResponse)
   }
 
   implicit val userRelationShipFormat = Json.format[UserRelationship]
 
+  //unused way to add friends for users
   def newUserRelationship = DBAction(BodyParsers.parse.json) { implicit rs =>
     rs.request.body.validate[UserRelationship].map { rg =>
       userRelationships.insert(rg)
@@ -359,13 +374,18 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }.getOrElse(BadRequest("invalid json"))
   }
 
+  /**
+   * @author ireneu
+   * 
+   * Adds a new friend for a user
+   */
   def newUserRelationshipForUserFromUsername(uid: Int, username: String) = DBAction { implicit rs =>
     val newFriendID = users.list.filter(_.U_username == username).head.U_ID
-    if (newFriendID.isDefined) {
+    if (newFriendID.isDefined) { // if the friend added exists
       userRelationships.insert(UserRelationship(uid, newFriendID.get, 1))
       Ok(JsObject(List(("user", toJson(users.list.filter(_.U_ID.get == uid))))))
     } else {
-      BadRequest("username doesn't exists")
+      BadRequest("Username doesn't exist")
     }
 
   }
@@ -380,17 +400,20 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       relation <- userRelationships.filter { _.uidSource === sID }
       user <- users.filter { _.U_ID === relation.uidTarget }
     } yield user
-    val jsonValue: Seq[(String, JsValue)] = List(("user", toJson(friendsOfSID.list)))
-    Ok(JsObject(jsonValue))
+    Ok(JsObject(List(("user", toJson(friendsOfSID.list)))))
   }
 
+  /**
+   * @author ireneu
+   * 
+   * Retrieves friendships between users
+   */
   def getUserRelationships = DBAction { implicit rs =>
-    val jsonValue: Seq[(String, JsValue)] = List(("userRelationship", toJson(userRelationships.list)))
-    Ok(JsObject(jsonValue))
+    Ok(JsObject(List(("userRelationship", toJson(userRelationships.list)))))
   }
 }
 
-// An Authorization implementation that only authorizes uses that logged in using twitter
+// An Authorization implementation that only authorizes uses that logged in using certain providers
 case class WithProvider(provider: String) extends Authorization[DemoUser] {
   def isAuthorized(user: DemoUser, request: RequestHeader) = {
     user.main.providerId == provider
