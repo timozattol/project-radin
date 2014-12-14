@@ -50,13 +50,7 @@ public class LoginActivity extends Activity {
 		passwordEditText.setOnKeyListener(loginActivityOnKeyListener);
 
 
-		StorageManager.init(this, new NetworkProvider() {
-			
-			@Override
-			public HttpURLConnection getConnection(URL url) throws IOException {
-				return (HttpURLConnection) url.openConnection();
-			}
-		});
+		StorageManager.init(this);
 
 		prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
 
