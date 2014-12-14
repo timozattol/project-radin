@@ -56,7 +56,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask<UserModel> connTask = 
-					 mConnectionFactory.createTask(callback, RequestType.POST,
+					 getConnectionFactory().createTask(callback, RequestType.POST,
 								SERVER_BASE_URL + "login/" + username, getJSONParser());
 				connTask.execute("{\"password\": \"" + password + "\"}");
 			}
@@ -72,7 +72,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     	final String accessUrl = "userRelationships";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask<UserModel> connTask = mConnectionFactory.createTask(callback, RequestType.GET,
+				ServerConnectionTask<UserModel> connTask = getConnectionFactory().createTask(callback, RequestType.GET,
 				        SERVER_BASE_URL + accessUrl + "/" + String.valueOf(userId), getJSONParser());
 				//Example url: http://radin.epfl.ch/userRelationships/1
 				connTask.execute();
@@ -90,7 +90,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		final String accessUrl = "radingroups";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask<UserModel> connTask = mConnectionFactory.createTask(callback, RequestType.GET,
+				ServerConnectionTask<UserModel> connTask = getConnectionFactory().createTask(callback, RequestType.GET,
 				        SERVER_BASE_URL + accessUrl + "/" + String.valueOf(radinGroupId) + "/" + getTypeUrl(), 
 				        getJSONParser());
 				//Example url: http://radin.epfl.ch/radingroups/1/users
@@ -110,7 +110,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     	final String accessUrl = "radingroups";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask<UserModel> connTask = mConnectionFactory.createTask(callback, RequestType.POST,
+				ServerConnectionTask<UserModel> connTask = getConnectionFactory().createTask(callback, RequestType.POST,
 				        SERVER_BASE_URL + accessUrl + "/" + String.valueOf(radinGroupId) + "/" + "adduser", 
 				        getJSONParser());
 				//Example url: http://radin.epfl.ch/radingroups/1/adduser
@@ -134,7 +134,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     	user.add(new UserModel());
     	if (isConnected()) {
     		if (!isHashMatchServer()) {
-    			ServerConnectionTask<UserModel> connTask = mConnectionFactory.createTask(callback, RequestType.POST, 
+    			ServerConnectionTask<UserModel> connTask = getConnectionFactory().createTask(callback, RequestType.POST, 
     				  	SERVER_BASE_URL + accessUrl + userId + "/" + friendUserName, getJSONParser());
     			//Example url: http://radin.epfl.ch/userRalationships/1/uname
     			JSONObject json;
