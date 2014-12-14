@@ -31,7 +31,7 @@ import ch.epfl.sweng.radin.storage.parsers.JSONParser;
  * @author timozattol
  *
  */
-class ServerConnectionTask<M extends Model> extends AsyncTask<String, Void, String> {
+public class ServerConnectionTask<M extends Model> extends AsyncTask<String, Void, String> {
 
 	private static final int SUCCESS_CODE = 200;
 	private RadinListener<M> mListener;
