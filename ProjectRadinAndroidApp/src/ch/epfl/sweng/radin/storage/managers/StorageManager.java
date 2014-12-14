@@ -187,6 +187,11 @@ public abstract class StorageManager<M extends Model> {
 		return;
 	}
 
+	/**
+	 * Check if the device has a working networkConnection
+	 * @author CedricCook
+	 * @return the status of the network connection
+	 */
 	protected boolean isConnected() {
 		ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -194,6 +199,13 @@ public abstract class StorageManager<M extends Model> {
 		return networkInfo != null && networkInfo.isConnected();
 	}
 	
+	/**
+	 * Check if the local database has the same data as the server,
+	 * so we can fetch a local copy instead.
+	 * (not yet implemented)
+	 * @author CedricCook
+	 * @return true if local copy & server have same requested data, false otherwise
+	 */
 	protected boolean isHashMatchServer() {
 		// TODO Create a method that verifies that our hash matches the one from the server
 		return false;
