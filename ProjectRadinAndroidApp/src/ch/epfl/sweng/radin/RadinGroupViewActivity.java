@@ -63,26 +63,25 @@ public class RadinGroupViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_view);
 
-
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
-		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
-			
-		setTitle(radinGroupTitle);
+
+		setTitle(mCurrentRadinGroupModel.getRadinGroupName());
 
 		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.radinGroupViewLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
-		
+
+		// Creates an Array adapter for the transaction, to update the view
+		// every time the refreshViewWithData method is called.
 		mTransactionsModelAdapter = new TransactionArrayAdapter(
                 this, 
                 R.layout.transaction_list_row, 
                 mTransactionModelList);
-		
+
 		mTransactionListView = (ListView) findViewById(R.id.transactionListView);
 		mTransactionListView.setAdapter(mTransactionsModelAdapter);
 
 		refreshUsersInGroupAndThenTransaction();
-		//setAutoTransactionRefresh();
 	}
 	
 	@Override
@@ -97,7 +96,7 @@ public class RadinGroupViewActivity extends Activity {
 		inflater.inflate(R.menu.radingroup_view, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle presses on the action bar items
@@ -107,7 +106,6 @@ public class RadinGroupViewActivity extends Activity {
 	        	startActivity(intent);
 	            return true;
 	        case R.id.action_settings:
-	         
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -118,6 +116,9 @@ public class RadinGroupViewActivity extends Activity {
 	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 	
+	/**
+	 * Refresh the view with the new @param transactions, after sorting them.
+	 */
 	private void refreshViewWithData(List<TransactionWithParticipantsModel> transactions) {
 	    sortByDateTime(transactions);
 	    mTransactionsModelAdapter.setTransactionModels(transactions);
@@ -146,6 +147,9 @@ public class RadinGroupViewActivity extends Activity {
                 });
 	}
 	
+	/**
+	 * Sorts the given list @param transactions by chronological order.
+	 */
 	private void sortByDateTime(List<TransactionWithParticipantsModel> transactions) {
 	    Collections.sort(transactions, new Comparator<TransactionModel>() {
 
