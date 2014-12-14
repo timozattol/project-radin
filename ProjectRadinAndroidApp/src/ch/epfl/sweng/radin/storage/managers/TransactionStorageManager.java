@@ -49,8 +49,11 @@ public final class TransactionStorageManager extends StorageManager<TransactionM
     public void getAllForGroupId(int groupId, RadinListener<TransactionModel> callback) {
     	if (isConnected()) {
     		if (!isHashMatchServer()) {
-    			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-						SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(groupId));
+    			ServerConnectionTask<TransactionModel> connTask = getConnectionFactory().createTask(callback,
+    					RequestType.GET,
+    					SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(groupId),
+    					getJSONParser());
+    					
 				connTask.execute();
 				return;
     		}
