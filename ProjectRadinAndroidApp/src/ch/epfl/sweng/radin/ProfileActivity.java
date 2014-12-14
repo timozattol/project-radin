@@ -59,7 +59,7 @@ public class ProfileActivity extends Activity {
 					}
 
 				} else {
-					displayErrorToast(getString(R.string.retriving_user_error));
+					displayErrorToast(getString(R.string.retrieving_user_error));
 				}
 
 			}

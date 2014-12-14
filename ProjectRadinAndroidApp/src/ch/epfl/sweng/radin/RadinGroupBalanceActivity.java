@@ -100,7 +100,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
                     // After users are fetched, fetch transactions
                     fetchTransactions();
                 } else {
-                    displayErrorToast(getString(R.string.retrinving_user_group_error));
+                    displayErrorToast(getString(R.string.retrieving_user_group_error));
                 }
             }
         });
@@ -120,7 +120,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
                     // Draw balances when transactions were successfully fetched.
                     drawBalances(calculateBalances());
                 } else {
-                    displayErrorToast(getString(R.string.retrinving_transaction_group_error));
+                    displayErrorToast(getString(R.string.retrieving_transaction_group_error));
                 }
             }
         });

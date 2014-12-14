@@ -139,7 +139,7 @@ public class RadinGroupViewActivity extends Activity {
                     public void callback(List<TransactionWithParticipantsModel> items,
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
-                            displayErrorToast(getString(R.string.retrinving_transaction_group_error));
+                            displayErrorToast(getString(R.string.retrieving_transaction_group_error));
                         } else {
                             refreshViewWithData(items);
                         }

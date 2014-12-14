@@ -168,7 +168,7 @@ public class ProfileChange extends Activity {
 							profileOK = true;
 							initializeEditText();
 						} else {
-							displayErrorToast(getString(R.string.retriving_user_error));
+							displayErrorToast(getString(R.string.retrieving_user_error));
 						}
 
 					} else {

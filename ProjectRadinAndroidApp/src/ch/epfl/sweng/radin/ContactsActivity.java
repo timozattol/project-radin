@@ -89,7 +89,7 @@ public class ContactsActivity extends Activity {
 					StorageManagerRequestStatus status) {				
 
 				if (status == StorageManagerRequestStatus.FAILURE) {
-                    displayErrorToast(getString(R.string.retriving_friend_error));
+                    displayErrorToast(getString(R.string.retrieving_friend_error));
 				} else {
 					mUserModelAdapter.setUserModels(items);
 					mContactUserModelList.clear();

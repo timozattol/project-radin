@@ -62,7 +62,7 @@ public class RadinGroupStatsActivity extends Activity {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					displayItems(items);
 				} else {
-					displayErrorToast(getString(R.string.retrinving_transaction_group_error));
+					displayErrorToast(getString(R.string.retrieving_transaction_group_error));
 				}
 			}
 		});

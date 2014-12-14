@@ -90,7 +90,7 @@ public class MyRadinGroupsActivity extends Activity {
 					mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
 					displayList();
 				} else {
-					displayErrorToast(getString(R.string.retriving_radin_group_error));
+					displayErrorToast(getString(R.string.retrieving_radin_group_error));
 				}
 			}
 		});

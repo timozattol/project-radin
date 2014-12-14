@@ -58,7 +58,7 @@ public class RadinGroupConfigurationActivity extends Activity {
 					mGroupMembers.clear();
 					mGroupMembers.addAll(items);
 				    } else {
-				        displayErrorToast(getString(R.string.retrinving_user_group_error));				        
+				        displayErrorToast(getString(R.string.retrieving_user_group_error));				        
 				    }
 			}
 		});
