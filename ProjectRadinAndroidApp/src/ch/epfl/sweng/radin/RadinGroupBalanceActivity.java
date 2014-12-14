@@ -1,6 +1,5 @@
 package ch.epfl.sweng.radin;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
@@ -44,8 +42,6 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private List<UserModel> mParticipants;
 	private List<TransactionWithParticipantsModel> mTransactions;
-	private final static int TIME_OUT = 5000;
-	private final static int TEXT_SIZE = 30;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
