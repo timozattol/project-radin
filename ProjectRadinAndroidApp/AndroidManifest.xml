@@ -127,7 +127,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ProfileChange"
+            android:name=".EditProfile"
             android:label="@string/title_activity_profile_change"
             android:parentActivityName=".ProfileActivity" >
         </activity>

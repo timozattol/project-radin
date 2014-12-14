@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 /**
  * @author Fabien Zellweger
+ * This Activity is the Notification center. Here the user can
+ * see all the events that occurred.
  */
 public class NotificationsActivity extends Activity {
 

@@ -32,6 +32,7 @@ import com.jjoe64.graphview.GraphViewSeries;
 
 /**
  * @author Fabien Zellweger
+ * Displays statistics of the expenses over time.
  */
 public class RadinGroupStatsActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;

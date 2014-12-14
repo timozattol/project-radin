@@ -22,11 +22,12 @@ import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 /**
- * 
+ *
  * @author topali2
+ * Allows to edit user's informations.
  *
  */
-public class ProfileChange extends Activity {
+public class EditProfile extends Activity {
 
 	private UserModel newProfileModel = null;
 	private boolean profileOK = false;

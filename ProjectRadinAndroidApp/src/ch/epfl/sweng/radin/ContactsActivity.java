@@ -30,7 +30,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
  * @author Fabien Zellweger
- * This activity show you you're contacts
+ * This activity shows you your contacts
  */
 
 public class ContactsActivity extends Activity {

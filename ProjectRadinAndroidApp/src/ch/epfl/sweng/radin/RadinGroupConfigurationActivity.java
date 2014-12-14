@@ -26,8 +26,8 @@ import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
- * @author Fabien Zellweger
- *	Display a list of all current group member and set it clickable with option on it.
+ *  @author Fabien Zellweger
+ *  Displays a list of all current group members.
  */
 public class RadinGroupConfigurationActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;

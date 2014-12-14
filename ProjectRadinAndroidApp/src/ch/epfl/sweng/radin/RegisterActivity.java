@@ -22,7 +22,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
  * @author Simonchelbc
- * 
+ * Allows a new user to register with his informations.
  */
 public class RegisterActivity extends Activity {
 	private boolean newUserDataUsable = false;

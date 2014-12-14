@@ -22,8 +22,8 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 /**
  *
  * @author Fabien Zellweger
- * Login activity, to log an user, if right login, can go further in the app, or
- * give the opportunity to register.
+ * Login activity, to log an user. If the login is right, the user can go further in the app.
+ * Else, gives the opportunity to register.
  *
  */
 

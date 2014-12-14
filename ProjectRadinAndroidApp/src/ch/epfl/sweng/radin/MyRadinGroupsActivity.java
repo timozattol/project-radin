@@ -26,8 +26,7 @@ import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 /**
  * 
  * @author Fabien Zellweger
- * This activity get all the radin group from the connected user and list them
- * to give access.
+ * This activity lists all the RadinGroups to which the user is subscribed.
  *
  */
 public class MyRadinGroupsActivity extends Activity {

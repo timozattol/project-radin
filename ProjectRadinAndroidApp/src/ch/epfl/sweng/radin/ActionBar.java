@@ -20,7 +20,7 @@ import android.widget.Toast;
  * 
  * @author Fabien Zellweger
  * Class to add the ActionBar on all concerned list activity.
- * It genere the button, and place them correctly with a listener
+ * It generates the buttons, and places them correctly with a listener
  *
  */
 public class ActionBar {

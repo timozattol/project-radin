@@ -10,7 +10,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:padding="10dp"
-        tools:context="ch.epfl.sweng.radin.ProfileChange" >
+        tools:context="ch.epfl.sweng.radin.EditProfile" >
 
         <TextView
             android:id="@+id/profileChangeName"

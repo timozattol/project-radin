@@ -34,8 +34,9 @@ import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageMa
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
- * 
  * @author Fabien Zellweger
+ * Displays a balance of the financial situation 
+ * between users in the current RadinGroup.
  *
  */
 @SuppressLint("UseSparseArrays") public class RadinGroupBalanceActivity extends Activity {

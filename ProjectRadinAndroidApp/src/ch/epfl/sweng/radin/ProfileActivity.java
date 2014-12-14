@@ -20,6 +20,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
  * @author topali2
+ * Shows the informations of an user.
  */
 public class ProfileActivity extends Activity {
 	public static final String PREFS = "PREFS";
@@ -116,10 +117,10 @@ public class ProfileActivity extends Activity {
 						switch (selectedId){
 							case R.id.modifPofileBtn:
 								displayActivityIntent = 
-								new Intent(v.getContext(), ProfileChange.class);
+								new Intent(v.getContext(), EditProfile.class);
 					        	if (mSearchingId == mCurrentUserId) {
 					        		displayActivityIntent = 
-											new Intent(v.getContext(), ProfileChange.class);
+											new Intent(v.getContext(), EditProfile.class);
 					        		startActivity(displayActivityIntent);
 					        	} else {
 					        		displayErrorToast(getString(R.string.edit_friends_profile));
@@ -150,7 +151,7 @@ public class ProfileActivity extends Activity {
 	            return true;
 	        case R.id.action_settings:
 	        	if (mSearchingId == mCurrentUserId) {
-	        		Intent profileModifIntent = new Intent(this, ProfileChange.class);
+	        		Intent profileModifIntent = new Intent(this, EditProfile.class);
 	        		startActivity(profileModifIntent);
 	        	} else {
 	        		displayErrorToast(getString(R.string.edit_friends_profile));

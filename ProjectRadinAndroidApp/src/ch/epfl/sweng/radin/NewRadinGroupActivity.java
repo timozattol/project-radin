@@ -32,8 +32,9 @@ import android.widget.Toast;
 
 
 /**
- * Activity allows the user to create a new list of expenses.
- * The user must provide a name for the list and the names of the people that he wants share this list with. 
+ * This Activity allows the user to create a new list of expenses.
+ * The user must provide a name for the list and the names of the people 
+ * that he wants share this list with. 
  *
  */
 public class NewRadinGroupActivity extends Activity {

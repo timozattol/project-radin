@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 /**
  * @author Fabien Zellweger
+ * Gives an overview of the financial situation of the logged user, 
+ * all groups combined.
  */
 public class OverviewActivity extends Activity {
 

@@ -39,9 +39,7 @@ import android.widget.Toast;
 /**
  * 
  * @author Fabien Zellweger
- * This Activity give a view of the selected radin group
- * The List of transactions must be updated via refreshWithData,
- * so that the ArrayAdapter updates the view.
+ * This Activity gives a view of the selected RadinGroup.
  *
  */
 @SuppressLint("UseSparseArrays")
