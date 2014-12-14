@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -68,7 +69,10 @@ public class ActionBar {
 	private final static String NOMASTERIDDETECTOR = "noArg";
 
 	public static void addActionBar(Context context, LinearLayout currentLayout, RadinGroupModel radinGroupName) {
-	    final int buttonPadding = 45;
+	    final float halfInFloat = 0.5f;
+	    final DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+	    final float buttonRelativePadding = 15f;
+	    int buttonAbsolutePadding = (int) (metrics.density * buttonRelativePadding + halfInFloat);
 	    
 		mRadinGroupModel = radinGroupName;
 
@@ -116,8 +120,8 @@ public class ActionBar {
 					  LinearLayout.LayoutParams.MATCH_PARENT,
 					  (float) (1.0/ACTION_BAR_COUNT));
 			actionBarContent[i].setPadding(
-			        buttonPadding, buttonPadding, 
-			        buttonPadding, buttonPadding);
+			        buttonAbsolutePadding, buttonAbsolutePadding,
+			        buttonAbsolutePadding, buttonAbsolutePadding);
 			actionBarContent[i].setAdjustViewBounds(true);
 			currentLayout.addView(actionBarContent[i], layoutParams);
 		}
