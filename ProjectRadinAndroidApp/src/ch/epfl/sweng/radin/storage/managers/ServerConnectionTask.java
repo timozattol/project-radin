@@ -29,6 +29,7 @@ import ch.epfl.sweng.radin.storage.parsers.JSONParser;
  * 1. The url to connect to
  * 2. The json data to post or put. (Can be empty if request method is get or delete).
  * @author timozattol
+ * @param <M> The model to parametrize the class with. The class's parser and listeners are parametrized with M.
  *
  */
 public class ServerConnectionTask<M extends Model> extends AsyncTask<String, Void, String> {
@@ -40,6 +41,13 @@ public class ServerConnectionTask<M extends Model> extends AsyncTask<String, Voi
 	private NetworkProvider mNetworkProvider;
 	private JSONParser<M> mJSONParser;
 
+	/**
+	 * Construct a ServerConnectionTask (which is an AsyncTask), that will GET/POST/PUT or DELETE your data
+	 * @param listener the listener to call a callback on when request is finished
+	 * @param requestType the type of HTTP request (GET/PUT/POST/DELETE)
+	 * @param url the url to contact
+	 * @param jsonParser the parser that will parse the result
+	 */
 	public ServerConnectionTask(RadinListener<M> listener, RequestType requestType, 
 			String url, JSONParser<M> jsonParser) {
 		if (listener == null) {
@@ -72,6 +80,11 @@ public class ServerConnectionTask<M extends Model> extends AsyncTask<String, Voi
 		}
 	}
 
+	/**
+	 * Change the networkProvider this class uses (mainly used to swap with a fake one for testing purposes.)
+	 * @author CedricCook
+	 * @param networkProvider the networkProvider where a HttpURLConnection will be retrieved from
+	 */
 	public void setNetworkProvider(NetworkProvider networkProvider) {
 		if (networkProvider == null) {
 			throw new IllegalArgumentException("Networkprovider must be non-null");
@@ -111,30 +124,30 @@ public class ServerConnectionTask<M extends Model> extends AsyncTask<String, Voi
 			conn.setRequestMethod(mRequestType.name());
 
 			switch(mRequestType) {
-			case GET:
-				conn.connect();
-
-				break;
-
-			case POST:
-			case PUT:
-				conn.setDoOutput(true);
-				conn.setRequestProperty("Content-Type", "application/json");
-				DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-				wr.writeBytes(jsonData);
-				wr.flush();
-				wr.close();
-
-				break;
-
-			case DELETE:
-				conn.connect();
-
-				break;
-
-			default:
-				throw new IllegalStateException("The request type must be one of the 4 values,"
-						+ " since it should not be null");
+				case GET:
+					conn.connect();
+	
+					break;
+	
+				case POST:
+				case PUT:
+					conn.setDoOutput(true);
+					conn.setRequestProperty("Content-Type", "application/json");
+					DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+					wr.writeBytes(jsonData);
+					wr.flush();
+					wr.close();
+	
+					break;
+	
+				case DELETE:
+					conn.connect();
+	
+					break;
+	
+				default:
+					throw new IllegalStateException("The request type must be one of the 4 values,"
+							+ " since it should not be null");
 			}
 
 			if (conn.getResponseCode() != SUCCESS_CODE) {
