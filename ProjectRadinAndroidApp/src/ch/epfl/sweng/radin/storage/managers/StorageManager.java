@@ -49,7 +49,7 @@ public abstract class StorageManager<M extends Model> {
 	/**
 	 * set A different connectionFactory
 	 */
-	protected void setConnectionFactory(ConnectionFactory<M> connFactory) {
+	public void setConnectionFactory(ConnectionFactory<M> connFactory) {
 		mConnectionFactory = connFactory;
 	}
 
