@@ -30,7 +30,6 @@ import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 public abstract class StorageManager<M extends Model> {
 
 	private static Context mContext = null;
-	private static NetworkProvider mNetworkProvider = null;
 	static final String SERVER_BASE_URL = "http://radin.epfl.ch/";
 
 	/**
@@ -46,22 +45,23 @@ public abstract class StorageManager<M extends Model> {
 	 * @return the type url.
 	 */
 	protected abstract String getTypeUrl();
+	
+	/**
+	 * Get the connectionFactory that will instantiate ServerConnectionTasks.
+	 * This let's us separate the code better.
+	 */
+	protected abstract ConnectionFactory<M> getConnectionFactory();
 
 
 	/**
-	 * Initiates the StorageManager with the application Context and a networkProvider
+	 * Initiates the StorageManager with the application Context
 	 * The Context is needed when we check the connection
-	 * The networkProvider is used to obtain a httpurlconnection
 	 * @param appContext the context of the Application
 	 * @param networkProvider the networkProvider to get a connection from
 	 */
-	public static void init(Context appContext, NetworkProvider networkProvider) {
+	public static void init(Context appContext) {
 		if (mContext == null) {
 			mContext = appContext;
-		}
-
-		if (mNetworkProvider == null) {
-			mNetworkProvider = networkProvider;
 		}
 	}
 
@@ -71,8 +71,8 @@ public abstract class StorageManager<M extends Model> {
 	public void getById(int id, RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET, 
-				        SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(id));
+				ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.GET, 
+				        SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(id), getJSONParser());
 				connTask.execute();
 				return;
 			}
@@ -86,8 +86,8 @@ public abstract class StorageManager<M extends Model> {
 	public void getAll(RadinListener<M> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + getTypeUrl());
+				ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.GET,
+				        SERVER_BASE_URL + getTypeUrl(), getJSONParser());
 				connTask.execute();
 				return;
 			}
@@ -130,8 +130,8 @@ public abstract class StorageManager<M extends Model> {
 			endUrl += "/" + id;
 		}
 		if (isConnected()) {
-			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.POST,
-			        SERVER_BASE_URL + getTypeUrl() + endUrl);
+			ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.POST,
+			        SERVER_BASE_URL + getTypeUrl() + endUrl, getJSONParser());
 			JSONObject json;
 			
             try {
@@ -150,8 +150,8 @@ public abstract class StorageManager<M extends Model> {
 	 */
 	public void update(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()) {
-			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.PUT,
-			        SERVER_BASE_URL + getTypeUrl());
+			ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.PUT,
+			        SERVER_BASE_URL + getTypeUrl(), getJSONParser());
 			
 			JSONObject json;
             try {
@@ -171,8 +171,8 @@ public abstract class StorageManager<M extends Model> {
 	 */
 	public void delete(List<M> entries, RadinListener<M> callback) {
 		if (isConnected()) {
-			ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.DELETE,
-			        SERVER_BASE_URL + getTypeUrl());
+			ServerConnectionTask<M> connTask = getConnectionFactory().createTask(callback, RequestType.DELETE,
+			        SERVER_BASE_URL + getTypeUrl(), getJSONParser());
 			
 			JSONObject json;
             try {
@@ -198,156 +198,5 @@ public abstract class StorageManager<M extends Model> {
 		return false;
 	}
 
-	/**
-	 * An Asynchronous task who communicates with the server. 
-	 * The execute method takes 3 String arguments: 
-	 * 1. The url to connect to
-	 * 2. The json data to post or put. (Can be empty if request method is get or delete).
-	 * @author timozattol
-	 *
-	 */
-	protected class ServerConnectionTask extends AsyncTask<String, Void, String> {
 
-	    private static final int SUCCESS_CODE = 200;
-		private RadinListener<M> mListener;
-		private RequestType mRequestType;
-		private URL mURL;
-		
-		public ServerConnectionTask(RadinListener<M> listener, RequestType requestType, String url) {
-		    if (listener == null) {
-		        throw new IllegalArgumentException("The RadinListener should not be null");
-		    } else if (requestType == null) {
-		        throw new IllegalArgumentException("The RequestType should not be null");
-		    } else if (url == null || url.equals("")) {
-		        throw new IllegalArgumentException("The url should not be null nor empty");
-		    }
-		    
-			mListener = listener;
-			mRequestType = requestType;
-			
-			try {
-                mURL = new URL(url);
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException("The url should be a valid url");
-            }
-		}
-
-		/* (non-Javadoc)
-		 * @see android.os.AsyncTask#doInBackground(Params[])
-		 */
-		@Override
-		protected String doInBackground(String... params) {
-			try {
-			    String jsonData = "";
-			    
-			    // Sanity checks on params[0] (the jsonData to send)
-			    if (params.length == 1) {
-			        if (mRequestType == RequestType.GET || mRequestType == RequestType.DELETE) {
-			            throw new IllegalArgumentException("There shouldn't be jsonData "
-                                + "with GET or DELETE");
-			        }
-                    
-			        jsonData = params[0];
-
-                } else if (params.length == 0) {
-			        if (mRequestType == RequestType.POST || mRequestType == RequestType.PUT) {
-			            throw new IllegalArgumentException("There should be jsonData "
-                                + "when POST or PUT");
-                        
-                    }
-			    } else {
-			        throw new IllegalArgumentException("There should be zero or one argument "
-                            + "to the execute method");
-			    }
-			    
-			    HttpURLConnection conn = mNetworkProvider.getConnection(mURL);
-			    conn.setRequestMethod(mRequestType.name());
-			    
-				switch(mRequestType) {
-                    case GET:
-                        conn.connect();
-
-                        break;
-
-                    case POST:
-                    case PUT:
-                        conn.setDoOutput(true);
-                        conn.setRequestProperty("Content-Type", "application/json");
-                        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-                        wr.writeBytes(jsonData);
-                        wr.flush();
-                        wr.close();
-
-                        break;
-                        
-                    case DELETE:
-                        conn.connect();
-
-                        break;
-                        
-                    default:
-                        throw new IllegalStateException("The request type must be one of the 4 values,"
-                        		+ " since it should not be null");
-				}
-
-				if (conn.getResponseCode() != SUCCESS_CODE) {
-				    return "FAILURE";
-				}
-
-				String response = fetchContent(conn);
-
-				return response;
-            } catch (IOException e) {
-                return "FAILURE";
-            }
-		}
-
-		/* (non-Javadoc)
-		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-		 */
-		@Override
-		protected void onPostExecute(String result) {
-
-			if (result.equals("FAILURE")) {
-			    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
-			} else {
-			    JSONObject jsonResult;
-
-                try {
-                    jsonResult = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
-                    return;
-                }
-                
-			    List<M> parsedModels;
-			    
-                try {
-                    parsedModels = getJSONParser().getModelsFromJson(jsonResult);
-                    mListener.callback(parsedModels, StorageManagerRequestStatus.SUCCESS);
-                } catch (JSONException e) {
-                    mListener.callback(new ArrayList<M>(), StorageManagerRequestStatus.FAILURE);
-                }
-			}
-		}
-
-		private String fetchContent(HttpURLConnection conn) throws IOException {
-			// Credits go to http://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string
-			InputStream is = conn.getInputStream();
-			try {
-			    java.util.Scanner s = new java.util.Scanner(is);
-				java.util.Scanner scanner = s.useDelimiter("\\A");
-				
-				String result = scanner.hasNext() ? scanner.next() : "";
-				
-				s.close();
-				scanner.close();
-				
-				return result;
-			} finally {
-				is.close();
-			}
-		}
-	}
 }
