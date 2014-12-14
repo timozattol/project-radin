@@ -22,8 +22,8 @@ DELETE /radingroups/:rgid/removeuser/:uid  @controllers.Application.removeUserFr
 
 GET    /transactions/:rgid                 @controllers.Application.getTransactionsForGroup(rgid: Int)
 GET    /transactions/withcoeffs/:rgid      @controllers.Application.getTransactionsWithCoeffsForGroup(rgid: Int)
-POST   /transactions					   @controllers.Application.newTransaction
-POST   /transactions/withcoeffs			   @controllers.Application.newTransactionWithCoeffs
+POST   /transactions					   @controllers.Application.newTransactions
+POST   /transactions/withcoeffs			   @controllers.Application.newTransactionsWithCoeffs
 
 GET    /users                              @controllers.Application.userList
 POST   /users                              @controllers.Application.newUser
