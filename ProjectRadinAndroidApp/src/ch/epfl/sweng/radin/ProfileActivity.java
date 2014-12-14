@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.sweng.radin.callback.RadinListener;
@@ -80,8 +79,8 @@ public class ProfileActivity extends Activity {
 	 */
 	public void displayUser() {
 
-		ImageView profilePicture = (ImageView) findViewById(R.id.profilePic);
-		//TODO add profile picture
+	    //TODO add profile picture
+		//ImageView profilePicture = (ImageView) findViewById(R.id.profilePic);
 
 		TextView firstName = (TextView) findViewById(R.id.profileFirstName);
 		firstName.setText(profileUser.getFirstName());
