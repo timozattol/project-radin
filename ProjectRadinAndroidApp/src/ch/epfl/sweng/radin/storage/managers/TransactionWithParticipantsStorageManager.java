@@ -55,7 +55,7 @@ public final class TransactionWithParticipantsStorageManager extends
 	public void getAllForGroupId(int groupId, RadinListener<TransactionWithParticipantsModel> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask<TransactionWithParticipantsModel> connTask = getConnectionFactory.createTask(
+				ServerConnectionTask<TransactionWithParticipantsModel> connTask = getConnectionFactory().createTask(
 						callback, RequestType.GET,
 				        SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(groupId), getJSONParser());
 				//Example url : http://radin.epfl.ch/transactions/withcoeffs/1
