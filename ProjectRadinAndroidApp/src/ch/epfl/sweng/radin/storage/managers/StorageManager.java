@@ -21,7 +21,7 @@ import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 public abstract class StorageManager<M extends Model> {
 
 	private static Context mContext = null;
-	private ConnectionFactory<M> mConnectionFactory = new ConnectionFactory<M>();
+	private ConnectionFactory<M> mConnectionFactory = new DefaultConnectionFactory<M>();
 	static final String SERVER_BASE_URL = "http://radin.epfl.ch/";
 
 	/**
