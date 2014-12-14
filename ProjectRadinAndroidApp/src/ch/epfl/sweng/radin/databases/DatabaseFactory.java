@@ -1,6 +1,5 @@
 package ch.epfl.sweng.radin.databases;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -18,7 +17,8 @@ public class DatabaseFactory {
 			+ "FOREIGN KEY (_UID) REFERENCES USER(_UID),"
 			+ "FOREIGN KEY (_RID) REFERENCES RADIN_GROUP(_RID),"
 			+ "PRIMARY KEY (_UID, _RID));";
-	private static final String CREATE_TABLE_USER_CONCERNED_BY_TRANSACTION = "CREATE TABLE USER_CONCERNED_BY_TRANSACTION(\r\n"
+	private static final String CREATE_TABLE_USER_CONCERNED_BY_TRANSACTION = 
+	        "CREATE TABLE USER_CONCERNED_BY_TRANSACTION(\r\n"
 			+ "_TID INT NOT NULL,"
 			+ "_UID INT NOT NULL,"
 			+ "COEFFICIENT INT NOT NULL,"

@@ -94,7 +94,7 @@ public final class Database {
 		return rowID;
 	}
 	
-	public static List<Map<String,String>> getEverythingFromRadinGroupTable() {
+	public static List<Map<String, String>> getEverythingFromRadinGroupTable() {
 		instanceNotNullCheck();
 		return RadinGroupTableHelper.getEverythingFromRadinGroupTable();
 	}
