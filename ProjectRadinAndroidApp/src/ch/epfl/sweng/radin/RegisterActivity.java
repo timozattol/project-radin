@@ -64,41 +64,41 @@ public class RegisterActivity extends Activity {
 	private void submitUserToServer() {
 
 		UserStorageManager userStorageManager = 
-				UserStorageManager.getStorageManager();
+						UserStorageManager.getStorageManager();
 
 		List<UserModel> newUserList = new ArrayList<UserModel>();
 		newUserList.add(mNewUser);
 
 		userStorageManager.create(newUserList, 
-				new RadinListener<UserModel>() {
+						new RadinListener<UserModel>() {
 
-			@Override
-			public void callback(List<UserModel> items,
-					StorageManagerRequestStatus status) {
-				if (status == StorageManagerRequestStatus.FAILURE) {
-					Intent myIntent = 
-							new Intent(getBaseContext(), LoginActivity.class);
-					startActivity(myIntent);
-					Toast.makeText(getApplicationContext(),
-							R.string.server_error, Toast.LENGTH_SHORT).show();
-				} else {
-					UserModel mUser = items.get(0);
-					int mId = mUser.getId();
+							@Override
+							public void callback(List<UserModel> items,
+											StorageManagerRequestStatus status) {
+								if (status == StorageManagerRequestStatus.FAILURE) {
+									Intent myIntent = 
+													new Intent(getBaseContext(), LoginActivity.class);
+									startActivity(myIntent);
+									Toast.makeText(getApplicationContext(),
+											R.string.server_error, Toast.LENGTH_SHORT).show();
+								} else {
+									UserModel mUser = items.get(0);
+									int mId = mUser.getId();
 
-					SharedPreferences.Editor editor = prefs.edit();
-					editor.putString(getString(R.string.username), 
-							String.valueOf(mId));
-					editor.commit();
-					Intent myIntent = 
-							new Intent(getBaseContext(), HomeActivity.class);
-					startActivity(myIntent);
-					finishAffinity();
-					Toast.makeText(getApplicationContext(),
-							R.string.user_created, Toast.LENGTH_SHORT).show();
-				}
-			}
+									SharedPreferences.Editor editor = prefs.edit();
+									editor.putString(getString(R.string.username), 
+													String.valueOf(mId));
+									editor.commit();
+									Intent myIntent = 
+													new Intent(getBaseContext(), HomeActivity.class);
+									startActivity(myIntent);
+									finishAffinity();
+									Toast.makeText(getApplicationContext(),
+											R.string.user_created, Toast.LENGTH_SHORT).show();
+								}
+							}
 
-		});
+						});
 
 
 	}
@@ -113,22 +113,22 @@ public class RegisterActivity extends Activity {
 	private void retrieveNewUserData() {
 
 		final CharSequence newUserFirstName = 
-				((TextView) findViewById(id.first_name_new_user)).getText();	      
+	             ((TextView) findViewById(id.first_name_new_user)).getText();	      
 		final CharSequence newUserLastName = 
-				((TextView) findViewById(id.last_name_new_user)).getText();
+	             ((TextView) findViewById(id.last_name_new_user)).getText();
 		final CharSequence newUserUsername = 
-				((TextView) findViewById(id.username_new_user)).getText();
+	             ((TextView) findViewById(id.username_new_user)).getText();
 		final CharSequence newUserEmail = 
-				((TextView) findViewById(id.email_new_user)).getText();
+	             ((TextView) findViewById(id.email_new_user)).getText();
 		final CharSequence newUserPassword = 
-				((TextView) findViewById(id.password_new_user)).getText();
+	             ((TextView) findViewById(id.password_new_user)).getText();
 		final CharSequence newUserAddress = 
-				((TextView) findViewById(id.address_new_user)).getText();
+	             ((TextView) findViewById(id.address_new_user)).getText();
 		final CharSequence newUserIban = 
-				((TextView) findViewById(id.iban_new_user)).getText();
+	             ((TextView) findViewById(id.iban_new_user)).getText();
 		final CharSequence newUserBicSwift = 
-				((TextView) findViewById(id.bic_swift_address_new_user))
-				.getText();
+						((TextView) findViewById(id.bic_swift_address_new_user))
+             .getText();
 
 		mNewUser.setFirstName(newUserFirstName.toString());
 		mNewUser.setLastName(newUserLastName.toString());

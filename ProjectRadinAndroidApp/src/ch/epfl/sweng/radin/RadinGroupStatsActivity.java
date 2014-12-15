@@ -122,29 +122,29 @@ public class RadinGroupStatsActivity extends Activity {
 			
 			String currentYearDate = String.valueOf(items.get(i).getDateTime().getYear());
 			String currentMonthDate = currentYearDate + " / " 
-					+ String.valueOf(items.get(i).getDateTime().getMonthOfYear());
+							+ String.valueOf(items.get(i).getDateTime().getMonthOfYear());
 			String currentDayDate = currentMonthDate + " / "
-					+ String.valueOf(items.get(i).getDateTime().getDayOfMonth());			
+							+ String.valueOf(items.get(i).getDateTime().getDayOfMonth());			
 			
 			sortedByYear.put(currentYearDate, currentYearDate.equals(previousYearDate) 
-					? sortedByYear.get(currentYearDate) + items.get(i).getAmount() 
+							? sortedByYear.get(currentYearDate) + items.get(i).getAmount() 
 							: items.get(i).getAmount());
 			previousYearDate = currentYearDate;
 			
 			sortedByMonth.put(currentMonthDate, currentMonthDate.equals(previousMonthDate) 
-					? sortedByMonth.get(currentMonthDate) + items.get(i).getAmount() 
+							? sortedByMonth.get(currentMonthDate) + items.get(i).getAmount() 
 							: items.get(i).getAmount());
 			previousMonthDate = currentMonthDate;
 			
 			sortedByDay.put(currentDayDate, currentDayDate.equals(previousDayDate) 
-					? sortedByDay.get(currentDayDate) + items.get(i).getAmount() 
+							? sortedByDay.get(currentDayDate) + items.get(i).getAmount() 
 							: items.get(i).getAmount());
 			previousDayDate = currentDayDate;
 		}
 		
 		TextView totalAmountView = (TextView) findViewById(R.id.totalAmountValue);
 		totalAmountView.setText(mCurrentRadinGroupModel.getRadinGroupName() 
-				+ ": " + totalAmount);
+							+ ": " + totalAmount);
 		
 		//Create the year graph
 		String[] yearKeys = sortedByYear.navigableKeySet().toArray(new String[0]);
@@ -187,8 +187,8 @@ public class RadinGroupStatsActivity extends Activity {
 		//Place the graphs on the right positions and set them invisible
 		RelativeLayout statRelativeLayout = (RelativeLayout) findViewById(R.id.statRadinGroupLayout);
 		RelativeLayout.LayoutParams layoutParams= new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-			RelativeLayout.LayoutParams.WRAP_CONTENT);
+						RelativeLayout.LayoutParams.WRAP_CONTENT,
+						RelativeLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.addRule(RelativeLayout.BELOW, R.id.statsSelectGraphSpinner);
 		statRelativeLayout.addView(mDayGraphView, layoutParams);
 		statRelativeLayout.addView(mMonthGraphView, layoutParams);
@@ -205,7 +205,7 @@ public class RadinGroupStatsActivity extends Activity {
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position,
-				long id) {
+						long id) {
 
 			switch (position) {
 				case GRAPH_DEFAULT_ID :

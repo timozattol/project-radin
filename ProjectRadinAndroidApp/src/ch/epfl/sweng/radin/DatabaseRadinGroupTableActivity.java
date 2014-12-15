@@ -88,7 +88,7 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	private RadinGroupModel getRadinGroupFromFields() { //TODO to finish
 		
 		int rid = Integer
-				.parseInt(returnText((TextView) findViewById(R.id.RID)));
+			  	.parseInt(returnText((TextView) findViewById(R.id.RID)));
 		String name = returnText((TextView) findViewById(R.id.RGName));
 		String creationDate = returnText((TextView) findViewById(R.id.RGCreatedAt));
 		String avatar = returnText((TextView) findViewById(R.id.RGAvatar));
@@ -100,8 +100,7 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		returnText((TextView) findViewById(R.id.RGEndedAt));
 		returnText((TextView) findViewById(R.id.RGDeletedAt));
 		
-		RadinGroupModel rg = new RadinGroupModel(rid,
-				getTimeFrom(creationDate), name, description, avatar);
+		RadinGroupModel rg = new RadinGroupModel(rid, getTimeFrom(creationDate), name, description, avatar);
 		return rg;
 	}
 	/**

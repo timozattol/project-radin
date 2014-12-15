@@ -89,18 +89,18 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
         userStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(),
                 new RadinListener<UserModel>() {
 
-            @Override
-            public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
-                if (status == StorageManagerRequestStatus.SUCCESS) {
-                    mParticipants = items;
+        		@Override
+        		public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
+        			if (status == StorageManagerRequestStatus.SUCCESS) {
+        				mParticipants = items;
                     
-                    // After users are fetched, fetch transactions
-                    fetchTransactions();
-                } else {
-                    displayErrorToast(getString(R.string.retrieving_user_group_error));
-                }
-            }
-        });
+        				// After users are fetched, fetch transactions
+        				fetchTransactions();
+        			} else {
+        				displayErrorToast(getString(R.string.retrieving_user_group_error));
+        			}
+        		}
+        	});
 	}
 	
 	private void fetchTransactions() {
@@ -109,18 +109,18 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
         storageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(), 
                 new RadinListener<TransactionWithParticipantsModel>() {
 
-            @Override
-            public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
-                if (status == StorageManagerRequestStatus.SUCCESS) {
-                    mTransactions = items;
+        		@Override
+        		public void callback(List<TransactionWithParticipantsModel> items, StorageManagerRequestStatus status) {
+        			if (status == StorageManagerRequestStatus.SUCCESS) {
+        				mTransactions = items;
                     
-                    // Draw balances when transactions were successfully fetched.
-                    drawBalances(calculateBalances());
-                } else {
-                    displayErrorToast(getString(R.string.retrieving_transaction_group_error));
-                }
-            }
-        });
+        				// Draw balances when transactions were successfully fetched.
+        				drawBalances(calculateBalances());
+        			} else {
+        				displayErrorToast(getString(R.string.retrieving_transaction_group_error));
+        			}
+        		}
+        	});
 	}
 
 	private HashMap<Integer, Double> calculateBalances() {		
