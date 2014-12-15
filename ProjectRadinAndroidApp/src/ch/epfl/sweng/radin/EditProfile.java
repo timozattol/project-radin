@@ -48,7 +48,11 @@ public class EditProfile extends Activity {
 		ADDRESS,
 		EMAIL,
 		IBAN,
-		BICS_WIFT
+		BICS_WIFT;	
+		
+		public int getValue() {
+			return ordinal();
+		}
 	}
 
 	@Override
@@ -91,9 +95,9 @@ public class EditProfile extends Activity {
 		public void onClick(View v) {
 
 			EditText deletedText = null;
-			ProfileDeleteTextField fieldIndex = (ProfileDeleteTextField) v.getTag();
+			ProfileDeleteTextField index = ProfileDeleteTextField.values()[Integer.valueOf((String) v.getTag())];
 
-			switch (fieldIndex) {
+			switch (index) {
 				case FIRST_NAME:
 					deletedText = (EditText) findViewById(R.id.editProfileFirstName);
 					break;
