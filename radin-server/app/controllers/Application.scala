@@ -157,7 +157,8 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
   /**
    * @author simonchelbc
    * @param JsonArray containing JsObject in format of database.Tables.User
-   * @return a  webpage listing all users that have changed, to see if changes have been taken into account
+   * @return a OK 200 response with the list of modified users in JSON with a empty error-log OR a 400 Bad-Request response, 
+   * containing list of modified-users with an non-empty error-log.
    * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON
    *  with what each of the value in the request contains
    *
@@ -271,14 +272,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok
   }
 
+  implicit val userWithoutPasswordFormat = Json.format[UserWithoutPassword]
   /**
    * @author ireneu
    * 
    * Retrieve a certain user's information (without his password!)
    */
   def getUserById(uid: Int) = DBAction { implicit rs =>
-    val user = toJson(users.filter { _.U_ID === uid }.list)
-    Ok(JsObject(List(("user", user))))
+    val user = users.filter { _.U_ID === uid }.list.map {new UserWithoutPassword(_)} 
+    Ok(JsObject(List(("user", toJson(user)))))
   }
 
   // OAuth related methods. Unused for the android app.
