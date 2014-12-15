@@ -1,22 +1,22 @@
 package ch.epfl.sweng.radin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 
 /**
  * @author Fabien Zellweger
+ * Gives an overview of the financial situation of the logged user, 
+ * all groups combined.
  */
-public class OverviewActivity extends DashBoardActivity {
+public class OverviewActivity extends Activity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_overview);
-		setHeader(getString(R.string.overview), true, true);
 
 	}
 

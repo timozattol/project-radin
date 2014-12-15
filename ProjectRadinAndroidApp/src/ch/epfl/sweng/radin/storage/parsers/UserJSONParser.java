@@ -12,7 +12,6 @@ import ch.epfl.sweng.radin.storage.UserModel;
 /**
  * @author topali2
  * A JSONParser for UserModel.
- * It's very ugly but it's just to have something that "works" for now.
  */
 public class UserJSONParser implements JSONParser<UserModel> {
 
@@ -28,7 +27,7 @@ public class UserJSONParser implements JSONParser<UserModel> {
 		for (int i = 0; i < jsonArray.length(); i++) {
 
 			JSONObject jsonData = jsonArray.getJSONObject(i);
-			if(jsonData.has("U_password")) {
+			if (jsonData.has("U_password")) {
 				userModels.add(new UserModel(
 						jsonData.getString("U_firstName"),
 						jsonData.getString("U_lastName"),
@@ -72,7 +71,7 @@ public class UserJSONParser implements JSONParser<UserModel> {
 			jsonData.put("U_firstName", userModel.getFirstName());
 			jsonData.put("U_lastName", userModel.getLastName());
 			jsonData.put("U_username", userModel.getUsername());
-			if(userModel.getPassword() != null) {
+			if (userModel.getPassword() != null) {
 				jsonData.put("U_password", userModel.getPassword());
 			}
 			jsonData.put("U_email", userModel.getEmail());

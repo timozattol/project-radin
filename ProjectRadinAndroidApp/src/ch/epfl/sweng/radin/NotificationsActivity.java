@@ -1,22 +1,22 @@
 package ch.epfl.sweng.radin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 
 /**
  * @author Fabien Zellweger
+ * This Activity is the Notification center. Here the user can
+ * see all the events that occurred.
  */
-public class NotificationsActivity extends DashBoardActivity {
+public class NotificationsActivity extends Activity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_notifications);
-		setHeader(getString(R.string.notifications), true, true);
 	}
 
 	@Override
@@ -28,17 +28,17 @@ public class NotificationsActivity extends DashBoardActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {
-	        case R.id.action_home:
-	        	Intent intent = new Intent(this, HomeActivity.class);
-	        	startActivity(intent);
-	            return true;
-	        case R.id.action_settings:
-	         
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+			case R.id.action_home:
+				Intent intent = new Intent(this, HomeActivity.class);
+				startActivity(intent);
+				return true;
+			case R.id.action_settings:
+
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 }

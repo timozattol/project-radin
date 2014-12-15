@@ -9,42 +9,28 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ch.epfl.sweng.radin.RadinGroupBalanceActivity" >
-     <!-- Included header.xml here -->
 
-    <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header" />
-    
+    <LinearLayout
+        android:id="@+id/radinGroupBalanceLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
-
-        <LinearLayout
-            android:id="@+id/radinGroupBalanceLinearLayout"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/radinGroupBalanceProgressBar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <ProgressBar
-                android:id="@+id/radinGroupBalanceProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true" />
-        </LinearLayout>
-    </ScrollView>
+            android:indeterminate="true" />
+    </LinearLayout>
 
     <!-- Relative for the ActionBar, do not add code in this -->
 
     <LinearLayout
         android:id="@+id/balanceRadinGroupLayout"
-		android:layout_width="match_parent"
-		android:layout_height="48dp"
-        android:orientation="horizontal"/>
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal" />
 
 </LinearLayout>

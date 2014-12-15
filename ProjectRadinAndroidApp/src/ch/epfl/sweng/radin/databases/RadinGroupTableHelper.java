@@ -43,16 +43,16 @@ public final class RadinGroupTableHelper implements TableHelper {
 	private static final String TEXT = " TEXT,";
 	private static final String TEXT_NOT_NULL = " TEXT NOT NULL,";
 	private static final String CREATE_TABLE_RADIN_GROUP = "CREATE TABLE "
-			+ TABLE_RADIN_GROUP + "(" + Column.RID.mInString
-			+ " INT NOT NULL," + Column.RG_NAME.mInString + TEXT_NOT_NULL
-			+ Column.RG_CREATION_DATE.mInString + TEXT_NOT_NULL
-			+ Column.RG_DESCRIPTION.mInString + TEXT
-			// + Column.RG_GROUP.getSqlName + " TEXT," //TODO #rgGroup
-			+ Column.RG_MASTER_RID.mInString + ","
-			+ Column.RG_AVATAR.mInString + TEXT
-			+ Column.RG_END_DATE.mInString + TEXT
-			+ Column.RG_DELETED_AT.mInString + TEXT + "PRIMARY KEY ("
-			+ Column.RID.mInString + "));";
+        + TABLE_RADIN_GROUP + "(" + Column.RID.mInString
+        + " INT NOT NULL," + Column.RG_NAME.mInString + TEXT_NOT_NULL
+        + Column.RG_CREATION_DATE.mInString + TEXT_NOT_NULL
+        + Column.RG_DESCRIPTION.mInString + TEXT
+        // + Column.RG_GROUP.getSqlName + " TEXT," //TODO #rgGroup
+        + Column.RG_MASTER_RID.mInString + ","
+        + Column.RG_AVATAR.mInString + TEXT
+        + Column.RG_END_DATE.mInString + TEXT
+        + Column.RG_DELETED_AT.mInString + TEXT + "PRIMARY KEY ("
+        + Column.RID.mInString + "));";
 
 	// private final String[] mNames = new String[Column.values().length];
 	// //TODO possibility to make it look like a
@@ -77,7 +77,7 @@ public final class RadinGroupTableHelper implements TableHelper {
 	 */
 	protected static int getRadinGroupTableSize() {
 		Cursor cursor = Database.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
-				null, null, null, null, null);
+            null, null, null, null, null);
 		int numberOfRows;
 		if (cursor != null) {
 			numberOfRows = cursor.getCount();
@@ -94,7 +94,7 @@ public final class RadinGroupTableHelper implements TableHelper {
 	 */
 	public static List<Map<String, String>> getEverythingFromRadinGroupTable() {
 		Cursor cursor = Database.query(RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
-				null, null, null, null, null);
+            null, null, null, null, null);
 		List<Map<String, String>> rowsColumnToValue = new ArrayList<Map<String, String>>();
 		
 		cursor.moveToFirst();

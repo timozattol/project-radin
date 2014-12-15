@@ -72,15 +72,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
+    android:orientation="vertical"
     android:background="@color/background">
 
-    <!-- Included header.xml here -->
-	<ViewStub android:id="@+id/vsHeader" 
-	    android:inflatedId="@+id/header" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content" 
-		android:layout="@layout/header" />
 	
     <LinearLayout
         android:layout_width="fill_parent"
@@ -100,6 +94,7 @@
                 style="@style/HomeButton"
                 android:drawableTop="@drawable/group_icon"
                 android:onClick="onButtonClicker"
+                android:textColor="@android:color/black"
                 android:text="@string/my_radingroups" />
 
             <Button
@@ -107,6 +102,7 @@
                 style="@style/HomeButton"
                 android:drawableTop="@drawable/ic_profile"
                 android:onClick="onButtonClicker"
+                android:textColor="@android:color/black"
                 android:text="@string/profile" />
         </LinearLayout>
 
@@ -121,6 +117,7 @@
                 style="@style/HomeButton"
                 android:drawableTop="@drawable/ic_notifications"
                 android:onClick="onButtonClicker"
+                android:textColor="@android:color/black"
                 android:text="@string/notifications" />
 
             <Button
@@ -128,6 +125,7 @@
                 style="@style/HomeButton"
                 android:drawableTop="@drawable/ic_contact"
                 android:onClick="onButtonClicker"
+                android:textColor="@android:color/black"
                 android:text="@string/contacts" />
         </LinearLayout>
 
@@ -142,6 +140,7 @@
                 style="@style/HomeButton"
                 android:drawableTop="@drawable/ic_overview"
                 android:onClick="onButtonClicker"
+                android:textColor="@android:color/black"
                 android:text="@string/overview" />
 
             <Button
@@ -149,6 +148,7 @@
                 style="@style/HomeButton"
                 android:drawableTop="@drawable/ic_settings"
                 android:onClick="onButtonClicker"
+                android:textColor="@android:color/black"
                 android:text="@string/settings" />
         </LinearLayout>
     </LinearLayout>
