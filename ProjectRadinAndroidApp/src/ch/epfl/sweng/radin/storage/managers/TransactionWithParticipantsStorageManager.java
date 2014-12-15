@@ -12,7 +12,7 @@ import ch.epfl.sweng.radin.storage.parsers.TransactionWithParticipantsJSONParser
 
 /**
  * @author CedricCook
- * A StorageManager that handles storage of the Decorator for Transaction
+ * A StorageManager that handles storage & retrieval of data for the Decorator for Transaction
  *
  */
 public final class TransactionWithParticipantsStorageManager extends
@@ -24,6 +24,11 @@ public final class TransactionWithParticipantsStorageManager extends
 		
 	}
 	
+	/**
+	 * Singleton constructor that returns the sole TransactionWithParticipantsStorageManager
+	 * @author CedricCook
+	 * @return the singleton TransactionWithParticipantsStorageManager
+	 */
 	public static TransactionWithParticipantsStorageManager getStorageManager() {
         if (transWithParticipantsStorageManager == null) {
         	transWithParticipantsStorageManager = new TransactionWithParticipantsStorageManager();

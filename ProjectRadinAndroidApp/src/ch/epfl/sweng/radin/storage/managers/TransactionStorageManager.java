@@ -11,7 +11,7 @@ import ch.epfl.sweng.radin.storage.parsers.TransactionJSONParser;
 
 /**
  * @author CedricCook
- * A storage manager for the model type TransactionModel
+ * Manages retrieval & storage of TransactionModels
  */
 public final class TransactionStorageManager extends StorageManager<TransactionModel> {
     private static TransactionStorageManager transactionStorageManager = null;
@@ -46,6 +46,12 @@ public final class TransactionStorageManager extends StorageManager<TransactionM
         return "transactions";
     }
     
+    /**
+     * Get all transactionModels that belong to a RadinGroup with the id groupId.
+     * @author CedricCook
+     * @param groupId the RadinGroup for which to get transactions
+     * @param callback the listener to callback on when data is ready
+     */
     public void getAllForGroupId(int groupId, RadinListener<TransactionModel> callback) {
     	if (isConnected()) {
     		if (!isHashMatchServer()) {

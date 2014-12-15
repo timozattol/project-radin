@@ -36,6 +36,20 @@ public class EditProfile extends Activity {
 	private int userId;
 	private SharedPreferences prefs;
 
+	/**
+	 * 
+	 * @author Fabien Zellweger
+	 * enum to suppress magic number for OnClickListener
+	 */
+	private static enum ProfileDeleteTextField {
+		FIRST_NAME,
+		LAST_NAME,
+		USER_NAME,
+		ADDRESS,
+		EMAIL,
+		IBAN,
+		BICS_WIFT
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,27 +91,28 @@ public class EditProfile extends Activity {
 		public void onClick(View v) {
 
 			EditText deletedText = null;
+			ProfileDeleteTextField fieldIndex = (ProfileDeleteTextField) v.getTag();
 
-			switch (Integer.parseInt((String) v.getTag())) {
-				case 1:
+			switch (fieldIndex) {
+				case FIRST_NAME:
 					deletedText = (EditText) findViewById(R.id.editProfileFirstName);
 					break;
-				case 2:
+				case LAST_NAME:
 					deletedText = (EditText) findViewById(R.id.editProfileLastName);
 					break;
-				case 3:
+				case USER_NAME:
 					deletedText = (EditText) findViewById(R.id.editProfileUsername);
 					break;
-				case 4:
+				case ADDRESS:
 					deletedText = (EditText) findViewById(R.id.editProfileAddress);
 					break;
-				case 5:
+				case EMAIL:
 					deletedText = (EditText) findViewById(R.id.editProfileEmail);
 					break;
-				case 6:
+				case IBAN:
 					deletedText = (EditText) findViewById(R.id.editProfileIBan);
 					break;
-				case 7:
+				case BICS_WIFT:
 					deletedText = (EditText) findViewById(R.id.editProfileBicSwift);
 					break;
 
@@ -128,8 +143,7 @@ public class EditProfile extends Activity {
 				userStorageManager.update(userModelList, new RadinListener<UserModel>() {
 
 					@Override
-					public void callback(List<UserModel> items,
-							StorageManagerRequestStatus status) {
+					public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 						if (status == StorageManagerRequestStatus.SUCCESS) {
 
 							Intent profile = new Intent(getApplicationContext(), ProfileActivity.class);
@@ -161,8 +175,7 @@ public class EditProfile extends Activity {
 			userStorageManager.getById(userId, new RadinListener<UserModel>() {
 
 				@Override
-				public void callback(List<UserModel> items,
-						StorageManagerRequestStatus status) {
+				public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 					if (status == StorageManagerRequestStatus.SUCCESS) {
 						if (items.size() == 1) {						
 							newProfileModel = items.get(0);

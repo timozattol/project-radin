@@ -36,20 +36,20 @@ public class SettingsActivity extends Activity {
 	}
 	
 	private OnClickListener logoutButtonListener = 
-			new View.OnClickListener() {
+            new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			int selectedId = v.getId();
 			Intent displayActivityIntent = null;
 
 			switch (selectedId){
-			case R.id.logout_btn:
-				displayActivityIntent = 
+				case R.id.logout_btn:
+					displayActivityIntent = 
 				new Intent(v.getContext(), LoginActivity.class);
-				finishAffinity();
-				break;
-			default:
-				Toast.makeText(v.getContext(), 
+					finishAffinity();
+					break;
+				default:
+					Toast.makeText(v.getContext(), 
 						R.string.invalid_button,
 						Toast.LENGTH_SHORT).show();				
 			}

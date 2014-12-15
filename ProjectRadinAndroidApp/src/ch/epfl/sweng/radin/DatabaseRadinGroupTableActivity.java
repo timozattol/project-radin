@@ -12,7 +12,6 @@ import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +22,6 @@ import android.widget.TextView;
  * Demonstration activity using the database
  */
 public class DatabaseRadinGroupTableActivity extends Activity {
-	private static final String TAG = "DatabaseRadinGroupTableActivity";
-	
 	private static final DateTime TODAY = DateTime.now();
 	private static final DateTime TOMORROW = TODAY.plusDays(1);
 	private static final DateTime AFTER_TOMORROW = TOMORROW.plusDays(1);
@@ -32,7 +29,6 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.v(TAG, "created");
 		setContentView(R.layout.activity_database_radin_group_table);
 	}
 
@@ -88,7 +84,7 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	private RadinGroupModel getRadinGroupFromFields() { //TODO to finish
 		
 		int rid = Integer
-				.parseInt(returnText((TextView) findViewById(R.id.RID)));
+			  	.parseInt(returnText((TextView) findViewById(R.id.RID)));
 		String name = returnText((TextView) findViewById(R.id.RGName));
 		String creationDate = returnText((TextView) findViewById(R.id.RGCreatedAt));
 		String avatar = returnText((TextView) findViewById(R.id.RGAvatar));
@@ -100,8 +96,7 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 		returnText((TextView) findViewById(R.id.RGEndedAt));
 		returnText((TextView) findViewById(R.id.RGDeletedAt));
 		
-		RadinGroupModel rg = new RadinGroupModel(rid,
-				getTimeFrom(creationDate), name, description, avatar);
+		RadinGroupModel rg = new RadinGroupModel(rid, getTimeFrom(creationDate), name, description, avatar);
 		return rg;
 	}
 	/**

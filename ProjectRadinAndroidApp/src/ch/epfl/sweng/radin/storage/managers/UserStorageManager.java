@@ -26,6 +26,7 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 	}
 	
     /**
+     * Singleton constructor that returns the sole UserStorageManager
      * @return the singleton UserStorageManager
      */
 	public static UserStorageManager getStorageManager() {
@@ -51,8 +52,14 @@ public final class UserStorageManager extends StorageManager<UserModel> {
         return "users";
     }
 
-	public void verifyLogin(String username, String password, 
-			RadinListener<UserModel> callback) {
+    /**
+     * Check if the user is logged in
+     * @author CedricCook
+     * @param username the username to log in with
+     * @param password the password for the username
+     * @param callback will be called with the user who logged in, if correct
+     */
+	public void verifyLogin(String username, String password, RadinListener<UserModel> callback) {
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
 				ServerConnectionTask<UserModel> connTask = 
@@ -122,7 +129,6 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		    	user.add(new UserModel());
 	            try {
 	                json = (JSONObject) getJSONParser().getJsonFromModels(user);
-	                Log.i("json", json.toString());
 	                connTask.execute(json.toString());
 	            } catch (JSONException e) {
 	                // TODO Handle error
@@ -133,6 +139,13 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 		}
     }
     
+    /**
+     * Add a new relationship between two users
+     * @author CedricCook
+     * @param userId the iniator of the friend request
+     * @param friendUserName the user to become friends with
+     * @param callback
+     */
     public void addNewFriend(int userId, String friendUserName, RadinListener<UserModel> callback) {
     	final String accessUrl = "userRelationships/";
     	List<UserModel> user = new ArrayList<UserModel>();

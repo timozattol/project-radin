@@ -95,8 +95,7 @@ public class LoginActivity extends Activity {
 		userStorageManager.verifyLogin(mUsername, mPassword, new RadinListener<UserModel>() {
 
 			@Override
-			public void callback(List<UserModel> items,
-					StorageManagerRequestStatus status) {
+			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.FAILURE) {
 					Intent myIntent = new Intent(getBaseContext(), LoginActivity.class);
 					startActivity(myIntent);
@@ -107,11 +106,9 @@ public class LoginActivity extends Activity {
 					UserModel mUser = items.get(0);
 					int mId = mUser.getId();
 					SharedPreferences.Editor editor = prefs.edit();
-					editor.putString(getString(R.string.username), 
-							String.valueOf(mId));
+					editor.putString(getString(R.string.username), String.valueOf(mId));
 					editor.commit();
-					Intent myIntent = 
-							new Intent(getBaseContext(), HomeActivity.class);
+					Intent myIntent = new Intent(getBaseContext(), HomeActivity.class);
 					startActivity(myIntent);
 					finish();
 					Toast.makeText(getApplicationContext(),
@@ -122,10 +119,8 @@ public class LoginActivity extends Activity {
 	}
 
 	private void retrieveRegisterUser() {
-		final CharSequence userUsername = 
-				((TextView) findViewById(id.login)).getText();
-		final CharSequence userPassword = 
-				((TextView) findViewById(id.password)).getText();
+		final CharSequence userUsername = ((TextView) findViewById(id.login)).getText();
+		final CharSequence userPassword = ((TextView) findViewById(id.password)).getText();
 
 		mUsername = userUsername.toString();
 		mPassword = userPassword.toString();

@@ -23,7 +23,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+//import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,15 +44,15 @@ import android.widget.Toast;
  */
 @SuppressLint("UseSparseArrays")
 public class RadinGroupViewActivity extends Activity {
-    private final static int SIXTY_SECS = 60000;
-    private final static int TEN_SECS = 10000;
+//    private final static int SIXTY_SECS = 60000;
+//    private final static int TEN_SECS = 10000;
 
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private List<TransactionWithParticipantsModel> mTransactionModelList = 
 	        new ArrayList<TransactionWithParticipantsModel>();
 	private TransactionArrayAdapter mTransactionsModelAdapter;
 	private ListView mTransactionListView;
-	private CountDownTimer mAutoRefreshTimer;
+//	private CountDownTimer mAutoRefreshTimer;
     
 	private Map<Integer, UserModel> mIdToUserModelMapping = new HashMap<Integer, UserModel>();
 
@@ -193,27 +193,27 @@ public class RadinGroupViewActivity extends Activity {
                 });
 	}
 
-	/**
-	 * Sets a timer to refresh the list every 10 seconds, forever.
-	 */
-	private void setAutoTransactionRefresh() {
-	    if (mAutoRefreshTimer == null) {
-	        mAutoRefreshTimer = new CountDownTimer(SIXTY_SECS, TEN_SECS) {
-                
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    fetchTransactionList();
-                }
-                
-                @Override
-                public void onFinish() {
-                    // Restarts itself for infinite timer.
-                    start();
-                }
-            };
-	    }
-	    mAutoRefreshTimer.start();
-	}
+//	/**
+//	 * Sets a timer to refresh the list every 10 seconds, forever.
+//	 */
+//	private void setAutoTransactionRefresh() {
+//	    if (mAutoRefreshTimer == null) {
+//	        mAutoRefreshTimer = new CountDownTimer(SIXTY_SECS, TEN_SECS) {
+//                
+//                @Override
+//                public void onTick(long millisUntilFinished) {
+//                    fetchTransactionList();
+//                }
+//                
+//                @Override
+//                public void onFinish() {
+//                    // Restarts itself for infinite timer.
+//                    start();
+//                }
+//            };
+//	    }
+//	    mAutoRefreshTimer.start();
+//	}
 	
 	/**
 	 * An adapter for the list of transactions
@@ -239,6 +239,7 @@ public class RadinGroupViewActivity extends Activity {
         /* (non-Javadoc)
          * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
          */
+        @SuppressLint("ViewHolder")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(mContext);

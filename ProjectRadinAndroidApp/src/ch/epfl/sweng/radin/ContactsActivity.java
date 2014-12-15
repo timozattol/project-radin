@@ -3,6 +3,7 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -83,8 +84,7 @@ public class ContactsActivity extends Activity {
 		userStorageManager.getFriendsOfUserWithId(mUserId, new RadinListener<UserModel>(){
 
 			@Override
-			public void callback(List<UserModel> items,
-					StorageManagerRequestStatus status) {				
+			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {				
 
 				if (status == StorageManagerRequestStatus.FAILURE) {
                     displayErrorToast(getString(R.string.retrieving_friend_error));
@@ -182,6 +182,7 @@ public class ContactsActivity extends Activity {
 		/* (non-Javadoc)
 		 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
 		 */
+		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = LayoutInflater.from(mContext);

@@ -107,31 +107,29 @@ public class ProfileActivity extends Activity {
 
 	}
 
-	private OnClickListener modifProfileButtonListener = 
-			new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						int selectedId = v.getId();
-						Intent displayActivityIntent = null;
+	private OnClickListener modifProfileButtonListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			int selectedId = v.getId();
+			Intent displayActivityIntent = null;
 
-						switch (selectedId){
-							case R.id.modifPofileBtn:
-								displayActivityIntent = 
+			switch (selectedId){
+				case R.id.modifPofileBtn:
+					displayActivityIntent = 
+					new Intent(v.getContext(), EditProfile.class);
+					if (mSearchingId == mCurrentUserId) {
+						displayActivityIntent = 
 								new Intent(v.getContext(), EditProfile.class);
-					        	if (mSearchingId == mCurrentUserId) {
-					        		displayActivityIntent = 
-											new Intent(v.getContext(), EditProfile.class);
-					        		startActivity(displayActivityIntent);
-					        	} else {
-					        		displayErrorToast(getString(R.string.edit_friends_profile));
-					        	}
-								break;
-							default:
-								displayErrorToast(
-										getString(R.string.invalid_button));
-						}
+						startActivity(displayActivityIntent);
+					} else {
+						displayErrorToast(getString(R.string.edit_friends_profile));
 					}
-				};
+					break;
+				default:
+					displayErrorToast(getString(R.string.invalid_button));
+			}
+		}
+	};
 
 	/**
 	 * 

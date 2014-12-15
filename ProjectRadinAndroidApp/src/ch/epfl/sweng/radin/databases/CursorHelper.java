@@ -18,7 +18,7 @@ public class CursorHelper {
 		Map<String, String> columnNameToValue = new HashMap<String, String>();
 		for (String column : cursor.getColumnNames()) {
 			columnNameToValue.put(column,
-					cursor.getString(cursor.getColumnIndex(column)));
+                cursor.getString(cursor.getColumnIndex(column)));
 		}
 		return columnNameToValue;
 	}

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import ch.epfl.sweng.radin.storage.Model;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -62,6 +63,7 @@ public final class Database {
 	 * @return a map that associated row id of 
 	 * the table where the model has been inserted
 	 */
+	@SuppressLint("UseSparseArrays")
 	public static Map<Long, Model> insert(List<RadinGroupModel> radinGroups) {
 		instanceNotNullCheck();
 		SQLiteDatabase sqlDb = mOpenHelper.getWritableDatabase();
@@ -73,7 +75,7 @@ public final class Database {
 					"radinGroups cannot be Empty"); //TODO or do nothing instead?
 		} else {
 			final Map<Long, Model> rowIDToRadinGroup = new HashMap<Long, Model>(
-					radinGroups.size());
+                 radinGroups.size());
 			for (RadinGroupModel rg : radinGroups) {
 				long rowWhereInsertedID = insertSingleRadinGroupInDB(rg, sqlDb);
 				rowIDToRadinGroup.put(rowWhereInsertedID, rg);
@@ -89,8 +91,8 @@ public final class Database {
 					"RadinGroup to insert cannot be null");
 		}
 		final long rowID = sqlDb.insert(
-				RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
-				rg.getContentValues());
+            RadinGroupTableHelper.TABLE_RADIN_GROUP, null,
+            rg.getContentValues());
 		return rowID;
 	}
 	
@@ -117,13 +119,13 @@ public final class Database {
 	 * @return a Cursor object that can explore each rows of the table asked
 	 */
 	public static Cursor query(String table, String[] columns,
-			String whereClause, String[] selectionArgs, String groupBy,
-			String having, String sortOrder) {
+        String whereClause, String[] selectionArgs, String groupBy,
+        String having, String sortOrder) {
 		instanceNotNullCheck();
 		SQLiteQueryBuilder buider = new SQLiteQueryBuilder();
 		buider.setTables(table);
 		Cursor cursor = buider.query(mOpenHelper.getReadableDatabase(), columns, whereClause,
-				selectionArgs, groupBy, having, sortOrder);
+            selectionArgs, groupBy, having, sortOrder);
 
 		if (cursor == null) {
 			return null;
@@ -144,6 +146,7 @@ public final class Database {
 		private static SQLiteDatabase mDatabase;
 
 		private TableHelper radinGroupTableHelper;
+		@SuppressWarnings("unused")
 		private TableHelper userRelationshipsTableHelper;
 
 		/**

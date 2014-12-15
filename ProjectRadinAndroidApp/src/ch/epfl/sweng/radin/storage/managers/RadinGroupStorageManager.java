@@ -13,7 +13,7 @@ import ch.epfl.sweng.radin.storage.parsers.RadinGroupJSONParser;
 
 /**
  * @author CedricCook
- * A storage manager for the model type RadinGroupModel
+ * A storageManager that handles storage&retrieval of RadinGroupModels
  */
 
 public final class RadinGroupStorageManager extends StorageManager<RadinGroupModel> {
@@ -49,6 +49,12 @@ public final class RadinGroupStorageManager extends StorageManager<RadinGroupMod
     	return "radingroups";
     }
     
+    /**
+     * Get all the radingroups that a user is a part of.
+     * @author CedricCook
+     * @param userId the id of the user we want RadinGroups for.
+     * @param callback the wanted RadinGroup
+     */
 	public void getAllByUserId(int userId, RadinListener<RadinGroupModel> callback) {
 		//TODO use base class method
 		if (isConnected()) {

@@ -19,13 +19,13 @@ import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -164,9 +164,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 			
 			//EditText don't open the keyboard automatically in alertDialog
 			//stackoverflow.com/questions/9102074/android-edittext-in-dialog-doesnt-pull-up-soft-keyboard
-			dialog.getWindow().clearFlags(
-					WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-					| WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+			dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE 
+                | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		} else {
 			Toast.makeText(this, R.string.not_ready, Toast.LENGTH_SHORT).show();
 		}
@@ -197,9 +196,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		mSelectedIndex = DEFAULT_CREDITOR_SELECTION;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.creditorList);
-		builder.setSingleChoiceItems(mGroupParticipantsNames,
-				DEFAULT_CREDITOR_SELECTION,
-				new DialogInterface.OnClickListener() {
+		builder.setSingleChoiceItems(mGroupParticipantsNames, DEFAULT_CREDITOR_SELECTION,
+            new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mSelectedIndex = which;
@@ -241,8 +239,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 		final ListView listView = new ListView(this);
 		
 		PeopleAndWeightArrayAdapter adapter = new PeopleAndWeightArrayAdapter(
-				this, R.layout.transactions_coeff_layout,
-				mGroupParticipantsNames);
+            this, R.layout.transactions_coeff_layout,
+            mGroupParticipantsNames);
 		
 		listView.setAdapter(adapter);
 		builder.setView(listView);
@@ -301,16 +299,16 @@ public class RadinGroupAddExpenseActivity extends Activity {
 																   mPurpose,
 																   TransactionType.PAYMENT);
 			TransactionWithParticipantsModel transactionToSend = new TransactionWithParticipantsModel(
-					newTransaction, setAndgetParticipantsWithCoeff());
+             newTransaction, setAndgetParticipantsWithCoeff());
 			TransactionWithParticipantsStorageManager trWPartStorageManager = TransactionWithParticipantsStorageManager
-					.getStorageManager();
+             .getStorageManager();
 			ArrayList<TransactionWithParticipantsModel> myTransList = new ArrayList<TransactionWithParticipantsModel>();
 			myTransList.add(transactionToSend);
 			trWPartStorageManager.create(myTransList, new RadinListener<TransactionWithParticipantsModel>() {
 				@Override
 				public void callback(
-						List<TransactionWithParticipantsModel> items,
-						StorageManagerRequestStatus status) {
+                    List<TransactionWithParticipantsModel> items,
+                    StorageManagerRequestStatus status) {
 					if (status == StorageManagerRequestStatus.SUCCESS) {
 						mCurrentActivity.finish();
 						Toast.makeText(getApplicationContext(), R.string.expense_added, Toast.LENGTH_SHORT).show();
@@ -327,6 +325,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	 * Add coefficient to transaction's participants. 
 	 * @return participants with coeff contained in a map
 	 */
+	@SuppressLint("UseSparseArrays")
 	private  HashMap<Integer, Integer> setAndgetParticipantsWithCoeff() {
 		HashMap<Integer, Integer> participantsWithCoeff = new HashMap<Integer, Integer>();
 		for (Entry<String, Integer> entry : mPeopleWhoHaveToPay.entrySet()) {
@@ -373,6 +372,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
         /* (non-Javadoc)
          * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
          */
+        @SuppressLint("ViewHolder")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -392,10 +392,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 							weightStr = "1";
 						}
 						mSharedMap.put(name, Integer.parseInt(weightStr));
-						Log.i("hashmap", mSharedMap.size()+"");
 					} else {
 						mSharedMap.remove(name);
-						Log.i("hashmap", mSharedMap.size()+"");
 					}
 				}
 			});
@@ -413,7 +411,6 @@ public class RadinGroupAddExpenseActivity extends Activity {
 					}
 					if (checkbox.isChecked()) {
 						mSharedMap.put(name, Integer.parseInt(weightStr));
-						Log.i("hashmap", mSharedMap.size()+"");
 					}
 				}
 			});
