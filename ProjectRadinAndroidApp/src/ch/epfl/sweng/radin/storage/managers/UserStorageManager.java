@@ -101,20 +101,25 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     }
     
     /**
-     * Post one user as a member of the radinGroup with id radinGroupId
+     * Post one user as a member of the radinGroup with id radinGroupId and user ID
      * @param radinGroupId RadinGroup's ID, to which the user will be added
-     * @param user Used to add to the RadinGroup 
+     * @param userId Used to add the user to the RadinGroup 
      * @param callback callback
      */
-    public void postMemberToRadinGroup(int radinGroupId, List<UserModel> user, RadinListener<UserModel> callback) {
+    public void postMemberToRadinGroup(int radinGroupId, int userId, RadinListener<UserModel> callback) {
     	final String accessUrl = "radingroups";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask<UserModel> connTask = getConnectionFactory().createTask(callback, RequestType.POST,
-				        SERVER_BASE_URL + accessUrl + "/" + String.valueOf(radinGroupId) + "/" + "adduser", 
-				        getJSONParser());
-				//Example url: http://radin.epfl.ch/radingroups/1/adduser
+				ServerConnectionTask<UserModel> connTask = getConnectionFactory().createTask(
+								callback,
+								RequestType.POST,
+								SERVER_BASE_URL + accessUrl + "/" + String.valueOf(radinGroupId) + "/" 
+								+ "adduser" + "/" + userId,
+								getJSONParser());
+				//Example url: http://radin.epfl.ch/radingroups/:radinId/adduser/:userId
 				JSONObject json;
+		    	List<UserModel> user = new ArrayList<UserModel>();
+		    	user.add(new UserModel());
 	            try {
 	                json = (JSONObject) getJSONParser().getJsonFromModels(user);
 	                Log.i("json", json.toString());

@@ -19,7 +19,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -225,9 +224,13 @@ public class NewRadinGroupActivity extends Activity {
 			@Override
 			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
-					mRadinGroupId = items.get(0).getRadinGroupID();
-					Log.i("radinGroup", "sent");
-					sendParticipants(mParticipants.size() * TIMES_TO_TRY);
+					try {
+						mRadinGroupId = items.get(0).getRadinGroupID();
+						sendParticipants(TIMES_TO_TRY);
+					} catch (IndexOutOfBoundsException e) {
+						Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+						e.printStackTrace();
+					}
 				} else {
 					Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
 				}
@@ -237,30 +240,26 @@ public class NewRadinGroupActivity extends Activity {
 	
 	/**
 	 * Posts participants one by one to the database. This method may be called more than once for every user
-	 * depending on TIMES_TO_TRY (max calls is TIMES_TO_TRY*number of users to send)
+	 * if there is a failure, depending on TIMES_TO_TRY
 	 * @param iterationNumber
 	 */
 	private void sendParticipants(final int iterationNumber) {
 		if (iterationNumber > 0) {
 			UserStorageManager usrStorageManager = UserStorageManager.getStorageManager();
-			ArrayList<UserModel> usrList = new ArrayList<UserModel>();
-			usrList.add(mParticipants.get(0));
-			usrStorageManager.postMemberToRadinGroup(mRadinGroupId, usrList, new RadinListener<UserModel>() {
+			int userId = mParticipants.get(0).getId();
+			usrStorageManager.postMemberToRadinGroup(mRadinGroupId, userId, new RadinListener<UserModel>() {
 				@Override
 				public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 					if (status == StorageManagerRequestStatus.SUCCESS) {
 						mParticipants.remove(0);
 						if (!mParticipants.isEmpty()) {
-							sendParticipants(iterationNumber - 1);
+							sendParticipants(TIMES_TO_TRY);
 						} else {
 							mCurrentActivity.finish();
 							Toast.makeText(getBaseContext(), R.string.rd_group_created, Toast.LENGTH_SHORT).show();
 						}
 					} else {
-						Toast.makeText(getBaseContext(), 
-									   R.string.server_error_participants, 
-									   Toast.LENGTH_SHORT).show();
-						mCurrentActivity.finish();
+						sendParticipants(iterationNumber - 1);
 					}
 				}
 			});
@@ -283,7 +282,13 @@ public class NewRadinGroupActivity extends Activity {
 			UserStorageManager.getStorageManager().getById(mClientId, new RadinListener<UserModel>() {
 				@Override
 				public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
-					mClientModel = items.get(0);			
+					try {
+						mClientModel = items.get(0);			
+					} catch (IndexOutOfBoundsException e) {
+						Toast.makeText(getBaseContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+						((Button) findViewById(R.id.create)).setClickable(false);
+						e.printStackTrace();
+					}
 				}
 			});
 			return true;
