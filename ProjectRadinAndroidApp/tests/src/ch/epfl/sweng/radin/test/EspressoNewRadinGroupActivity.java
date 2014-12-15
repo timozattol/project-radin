@@ -1,11 +1,9 @@
 package ch.epfl.sweng.radin.test;
-
+/*
 import org.joda.time.DateTime;
 
 import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
 import ch.epfl.sweng.radin.ActionBar;
-import ch.epfl.sweng.radin.NewRadinGroupActivity;
 import ch.epfl.sweng.radin.R;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
@@ -13,7 +11,9 @@ import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
-
+*/
+import ch.epfl.sweng.radin.NewRadinGroupActivity;
+import android.test.ActivityInstrumentationTestCase2;
 /**
  * A class for testing everything that concerns RadinGroups
  * @author Jokau
@@ -23,7 +23,9 @@ public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCa
 	public EspressoNewRadinGroupActivity() {
 		super(NewRadinGroupActivity.class);
 	}
-	
+	/*	This test was used until server interaction. 
+	 *  Since Mockito testing was to hard to implement on this project or not the good tool
+	 *  we discarded this test.
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -71,5 +73,5 @@ public class EspressoNewRadinGroupActivity extends ActivityInstrumentationTestCa
 		Espresso.onView(ViewMatchers.withId(R.id.create)).perform(ViewActions.click());
 		// should toast no people on list and stay on activity
 	}
-	
+	*/
 }
