@@ -392,10 +392,8 @@ public class RadinGroupAddExpenseActivity extends Activity {
 							weightStr = "1";
 						}
 						mSharedMap.put(name, Integer.parseInt(weightStr));
-						Log.i("hashmap", mSharedMap.size()+"");
 					} else {
 						mSharedMap.remove(name);
-						Log.i("hashmap", mSharedMap.size()+"");
 					}
 				}
 			});
@@ -413,7 +411,6 @@ public class RadinGroupAddExpenseActivity extends Activity {
 					}
 					if (checkbox.isChecked()) {
 						mSharedMap.put(name, Integer.parseInt(weightStr));
-						Log.i("hashmap", mSharedMap.size()+"");
 					}
 				}
 			});

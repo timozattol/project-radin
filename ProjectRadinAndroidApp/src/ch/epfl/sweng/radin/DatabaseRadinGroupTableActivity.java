@@ -32,7 +32,6 @@ public class DatabaseRadinGroupTableActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.v(TAG, "created");
 		setContentView(R.layout.activity_database_radin_group_table);
 	}
 

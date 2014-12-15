@@ -124,7 +124,6 @@ public final class UserStorageManager extends StorageManager<UserModel> {
 				JSONObject json;
 	            try {
 	                json = (JSONObject) getJSONParser().getJsonFromModels(user);
-	                Log.i("json", json.toString());
 	                connTask.execute(json.toString());
 	            } catch (JSONException e) {
 	                // TODO Handle error
