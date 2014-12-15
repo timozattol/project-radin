@@ -299,7 +299,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 																   mPurpose,
 																   TransactionType.PAYMENT);
 			TransactionWithParticipantsModel transactionToSend = new TransactionWithParticipantsModel(
-             newTransaction, setAndgetParticipantsWithCoeff());
+					newTransaction, setAndgetParticipantsWithCoeff());
 			TransactionWithParticipantsStorageManager trWPartStorageManager = TransactionWithParticipantsStorageManager
              .getStorageManager();
 			ArrayList<TransactionWithParticipantsModel> myTransList = new ArrayList<TransactionWithParticipantsModel>();
