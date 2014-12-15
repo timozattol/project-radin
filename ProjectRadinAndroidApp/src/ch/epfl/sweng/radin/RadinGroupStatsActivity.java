@@ -45,7 +45,7 @@ public class RadinGroupStatsActivity extends Activity {
 	private static final int GRAPH_YEAR_ID = 3;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_stats);
 		Bundle extras = getIntent().getExtras();

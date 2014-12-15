@@ -57,7 +57,7 @@ public class RadinGroupViewActivity extends Activity {
 	private Map<Integer, UserModel> mIdToUserModelMapping = new HashMap<Integer, UserModel>();
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_view);
 

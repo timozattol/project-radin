@@ -33,6 +33,7 @@ public class EspressoSettingsActivity extends ActivityInstrumentationTestCase2<S
 
 	public void testLogout() {
 		Espresso.onView(ViewMatchers.withId(R.id.logout_btn)).perform(ViewActions.click());
+		getActivity();
 
 	}
 	
@@ -40,6 +41,7 @@ public class EspressoSettingsActivity extends ActivityInstrumentationTestCase2<S
 		Espresso.onView(ViewMatchers.withId(R.id.action_home)).perform(ViewActions.click());
 		
 	}
+	
 	
 }
 

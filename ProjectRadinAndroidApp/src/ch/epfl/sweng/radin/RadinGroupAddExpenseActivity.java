@@ -68,7 +68,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
 	private HashMap<String, Integer> mPeopleWhoHaveToPay = new HashMap<String, Integer>();
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
 		setContentView(R.layout.activity_radingroup_add_expense);
 

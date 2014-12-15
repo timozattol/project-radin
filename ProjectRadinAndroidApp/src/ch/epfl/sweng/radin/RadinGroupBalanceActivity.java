@@ -45,7 +45,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 	private List<TransactionWithParticipantsModel> mTransactions;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_radingroup_balance);

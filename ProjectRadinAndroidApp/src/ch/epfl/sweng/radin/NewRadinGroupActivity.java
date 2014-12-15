@@ -53,7 +53,7 @@ public class NewRadinGroupActivity extends Activity {
 	private Activity mCurrentActivity = this;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_radingroup);
         mNameEdit = (EditText) findViewById(R.id.edit_name);
