@@ -8,5 +8,5 @@ package ch.epfl.sweng.radin.storage;
  * An abstract class to represent a Model.
  */
 public abstract class Model {
-    //TODO Will models have any field/method in common ?
+
 }

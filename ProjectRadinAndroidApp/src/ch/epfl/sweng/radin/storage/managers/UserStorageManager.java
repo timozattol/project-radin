@@ -17,7 +17,7 @@ import ch.epfl.sweng.radin.storage.parsers.UserJSONParser;
 
 /**
  * @author CedricCook
- *
+ * A storage manager for the model type UserModel
  */
 public final class UserStorageManager extends StorageManager<UserModel> {
 	private static UserStorageManager userStorageManager = null;
@@ -148,8 +148,9 @@ public final class UserStorageManager extends StorageManager<UserModel> {
     	user.add(new UserModel());
     	if (isConnected()) {
     		if (!isHashMatchServer()) {
-    			ServerConnectionTask<UserModel> connTask = getConnectionFactory().createTask(callback, 
-    					RequestType.POST, SERVER_BASE_URL + accessUrl + userId + "/" + friendUserName, getJSONParser());
+    			ServerConnectionTask<UserModel> connTask = 
+    			        getConnectionFactory().createTask(callback, RequestType.POST, 
+    				  	SERVER_BASE_URL + accessUrl + userId + "/" + friendUserName, getJSONParser());
     			//Example url: http://radin.epfl.ch/userRalationships/1/uname
     			JSONObject json;
     			try {

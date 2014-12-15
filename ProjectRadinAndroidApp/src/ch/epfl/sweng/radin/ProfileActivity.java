@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.sweng.radin.callback.RadinListener;
@@ -21,10 +20,11 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
  * @author topali2
+ * Shows the informations of an user.
  */
 public class ProfileActivity extends Activity {
 	public static final String PREFS = "PREFS";
-	private UserModel profileUser;
+	private UserModel mProfileUser;
 	private SharedPreferences mPrefs;
 	private int mCurrentUserId;
 	private int mSearchingId;
@@ -32,7 +32,7 @@ public class ProfileActivity extends Activity {
 
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 
@@ -52,14 +52,14 @@ public class ProfileActivity extends Activity {
 			public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					if (items.size() == 1) {						
-						profileUser = items.get(0);
+						mProfileUser = items.get(0);
 						displayUser();
 					} else {
 						displayErrorToast(getString(R.string.wrong_user_data));
 					}
 
 				} else {
-					displayErrorToast(getString(R.string.retriving_user_error));
+					displayErrorToast(getString(R.string.retrieving_user_error));
 				}
 
 			}
@@ -75,34 +75,35 @@ public class ProfileActivity extends Activity {
 		getMenuInflater().inflate(R.menu.profile, menu);
 		return true;
 	}
+
 	/**
-	 * 
+	 * Refresh view with user data.
 	 */
 	public void displayUser() {
 
-		ImageView profilePicture = (ImageView) findViewById(R.id.profilePic);
-		//TODO add profile picture
+	    //TODO add profile picture
+		//ImageView profilePicture = (ImageView) findViewById(R.id.profilePic);
 
 		TextView firstName = (TextView) findViewById(R.id.profileFirstName);
-		firstName.setText(profileUser.getFirstName());
+		firstName.setText(mProfileUser.getFirstName());
 
 		TextView lastName = (TextView) findViewById(R.id.profileLastName);
-		lastName.setText(profileUser.getLastName());
+		lastName.setText(mProfileUser.getLastName());
 
 		TextView username = (TextView) findViewById(R.id.profileUsername);
-		username.setText(profileUser.getUsername());
+		username.setText(mProfileUser.getUsername());
 
 		TextView email = (TextView) findViewById(R.id.profileEmail);
-		email.setText(profileUser.getEmail());
+		email.setText(mProfileUser.getEmail());
 
 		TextView address = (TextView) findViewById(R.id.profileAddress);
-		address.setText(profileUser.getAddress());
+		address.setText(mProfileUser.getAddress());
 
 		TextView iBan = (TextView) findViewById(R.id.profileIban);
-		iBan.setText(profileUser.getIban());
+		iBan.setText(mProfileUser.getIban());
 
 		TextView bicSwift = (TextView) findViewById(R.id.profileBicSwift);
-		bicSwift.setText(profileUser.getBicSwift());
+		bicSwift.setText(mProfileUser.getBicSwift());
 
 	}
 
@@ -116,10 +117,10 @@ public class ProfileActivity extends Activity {
 						switch (selectedId){
 							case R.id.modifPofileBtn:
 								displayActivityIntent = 
-								new Intent(v.getContext(), ProfileChange.class);
+								new Intent(v.getContext(), EditProfile.class);
 					        	if (mSearchingId == mCurrentUserId) {
 					        		displayActivityIntent = 
-											new Intent(v.getContext(), ProfileChange.class);
+											new Intent(v.getContext(), EditProfile.class);
 					        		startActivity(displayActivityIntent);
 					        	} else {
 					        		displayErrorToast(getString(R.string.edit_friends_profile));
@@ -150,7 +151,7 @@ public class ProfileActivity extends Activity {
 	            return true;
 	        case R.id.action_settings:
 	        	if (mSearchingId == mCurrentUserId) {
-	        		Intent profileModifIntent = new Intent(this, ProfileChange.class);
+	        		Intent profileModifIntent = new Intent(this, EditProfile.class);
 	        		startActivity(profileModifIntent);
 	        	} else {
 	        		displayErrorToast(getString(R.string.edit_friends_profile));

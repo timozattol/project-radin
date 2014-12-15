@@ -32,6 +32,7 @@ import com.jjoe64.graphview.GraphViewSeries;
 
 /**
  * @author Fabien Zellweger
+ * Displays statistics of the expenses over time.
  */
 public class RadinGroupStatsActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
@@ -44,7 +45,7 @@ public class RadinGroupStatsActivity extends Activity {
 	private static final int GRAPH_YEAR_ID = 3;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_stats);
 		Bundle extras = getIntent().getExtras();
@@ -62,7 +63,7 @@ public class RadinGroupStatsActivity extends Activity {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					displayItems(items);
 				} else {
-					displayErrorToast(getString(R.string.retrinving_transaction_group_error));
+					displayErrorToast(getString(R.string.retrieving_transaction_group_error));
 				}
 			}
 		});

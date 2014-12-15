@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +18,7 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,11 +39,10 @@ import android.widget.Toast;
 /**
  * 
  * @author Fabien Zellweger
- * This Activity give a view of the selected radin group
- * The List of transactions must be updated via refreshWithData,
- * so that the ArrayAdapter updates the view.
+ * This Activity gives a view of the selected RadinGroup.
  *
  */
+@SuppressLint("UseSparseArrays")
 public class RadinGroupViewActivity extends Activity {
     private final static int SIXTY_SECS = 60000;
     private final static int TEN_SECS = 10000;
@@ -58,36 +57,35 @@ public class RadinGroupViewActivity extends Activity {
 	private Map<Integer, UserModel> mIdToUserModelMapping = new HashMap<Integer, UserModel>();
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_view);
 
-
 		Bundle extras = getIntent().getExtras();
 		mCurrentRadinGroupModel = ActionBar.getRadinGroupModelFromBundle(extras);
-		String radinGroupTitle = mCurrentRadinGroupModel.getRadinGroupName();
-			
-		setTitle(radinGroupTitle);
+
+		setTitle(mCurrentRadinGroupModel.getRadinGroupName());
 
 		LinearLayout thisLayout = (LinearLayout) findViewById(R.id.radinGroupViewLayout);
 		ActionBar.addActionBar(this, thisLayout, mCurrentRadinGroupModel);
-		
+
+		// Creates an Array adapter for the transaction, to update the view
+		// every time the refreshViewWithData method is called.
 		mTransactionsModelAdapter = new TransactionArrayAdapter(
                 this, 
                 R.layout.transaction_list_row, 
                 mTransactionModelList);
-		
+
 		mTransactionListView = (ListView) findViewById(R.id.transactionListView);
 		mTransactionListView.setAdapter(mTransactionsModelAdapter);
 
-		refreshUsersInGroupAndThenTransaction();
-		//setAutoTransactionRefresh();
+		fetchUsersInGroupAndThenTransaction();
 	}
 	
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		refreshUsersInGroupAndThenTransaction();
+		fetchUsersInGroupAndThenTransaction();
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,7 +94,7 @@ public class RadinGroupViewActivity extends Activity {
 		inflater.inflate(R.menu.radingroup_view, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle presses on the action bar items
@@ -106,7 +104,6 @@ public class RadinGroupViewActivity extends Activity {
 	        	startActivity(intent);
 	            return true;
 	        case R.id.action_settings:
-	         
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -117,6 +114,9 @@ public class RadinGroupViewActivity extends Activity {
 	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 	
+	/**
+	 * Refresh the view with the new @param transactions, after sorting them.
+	 */
 	private void refreshViewWithData(List<TransactionWithParticipantsModel> transactions) {
 	    sortByDateTime(transactions);
 	    mTransactionsModelAdapter.setTransactionModels(transactions);
@@ -126,7 +126,7 @@ public class RadinGroupViewActivity extends Activity {
 	 * Asynchronously gets the data from the server, 
 	 * and refresh the view with data when available.
 	 */
-	private void refreshTransactionList() {
+	private void fetchTransactionList() {
 	    TransactionWithParticipantsStorageManager transactionStorageManager = 
 	            TransactionWithParticipantsStorageManager.getStorageManager();
 	    
@@ -137,7 +137,7 @@ public class RadinGroupViewActivity extends Activity {
                     public void callback(List<TransactionWithParticipantsModel> items,
                             StorageManagerRequestStatus status) {
                         if (status == StorageManagerRequestStatus.FAILURE) {
-                            displayErrorToast(getString(R.string.retrinving_transaction_group_error));
+                            displayErrorToast(getString(R.string.retrieving_transaction_group_error));
                         } else {
                             refreshViewWithData(items);
                         }
@@ -145,6 +145,9 @@ public class RadinGroupViewActivity extends Activity {
                 });
 	}
 	
+	/**
+	 * Sorts the given list @param transactions by chronological order.
+	 */
 	private void sortByDateTime(List<TransactionWithParticipantsModel> transactions) {
 	    Collections.sort(transactions, new Comparator<TransactionModel>() {
 
@@ -164,7 +167,7 @@ public class RadinGroupViewActivity extends Activity {
 	 * Asynchronously gets all the users that are in the RadinGroup.
 	 * Refresh the view when done.
 	 */
-	private void refreshUsersInGroupAndThenTransaction() {
+	private void fetchUsersInGroupAndThenTransaction() {
 	    UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
 	    
 	    userStorageManager.getAllForGroupId(mCurrentRadinGroupModel.getRadinGroupID(), 
@@ -182,7 +185,7 @@ public class RadinGroupViewActivity extends Activity {
                             
                             // Refresh the list of transactions when the list of users is 
                             // successfully retrieved
-                            refreshTransactionList();
+                            fetchTransactionList();
                         } else {
                             displayErrorToast("Error while retrieving users");
                         }
@@ -190,40 +193,6 @@ public class RadinGroupViewActivity extends Activity {
                 });
 	}
 
-	private void fillWithTestData() {
-	    //TODO do again with participants
-//	    final int hundredFrancs = 100;
-//	    final int twoHundredFrancs = 100;
-//	    final int fiveSecs = 5000;
-//	    final int halfASec = 500;
-//        
-
-//	    //TEST
-//        final List<TransactionWithParticipantsModel> models = new ArrayList<TransactionWithParticipantsModel>();
-//        models.add(new TransactionWithParticipantsModel(0, 0, 0, 0, hundredFrancs, Currency.CHF, 
-//                DateTime.now(), "Buy stuff", TransactionType.PAYMENT));
-//        models.add(new TransactionModel(0, 0, 0, 0, twoHundredFrancs, Currency.CHF, 
-//                DateTime.now(), "Buy more stuff", TransactionType.PAYMENT));
-//        refreshViewWithData(models);
-//        
-//        new CountDownTimer(fiveSecs, halfASec) {
-//            private int i = 0;
-//            
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                i++;
-//                models.add(new TransactionModel(0, 0, 0, 0, i*hundredFrancs, Currency.CHF, 
-//                        DateTime.now().minusDays(i), "Buy buy buy", TransactionType.PAYMENT));
-//                refreshViewWithData(models);
-//            }
-//            
-//            @Override
-//            public void onFinish() {
-//                
-//            }
-//        }.start();
-	}
-	
 	/**
 	 * Sets a timer to refresh the list every 10 seconds, forever.
 	 */
@@ -233,7 +202,7 @@ public class RadinGroupViewActivity extends Activity {
                 
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    refreshTransactionList();
+                    fetchTransactionList();
                 }
                 
                 @Override

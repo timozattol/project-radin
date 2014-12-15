@@ -22,7 +22,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
  * @author Simonchelbc
- * 
+ * Allows a new user to register with his informations.
  */
 public class RegisterActivity extends Activity {
 	private boolean newUserDataUsable = false;
@@ -30,7 +30,7 @@ public class RegisterActivity extends Activity {
 	private SharedPreferences prefs;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 		Button signUpButton = (Button) findViewById(id.sign_up_button);

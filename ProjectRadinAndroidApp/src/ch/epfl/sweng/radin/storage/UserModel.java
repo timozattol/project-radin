@@ -5,7 +5,7 @@ package ch.epfl.sweng.radin.storage;
 
 /**
  * @author julied20
- *
+ * A model to represent a user.
  */
 public class UserModel extends Model{
 

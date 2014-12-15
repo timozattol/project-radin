@@ -26,8 +26,7 @@ import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 /**
  * 
  * @author Fabien Zellweger
- * This activity get all the radin group from the connected user and list them
- * to give access.
+ * This activity lists all the RadinGroups to which the user is subscribed.
  *
  */
 public class MyRadinGroupsActivity extends Activity {
@@ -36,7 +35,7 @@ public class MyRadinGroupsActivity extends Activity {
 	private int mUserId;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_radingroups);
 
@@ -90,7 +89,7 @@ public class MyRadinGroupsActivity extends Activity {
 					mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
 					displayList();
 				} else {
-					displayErrorToast(getString(R.string.retriving_radin_group_error));
+					displayErrorToast(getString(R.string.retrieving_radin_group_error));
 				}
 			}
 		});

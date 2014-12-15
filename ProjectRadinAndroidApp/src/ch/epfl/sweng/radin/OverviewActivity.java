@@ -8,11 +8,13 @@ import android.view.MenuItem;
 
 /**
  * @author Fabien Zellweger
+ * Gives an overview of the financial situation of the logged user, 
+ * all groups combined.
  */
 public class OverviewActivity extends Activity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_overview);
 

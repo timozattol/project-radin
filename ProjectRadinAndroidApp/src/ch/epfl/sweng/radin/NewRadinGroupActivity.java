@@ -32,8 +32,9 @@ import android.widget.Toast;
 
 
 /**
- * Activity allows the user to create a new list of expenses.
- * The user must provide a name for the list and the names of the people that he wants share this list with. 
+ * This Activity allows the user to create a new list of expenses.
+ * The user must provide a name for the list and the names of the people 
+ * that he wants share this list with. 
  *
  */
 public class NewRadinGroupActivity extends Activity {
@@ -52,7 +53,7 @@ public class NewRadinGroupActivity extends Activity {
 	private Activity mCurrentActivity = this;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_radingroup);
         mNameEdit = (EditText) findViewById(R.id.edit_name);

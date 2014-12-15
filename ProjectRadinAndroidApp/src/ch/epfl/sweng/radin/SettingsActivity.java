@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ *  This activity permits to adjust custom parameters for the app.
+ */
 public class SettingsActivity extends Activity {
 
 	private SharedPreferences prefs;

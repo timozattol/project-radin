@@ -1,6 +1,5 @@
 package ch.epfl.sweng.radin;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
@@ -36,19 +34,18 @@ import ch.epfl.sweng.radin.storage.managers.TransactionWithParticipantsStorageMa
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
- * 
  * @author Fabien Zellweger
+ * Displays a balance of the financial situation 
+ * between users in the current RadinGroup.
  *
  */
 @SuppressLint("UseSparseArrays") public class RadinGroupBalanceActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
 	private List<UserModel> mParticipants;
 	private List<TransactionWithParticipantsModel> mTransactions;
-	private final static int TIME_OUT = 5000;
-	private final static int TEXT_SIZE = 30;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_radingroup_balance);
@@ -100,7 +97,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
                     // After users are fetched, fetch transactions
                     fetchTransactions();
                 } else {
-                    displayErrorToast(getString(R.string.retrinving_user_group_error));
+                    displayErrorToast(getString(R.string.retrieving_user_group_error));
                 }
             }
         });
@@ -120,7 +117,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
                     // Draw balances when transactions were successfully fetched.
                     drawBalances(calculateBalances());
                 } else {
-                    displayErrorToast(getString(R.string.retrinving_transaction_group_error));
+                    displayErrorToast(getString(R.string.retrieving_transaction_group_error));
                 }
             }
         });

@@ -12,7 +12,6 @@ import ch.epfl.sweng.radin.storage.UserModel;
 /**
  * @author topali2
  * A JSONParser for UserModel.
- * It's very ugly but it's just to have something that "works" for now.
  */
 public class UserJSONParser implements JSONParser<UserModel> {
 

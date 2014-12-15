@@ -8,14 +8,15 @@ import android.view.View;
 
 /**
  * @author Fabien Zellweger
- * The home activity to choose which fonctionality you want to try
+ * The home activity of the app. 
+ * Here the user chooses which feature he wants to use.
  */
 public class HomeActivity extends Activity {
 	private int mUserId;
 	private SharedPreferences mPrefs;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 		

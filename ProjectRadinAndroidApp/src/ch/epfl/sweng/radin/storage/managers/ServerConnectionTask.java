@@ -24,10 +24,10 @@ import ch.epfl.sweng.radin.storage.RequestType;
 import ch.epfl.sweng.radin.storage.parsers.JSONParser;
 
 /**
- * An Asynchronous task who communicates with the server. 
- * The execute method takes 3 String arguments: 
- * 1. The url to connect to
- * 2. The json data to post or put. (Can be empty if request method is get or delete).
+ * An Asynchronous task who communicates with the server.
+ * @param <M> the type of model to be transmitted to the server. 
+ * The execute method the json data to post or put. 
+ * (Can be empty if request method is get or delete).
  * @author timozattol
  * @param <M> The model to parametrize the class with. The class's parser and listeners are parametrized with M.
  *

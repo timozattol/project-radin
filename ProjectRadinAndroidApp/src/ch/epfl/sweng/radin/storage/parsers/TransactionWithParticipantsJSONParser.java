@@ -21,6 +21,7 @@ import ch.epfl.sweng.radin.storage.TransactionWithParticipantsModel;
 
 /**
  * @author topali2
+ * A JSONParser for TransactionWithParticipantsModel.
  *
  */
 @SuppressLint("UseSparseArrays") 

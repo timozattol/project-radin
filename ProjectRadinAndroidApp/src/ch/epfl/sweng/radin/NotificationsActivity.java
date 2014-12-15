@@ -8,11 +8,13 @@ import android.view.MenuItem;
 
 /**
  * @author Fabien Zellweger
+ * This Activity is the Notification center. Here the user can
+ * see all the events that occurred.
  */
 public class NotificationsActivity extends Activity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notifications);
 	}

@@ -8,11 +8,12 @@ import android.view.MenuItem;
 
 /**
  * @author Fabien Zellweger
+ * Here the user can choose how he would like to be notified when events occur.
  */
 public class NotificationSettingsActivity extends Activity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_settings);
 		

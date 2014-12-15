@@ -22,11 +22,12 @@ import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 /**
- * 
+ *
  * @author topali2
+ * Allows to edit user's informations.
  *
  */
-public class ProfileChange extends Activity {
+public class EditProfile extends Activity {
 
 	private UserModel newProfileModel = null;
 	private boolean profileOK = false;
@@ -37,7 +38,7 @@ public class ProfileChange extends Activity {
 
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile_change);
 
@@ -168,7 +169,7 @@ public class ProfileChange extends Activity {
 							profileOK = true;
 							initializeEditText();
 						} else {
-							displayErrorToast(getString(R.string.retriving_user_error));
+							displayErrorToast(getString(R.string.retrieving_user_error));
 						}
 
 					} else {

@@ -7,9 +7,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 /**
- * 
  * @author topali2
- *
+ * This activity is called at startup and displays a nice splash screen.
  */
 public class AppOpeningActivity extends Activity {
 

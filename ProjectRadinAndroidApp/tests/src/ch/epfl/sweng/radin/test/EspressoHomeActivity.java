@@ -17,6 +17,7 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
  */
 public class EspressoHomeActivity extends ActivityInstrumentationTestCase2<HomeActivity> {
 
+	
 	public EspressoHomeActivity() {
 
 		super(HomeActivity.class);
@@ -31,7 +32,6 @@ public class EspressoHomeActivity extends ActivityInstrumentationTestCase2<HomeA
 
 	public void testNotificationBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.notificationBtn)).perform(ViewActions.click());
-		Espresso.pressBack();
 	}
 	/*public void testContactBtn() {
 		
@@ -42,12 +42,11 @@ public class EspressoHomeActivity extends ActivityInstrumentationTestCase2<HomeA
 	
 	public void testOverviewBtn() {
 		Espresso.onView(ViewMatchers.withId(R.id.overviewBtn)).perform(ViewActions.click());
-		Espresso.pressBack();
 	}
 	
 	/*public void testProfileBtn() {
-		Espresso.onView(ViewMatchers.withId(R.id.profileBtn)).perform(ViewActions.click());
-		Espresso.pressBack();
+		
+			Espresso.onView(ViewMatchers.withId(R.id.profileBtn)).perform(ViewActions.click());
 	}*/
 	
 	public void testSettingsBtn() {

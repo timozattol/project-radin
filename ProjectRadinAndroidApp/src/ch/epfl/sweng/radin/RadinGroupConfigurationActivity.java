@@ -26,8 +26,8 @@ import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
- * @author Fabien Zellweger
- *	Display a list of all current group member and set it clickable with option on it.
+ *  @author Fabien Zellweger
+ *  Displays a list of all current group members.
  */
 public class RadinGroupConfigurationActivity extends Activity {
 	private RadinGroupModel mCurrentRadinGroupModel;
@@ -36,7 +36,7 @@ public class RadinGroupConfigurationActivity extends Activity {
 	private UserArrayAdapter mUserInGroupAdapter;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_radingroup_configuration);
 		
@@ -58,7 +58,7 @@ public class RadinGroupConfigurationActivity extends Activity {
 					mGroupMembers.clear();
 					mGroupMembers.addAll(items);
 				    } else {
-				        displayErrorToast(getString(R.string.retrinving_user_group_error));				        
+				        displayErrorToast(getString(R.string.retrieving_user_group_error));				        
 				    }
 			}
 		});

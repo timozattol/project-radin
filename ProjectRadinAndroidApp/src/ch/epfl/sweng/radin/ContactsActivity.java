@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +30,7 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 
 /**
  * @author Fabien Zellweger
- * This activity show you you're contacts
+ * This activity shows you your contacts
  */
 
 public class ContactsActivity extends Activity {
@@ -41,7 +40,7 @@ public class ContactsActivity extends Activity {
 	private int mUserId;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contacts);
 
@@ -80,7 +79,6 @@ public class ContactsActivity extends Activity {
 	}
 	
 	private void refreshList() {
-		//TODO : Uncomment this when the getAllFriend() is implemented
 		UserStorageManager userStorageManager = UserStorageManager.getStorageManager();
 		userStorageManager.getFriendsOfUserWithId(mUserId, new RadinListener<UserModel>(){
 
@@ -89,7 +87,7 @@ public class ContactsActivity extends Activity {
 					StorageManagerRequestStatus status) {				
 
 				if (status == StorageManagerRequestStatus.FAILURE) {
-                    displayErrorToast(getString(R.string.retriving_friend_error));
+                    displayErrorToast(getString(R.string.retrieving_friend_error));
 				} else {
 					mUserModelAdapter.setUserModels(items);
 					mContactUserModelList.clear();
@@ -120,10 +118,10 @@ public class ContactsActivity extends Activity {
 	private OnClickListener contactButtonListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-				Intent displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
-				int searchId = mContactUserModelList.get((Integer) v.getTag()).getId();
-				displayActivityIntent.putExtra("userId", searchId);
-				startActivity(displayActivityIntent);
+    		Intent displayActivityIntent = new Intent(v.getContext(), ProfileActivity.class);
+    		int searchId = mContactUserModelList.get((Integer) v.getTag()).getId();
+    		displayActivityIntent.putExtra("userId", searchId);
+    		startActivity(displayActivityIntent);
 		}		
 	};
 	
@@ -155,9 +153,9 @@ public class ContactsActivity extends Activity {
 			   	StorageManagerRequestStatus status) {
 				if (status == StorageManagerRequestStatus.SUCCESS) {
 					refreshList();
-				    } else {
-				        displayErrorToast(getString(R.string.add_friend_error));				        
-				    }
+			    } else {
+			        displayErrorToast(getString(R.string.add_friend_error));				        
+			    }
 				
 			}
 			

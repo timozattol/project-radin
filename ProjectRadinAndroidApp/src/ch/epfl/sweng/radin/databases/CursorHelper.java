@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 /**
  * @author Simonchelbc

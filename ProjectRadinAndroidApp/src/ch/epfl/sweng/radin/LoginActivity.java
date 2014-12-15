@@ -1,7 +1,4 @@
 package ch.epfl.sweng.radin;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import android.app.Activity;
@@ -20,14 +17,13 @@ import ch.epfl.sweng.radin.R.id;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
-import ch.epfl.sweng.radin.storage.managers.NetworkProvider;
 import ch.epfl.sweng.radin.storage.managers.StorageManager;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
 /**
  *
  * @author Fabien Zellweger
- * Login activity, to log an user, if right login, can go further in the app, or
- * give the opportunity to register.
+ * Login activity, to log an user. If the login is right, the user can go further in the app.
+ * Else, gives the opportunity to register.
  *
  */
 
@@ -39,7 +35,7 @@ public class LoginActivity extends Activity {
 
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		Button loginBtn = (Button) findViewById(R.id.loginButton);
