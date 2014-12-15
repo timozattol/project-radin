@@ -17,7 +17,7 @@ GET    /radingroups                        @controllers.Application.getAllRadinG
 POST   /radingroups                        @controllers.Application.newRadinGroup
 GET    /radingroups/:uid                   @controllers.Application.getRadinGroupsForUser(uid: Int)
 GET	   /radingroups/:rgid/users			   @controllers.Application.getUsersInRG(rgid: Int)
-POST   /radingroups/:rgid/adduser		   @controllers.Application.addUsertoRadinGroup(rgid: Int)
+POST   /radingroups/:rgid/adduser/:uid	   @controllers.Application.addUsertoRadinGroup(uid: Int, rgid: Int)
 DELETE /radingroups/:rgid/removeuser/:uid  @controllers.Application.removeUserFromRadinGroup(uid: Int, rgid: Int)
 
 GET    /transactions/:rgid                 @controllers.Application.getTransactionsForGroup(rgid: Int)
