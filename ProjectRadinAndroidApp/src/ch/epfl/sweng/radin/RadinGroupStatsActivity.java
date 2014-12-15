@@ -170,7 +170,7 @@ public class RadinGroupStatsActivity extends Activity {
 		mMonthGraphView = new BarGraphView(this, getString(R.string.spending_month));
 		mMonthGraphView.addSeries(monthGraph);
 		mMonthGraphView.setHorizontalLabels(monthKeys);
-		mMonthGraphView.setManualYAxisBounds(totalAmount/2, 0);
+		mMonthGraphView.setManualYAxisBounds(totalAmount, 0);
 		
 		//Create the day graph
 		String[] dayKeys = sortedByDay.keySet().toArray(new String[0]);
@@ -182,7 +182,7 @@ public class RadinGroupStatsActivity extends Activity {
 		mDayGraphView = new BarGraphView(this, getString(R.string.spending_day));
 		mDayGraphView.addSeries(dayGraph);
 		mDayGraphView.setHorizontalLabels(dayKeys);
-		mDayGraphView.setManualYAxisBounds(totalAmount/2, 0);
+		mDayGraphView.setManualYAxisBounds(totalAmount, 0);
 		
 		//Place the graphs on the right positions and set them invisible
 		RelativeLayout statRelativeLayout = (RelativeLayout) findViewById(R.id.statRadinGroupLayout);

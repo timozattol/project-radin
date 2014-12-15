@@ -49,10 +49,6 @@ public class EditProfile extends Activity {
 		EMAIL,
 		IBAN,
 		BICS_WIFT;	
-		
-		public int getValue() {
-			return ordinal();
-		}
 	}
 
 	@Override

@@ -57,9 +57,9 @@ public class RadinGroupConfigurationActivity extends Activity {
 					mUserInGroupAdapter.setUserModels(items);
 					mGroupMembers.clear();
 					mGroupMembers.addAll(items);
-				    } else {
-				        displayErrorToast(getString(R.string.retrieving_user_group_error));				        
-				    }
+				} else {
+					displayErrorToast(getString(R.string.retrieving_user_group_error));				    
+				}
 			}
 		});
 		mGroupMemberListView = (ListView) findViewById(R.id.radinConfigGroupMemberList);
