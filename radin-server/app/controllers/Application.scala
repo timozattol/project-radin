@@ -37,7 +37,6 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       users.insert(User("Thomas", "Batschelet", "topali2", "radin", "top@ali.ch", "SV cafeteria", "CH19 12093 00A10ASD3FE2346", "RAD118ARNABIC", "nver.gonna/give/u/.."))
       users.insert(User("Fabien", "Zellweger", "walono", "radin", "walono@clic.ch", "EPFHELL", "CH82 98432 NINFI12INI23UN14", "GE0RGE5C4ND", "images/2"))
       users.insert(User("Ireneu", "Pla", "ireneu", "radin", "Ire@neu.ch", "9000, No joke avenue", "CH32 98441 OJOIJ29I23UN14", "GE0RGE5C4ND", "images/3"))
-
     }
 
     Ok("done")
@@ -269,14 +268,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok
   }
 
+  implicit val userWithoutPasswordFormat = Json.format[UserWithoutPassword]
   /**
    * @author ireneu
    * 
    * Retrieve a certain user's information (without his password!)
    */
   def getUserById(uid: Int) = DBAction { implicit rs =>
-    val user = toJson(users.filter { _.U_ID === uid }.list).as[JsObject] - ("U_password")
-    Ok(JsObject(List(("user", user))))
+    val user = users.filter { _.U_ID === uid }.list.map {new UserWithoutPassword(_)} 
+    Ok(JsObject(List(("user", toJson(user)))))
   }
 
   // OAuth related methods. Unused for the android app.
