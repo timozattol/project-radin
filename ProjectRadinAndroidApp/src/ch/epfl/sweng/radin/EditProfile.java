@@ -29,12 +29,12 @@ import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
  */
 public class EditProfile extends Activity {
 
-	private UserModel newProfileModel = null;
-	private boolean profileOK = false;
-	private List<UserModel> userModelList = new ArrayList<UserModel>();
-	private UserStorageManager userStorageManager;
-	private int userId;
-	private SharedPreferences prefs;
+	private UserModel mNewProfileModel = null;
+	private boolean mProfileOK = false;
+	private List<UserModel> mUserModelList = new ArrayList<UserModel>();
+	private UserStorageManager mUserStorageManager;
+	private int mUserId;
+	private SharedPreferences mPrefs;
 
 	/**
 	 * 
@@ -56,11 +56,11 @@ public class EditProfile extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile_change);
 
-		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 
-		userId = Integer.parseInt(prefs.getString(getString(R.string.username), "-1"));
+		mUserId = Integer.parseInt(mPrefs.getString(getString(R.string.username), "-1"));
 
-		userStorageManager = UserStorageManager.getStorageManager();
+		mUserStorageManager = UserStorageManager.getStorageManager();
 
 		Button buttonSave = (Button) findViewById(R.id.profileButtonSaveChanges);
 		ImageButton deleteButtonFirstName = (ImageButton) findViewById(R.id.delete_button_firstName);
@@ -136,11 +136,11 @@ public class EditProfile extends Activity {
 
 			setAllEditText();
 
-			if (profileOK) {
+			if (mProfileOK) {
 
-				userModelList.add(newProfileModel);
+				mUserModelList.add(mNewProfileModel);
 
-				userStorageManager.update(userModelList, new RadinListener<UserModel>() {
+				mUserStorageManager.update(mUserModelList, new RadinListener<UserModel>() {
 
 					@Override
 					public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
@@ -170,16 +170,16 @@ public class EditProfile extends Activity {
 	 */
 	private void retrieveUserInformation() {
 
-		if (userId != -1) {
+		if (mUserId != -1) {
 
-			userStorageManager.getById(userId, new RadinListener<UserModel>() {
+			mUserStorageManager.getById(mUserId, new RadinListener<UserModel>() {
 
 				@Override
 				public void callback(List<UserModel> items, StorageManagerRequestStatus status) {
 					if (status == StorageManagerRequestStatus.SUCCESS) {
 						if (items.size() == 1) {						
-							newProfileModel = items.get(0);
-							profileOK = true;
+							mNewProfileModel = items.get(0);
+							mProfileOK = true;
 							initializeEditText();
 						} else {
 							displayErrorToast(getString(R.string.retrieving_user_error));
@@ -211,66 +211,66 @@ public class EditProfile extends Activity {
 	private void initializeEditText() {
 
 		EditText firstName = (EditText) findViewById(R.id.editProfileFirstName);
-		firstName.setText(newProfileModel.getFirstName());
+		firstName.setText(mNewProfileModel.getFirstName());
 
 		EditText lastName = (EditText) findViewById(R.id.editProfileLastName);
-		lastName.setText(newProfileModel.getLastName());
+		lastName.setText(mNewProfileModel.getLastName());
 
 
 		EditText username = (EditText) findViewById(R.id.editProfileUsername);
-		username.setText(newProfileModel.getUsername());
+		username.setText(mNewProfileModel.getUsername());
 
 
 		EditText address = (EditText) findViewById(R.id.editProfileAddress);
-		address.setText(newProfileModel.getAddress());
+		address.setText(mNewProfileModel.getAddress());
 
 
 		EditText email = (EditText) findViewById(R.id.editProfileEmail);
-		email.setText(newProfileModel.getEmail());
+		email.setText(mNewProfileModel.getEmail());
 
 
 		EditText iBan = (EditText) findViewById(R.id.editProfileIBan);
-		iBan.setText(newProfileModel.getIban());
+		iBan.setText(mNewProfileModel.getIban());
 
 
 		EditText bicSwift = (EditText) findViewById(R.id.editProfileBicSwift);
-		bicSwift.setText(newProfileModel.getBicSwift());
+		bicSwift.setText(mNewProfileModel.getBicSwift());
 
 	}
 	private void setAllEditText() {
 
-		profileOK = true;
+		mProfileOK = true;
 
 		EditText newFirstName = (EditText) findViewById(R.id.editProfileFirstName);
-		newProfileModel.setFirstName(newFirstName.getText().toString());
+		mNewProfileModel.setFirstName(newFirstName.getText().toString());
 
 		EditText newLastName = (EditText) findViewById(R.id.editProfileLastName);
-		newProfileModel.setLastName(newLastName.getText().toString());
+		mNewProfileModel.setLastName(newLastName.getText().toString());
 
 
 		EditText newUsername = (EditText) findViewById(R.id.editProfileUsername);
-		newProfileModel.setUsername(newUsername.getText().toString());
+		mNewProfileModel.setUsername(newUsername.getText().toString());
 
 
 		EditText newAddress = (EditText) findViewById(R.id.editProfileAddress);
-		newProfileModel.setAddress(newAddress.getText().toString());
+		mNewProfileModel.setAddress(newAddress.getText().toString());
 
 
 		EditText newEmail = (EditText) findViewById(R.id.editProfileEmail);
 		if (newEmail.getText().toString().contains("@")) {
-			newProfileModel.setEmail(newEmail.getText().toString());			
+			mNewProfileModel.setEmail(newEmail.getText().toString());			
 		} else {
-			profileOK = false;
+			mProfileOK = false;
 			displayErrorToast("invalid email");
 		}
 
 
 		EditText newIBan = (EditText) findViewById(R.id.editProfileIBan);
-		newProfileModel.setIban(newIBan.getText().toString());
+		mNewProfileModel.setIban(newIBan.getText().toString());
 
 
 		EditText newBicSwift = (EditText) findViewById(R.id.editProfileBicSwift);
-		newProfileModel.setBicSwift(newBicSwift.getText().toString());
+		mNewProfileModel.setBicSwift(newBicSwift.getText().toString());
 
 	}
 
