@@ -12,7 +12,6 @@ import ch.epfl.sweng.radin.storage.RadinGroupModel;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +22,6 @@ import android.widget.TextView;
  * Demonstration activity using the database
  */
 public class DatabaseRadinGroupTableActivity extends Activity {
-	private static final String TAG = "DatabaseRadinGroupTableActivity";
-	
 	private static final DateTime TODAY = DateTime.now();
 	private static final DateTime TOMORROW = TODAY.plusDays(1);
 	private static final DateTime AFTER_TOMORROW = TOMORROW.plusDays(1);

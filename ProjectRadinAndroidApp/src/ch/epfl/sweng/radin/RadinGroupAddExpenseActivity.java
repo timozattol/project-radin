@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -373,6 +372,7 @@ public class RadinGroupAddExpenseActivity extends Activity {
         /* (non-Javadoc)
          * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
          */
+        @SuppressLint("ViewHolder")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
