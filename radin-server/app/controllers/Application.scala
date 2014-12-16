@@ -146,9 +146,10 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   implicit val userFormat = Json.format[User]
 
+  implicit val userWithoutPasswordFormat = Json.format[UserWithoutPassword]
   /**
    * @author simonchelbc
-   * @param JsonArray containing JsObject in format of database.Tables.User
+   * @param JsonArray containing JsObject in format of database.OtherMdels.UserWithoutPassword
    * @return a OK 200 response with the list of modified users in JSON with a empty error-log OR a 400 Bad-Request response, 
    * containing list of modified-users with an non-empty error-log.
    * What it computes: modifies the entries in Users table with same ID as the one sent in the request in JSON
@@ -162,13 +163,15 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       rs.body.\("user") match {
         case JsArray(jsonValues) =>
           jsonValues foreach { jsonValue =>
-            jsonValue.validate[User].asOpt.foreach { userNewState =>
-              val userToUpdate = users.filter { _.U_ID === userNewState.U_ID }
-              val listOfOneUser = userToUpdate.list
-              if (!listOfOneUser.isEmpty) {
-                userToUpdate.update(userNewState)
-                modifiedUsers = modifiedUsers :+ jsonValue
-              } else errorsLog += "the following user doesn't exist in the database: " + Json.prettyPrint(JsObject(Seq(("user", jsonValue)))) + "\n"
+            jsonValue.validate[UserWithoutPassword].asOpt.foreach { userNewState =>
+              val userToUpdateRow = users.filter { _.U_ID === userNewState.U_ID }
+              userToUpdateRow.list.headOption match {
+                case Some(userToUpdate) => 
+                  userToUpdateRow.update(new User(userNewState, userToUpdate.U_password))
+                  modifiedUsers = modifiedUsers :+ jsonValue
+                case None => 
+                  errorsLog += "the following user doesn't exist in the database: " + Json.prettyPrint(JsObject(Seq(("user", jsonValue)))) + "\n"
+              }
             }
           }
           (errorsLog, modifiedUsers)
@@ -264,7 +267,6 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     Ok
   }
 
-  implicit val userWithoutPasswordFormat = Json.format[UserWithoutPassword]
   /**
    * @author ireneu
    * 
