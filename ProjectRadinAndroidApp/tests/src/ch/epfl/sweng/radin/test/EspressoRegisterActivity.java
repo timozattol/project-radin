@@ -98,6 +98,13 @@ public class EspressoRegisterActivity extends
 		Espresso.onView(ViewMatchers.withId(R.id.bic_swift_address_new_user))
 		.perform(ViewActions.typeText("Bic01"));
 		
+		Espresso.closeSoftKeyboard();
+		try {
+            Thread.sleep(mSleepTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+		
 		Espresso.onView(ViewMatchers.withId(R.id.sign_up_button))
 		.perform(ViewActions.click());
 	}
