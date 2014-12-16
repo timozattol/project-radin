@@ -1,12 +1,13 @@
 package database
 
-//import scala.slick.driver.H2Driver.simple._
 import scala.slick.lifted.{ ProvenShape, ForeignKeyQuery }
 import scala.slick.driver.SQLiteDriver.simple._
 import play.api.mvc.BodyParsers._
 import play.api.libs.json.Json
 import play.api.libs.json.Json._
 import controllers.Application
+import database.OtherModels.UserWithoutPassword
+import database.OtherModels.UserWithoutPassword
 
 object Tables {
 
@@ -122,7 +123,13 @@ object Tables {
     def * = (uidSource, uidTarget, URrelation) <> (UserRelationship.tupled, UserRelationship.unapply)
   }
 
-  case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String = "", U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_picture: String, U_ID: Option[Int] = None)
+  case class User(U_firstName: String, U_lastName: String, U_username: String, U_password: String = "", 
+      U_email: String, U_address: String, U_iban: String, U_bicSwift: String, U_picture: String, U_ID: Option[Int] = None) {
+    def this(userWithoutPassword: UserWithoutPassword, password: String) = 
+      this(userWithoutPassword.U_firstName, userWithoutPassword.U_lastName, userWithoutPassword.U_username, password,
+          userWithoutPassword.U_email, userWithoutPassword.U_address, userWithoutPassword.U_iban, userWithoutPassword.U_bicSwift,
+          userWithoutPassword.U_picture, userWithoutPassword.U_ID)
+  }
 
   class Users(tag: Tag) extends Table[User](tag, "USER") {
 
