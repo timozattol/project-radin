@@ -3,6 +3,8 @@
  */
 package ch.epfl.sweng.radin.storage.managers;
 
+import java.util.List;
+
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.storage.RadinGroupModel;
 import ch.epfl.sweng.radin.storage.RequestType;
@@ -11,7 +13,7 @@ import ch.epfl.sweng.radin.storage.parsers.RadinGroupJSONParser;
 
 /**
  * @author CedricCook
- *
+ * A storageManager that handles storage&retrieval of RadinGroupModels
  */
 
 public final class RadinGroupStorageManager extends StorageManager<RadinGroupModel> {
@@ -44,20 +46,36 @@ public final class RadinGroupStorageManager extends StorageManager<RadinGroupMod
  	*/
     @Override
 	protected String getTypeUrl() {
-    	return "groups";
+    	return "radingroups";
     }
     
-    public void getAllByUserId(int userId, RadinListener<RadinGroupModel> callback) {
-    	if (isConnected()) {
+    /**
+     * Get all the radingroups that a user is a part of.
+     * @author CedricCook
+     * @param userId the id of the user we want RadinGroups for.
+     * @param callback the wanted RadinGroup
+     */
+	public void getAllByUserId(int userId, RadinListener<RadinGroupModel> callback) {
+		//TODO use base class method
+		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-						SERVER_BASE_URL + "radingroups");
+				ServerConnectionTask<RadinGroupModel> connTask = getConnectionFactory().createTask(
+						callback, RequestType.GET, SERVER_BASE_URL + "radingroups/" + userId, getJSONParser());
 				connTask.execute();
 				return;
 			}
 		}
-		//TODO take the data from the local DB
-    }
+		// TODO take the data from the local DB
+	}
+	
+	/**
+	 * Posts a Radin group (without participants) to the database.
+	 * @param radinGroup List consisting of one RadinGroup to post
+	 * @param callback callback
+	 */
+	public void createRadinGroup(List<RadinGroupModel> radinGroup, RadinListener<RadinGroupModel> callback) {
+		createWithID(-1, radinGroup, callback);
+	}
 }
 
 

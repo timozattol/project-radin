@@ -9,14 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ch.epfl.sweng.radin.LoginActivity" >
 
-    <!-- Included header.xml here -->
-
-    <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header" />
 
     <ImageView
         android:id="@+id/WelcomeIcon"
@@ -41,7 +33,6 @@
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
         android:layout_below="@id/WelcomeIcon"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
@@ -50,13 +41,13 @@
         android:lines="1"
         android:maxLines="1"
         android:scrollHorizontally="true"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textSize="25sp" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
         android:layout_below="@id/login"
         android:layout_centerHorizontal="true"
         android:ellipsize="end"
@@ -65,7 +56,8 @@
         android:lines="1"
         android:maxLines="1"
         android:scrollHorizontally="true"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/loginButton"

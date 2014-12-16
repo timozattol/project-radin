@@ -6,14 +6,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ch.epfl.sweng.radin.ProfileOtherActivity" >
+    android:background="@color/lightYellow" >
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:background="@drawable/ic_launcher"
+        android:contentDescription="@string/app_name" />
 
-    <ViewStub
-        android:id="@+id/vsHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/header"
-        android:layout="@layout/header" />
-    
 </RelativeLayout>

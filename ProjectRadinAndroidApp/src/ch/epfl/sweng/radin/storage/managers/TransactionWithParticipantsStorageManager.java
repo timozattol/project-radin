@@ -12,7 +12,7 @@ import ch.epfl.sweng.radin.storage.parsers.TransactionWithParticipantsJSONParser
 
 /**
  * @author CedricCook
- * A StorageManager that handles storage of the Decorator for Transaction
+ * A StorageManager that handles storage & retrieval of data for the Decorator for Transaction
  *
  */
 public final class TransactionWithParticipantsStorageManager extends
@@ -24,6 +24,11 @@ public final class TransactionWithParticipantsStorageManager extends
 		
 	}
 	
+	/**
+	 * Singleton constructor that returns the sole TransactionWithParticipantsStorageManager
+	 * @author CedricCook
+	 * @return the singleton TransactionWithParticipantsStorageManager
+	 */
 	public static TransactionWithParticipantsStorageManager getStorageManager() {
         if (transWithParticipantsStorageManager == null) {
         	transWithParticipantsStorageManager = new TransactionWithParticipantsStorageManager();
@@ -44,19 +49,24 @@ public final class TransactionWithParticipantsStorageManager extends
 	 */
 	@Override
 	protected String getTypeUrl() {
-		return "transactions";
+		return "transactions/withcoeffs";
 	}
 	
+	/**
+	 * Get all Transactions for a specific radinGroup with coefficients from server
+	 * @param groupId RadinGroup's ID
+	 * @param callback callback
+	 */
 	public void getAllForGroupId(int groupId, RadinListener<TransactionWithParticipantsModel> callback) {
-		final String ACCESS_URL = "withcoeffs";
 		if (isConnected()) {
 			if (!isHashMatchServer()) {
-				ServerConnectionTask connTask = new ServerConnectionTask(callback, RequestType.GET,
-				        SERVER_BASE_URL + getTypeUrl() + "/" + ACCESS_URL + "/" + String.valueOf(groupId));
+				ServerConnectionTask<TransactionWithParticipantsModel> connTask = getConnectionFactory().createTask(
+						callback, RequestType.GET,
+				        SERVER_BASE_URL + getTypeUrl() + "/" + String.valueOf(groupId), getJSONParser());
+				//Example url : http://radin.epfl.ch/transactions/withcoeffs/1
 				connTask.execute();
 				return;
 			}
 		}
 	}
-
 }

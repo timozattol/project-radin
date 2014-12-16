@@ -1,22 +1,22 @@
 package ch.epfl.sweng.radin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 
 /**
  * @author Fabien Zellweger
+ * Here the user can choose how he would like to be notified when events occur.
  */
-public class NotificationSettingsActivity extends DashBoardActivity {
+public class NotificationSettingsActivity extends Activity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_notification_settings);
-		setHeader(getString(R.string.title_activity_notification_settings), true, true);
+		
 	}
 
 	@Override

@@ -3,40 +3,38 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 import ch.epfl.sweng.radin.R.id;
 import ch.epfl.sweng.radin.callback.RadinListener;
 import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
 import ch.epfl.sweng.radin.storage.UserModel;
 import ch.epfl.sweng.radin.storage.managers.UserStorageManager;
-import android.content.SharedPreferences; 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * @author Simonchelbc
- * 
+ * Allows a new user to register with his informations.
  */
-public class RegisterActivity extends DashBoardActivity {
+public class RegisterActivity extends Activity {
 	private boolean newUserDataUsable = false;
 	private UserModel mNewUser = null;
 	private SharedPreferences prefs;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_register);
 		Button signUpButton = (Button) findViewById(id.sign_up_button);
 		signUpButton.setOnClickListener(signUpButtonListener);
-		setHeader(getString(R.string.title_project_radin), false, false);
 		mNewUser = new UserModel();
 		prefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
 	}
@@ -66,41 +64,41 @@ public class RegisterActivity extends DashBoardActivity {
 	private void submitUserToServer() {
 
 		UserStorageManager userStorageManager = 
-				UserStorageManager.getStorageManager();
+						UserStorageManager.getStorageManager();
 
 		List<UserModel> newUserList = new ArrayList<UserModel>();
 		newUserList.add(mNewUser);
 
 		userStorageManager.create(newUserList, 
-				new RadinListener<UserModel>() {
+						new RadinListener<UserModel>() {
 
-			@Override
-			public void callback(List<UserModel> items,
-					StorageManagerRequestStatus status) {
-				if (status == StorageManagerRequestStatus.FAILURE) {
-					Intent myIntent = 
-							new Intent(getBaseContext(), LoginActivity.class);
-					startActivity(myIntent);
-					Toast.makeText(getApplicationContext(),
-							R.string.server_error, Toast.LENGTH_SHORT).show();
-				} else {
-					UserModel mUser = items.get(0);
-					int mId = mUser.getId();
+							@Override
+							public void callback(List<UserModel> items,
+											StorageManagerRequestStatus status) {
+								if (status == StorageManagerRequestStatus.FAILURE) {
+									Intent myIntent = 
+													new Intent(getBaseContext(), LoginActivity.class);
+									startActivity(myIntent);
+									Toast.makeText(getApplicationContext(),
+											R.string.server_error, Toast.LENGTH_SHORT).show();
+								} else {
+									UserModel mUser = items.get(0);
+									int mId = mUser.getId();
 
-					SharedPreferences.Editor editor = prefs.edit();
-					editor.putString(getString(R.string.username), 
-							String.valueOf(mId));
-					editor.commit();
-					Intent myIntent = 
-							new Intent(getBaseContext(), HomeActivity.class);
-					startActivity(myIntent);
-					finishAffinity();
-					Toast.makeText(getApplicationContext(),
-							R.string.user_created, Toast.LENGTH_SHORT).show();
-				}
-			}
+									SharedPreferences.Editor editor = prefs.edit();
+									editor.putString(getString(R.string.username), 
+													String.valueOf(mId));
+									editor.commit();
+									Intent myIntent = 
+													new Intent(getBaseContext(), HomeActivity.class);
+									startActivity(myIntent);
+									finishAffinity();
+									Toast.makeText(getApplicationContext(),
+											R.string.user_created, Toast.LENGTH_SHORT).show();
+								}
+							}
 
-		});
+						});
 
 
 	}
@@ -115,22 +113,22 @@ public class RegisterActivity extends DashBoardActivity {
 	private void retrieveNewUserData() {
 
 		final CharSequence newUserFirstName = 
-				((TextView) findViewById(id.first_name_new_user)).getText();	      
+	             ((TextView) findViewById(id.first_name_new_user)).getText();	      
 		final CharSequence newUserLastName = 
-				((TextView) findViewById(id.last_name_new_user)).getText();
+	             ((TextView) findViewById(id.last_name_new_user)).getText();
 		final CharSequence newUserUsername = 
-				((TextView) findViewById(id.username_new_user)).getText();
+	             ((TextView) findViewById(id.username_new_user)).getText();
 		final CharSequence newUserEmail = 
-				((TextView) findViewById(id.email_new_user)).getText();
+	             ((TextView) findViewById(id.email_new_user)).getText();
 		final CharSequence newUserPassword = 
-				((TextView) findViewById(id.password_new_user)).getText();
+	             ((TextView) findViewById(id.password_new_user)).getText();
 		final CharSequence newUserAddress = 
-				((TextView) findViewById(id.address_new_user)).getText();
+	             ((TextView) findViewById(id.address_new_user)).getText();
 		final CharSequence newUserIban = 
-				((TextView) findViewById(id.iban_new_user)).getText();
+	             ((TextView) findViewById(id.iban_new_user)).getText();
 		final CharSequence newUserBicSwift = 
-				((TextView) findViewById(id.bic_swift_address_new_user))
-				.getText();
+						((TextView) findViewById(id.bic_swift_address_new_user))
+             .getText();
 
 		mNewUser.setFirstName(newUserFirstName.toString());
 		mNewUser.setLastName(newUserLastName.toString());

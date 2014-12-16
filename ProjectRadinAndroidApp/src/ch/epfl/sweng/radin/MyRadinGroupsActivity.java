@@ -3,69 +3,58 @@ package ch.epfl.sweng.radin;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.radin.callback.RadinListener;
-import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
-import ch.epfl.sweng.radin.storage.RadinGroupModel;
-import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import ch.epfl.sweng.radin.callback.RadinListener;
+import ch.epfl.sweng.radin.callback.StorageManagerRequestStatus;
+import ch.epfl.sweng.radin.storage.RadinGroupModel;
+import ch.epfl.sweng.radin.storage.managers.RadinGroupStorageManager;
 
 /**
  * 
  * @author Fabien Zellweger
- * This activity get all the radin group from the connected user and list them
- * to give access.
+ * This activity lists all the RadinGroups to which the user is subscribed.
  *
  */
-public class MyRadinGroupsActivity extends DashBoardActivity {
+public class MyRadinGroupsActivity extends Activity {
 	private final static int TEXT_SIZE = 30;
 	private List<RadinGroupModel> mListRadinGroupsModel;
+	private int mUserId;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_my_radingroups);
-		setHeader(getString(R.string.my_radingroups), true, true);
-
-
 
 		Button addBtn = (Button) findViewById(R.id.addBtn);
 		addBtn.setOnClickListener(myRadinGroupsClickListener);
 
-		//TODO This is a fake userId used to test the app, need to remplace this when we got one.
-		int userId = 0;
+		SharedPreferences mPrefs = getSharedPreferences(LoginActivity.PREFS, MODE_PRIVATE);
+		mUserId = Integer.parseInt(mPrefs.getString(getString(R.string.username), ""));
 
-		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
-		
-		radinGroupStorageManager.getAllByUserId(userId, new RadinListener<RadinGroupModel>() {
-
-			@Override
-			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
-
-			    if (status == StorageManagerRequestStatus.SUCCESS) {
-			    	
-			        mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
-			        displayList();
-			    } else {
-			        displayErrorToast("There was an error, please try again");
-			    }
-			}
-		});
+		retrieveRadinGroups();
+	}
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		retrieveRadinGroups();
 	}
 
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
@@ -89,6 +78,23 @@ public class MyRadinGroupsActivity extends DashBoardActivity {
 		}
 	}
 	
+	private void retrieveRadinGroups() {
+		RadinGroupStorageManager radinGroupStorageManager =  RadinGroupStorageManager.getStorageManager();
+		radinGroupStorageManager.getAllByUserId(mUserId, new RadinListener<RadinGroupModel>() {
+			@Override
+			public void callback(List<RadinGroupModel> items, StorageManagerRequestStatus status) {
+				
+				if (status == StorageManagerRequestStatus.SUCCESS) {
+					
+					mListRadinGroupsModel = new ArrayList<RadinGroupModel>(items);
+					displayList();
+				} else {
+					displayErrorToast(getString(R.string.retrieving_radin_group_error));
+				}
+			}
+		});
+	}
+	
 	private void displayErrorToast(String message) {
 	    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
@@ -100,6 +106,7 @@ public class MyRadinGroupsActivity extends DashBoardActivity {
 	 */
 	private void displayList() {
 		LinearLayout myRadinGroupsLinearLayout = (LinearLayout) findViewById(R.id.myRadinGroupsLinearLayout);
+		myRadinGroupsLinearLayout.removeAllViews();
 		myRadinGroupsLinearLayout.setGravity(Gravity.LEFT);
 		ProgressBar myRadinGroupProgressBar = (ProgressBar) findViewById(R.id.myRadinGroupsProgressBar);
 		myRadinGroupsLinearLayout.removeView(myRadinGroupProgressBar);

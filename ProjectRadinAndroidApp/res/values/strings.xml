@@ -17,13 +17,13 @@
     <string name="title_activity_profile_other">ProfileOtherActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_new_radingroup">NewRadinGroupActivity</string>
-    <string name="title_activity_radingroup_balance">RadinGroupBalanceActivity</string>
-    <string name="title_activity_radingroup_stats">RadinGroupStatsActivity</string>
-    <string name="title_activity_radingroup_add_expense">RadinGroupAddExpenseActivity</string>
-    <string name="title_activity_radingroup_configuration">RadinGroupConfigurationActivity</string>
+    <string name="title_activity_radingroup_balance">Group balance</string>
+    <string name="title_activity_radingroup_stats">Group stats</string>
+    <string name="title_activity_radingroup_add_expense">Add expense</string>
+    <string name="title_activity_radingroup_configuration">Group configuration</string>
     <string name="title_activity_notification_settings">NotificationSettingsActivity</string>
     <string name="home_title">Home</string>
-    <string name="my_radingroups">My Radin Groups</string>
+    <string name="my_radingroups">My Expense Groups</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
     <string name="contacts">Contacts</string>
@@ -31,8 +31,8 @@
     <string name="overview">Overview</string>
     <string name="add">+</string>
     <string name="radin_title">Radin</string>
-    <string name="radingroup_view">Radin Group view</string>
-    <string name="new_radingroup">New Radin Group</string>
+    <string name="radingroup_view">Expense Group view</string>
+    <string name="new_radingroup">New Expense Group</string>
     <string name="balance">Balance</string>
     <string name="configuration">Configuration</string>
     <string name="create_account">Create new account</string>
@@ -62,86 +62,126 @@
     <string name="bic_swift_address">BIC/SWIFT address</string>
     <string name="sign_up_button_text">Sign up</string>
 
-    <!-- NewListActivity -->
+    <!-- NewRadinGroupeActivity -->
     <string name="radin_name">Name</string>
     <string name="friends_names">Add people</string>
-    <string name="hint_name">Type the list\'s name</string>
-    <string name="multi_friend">Add friends to list</string>
+    <string name="hint_name">Type the groups name</string>
+    <string name="multi_friend">Add friends to group</string>
     <string name="add_info"></string>
     <string name="create_radin_group">Create</string>
+    <string name="participants">Participants : </string>
     <string name="invalid_name">Please add a group name</string>
-    <string name="invalid_participants">Please select at least one person to create a groupe</string>
-
+    <string name="invalid_participants">Please select at least one person to create a group</string>
+    <string name="rd_group_created">Radin Group created!</string>
+    <string name="server_error_participants">Couldn\'t add all participants, please add them manually through the group.</string>
+    
     <!-- ProfileActivity -->
-    <string name="profile_user_name">Username :</string>
-    <string name="profile_complete_name">Name :</string>
-    <string name="profile_email">Email :</string>
-    <string name="profile_address">Address :</string>
-    <string name="profile_iban">Iban :</string>
-    <string name="profile_bicSwift">BicSwift :</string>
-    <string name="profile_picture">profile picture :</string>
+    <string name="profile_user_name">Username:</string>
+    <string name="profile_complete_name">Name:</string>
+    <string name="profile_email">Email:</string>
+    <string name="profile_address">Address:</string>
+    <string name="profile_iban">IBAN:</string>
+    <string name="profile_bicSwift">BIC/SWIFT:</string>
+    <string name="profile_picture">Profile Picture:</string>
 
     <!-- ProfileChangeActivity -->
-    <string name="title_activity_profile_change">ProfileChange</string>
-    <string name="new_profile_firstName">Enter your new Firstname</string>
-    <string name="new_profile_lastName">Enter your new Lastname</string>
-    <string name="new_profile_username">Enter your new Username</string>
+    <string name="title_activity_profile_change">Change Profile</string>
+    <string name="new_profile_firstName">Enter your new first name</string>
+    <string name="new_profile_lastName">Enter your new last name</string>
+    <string name="new_profile_username">Enter your new username</string>
     <string name="new_profile_address">Enter your new Address</string>
     <string name="new_profile_email">Enter your new email</string>
-    <string name="new_profile_iBan">Enter your new iBan</string>
-    <string name="new_profile_bicSwift">Enter your new bicSwift</string>
+    <string name="new_profile_iBan">Enter your new IBAN</string>
+    <string name="new_profile_bicSwift">Enter your new BIC/SWIFT</string>
     <string name="button_save">Save</string>
 
     <!-- AddExpenseActivity -->
-    <string name="creditor">Creditor :</string>
-    <string name="debtors">Add debtor(s)</string>
-    <string name="creditor_select">Change creditor</string>
-    <string name="debtor_text">Debtor(s) :</string>
-    <string name="debtorsList">Choose debtors to add</string>
-    <string name="creditorList">Choose creditor</string>
+
+    <string name="add_expense">Add expense</string>
+    <string name="creditor">Who paid ? </string>
+    <string name="debtors_select">Change participants</string>
+    <string name="creditor_select">Change</string>
+    <string name="debtors">Choose</string>
+    <string name="debtor_text">For whom? \</string>
+    <string name="debtorsList">Choose who has to pay and the weightings</string>
+    <string name="creditorList">Select who paid</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="add_expense_string">Add an expense to \ </string>
+    <string name="add_expense_string">Add an expense to : \ </string>
     <string name="creditor_selected">You (default)</string>
     <string name="debtors_selected">None </string>
-    <string name="amount">Amount</string>
-    <string name="amount_hint">Amount paid</string>
+    <string name="you">You</string>
+    <string name="amount">How much?</string>
+    <string name="amount_hint">Amount</string>
     <string name="currency">CHF</string>
     <string name="add_this_expense">Add this expense</string>
     <string name="invalid_amount">The amount is not valid</string>
-    <string name="invalid_debtors">Please select debitors first</string>
+    <string name="invalid_debtors">Please select participants first</string>
     <string name="expense_added">Expense added!</string>
-    <string name="not_ready">Please wait for the data to be retrieved</string>
     <string name="purpose_hint">Expense\'s name</string>
     <string name="invalid_purpose">No expense purpose</string>
+    <string name="weight">weighting</string>
+    <string name="edit_text_warning">Setting the weighting after checking has no effect</string>
 
     <!-- Settings Activity -->
-    <string name="my_id">User ID</string>
+    <string name="my_id">User ID: </string>
     <string name="value_id">value</string>
-
+    
     <!-- Server Toasts -->
-    <string name="server_error">There was an error, please try again</string>
     <string name="user_created">Yeah! You registered to ProjectRadin!</string>
     <string name="login_error">Sorry this username does not exist</string>
+    <string name="server_error">There was an error, please try again.</string>
+    <string name="server_error2">Operation took too much time, please try again</string>
+    <string name="server_error3">Unable to contact the server, please check your connection</string>
+    <string name="not_ready">Please wait for the data to be retrieved</string>
     <string name="success_login">Welcome back!</string>
+    <string name="bad_id">There was a problem identifying you, please log in again</string>
 
     <!-- Share Preference File -->
     <string name="preference_file_key">Preferences</string>
 
      <!-- Stat Activity -->
-    <string name="stats">Statistiques</string>
-    
+    <string name="stats">Statistics</string>
     
     <!-- RadinGroupStatsActivity -->
     <string name="choose_graph">Select the period of your graph: </string>
     <string name="total_amount">The total amount is:</string>
     <string name="spinner_graph_prompt">Choose which graph to display</string>
-
+    <string name="spending_year">Spending per year</string>
+    <string name="spending_month">Spending per month</string>
+    <string name="spending_day">Spending per day</string>
+    
     <string-array name="spinner_graph_arrays">
-        <item>choose your graph</item>
-        <item>spending a day</item>
-        <item>spending a month</item>
-        <item>spending a year</item>
+        <item>Choose a graph:</item>
+        <item>Spent per day</item>
+        <item>Spent per month</item>
+        <item>Spent per year</item>
     </string-array>
+    
+    <!-- Contact Activity -->
+    <string name="contactDialogAlert">Add new friend</string>
+
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- Display error with Toast -->
+    <string name="invalid_button">How did you find this button? It doesn\'t exist!</string>
+    <string name="retrieving_friend_error">Friends? Friends? Where are you guys? It seems the server can\'t find them…</string>
+    <string name="retrieving_radin_group_error">Sorry, we lost your groups on the web, please try again.</string>
+    <string name="wrong_user_data">Damn, we received too much data for you, you must be too important!</string>
+    <string name="retrieving_user_error">Your request decided to take a vacation, try again with another one.</string>
+    <string name="edit_friends_profile">Don\'t try to edit you friend\'s profile, little sneaky one</string>
+    <string name="sending_user_data_error">Wow, easy! The server couldn\'t update all this information! Try again.</string>
+    <string name="server_general_error">The server is currently dead, but not for long!</string>
+    <string name="retrieving_user_group_error">The users from this group don\'t want to show up. Maybe later?</string>
+    <string name="retrieving_transaction_group_error">Where did I put this transaction? I need time to find it, come back later!</string>
+    <string name="invalid_spinner_elem">You found a ghost element, you can\'t handle it yourself, it\'s a job for the Ghostbusters!</string>
+    <string name="add_friend_error">Sorry, we can\'t add you a friend now.</string>
+    
+    <!-- RadinGroupBalanceActivity -->
+    <string name="owes"> owes: </string>
+    
+    <!-- RadinGroupConfigurationActivity -->
+    <string name="group_member">Group members:</string>
+    <string name="coming_soon">edit member\'s right comming soon</string>
 
 </resources>

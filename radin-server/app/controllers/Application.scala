@@ -5,7 +5,11 @@ import service.DemoUser
 import play.api.mvc.{ Action, RequestHeader }
 import play.api._
 
-//import scala.slick.driver.H2Driver.simple._
+import securesocial.core._
+import service.DemoUser
+import play.api.mvc.{ Action, RequestHeader }
+import play.api._
+import scala.slick._
 import scala.slick.driver.SQLiteDriver.simple._
 import play.api.db.slick._
 import play.api.data._
@@ -23,7 +27,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   def firstAction = DBAction { implicit rs =>
     try {
-      (users.ddl ++ memberInRadins.ddl ++ transactions.ddl ++ userRelationships.ddl ++ users.ddl ++ radinGroups.ddl).create
+      (users.ddl ++ radinGroups.ddl ++  userRelationships.ddl ++  transactions.ddl ++ memberInRadins.ddl ++ userConcernedByTransactions.ddl).create
     } finally {
       users += User("Joël", "Kaufmann", "jokau", "radin", "yolo@kau.ch", "BC05", "CH10 00230 00A109822346", "GE0RGE5C4ND", "img/pic1")
       users += User("Simon", "Le Bail-Collet", "simonchelbc", "radin", "simonche@lbc.be", "RLC sleeping bag", "BE29 02330 00A109AZJ822346", "RAD118ARNABIC", "home/mess/LoStFolDer/pic")
@@ -33,6 +37,9 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
       users += User("Thomas", "Batschelet", "topali2", "radin", "top@ali.ch", "SV cafeteria", "CH19 12093 00A10ASD3FE2346", "RAD118ARNABIC", "nver.gonna/give/u/..")
       users += User("Fabien", "Zellweger", "walono", "radin", "walono@clic.ch", "EPFHELL", "CH82 98432 NINFI12INI23UN14", "GE0RGE5C4ND", "images/2")
       users += User("Ireneu", "Pla", "ireneu", "radin", "Ire@neu.ch", "9000, No joke avenue", "CH32 98441 OJOIJ29I23UN14", "GE0RGE5C4ND", "images/3")
+      userRelationships ++= Seq(UserRelationship(1, 8, 1), UserRelationship(8, 1, 1))
+      radinGroups += RadinGroup("Amis pour toujours", "2014/12/14 21/04", "4ever", "none")
+      memberInRadins ++= List((1, 1, "2014/12/14 21/04", 1, ""), (8, 1, "2014/12/14 21/04", 1, ""))
     }
 
     Ok("done")
@@ -126,7 +133,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Return Json for transactions with corresponding coefficients.
    * Uses the implicit vals for converting to Json as well as queryToTransactionsWithParticipants to type the DB query correctly.
    */
@@ -187,7 +194,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Add a new user to the DB.
    */
   def newUser = DBAction(parse.json) { implicit rs =>
@@ -214,7 +221,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Verify user credentials for login.
    */
   def login(username: String) = DBAction(parse.json) { implicit rs =>
@@ -231,34 +238,35 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
     }
   }
 
-//  Unused method to retrieve all users and info. 
-//  
-//  def userListResult(implicit session: Session) = Ok(JsObject(List(("user", toJson(users.list)))))
-//
-//  def userList = DBAction { implicit rs =>
-//    Ok(JsObject(List(("user", toJson(users.list)))))
-//    userListResult
-//  }
-//
-  
+  //  Unused method to retrieve all users and info. 
+  //  
+  //  def userListResult(implicit session: Session) = Ok(JsObject(List(("user", toJson(users.list)))))
+  //
+  //  def userList = DBAction { implicit rs =>
+  //    Ok(JsObject(List(("user", toJson(users.list)))))
+  //    userListResult
+  //  }
+  //
+
   /**
    * @author ireneu
-   * 
+   *
    * Method to add a user to a RadinGroup
    */
-  def addUsertoRadinGroup(rgid: Int) = DBAction(parse.json) { implicit rs =>
-    var addedUser: User = null
-    rs.request.body.\("user")(0).validate[User].map { user =>
-      addedUser = user
-      memberInRadins += ((user.U_ID.get, rgid, "", 0, ""))
+  def addUsertoRadinGroup(uid: Int, rgid: Int) = DBAction { implicit rs =>
+    val addedUser = users.list.filter(_.U_ID.get == uid)
+    if (!addedUser.isEmpty) {
+      memberInRadins += ((uid, rgid, "", 0, ""))
+      Logger.info("User " + uid + " has been added to RadinGroup " + rgid)
+      Ok(JsObject(List(("user", toJson(addedUser)))))
+    } else {
+      BadRequest("User doesn't exist")
     }
-    Logger.info("User " + addedUser.U_ID + " has been added to RadinGroup " + rgid)
-    Ok(rs.request.body)
   }
 
   /**
    * @author ireneu
-   * 
+   *
    * Remove a certain user from a RadinGroup
    */
   def removeUserFromRadinGroup(uid: Int, rgid: Int) = DBAction { implicit rs =>
@@ -269,11 +277,11 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Retrieve a certain user's information (without his password!)
    */
   def getUserById(uid: Int) = DBAction { implicit rs =>
-    val user = users.filter { _.U_ID === uid }.list.map {new UserWithoutPassword(_)} 
+    val user = users.filter { _.U_ID === uid }.list.map { new UserWithoutPassword(_) }
     Ok(JsObject(List(("user", toJson(user)))))
   }
 
@@ -305,7 +313,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Sends back all existing RadinGroups in the DB.
    */
   def getAllRadinGroups = DBAction { implicit rs =>
@@ -315,7 +323,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Inserts a new RadinGroup in the DB sent in Json format
    */
   def newRadinGroup = DBAction(parse.json) { implicit rs =>
@@ -335,7 +343,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Sends back all RadinGroups a user belongs to.
    */
   def getRadinGroupsForUser(uid: Int) = DBAction { implicit rs =>
@@ -349,14 +357,14 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Sends back all users belonging to a certain RadinGroup
    */
   def getUsersInRG(rgid: Int) = DBAction { implicit rs =>
-    val usersInRGIds = memberInRadins.list.filter(_._2 /*RadinGroupId*/== rgid)
+    val usersInRGIds = memberInRadins.list.filter(_._2 /*RadinGroupId*/ == rgid)
     val usersInGroup = for {
       eachUser <- usersInRGIds
-      userInGroup <- users.list.filter(_.U_ID.get == eachUser._1 /*UserId*/)
+      userInGroup <- users.list.filter(_.U_ID.get == eachUser._1 /*UserId*/ )
     } yield (userInGroup)
     val userArray = toJson(usersInGroup).as[JsArray]
     val jsonResponse = JsObject(List(("user", userArray)))
@@ -375,7 +383,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Adds a new friend for a user
    */
   def newUserRelationshipForUserFromUsername(uid: Int, username: String) = DBAction { implicit rs =>
@@ -404,7 +412,7 @@ class Application(override implicit val env: RuntimeEnvironment[DemoUser]) exten
 
   /**
    * @author ireneu
-   * 
+   *
    * Retrieves friendships between users
    */
   def getUserRelationships = DBAction { implicit rs =>
