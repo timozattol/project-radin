@@ -39,3 +39,4 @@ proguard/
 *.checkstyle
 *~
 
+*securesocial.conf
